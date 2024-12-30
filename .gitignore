@@ -1,0 +1,9 @@
+/target
+Cargo.lock
+
+# stop pushing your IDE configs unless it's a launch config
+/.idea
+/.vscode
+
+# retired debug scripts
+/rgpr_steamworks_sys/*.sh

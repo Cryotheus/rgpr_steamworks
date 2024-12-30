@@ -1,0 +1,15 @@
+[package]
+name = "rgpr_steamworks_sys"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[build-dependencies]
+bindgen = "0.71.1"
+cfg-if = "1.0.0"
+prettyplease = { version = "0.2.25", features = ["verbatim"] }
+syn = { version = "2.0.93", features = ["fold", "extra-traits"] }
+
+[features]
+default = []
+generate_bindings = [] #for running bindgen on the steamworks headers

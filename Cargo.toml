@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "rgpr_steamworks",
+    "rgpr_steamworks_sys"
+]
+resolver = "2"
