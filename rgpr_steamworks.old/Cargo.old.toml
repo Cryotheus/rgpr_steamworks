@@ -1,0 +1,17 @@
+[package]
+name = "rgpr_steamworks"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anymap = "0.12.1"
+bitflags = "2.6.0"
+futures = "0.3.31"
+rgpr_steamworks_sys = { path = "../rgpr_steamworks_sys" }
+thiserror = "2.0.3"
+
+[dev-dependencies]
+pollster = "0.4.0"
+
+[[example]]
+name = "simple"

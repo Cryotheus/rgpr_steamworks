@@ -1,17 +1,66 @@
-use rgpr_steamworks_sys as sys;
-use std::ffi::CStr;
+use crate::sys;
+use std::error::Error as StdError;
+use std::ffi::{CStr, NulError};
+use std::fmt::Debug;
 use std::mem::transmute;
 use std::num::TryFromIntError;
 
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, thiserror::Error)]
-pub enum CallError {
-	/// Steamworks callback failed.
-	#[error("Steamworks gave failure flag from callback")]
+#[derive(Debug, Eq, PartialEq, Hash, thiserror::Error)]
+pub enum CallError<E: Debug + StdError> {
+	/// Steamworks call failed.
+	#[error("SteamAPI gave failure flag from callback")]
 	Failed,
 
 	/// The call manager shutdown.
-	#[error("The SteamworksCallManager shutdown.")]
+	#[error("the CallManager is being shutdown")]
 	Shutdown,
+
+	/// Error from the dispatcher's implementation.
+	#[error("Dispatch-specific error {0:?}")]
+	Specific(E),
+}
+
+impl<E: Debug + StdError + Clone> Clone for CallError<E> {
+	fn clone(&self) -> Self {
+		match self {
+			Self::Failed => Self::Failed,
+			Self::Shutdown => Self::Shutdown,
+			Self::Specific(error) => Self::Specific(error.clone()),
+		}
+	}
+}
+
+impl<E: Debug + StdError + Copy> Copy for CallError<E> {}
+
+impl<E: Debug + StdError> From<CallFutureError> for CallError<E> {
+	fn from(value: CallFutureError) -> Self {
+		match value {
+			CallFutureError::Failed => CallError::Failed,
+			CallFutureError::Shutdown => CallError::Shutdown,
+			CallFutureError::Moved => panic!("attempted to use CallFutureError::Moved"),
+			CallFutureError::EarlyDrop => panic!("attempted to use CallFutureError::EarlyDrop"),
+		}
+	}
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, thiserror::Error)]
+pub enum CallFutureError {
+	/// Steamworks call failed.
+	#[error("SteamAPI gave failure flag from callback")]
+	Failed,
+
+	/// The call manager shutdown.CallErrorPrivate::Moved
+	#[error("the CallManager is being shutdown")]
+	Shutdown,
+
+	/// Put in the place of good data once it is moved.
+	/// Flags a memory location has having fulfilled its purpose.
+	#[error("CallFuture's result has been moved")]
+	Moved,
+
+	/// Used when the CallFuture's result was never yielded by the future.
+	#[error("CallFuture was dropped before its result could be polled")]
+	EarlyDrop,
 }
 
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EChatRoomEnterResponse)
@@ -125,62 +174,49 @@ impl TryFrom<u32> for ChatRoomEnterError {
 }
 
 #[non_exhaustive]
-#[derive(Clone, Debug, PartialEq, Eq, Hash, thiserror::Error)]
+#[derive(Clone, Debug, PartialEq, Eq, thiserror::Error)]
 pub enum Error {
-	#[error("Async Steamworks function call error {0:?}")]
-	Call(#[from] CallError),
+	#[error("interface to the Steam API already exsists, use Steam::get instead")]
+	AlreadyExists,
 
-	#[error("Steamworks initialization error {0:?}: \"{1}\"")]
-	Init(InitErrorEnum, String),
-
-	#[error("General error: {0:?}")]
+	#[error("locations for data were not filled")]
+	DataUnfulfilled,
+	
+	#[error("general error: {0:?}")]
 	General(#[from] GeneralError),
 
+	#[error("Steam API initialization error {0:?}: \"{1}\"")]
+	SteamInit(InitErrorEnum, String),
+
+	#[error("string conversion error, string must not contain nulls")]
+	StrNulError(#[from] NulError),
+	
 	/// Failed to init steamworks as the executable was not started through steam,
 	/// and the executable is now being started through steam.
 	/// You should exit entirely if this error is received.
-	#[error("Restarting through steam")]
+	#[error("restarting through steam")]
 	RestartingThroughSteam,
+	
+	#[error("failed, no error message from the Steam API is available")]
+	SilentFailure,
 }
 
 impl Error {
-	pub(crate) fn init(init_result: sys::ESteamAPIInitResult, message_bytes: sys::SteamErrMsg) -> Option<Self> {
+	pub(crate) fn steam_init(init_result: sys::ESteamAPIInitResult, message_bytes: sys::SteamErrMsg) -> Option<Self> {
 		let init_enum = InitErrorEnum::new(init_result)?;
 		let message_bytes = unsafe { transmute::<sys::SteamErrMsg, [u8; 1024]>(message_bytes) };
 
 		//TODO: make this a compile-time assertion
 		debug_assert_eq!(size_of::<sys::SteamErrMsg>(), size_of_val(&message_bytes));
 
-		Some(Self::Init(init_enum, CStr::from_bytes_until_nul(&message_bytes).unwrap().to_string_lossy().to_string()))
-	}
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-pub enum InitErrorEnum {
-	FailedGeneric,
-	NoSteamClient,
-	VersionMismatch,
-	Unknown(i32),
-}
-
-impl InitErrorEnum {
-	pub(crate) fn new(init_result: sys::ESteamAPIInitResult) -> Option<Self> {
-		use sys::ESteamAPIInitResult::*;
-
-		match init_result {
-			k_ESteamAPIInitResult_OK => None,
-			k_ESteamAPIInitResult_FailedGeneric => Some(Self::FailedGeneric),
-			k_ESteamAPIInitResult_NoSteamClient => Some(Self::NoSteamClient),
-			k_ESteamAPIInitResult_VersionMismatch => Some(Self::VersionMismatch),
-			unknown => Some(Self::Unknown(unknown as i32)),
-		}
+		Some(Self::SteamInit(init_enum, CStr::from_bytes_until_nul(&message_bytes).unwrap().to_string_lossy().to_string()))
 	}
 }
 
 /// The unsuccessful variants of [EResult](https://partner.steamgames.com/doc/api/steam_api#EResult).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, thiserror::Error)]
 pub enum GeneralError {
-	#[error("SteamAPI error: Unknown error #{0}")]
+	#[error("SteamAPI error: unknown error {0}")]
 	Unknown(i32),
 
 	#[error("SteamAPI error: Fail")]
@@ -708,9 +744,31 @@ impl GeneralError {
 	}
 }
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub enum InitErrorEnum {
+	FailedGeneric,
+	NoSteamClient,
+	VersionMismatch,
+	Unknown(i32),
+}
+
+impl InitErrorEnum {
+	pub(crate) fn new(init_result: sys::ESteamAPIInitResult) -> Option<Self> {
+		use sys::ESteamAPIInitResult::*;
+
+		match init_result {
+			k_ESteamAPIInitResult_OK => None,
+			k_ESteamAPIInitResult_FailedGeneric => Some(Self::FailedGeneric),
+			k_ESteamAPIInitResult_NoSteamClient => Some(Self::NoSteamClient),
+			k_ESteamAPIInitResult_VersionMismatch => Some(Self::VersionMismatch),
+			unknown => Some(Self::Unknown(unknown as i32)),
+		}
+	}
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, thiserror::Error)]
 pub enum IntoCIndexError {
-	#[error("")]
+	#[error("index cannot be negative")]
 	Negative,
 
 	#[error("{0:?}")]

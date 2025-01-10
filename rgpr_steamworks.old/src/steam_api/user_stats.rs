@@ -225,7 +225,7 @@ impl SteamworksCallback for UserStatsUnloaded {
 		let data = unsafe { &*(void_ptr as *mut sys::UserStatsUnloaded_t) };
 		let steamworks = Steamworks::get().unwrap();
 
-		steamworks.user_stats_interface().unwrap().cached.remove(&SteamId::from(data.m_steamIDUser));
+		steamworks.user_stats_interface().cached.remove(&SteamId::from(data.m_steamIDUser));
 	}
 }
 

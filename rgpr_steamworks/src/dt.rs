@@ -1,21 +1,28 @@
-//! Rust data types and traits loosely modeling what is used by Steamworks. 
-//! 
+//! Rust data types and traits loosely modeling what is used by Steamworks.
+//!
 //! [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#typedefs)
 
 use crate::error::IntoCIndexError;
 use rgpr_steamworks_sys as sys;
+use std::fmt::{Display, Formatter};
 
 /// > Unique identifier for an app.
 /// For more information see the [Applications] documentation.
-/// 
+///
 /// Equivalent to `AppId_t`.
-/// 
+///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#AppId_t)
-/// 
+///
 /// [Applications]: https://partner.steamgames.com/doc/store/application
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
 pub struct AppId(pub u32);
+
+impl Display for AppId {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		Display::fmt(&self.0, f)
+	}
+}
 
 impl From<u32> for AppId {
 	fn from(value: u32) -> Self {
@@ -45,16 +52,55 @@ impl From<AuthTicket> for u32 {
 	}
 }
 
+/// A String expected to be a comma-separated list of values.
+#[derive(Clone, Debug, PartialEq)]
+pub struct CsvString(pub String);
+
+impl CsvString {
+	/// Collect the values into a [`Vec<&str>`](Vec).
+	pub fn collect(&self) -> Vec<&str> {
+		self.iter().collect()
+	}
+
+	/// Returns an iterator over each value in the string.
+	pub fn iter(&self) -> impl Iterator<Item = &str> + DoubleEndedIterator {
+		self.0.split(',')
+	}
+
+	/// Returns the string wrapped.
+	pub fn take(self) -> String {
+		self.0
+	}
+}
+
+impl AsRef<str> for CsvString {
+	fn as_ref(&self) -> &str {
+		&self.0
+	}
+}
+
+impl From<CsvString> for String {
+	fn from(CsvString(value): CsvString) -> Self {
+		value
+	}
+}
+
 /// > Unique identifier for a depot.
 ///
 /// See [Depots] for an explanation.
-/// 
+///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#DepotId_t)
-/// 
+///
 /// [Depots]: https://partner.steamgames.com/doc/store/application/depots
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
 pub struct DepotId(pub u32);
+
+impl Display for DepotId {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		Display::fmt(&self.0, f)
+	}
+}
 
 impl From<u32> for DepotId {
 	fn from(value: u32) -> Self {
@@ -191,6 +237,7 @@ impl TryFrom<u32> for AccountType {
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#CSteamID)
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[repr(transparent)]
 pub struct SteamId(pub u64);
 
 impl SteamId {
@@ -270,6 +317,12 @@ impl SteamId {
 	}
 }
 
+impl Display for SteamId {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		Display::fmt(&self.0, f)
+	}
+}
+
 impl From<u64> for SteamId {
 	fn from(value: u64) -> Self {
 		Self(value)
@@ -323,7 +376,7 @@ pub enum Universe {
 /// which is the equivalent type for iteration in Steamworks.
 pub trait IntoCIndex: Sized {
 	/// Always returns an `i32` that is positive.
-	/// 
+	///
 	/// # Panics
 	/// If `self` cannot be converted into a positive `i32`.
 	fn into_c_index(self) -> i32 {
@@ -346,5 +399,18 @@ impl IntoCIndex for i32 {
 impl IntoCIndex for usize {
 	fn try_into_c_index(self) -> Result<i32, IntoCIndexError> {
 		Ok(self.try_into()?)
+	}
+}
+
+#[cfg(test)]
+mod test {
+	use crate::sys;
+
+	#[test]
+	fn size_tests() {
+		assert_eq!(size_of::<sys::AppId_t>(), size_of::<super::AppId>());
+		assert_eq!(size_of::<sys::HAuthTicket>(), size_of::<super::AuthTicket>());
+		assert_eq!(size_of::<sys::DepotId_t>(), size_of::<super::DepotId>());
+		assert_eq!(size_of::<sys::CSteamID>(), size_of::<super::SteamId>());
 	}
 }

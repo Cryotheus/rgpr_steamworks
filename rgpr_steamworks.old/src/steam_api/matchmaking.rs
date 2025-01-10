@@ -228,6 +228,7 @@ impl SteamworksCallback for LobbyEnter {
 		}
 	}
 }
+
 /// Callback.
 ///
 /// > Recieved upon attempting to enter a lobby. Lobby metadata is available to use immediately after receiving this.

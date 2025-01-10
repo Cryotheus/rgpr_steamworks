@@ -4,3 +4,6 @@ members = [
     "rgpr_steamworks_sys"
 ]
 resolver = "2"
+
+[workspace.package]
+repository = "https://github.com/Cryotheus/rgpr_steamworks/"

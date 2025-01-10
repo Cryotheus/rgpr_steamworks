@@ -389,6 +389,7 @@ pub const STEAMNETWORKINGSOCKETS_INTERFACE_VERSION: &[u8; 26] = b"SteamNetworkin
 pub const STEAMNETWORKINGUTILS_INTERFACE_VERSION: &[u8; 24] = b"SteamNetworkingUtils004\0";
 pub const STEAMGAMESERVER_INTERFACE_VERSION: &[u8; 19] = b"SteamGameServer015\0";
 pub const STEAMGAMESERVERSTATS_INTERFACE_VERSION: &[u8; 24] = b"SteamGameServerStats001\0";
+pub const STEAMAPPTICKET_INTERFACE_VERSION: &[u8; 36] = b"STEAMAPPTICKET_INTERFACE_VERSION001\0";
 pub type uint8 = ::std::os::raw::c_uchar;
 pub type int8 = ::std::os::raw::c_schar;
 pub type int16 = ::std::os::raw::c_short;
@@ -21963,6 +21964,102 @@ unsafe extern "C" {
         popid: SteamNetworkingPOPID,
     );
 }
+pub const k_nSteamEncryptedAppTicketSymmetricKeyLen: ::std::os::raw::c_int = 32;
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BDecryptTicket(
+        rgubTicketEncrypted: *const uint8,
+        cubTicketEncrypted: uint32,
+        rgubTicketDecrypted: *mut uint8,
+        pcubTicketDecrypted: *mut uint32,
+        rgubKey: *const uint8,
+        cubKey: ::std::os::raw::c_int,
+    ) -> bool;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BIsTicketForApp(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+        nAppID: AppId_t,
+    ) -> bool;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_GetTicketIssueTime(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+    ) -> RTime32;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_GetTicketSteamID(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+        psteamID: *mut CSteamID,
+    );
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_GetTicketAppID(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+    ) -> AppId_t;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BUserOwnsAppInTicket(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+        nAppID: AppId_t,
+    ) -> bool;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BUserIsVacBanned(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+    ) -> bool;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BGetAppDefinedValue(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+        pValue: *mut uint32,
+    ) -> bool;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_GetUserVariableData(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+        pcubUserData: *mut uint32,
+    ) -> *const uint8;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BIsTicketSigned(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+        pubRSAKey: *const uint8,
+        cubRSAKey: uint32,
+    ) -> bool;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BIsLicenseBorrowed(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+    ) -> bool;
+}
+unsafe extern "C" {
+    pub fn SteamEncryptedAppTicket_BIsLicenseTemporary(
+        rgubTicketDecrypted: *mut uint8,
+        cubTicketDecrypted: uint32,
+    ) -> bool;
+}
+#[repr(C)]
+pub struct ISteamAppTicket__bindgen_vtable(::std::os::raw::c_void);
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct ISteamAppTicket {
+    pub vtable_: *const ISteamAppTicket__bindgen_vtable,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+    ["Size of ISteamAppTicket"][::std::mem::size_of::<ISteamAppTicket>() - 8usize];
+    ["Alignment of ISteamAppTicket"][::std::mem::align_of::<ISteamAppTicket>() - 8usize];
+};
 #[repr(u32)]
 #[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
