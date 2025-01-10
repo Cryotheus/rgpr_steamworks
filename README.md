@@ -15,9 +15,9 @@ High-level Rust bindings to [Steamworks](https://partner.steamgames.com/), the S
 - Support the API for game servers ⁵
 
 ¹ Wrappers or lite bindings to unsafe functionality will always be provided if safety is not possible.  
-² Use the `sys` feature for a re-export of `rgpr_steamworks_sys` as `rgpr_steamworks::sys`.
-³ MacOs and Steam Deck are not yet supported. Mac requires the bindings in [rgpr_steamworks_sys](rgpr_steamworks_sys) to be generated.
-⁴ A major version bump may be necessary.
+² Use the `sys` feature for a re-export of `rgpr_steamworks_sys` as `rgpr_steamworks::sys`.  
+³ MacOs and Steam Deck are not yet supported. Mac requires the bindings in [rgpr_steamworks_sys](rgpr_steamworks_sys) to be generated.  
+⁴ A major version bump may be necessary.  
 
 
 # License
