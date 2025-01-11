@@ -13,7 +13,7 @@ use std::time::{Duration, SystemTime};
 /// https://partner.steamgames.com/doc/features/auth#encryptedapptickets
 ///
 /// [`DecryptedAppTicket::new`]: DecryptedAppTicket::new
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct DecryptedAppTicket(Vec<u8>);
 
@@ -167,20 +167,6 @@ impl DecryptedAppTicket {
 impl AsRef<[u8]> for DecryptedAppTicket {
 	fn as_ref(&self) -> &[u8] {
 		self.as_slice()
-	}
-}
-
-impl Clone for DecryptedAppTicket {
-	fn clone(&self) -> Self {
-		let mut buffer = self.0.clone();
-
-		//to sate safety requirements
-		if buffer.capacity() == 0 {
-			buffer.reserve(256);
-			buffer.fill(0);
-		}
-
-		Self(buffer)
 	}
 }
 

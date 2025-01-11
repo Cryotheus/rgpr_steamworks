@@ -1,8 +1,8 @@
 use crate::call::{Callback, CallbackRaw, Dispatch};
 use crate::dt::{AppId, CsvString, DepotId, IntoCIndex, SteamId};
-use crate::error::{CallError, Error, GeneralError};
+use crate::error::{CallError, Error, GeneralError, SilentFailure};
 use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
-use crate::util::{CStrArray, CStrArrayPath, MAX_PATH};
+use crate::util::{some_string, success, CStrArray, CStrArrayPath, MAX_PATH};
 use crate::{sys, Private};
 use bitflags::bitflags;
 use rgpr_steamworks_sys::SteamAPICall_t;
@@ -139,11 +139,7 @@ impl AppsInterface {
 	///
 	/// [Supported Languages]: https://partner.steamgames.com/doc/store/localization/languages
 	pub fn current_language(&self) -> String {
-		unsafe {
-			let char_ptr = sys::SteamAPI_ISteamApps_GetCurrentGameLanguage(*self.fip);
-
-			CStr::from_ptr(char_ptr).to_string_lossy().to_string()
-		}
+		unsafe { some_string(sys::SteamAPI_ISteamApps_GetCurrentGameLanguage(*self.fip)).unwrap() }
 	}
 
 	/// > Gets the number of DLC pieces for the current app.
@@ -178,7 +174,8 @@ impl AppsInterface {
 	///
 	/// > If you have more than 64 DLC,
 	/// you may want to setup your own internal list of DLC instead.
-	/// - [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetDLCCount)
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetDLCCount)
 	pub fn dlc_iter(&self) -> DlcIter {
 		DlcIter { apps_interface: &self, current: 0 }
 	}
@@ -244,14 +241,17 @@ impl AppsInterface {
 		//function start
 		let path = path.into();
 		let steam = self.steam.get();
-		let mut call_manager = steam.call_manager_lock();
+		let mut guard_call_manager = steam.call_manager_lock();
 
-		call_manager
-			.dispatch(GetFileDetails {
-				file_name: CString::new(path.into_os_string().into_encoded_bytes()).unwrap(),
-				steam: self.steam.clone(),
-			})
-			.await
+		let future = guard_call_manager.dispatch(GetFileDetails {
+			file_name: CString::new(path.into_os_string().into_encoded_bytes()).unwrap(),
+			steam: self.steam.clone(),
+		});
+
+		//explicit drop for significant drop
+		drop(guard_call_manager);
+
+		future.await
 	}
 
 	/// > Get details about an app beta branch like name, description and state.
@@ -341,24 +341,6 @@ impl AppsInterface {
 		vec
 	}
 
-	/// Gets a single installed depot.
-	/// Useful if you need the [DepotId] and are sure you the app has only 1 depot.
-	///
-	/// Returns `None` if there are no depots,
-	/// typically when the app is run before its first upload.
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
-	pub fn installed_depot(&self, app_id: impl Into<AppId>) -> Option<DepotId> {
-		let app_id = app_id.into();
-		let mut depot_id = DepotId(0);
-
-		if unsafe { sys::SteamAPI_ISteamApps_GetInstalledDepots(*self.fip, app_id.0, &mut depot_id as *mut DepotId as _, 1) } != 0 {
-			Some(depot_id)
-		} else {
-			None
-		}
-	}
-
 	/// > Gets the install folder for a specific AppID.
 	/// This works even if the application is not installed,
 	/// based on where the game would be installed with the default Steam library location.
@@ -380,6 +362,26 @@ impl AppsInterface {
 		}
 	}
 
+	/// Gets a single installed depot.
+	/// Useful if you need the [DepotId] and are sure you the app has only 1 depot.
+	///
+	/// Returns `None` if there are no depots,
+	/// typically when the app is run before its first upload.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
+	pub fn installed_depot(&self, app_id: impl Into<AppId>) -> Option<DepotId> {
+		let app_id = app_id.into();
+		let mut depot_id = DepotId(0);
+
+		if unsafe { sys::SteamAPI_ISteamApps_GetInstalledDepots(*self.fip, app_id.0, &mut depot_id as *mut DepotId as _, 1) } != 0 {
+			Some(depot_id)
+		} else {
+			None
+		}
+	}
+
+	/// Creates an iterator that makes
+	///
 	/// > Gets a list of all installed depots for a given App ID in mount order.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
@@ -420,14 +422,10 @@ impl AppsInterface {
 	/// Returns an empty string (`""`) if the specified key does not exist.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetLaunchQueryParam)
-	pub fn launch_query_param(&self, key: impl Into<Vec<u8>>) -> String {
+	pub fn launch_query_param(&self, key: impl Into<Vec<u8>>) -> Option<String> {
 		let c_string = CString::new(key).unwrap();
 
-		unsafe {
-			let char_ptr = sys::SteamAPI_ISteamApps_GetLaunchQueryParam(*self.fip, c_string.as_ptr());
-
-			CStr::from_ptr(char_ptr).to_string_lossy().to_string()
-		}
+		unsafe { some_string(sys::SteamAPI_ISteamApps_GetLaunchQueryParam(*self.fip, c_string.as_ptr())) }
 	}
 
 	/// > Checks if the license owned by the user provides low violence depots.
@@ -436,6 +434,15 @@ impl AppsInterface {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#BIsLowViolence)
 	pub fn low_violence(&self) -> bool {
 		unsafe { sys::SteamAPI_ISteamApps_BIsLowViolence(*self.fip) }
+	}
+
+	/// > Allows you to force verify game content on next launch.
+	/// If you detect the game is out-of-date (for example, by having the client detect a version mismatch with a server),
+	/// you can call use MarkContentCorrupt to force a verify, show a message to the user, and then quit.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#MarkContentCorrupt)
+	pub fn mark_content_corrupt(&self, missing_files_only: bool) -> Result<(), SilentFailure> {
+		success(unsafe { sys::SteamAPI_ISteamApps_MarkContentCorrupt(*self.fip, missing_files_only) })
 	}
 
 	/// > Select an beta branch for this app as active,
@@ -450,6 +457,16 @@ impl AppsInterface {
 		} else {
 			Err(Error::SilentFailure)
 		}
+	}
+
+	/// Not in Steamworks Docs.
+	///
+	/// From `isteamapps.h`:
+	///
+	/// > Set current DLC AppID being played (or 0 if none).
+	/// Allows Steam to track usage of major DLC extensions
+	pub fn set_dlc_context(&self, app_id: impl Into<AppId>) -> Result<(), SilentFailure> {
+		success(unsafe { sys::SteamAPI_ISteamApps_SetDlcContext(*self.fip, app_id.into().0) })
 	}
 
 	/// > Checks if the active user is subscribed to the current App ID.
@@ -502,6 +519,15 @@ impl AppsInterface {
 			Some(timed_trial)
 		} else {
 			None
+		}
+	}
+
+	/// > Allows you to uninstall an optional DLC.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#UninstallDLC)
+	pub fn uninstall_dlc(&self, app_id: impl Into<AppId>) {
+		unsafe {
+			sys::SteamAPI_ISteamApps_UninstallDLC(*self.fip, app_id.into().0);
 		}
 	}
 
@@ -629,6 +655,10 @@ impl<'a> Iterator for BetaIter<'a> {
 
 impl<'a> ExactSizeIterator for BetaIter<'a> {}
 
+/// Iterator which yields a [`DepotId`] for each of the current app's mounted depots.
+/// Returned by [`AppsInterface::installed_depots_iter`].
+///
+/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
 #[derive(Debug)]
 pub struct DepotIter<'a> {
 	apps_interface: &'a AppsInterface,
@@ -722,12 +752,12 @@ impl DlcDownloadProgress {
 }
 
 /// Steam API callback.
-/// 
+///
 /// ```rs
 /// # use rgpr_steamworks::{dt::AppId, interfaces::apps::TimedTrial};
 /// fn listener(apps_interface: &AppsInterface) { }
 /// ```
-/// 
+///
 /// > Triggered after the current user gains ownership of DLC and that DLC is installed.
 ///
 /// Use [AppsInterface::install_dlc] to trigger.
@@ -799,7 +829,7 @@ pub struct FileDetails {
 /// Steam API callback.
 ///
 /// The [`AppsInterface`] is provided for use with [`launch_query_param`].
-/// 
+///
 /// ```rs
 /// # use rgpr_steamworks::{dt::AppId, interfaces::apps::TimedTrial};
 /// fn listener(apps_interface: &AppsInterface) {
@@ -810,7 +840,7 @@ pub struct FileDetails {
 /// > Posted after the user executes a steam url with query parameters while the game is already running.
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewLaunchQueryParameters_t)
-/// 
+///
 /// [`launch_query_param`]: AppsInterface::launch_query_param
 #[derive(Debug)]
 pub struct NewLaunchQueryParameters {
@@ -827,13 +857,46 @@ unsafe impl CallbackRaw for NewLaunchQueryParameters {
 	}
 
 	fn register(steam: &SteamInterface) -> Self {
-		Self {
-			steam: steam.child(),
-		}
+		Self { steam: steam.child() }
 	}
 }
 
 impl Callback for NewLaunchQueryParameters {
+	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
+
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+		listener_fn(params.deref());
+	}
+}
+
+/// > Posted after the user executes a steam url with command line or query parameters such as
+/// `steam://run/<appid>//?param1=value1;param2=value2;param3=value3;`
+/// while the game is already running.
+/// The new params can be queried with [`AppsInterface::launch_command_line`] and [`AppsInterface::launch_query_param`].
+///
+/// [`AppsInterface::launch_query_param`] is the preferred and newer method.
+///
+/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewUrlLaunchParameters_t)
+#[derive(Debug)]
+pub struct NewUrlLaunchParameters {
+	steam: SteamChild,
+}
+
+unsafe impl CallbackRaw for NewUrlLaunchParameters {
+	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
+	type CType = sys::NewUrlLaunchParameters_t;
+	type Output = Arc<AppsInterface>;
+
+	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
+		Arc::clone(&self.steam.get().interfaces.apps)
+	}
+
+	fn register(steam: &SteamInterface) -> Self {
+		Self { steam: steam.child() }
+	}
+}
+
+impl Callback for NewUrlLaunchParameters {
 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
 
 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {

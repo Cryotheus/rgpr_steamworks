@@ -14,7 +14,7 @@ use std::ops::DerefMut;
 use std::pin::Pin;
 use std::slice;
 use std::sync::{Arc, Mutex, Weak};
-use std::task::{Context, Poll};
+use std::task::{Context, Poll, Waker};
 
 type AnySend = dyn Any + Send + Sync;
 
@@ -45,7 +45,7 @@ impl From<Result<*mut c_void, CallFutureError>> for CallResult {
 /// Performs callback-specific tasks and optionally calls listeners.
 /// Manual impls of Send + Sync are because of the raw pointer.
 /// The safety of their implementation is described in [CallResult].
-struct CallbackHandler {
+pub(crate) struct CallbackHandler {
 	/// The type implementing CallbackRaw
 	callback_impl: Box<AnySend>,
 
@@ -56,6 +56,18 @@ struct CallbackHandler {
 }
 
 impl CallbackHandler {
+	/// # Panics
+	/// If the provided callback type is not what is stored.
+	pub(crate) fn data<C: CallbackRaw>(&self) -> &C {
+		self.callback_impl.downcast_ref::<C>().unwrap()
+	}
+
+	/// # Panics
+	/// If the provided callback type is not what is stored.
+	pub(crate) fn data_mut<C: CallbackRaw>(&mut self) -> &mut C {
+		self.callback_impl.downcast_mut::<C>().unwrap()
+	}
+
 	fn new_raw<C: CallbackRaw>(steam: &SteamInterface) -> Self {
 		Self {
 			callback_impl: Box::from(C::register(steam)),
@@ -107,14 +119,49 @@ impl Debug for CallbackHandler {
 
 /// Bridge between the [CallManager]'s [Dispatched] and its [CallFuture]s.
 #[derive(Debug)]
-struct CallChannel {
+#[must_use]
+pub(crate) struct CallChannel {
 	atomic_waker: AtomicWaker,
 
 	/// Data received from the call.
 	call_result: Mutex<Option<CallResult>>,
+
+	/// The layout of `Dispatch::CType`.
+	/// Necessary for deallocating the contained Box.
+	layout: Layout,
 }
 
 impl CallChannel {
+	pub(crate) fn register(&self, waker: &Waker) {
+		self.atomic_waker.register(waker);
+	}
+
+	/// Attempt to get the [`CallResult`], [`Box`] it, and call [`Dispatch::post`].
+	pub(crate) fn post<D: Dispatch>(&self, dispatch: &mut D) -> Poll<Result<D::Output, CallError<D::Error>>> {
+		let mut guard = self.call_result.lock().unwrap();
+
+		let Some(call_result) = guard.as_mut() else {
+			return Poll::Pending;
+		};
+
+		//take ownership
+		let CallResult(call_result) = replace(call_result, Err(CallFutureError::Moved).into());
+
+		//`MutexGuard<T>` does not behave like `&mut T`
+		//it doesn't know how to drop early
+		//so we do it manually to allow exclusive mutable access to self
+		drop(guard);
+
+		//now that the `Box<c_void>` has been turned into a box with the same memory layout as what was allocated
+		//we can be sure it is safe to drop
+		let c_box = match call_result {
+			Ok(void_ptr) => unsafe { Box::from_raw(void_ptr as *mut D::CType) },
+			Err(error) => return Poll::Ready(Err(error.into())),
+		};
+
+		Poll::Ready(dispatch.post(c_box, Private).map_err(|error| CallError::Specific(error)))
+	}
+
 	/// Silently fails if data has already been sent.
 	fn send(&self, result: impl Into<CallResult>) -> Result<(), CallChannelFilled> {
 		let mut guard = self.call_result.lock().unwrap();
@@ -128,6 +175,35 @@ impl CallChannel {
 		self.atomic_waker.wake();
 
 		Ok(())
+	}
+}
+
+impl Drop for CallChannel {
+	fn drop(&mut self) {
+		let Ok(mut guard) = self.call_result.lock() else {
+			return;
+		};
+
+		let opt_ref = guard.deref_mut();
+
+		match opt_ref {
+			//we had a ptr to Dispatch::CData
+			//carefully deallocate it
+			Some(CallResult(Ok(void_ptr))) => unsafe {
+				dealloc(*void_ptr as _, self.layout);
+
+				//then leave an error behind
+				*opt_ref = Some(CallResult(Err(CallFutureError::EarlyDrop)))
+			},
+
+			//its an error, nothing special to do
+			Some(CallResult(Err(_))) => {}
+
+			//the value was still pending
+			//so place an error to let the CallManager know
+			//it should deallocate what was going to be a Box<Dispatch::CData>
+			None => *opt_ref = Some(CallResult(Err(CallFutureError::EarlyDrop))),
+		}
 	}
 }
 
@@ -153,26 +229,15 @@ pub struct CallFuture<D: Dispatch> {
 	dispatch: D,
 }
 
-impl<D: Dispatch> Drop for CallFuture<D> {
-	fn drop(&mut self) {
-		let Ok(mut guard) = self.channel.call_result.lock() else {
-			return;
-		};
+impl<D: Dispatch + Unpin> CallFuture<D> {
+	/// See [`CallChannel::post`].
+	pub(crate) fn post(&mut self) -> Poll<Result<D::Output, CallError<D::Error>>> {
+		self.channel.post::<D>(&mut self.dispatch)
+	}
 
-		let opt_ref = guard.deref_mut();
-
-		match opt_ref {
-			Some(CallResult(Ok(void_ptr))) => unsafe {
-				dealloc(*void_ptr as _, Layout::new::<D::CType>());
-			},
-
-			Some(_) => {}
-			None => *opt_ref = Some(CallResult(Err(CallFutureError::EarlyDrop))),
-		}
-
-		//if we drop before we could get the result,
-		//we need to let the CallManager know so it can properly deallocate Box<c_void>
-		let _ = self.channel.send(Err(CallFutureError::EarlyDrop));
+	/// Register the waker so the [`CallManager`] can wake the thread once the result has arrived.
+	pub(crate) fn register(&self, waker: &Waker) {
+		self.channel.atomic_waker.register(waker);
 	}
 }
 
@@ -180,30 +245,10 @@ impl<D: Dispatch + Unpin> std::future::Future for CallFuture<D> {
 	type Output = Result<D::Output, CallError<D::Error>>;
 
 	fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
-		self.channel.atomic_waker.register(cx.waker());
+		let CallFuture { channel, dispatch } = self.deref_mut();
 
-		let mut guard = self.channel.call_result.lock().unwrap();
-
-		let Some(call_result) = guard.as_mut() else {
-			return Poll::Pending;
-		};
-
-		//take ownership
-		let CallResult(call_result) = replace(call_result, Err(CallFutureError::Moved).into());
-
-		//`MutexGuard<T>` does not behave like `&mut T`
-		//it doesn't know how to drop early
-		//so we do it manually to allow exclusive mutable access to self
-		drop(guard);
-
-		//now that the `Box<c_void>` has been turned into a box with the same memory layout as what was allocated
-		//we can be sure it is safe to drop
-		let c_box = match call_result {
-			Ok(void_ptr) => unsafe { Box::from_raw(void_ptr as *mut D::CType) },
-			Err(error) => return Poll::Ready(Err(error.into())),
-		};
-
-		Poll::Ready(self.dispatch.post(c_box, Private).map_err(|error| CallError::Specific(error)))
+		channel.register(cx.waker());
+		channel.post::<D>(dispatch)
 	}
 }
 
@@ -223,24 +268,38 @@ impl CallManager {
 		}
 	}
 
+	/// Queues the dispatched Steam API call and returns a future which yields  
+	/// `Result<Dispatch::Output, CallError<Dispatch::Error>>`.
 	pub(crate) fn dispatch<D: Dispatch>(&mut self, mut dispatch: D) -> CallFuture<D> {
+		CallFuture {
+			channel: self.dispatch_manual::<D>(&mut dispatch),
+			dispatch,
+		}
+	}
+
+	/// Queues the dispatched Steam API call and returns the created channel.  
+	/// This created channel has to be manually polled with [`CallChannel::post`].
+	pub(crate) fn dispatch_manual<D: Dispatch>(&mut self, dispatch: &mut D) -> Arc<CallChannel> {
+		let layout = Layout::new::<D::CType>();
+
 		let channel = Arc::new(CallChannel {
 			atomic_waker: AtomicWaker::new(),
 			call_result: Mutex::new(None),
+			layout,
 		});
 
 		self.dispatches.insert(
 			unsafe { dispatch.dispatch(Private) },
 			Dispatched {
 				channel: Arc::clone(&channel),
-				layout: Layout::new::<D::CType>(),
+				layout,
 
 				#[cfg(debug_assertions)]
 				dispatch_type_name: type_name::<D>(),
 			},
 		);
 
-		CallFuture { channel, dispatch }
+		channel
 	}
 
 	/// # Safety
@@ -264,28 +323,41 @@ impl CallManager {
 		self.register_pub::<C>()
 	}
 
+	/// Registers a function to be called everytime a callback is ran.
+	/// Requires:
+	/// - The type of callback
+	/// - A type as an identifier
+	/// - A boxed function
 	/// ```rs
-	/// # use rgpr_steamworks::{call::CallManager, interfaces::apps::DlcInstalled};
+	/// # use rgpr_steamworks::call::CallManager;
+	/// use rgpr_steamworks::interfaces::apps::DlcInstalled;
+	/// 
 	/// // Just a type to be used as an identifier.
 	/// // IDs are unique to only the callback,
-	/// // meaning you can re-use the ID for different callbacks with collision.
-	/// struct SomethingUnique;
+	/// // meaning you can re-use the ID for different callback types.
+	/// struct JohnDoe;
 	///
 	/// # fn example_env(call_manager: &mut CallManager) {
 	/// // Create a listener for the "DlcInstalled" callback, with the ID "SomethingUnique"
-	/// call_manager.listen::<DlcInstalled, SomethingUnique>(Box::new(|app_id| {
+	/// call_manager.listen::<DlcInstalled, JohnDoe>(Box::new(|app_id| {
 	///     println!("dlc {app_id} installed!");
 	///
-	///     // Do something!
+	///     // React here!
 	/// }));
 	/// # }
 	/// ```
+	///
+	/// Call [`remove_listener`] with the same callback and ID types to remove the listener.
+	///
+	/// *(Should not panic, but can if the callback was incorrectly registered internally.)*
+	///
+	/// [`remove_listener`]: Self::remove_listener
 	pub fn listen<C: Callback, ID: ?Sized + 'static>(&mut self, listener_fn: Box<C::Fn>) -> Option<Box<C::Fn>>
 	where
 		<C as CallbackRaw>::Output: Clone,
 	{
 		let callback_handler = self.get_or_register_pub::<C>();
-		let listener_fns = callback_handler.listeners.as_mut().unwrap();
+		let listener_fns = callback_handler.listeners.as_mut().expect("report this - listen on callback without listeners collection, see CallManager::register_raw for safety concerns");
 		let fn_box: Box<C::Fn> = listener_fn.into();
 
 		//because in order to cast a type as dyn Any
@@ -310,7 +382,9 @@ impl CallManager {
 
 	/// # Safety
 	/// This is only for registering types that implement [`CallbackRaw`] and not [`Callback`].
-	/// If the type implements [`Callback`], used [`register_pub`] instead.
+	/// If the type implements [`Callback`], use [`register_pub`] instead.
+	///
+	/// If this function is used when [`register_pub`] should have been used, [`listen`] will panic.
 	///
 	/// [`register_pub`]: Self::register_pub
 	pub(crate) unsafe fn register_raw<C: CallbackRaw + Send + Sync>(&mut self) -> &mut CallbackHandler {
@@ -452,9 +526,42 @@ struct Dispatched {
 	dispatch_type_name: &'static str,
 }
 
+/// Implemented by Steam API callbacks that allow for listeners.
+/// Implmenting types can be passed to [`listen`] as a generic type.
+///
+/// Callbacks are events that may be paired with data.
+/// If a callback occurs, the [`CallManager`] calls all of the callback's registered listeners
+///
+/// [`listen`]: CallManager::listen
+pub trait Callback: CallbackRaw
+where
+	<Self as CallbackRaw>::Output: Clone,
+{
+	/// Set to `true` to keep the implementing type registered in the
+	/// [CallManager] even after all of its listeners have been removed.
+	const KEEP_REGISTERED: bool = false;
+
+	type Fn: ?Sized + Any + Send + Sync;
+
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output);
+
+	fn call_listeners<'a>(&mut self, listener_fns: impl Iterator<Item = &'a mut Self::Fn>, params: &Self::Output) {
+		for listener_fn in listener_fns {
+			self.call_listener(listener_fn, params.clone());
+		}
+	}
+}
+
 /// Implemented to support a specific Steam API callback.
 /// These are used by rgpr_steamworks internally,
 /// see [`Callback`]'s implementers for what types allow listening.
+///
+/// If `CallbackRaw` is implemented and [`Callback`] is not,
+/// the interface defined at the top of the callback's module will likely
+/// have functions that fulfil the callback's purpose.
+///
+/// # Safety
+/// - `CType` must match the type associated with the `CALLBACK_ID`.
 pub unsafe trait CallbackRaw: Sized + Send + Sync + 'static {
 	#[doc(hidden)]
 	const CALLBACK_ID: i32;
@@ -476,29 +583,6 @@ pub unsafe trait CallbackRaw: Sized + Send + Sync + 'static {
 	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output;
 
 	fn register(steam: &SteamInterface) -> Self;
-}
-
-/// Implemented by Steam API callbacks that allow for listeners.
-/// Implmenting types can be passed to [`listen`] as a generic type.
-///
-/// [`listen`]: CallManager::listen
-pub trait Callback: CallbackRaw
-where
-	<Self as CallbackRaw>::Output: Clone,
-{
-	/// Set to `true` to keep the implementing type registered in the
-	/// [CallManager] even after all of its listeners have been removed.
-	const KEEP_REGISTERED: bool = false;
-
-	type Fn: ?Sized + Any + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output);
-
-	fn call_listeners<'a>(&mut self, listener_fns: impl Iterator<Item = &'a mut Self::Fn>, params: &Self::Output) {
-		for listener_fn in listener_fns {
-			self.call_listener(listener_fn, params.clone());
-		}
-	}
 }
 
 //TODO: investigate if SteamAPI_ReleaseCurrentThreadMemory is necessary

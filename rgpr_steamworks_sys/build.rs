@@ -45,12 +45,23 @@ fn main() {
 	let copied_file_names = copy_files(steamworks_redis_path, &out_dir).unwrap();
 	let mut redis_names: Vec<&str> = Vec::new();
 
+	let dll_extension: &str = match target_os.as_str() {
+		"linux" => "so",
+		"macos" | "apple" => "dylib",
+		"windows" => "dll",
+		os => {
+			println!("cargo:warning=failed to resolve dylib extension for os `{os}`, defaulting to the host's extension of `{}` which will break cross-compilation", std::env::consts::DLL_EXTENSION);
+
+			std::env::consts::DLL_EXTENSION
+		}
+	};
+
 	for file_name in &copied_file_names {
 		let Some((stem, extension)) = file_name.split_once('.') else {
 			continue;
 		};
 
-		if extension == std::env::consts::DLL_EXTENSION {
+		if extension == dll_extension {
 			redis_names.push(stem);
 		}
 	}

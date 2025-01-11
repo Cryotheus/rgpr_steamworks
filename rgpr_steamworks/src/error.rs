@@ -1,7 +1,7 @@
 use crate::sys;
 use std::error::Error as StdError;
 use std::ffi::{CStr, NulError};
-use std::fmt::Debug;
+use std::fmt::{Debug, Display, Formatter};
 use std::mem::transmute;
 use std::num::TryFromIntError;
 
@@ -181,7 +181,7 @@ pub enum Error {
 
 	#[error("locations for data were not filled")]
 	DataUnfulfilled,
-	
+
 	#[error("general error: {0:?}")]
 	General(#[from] GeneralError),
 
@@ -190,13 +190,13 @@ pub enum Error {
 
 	#[error("string conversion error, string must not contain nulls")]
 	StrNulError(#[from] NulError),
-	
+
 	/// Failed to init steamworks as the executable was not started through steam,
 	/// and the executable is now being started through steam.
 	/// You should exit entirely if this error is received.
 	#[error("restarting through steam")]
 	RestartingThroughSteam,
-	
+
 	#[error("failed, no error message from the Steam API is available")]
 	SilentFailure,
 }
@@ -210,6 +210,12 @@ impl Error {
 		debug_assert_eq!(size_of::<sys::SteamErrMsg>(), size_of_val(&message_bytes));
 
 		Some(Self::SteamInit(init_enum, CStr::from_bytes_until_nul(&message_bytes).unwrap().to_string_lossy().to_string()))
+	}
+}
+
+impl From<SilentFailure> for Error {
+	fn from(_: SilentFailure) -> Self {
+		Self::SilentFailure
 	}
 }
 
@@ -774,3 +780,19 @@ pub enum IntoCIndexError {
 	#[error("{0:?}")]
 	TryFromIntError(#[from] TryFromIntError),
 }
+
+/// Unfortunately, a common pattern with the Steam API is returning a
+/// bool to indicate the success or fail state of a functional call.  
+/// When a function in the Steam API has a possible fail state
+/// but no error code or message is given,
+/// this struct is used.
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub struct SilentFailure;
+
+impl Display for SilentFailure {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		f.write_str("failed, no error message from the Steam API is available")
+	}
+}
+
+impl StdError for SilentFailure {}

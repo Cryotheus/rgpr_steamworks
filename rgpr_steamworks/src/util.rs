@@ -1,3 +1,4 @@
+use crate::error::SilentFailure;
 use std::ffi::{c_char, c_int, CStr, CString};
 use std::path::Path;
 
@@ -69,6 +70,17 @@ impl<const LEN: usize> CStrArray<LEN> {
 
 		unsafe { CStr::from_ptr(self.ptr()) }.to_string_lossy().to_string()
 	}
+
+	/// Same as `to_string` but returns `None` if the string is empty.
+	pub(crate) fn to_some_string(mut self) -> Option<String> {
+		if self.0[0] == c_char::default() {
+			return None;
+		}
+
+		assert_eq!(*self.0.last().unwrap(), c_char::default(), "CStr buffer did not end with a null terminator");
+
+		Some(unsafe { CStr::from_ptr(self.ptr()) }.to_string_lossy().to_string())
+	}
 }
 
 impl<const LEN: usize> AsRef<CStr> for CStrArray<LEN> {
@@ -83,3 +95,27 @@ impl<const LEN: usize> AsRef<Path> for CStrArray<LEN> {
 	}
 }
 
+/// Converts a char ptr into a `String`, returning `None` if it's empty or null.
+/// If there are invalid UTF-8 codepoints, they will be replaced.
+#[doc(hidden)]
+#[inline(always)]
+pub(crate) unsafe fn some_string(char_ptr: *const c_char) -> Option<String> {
+	if char_ptr.is_null() || *char_ptr == c_char::default() {
+		None
+	} else {
+		Some(CStr::from_ptr(char_ptr).to_string_lossy().to_string())
+	}
+}
+
+/// Turns a bool into `Result<(), SilentFailure>`  
+/// where `true` is `Ok(())`  
+/// and `false` is `Err(SilentFailure)`  
+#[doc(hidden)]
+#[inline(always)]
+pub(crate) fn success(success: bool) -> Result<(), SilentFailure> {
+	if success {
+		Ok(())
+	} else {
+		Err(SilentFailure)
+	}
+}

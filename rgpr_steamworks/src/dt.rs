@@ -5,6 +5,7 @@
 use crate::error::IntoCIndexError;
 use rgpr_steamworks_sys as sys;
 use std::fmt::{Display, Formatter};
+use crate::interfaces::Steam;
 
 /// > Unique identifier for an app.
 /// For more information see the [Applications] documentation.
@@ -295,6 +296,20 @@ impl SteamId {
 		}
 	}
 
+	/// Returns `None` if the `SteamId` is 0.
+	pub fn non_zero(self) -> Option<Self> {
+		if self.0 == 0 {
+			None
+		} else {
+			Some(self)
+		}
+	}
+
+	/// Returns `None` if the provided value was 0 when turned into a `SteamId`.
+	pub fn non_zero_from(value: impl Into<SteamId>)  -> Option<Self> {
+		value.into().non_zero()
+	}
+	
 	/// Returns `None` if the unpacked enum was invalid.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EUniverse)
@@ -338,6 +353,14 @@ impl From<sys::CSteamID> for SteamId {
 impl From<SteamId> for u64 {
 	fn from(SteamId(value): SteamId) -> Self {
 		value
+	}
+}
+
+impl From<SteamId> for sys::CSteamID {
+	fn from(SteamId(value): SteamId) -> Self {
+		sys::CSteamID {
+			m_steamid: sys::CSteamID_SteamID_t { m_unAll64Bits: value },
+		}
 	}
 }
 
@@ -405,12 +428,13 @@ impl IntoCIndex for usize {
 #[cfg(test)]
 mod test {
 	use crate::sys;
+	use static_assertions::assert_eq_size;
 
 	#[test]
-	fn size_tests() {
-		assert_eq!(size_of::<sys::AppId_t>(), size_of::<super::AppId>());
-		assert_eq!(size_of::<sys::HAuthTicket>(), size_of::<super::AuthTicket>());
-		assert_eq!(size_of::<sys::DepotId_t>(), size_of::<super::DepotId>());
-		assert_eq!(size_of::<sys::CSteamID>(), size_of::<super::SteamId>());
+	fn assert_sizes() {
+		assert_eq_size!(super::AppId, sys::AppId_t);
+		assert_eq_size!(super::AuthTicket, sys::HAuthTicket);
+		assert_eq_size!(super::DepotId, sys::DepotId_t);
+		assert_eq_size!(super::SteamId, sys::CSteamID);
 	}
 }

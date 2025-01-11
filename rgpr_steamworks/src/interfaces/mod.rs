@@ -1,11 +1,14 @@
 #[cfg(feature = "steam_apps")]
 pub mod apps;
 
+#[cfg(feature = "steam_friends")]
+pub mod friends;
+
 use crate::call::CallManager;
 use crate::config::SteamBuilder;
 use crate::dt::AppId;
 use crate::error::Error;
-use crate::{interfaces, sys, Private};
+use crate::{sys, Private};
 use std::ops::Deref;
 use std::sync::{Arc, Mutex, MutexGuard, RwLock, Weak};
 
@@ -334,10 +337,10 @@ pub struct Interfaces {
 impl Interfaces {
 	pub(crate) fn new(steam: SteamChild, init_functions: &mut Vec<InterfaceInitFn>) -> Self {
 		//rename it to something shorter - for less typing below
-		let pair = (init_functions, &steam);
+		let pair = &mut (init_functions, &steam);
 
 		//less typing
-		fn setup<I: Interface>((init_fns, steam): (&mut Vec<InterfaceInitFn>, &SteamChild)) -> I {
+		fn setup<I: Interface>((init_fns, steam): &mut (&mut Vec<InterfaceInitFn>, &SteamChild)) -> I {
 			init_fns.push(&I::initialize);
 
 			I::create(FixedInterfacePtr(unsafe { I::raw_interface() }), steam.clone())
@@ -573,6 +576,12 @@ impl SteamChild {
 	pub(crate) fn get(&self) -> Steam {
 		Steam(self.0.upgrade().unwrap())
 	}
+	
+	/// Sets the internal reference to an invalid one,
+	/// allowing the reference counter to fully drop.
+	pub(crate) fn kill(&mut self) {
+		self.0 = Weak::new();
+	}
 }
 
 impl From<Steam> for SteamChild {
@@ -610,6 +619,9 @@ pub struct SteamInterface {
 }
 
 impl SteamInterface {
+	/// Blocks the thread until a lock on the [`CallManager`] can be made.
+	/// Make sure to drop this as early as possible.
+	/// Do not hold the guard across awaits.
 	pub fn call_manager_lock(&self) -> MutexGuard<CallManager> {
 		self.call_manager.lock().unwrap()
 	}
@@ -618,6 +630,30 @@ impl SteamInterface {
 	#[doc(hidden)]
 	pub(crate) fn child(&self) -> SteamChild {
 		SteamChild(Weak::clone(&self.arc))
+	}
+
+	/// Calls [`ExclusiveInterfaces::client`].
+	/// # Panics
+	/// If called on the `GameServer` variant.
+	pub(crate) fn client_interfaces(&self) -> &ClientInterfaces {
+		self.interfaces.exclusive_interfaces.client()
+	}
+
+	/// Calls [`ExclusiveInterfaces::game_server`].
+	/// # Panics
+	/// If called on the `Client` variant.
+	pub(crate) fn game_server_interfaces(&self) -> &GameServerInterfaces {
+		self.interfaces.exclusive_interfaces.game_server()
+	}
+
+	/// Calls [`ExclusiveInterfaces::get_client`].
+	pub(crate) fn get_client_interfaces(&self) -> Option<&ClientInterfaces> {
+		self.interfaces.exclusive_interfaces.get_client()
+	}
+
+	/// Calls [`ExclusiveInterfaces::get_game_server`].
+	pub(crate) fn get_game_server_interfaces(&self) -> Option<&GameServerInterfaces> {
+		self.interfaces.exclusive_interfaces.get_game_server()
 	}
 }
 
