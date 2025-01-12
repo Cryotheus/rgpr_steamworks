@@ -42,7 +42,11 @@ This crate follows several standards to ensure quality, all of which are listed 
 
 ### Full Coverage
 All of the Steam API's provided features should be made available.  
-Support will always be offered for, and only for, the latest release of the Steam API.
+Support will always be offered for, and only for, the latest release of the Steam API.  
+
+The game server features of the Steam API should also be accessible.
+The interfaces they share with the client version of the Steam API should not be accessed any differently.
+Game server exclusive interfaces are accessed in a similar way to client exclusive interfaces.
 
 ### Simple
 New Rust users should not struggle to use the crate.
@@ -63,12 +67,12 @@ All exported data types are their native representations.
 Asynchronous Steam API calls are provided as futures.
 This includes the Steam API's "call results" and functions that are dependent on asynchronous behavior.
 
-- Futures for asynchronous API calls (when awaiting the Steam API's "call results")
-- Always support the latest release of the Steam API, ASAP
-- Support all of the Steam API's targets ³ ⁴
+### Platform Agnostic
+Behavior should be consistent across all platforms supported by the Steam API.
+
+
 - Support the API for game servers ⁴
 
-¹ Wrappers or lite bindings to unsafe functionality will always be provided if safety is not possible.  
 ² Use the `sys` feature for a re-export of `rgpr_steamworks_sys` as `rgpr_steamworks::sys`.  
 ³ Mac requires the bindings in [rgpr_steamworks_sys](rgpr_steamworks_sys) to be generated. Both Steam Deck and MacOs are untested.  
 ⁴ A major version bump will likely be necessary.  

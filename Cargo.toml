@@ -21,8 +21,8 @@ sys = []
 
 #steam interfaces to initialize
 steam_apps = [] #available with game_server
-steam_client = ["dep:lru"] #available with game_server
-steam_friends = []
+steam_client = [] #available with game_server
+steam_friends = ["dep:lru"]
 steam_game_coordinator = []
 steam_game_server = [] #game server only
 steam_game_server_stats = [] #game server only
