@@ -1,6 +1,6 @@
 use crate::call::{Callback, CallbackRaw, Dispatch};
 use crate::dt::{AppId, CsvString, DepotId, IntoCIndex, SteamId};
-use crate::error::{CallError, Error, GeneralError, SilentFailure};
+use crate::error::{CallError, SteamError, GeneralError, SilentFailure};
 use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
 use crate::util::{some_string, success, CStrArray, CStrArrayPath, MAX_PATH};
 use crate::{sys, Private};
@@ -458,13 +458,13 @@ impl AppsInterface {
 	/// might need the game to restart so Steam can update its' content that branch.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#SetActiveBeta)
-	pub fn set_beta(&self, beta_name: impl Into<Vec<u8>>) -> Result<(), Error> {
+	pub fn set_beta(&self, beta_name: impl Into<Vec<u8>>) -> Result<(), SteamError> {
 		let c_string = CString::new(beta_name)?;
 
 		if unsafe { sys::SteamAPI_ISteamApps_SetActiveBeta(*self.fip, c_string.as_ptr()) } {
 			Ok(())
 		} else {
-			Err(Error::SilentFailure)
+			Err(SteamError::SilentFailure)
 		}
 	}
 

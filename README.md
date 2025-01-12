@@ -1,18 +1,23 @@
 # RgPr Steamworks
 High-level Rust bindings to [Steamworks](https://partner.steamgames.com/), the Steam API[¹](#notes).
 
+> The Steamworks SDK provides a range of features which are designed to help ship your application or game on Steam in an efficient manner.  
+\- [Steamworks Documentation](https://partner.steamgames.com/doc/sdk)
+
+Headers and binaries are in the [rgpr_steamworks_sys](rgpr_steamworks_sys) crate.
 This is purely for Steam apps that require integration with the Steam client and not the Steam Web API.
 
 ### Progress to Alpha Release
 Currently in pre-alpha.  
-When this table is all of the features in this table are near 100%,
+When all of the features in this table are near 100%,
 an alpha release will become available on [crates.io](https://crates.io).
 
 | Feature                      | Estimate |
-|------------------------------|----------|
-| `steam_apps`                 | 100%     |
+|------------------------------|:--------:|
+| `steam_apps`                 |   100%   |
 | `steam_client`               |          |
-| `steam_friends`              | 50%      |
+| `steam_encrypted_app_ticket` |   100%   |
+| `steam_friends`              |   50%    |
 | `steam_game_coordinator`     |          |
 | `steam_game_server`          |          |
 | `steam_game_server_stats`    |          |
@@ -36,6 +41,7 @@ an alpha release will become available on [crates.io](https://crates.io).
 | `steam_user_stats`           |          |
 | `steam_utils`                |          |
 | `steam_video`                |          |
+| `sys`                        |   100%   |
 
 ## Goals
 This crate follows several standards to ensure quality, all of which are listed below.
@@ -68,14 +74,7 @@ Asynchronous Steam API calls are provided as futures.
 This includes the Steam API's "call results" and functions that are dependent on asynchronous behavior.
 
 ### Platform Agnostic
-Behavior should be consistent across all platforms supported by the Steam API.
-
-
-- Support the API for game servers ⁴
-
-² Use the `sys` feature for a re-export of `rgpr_steamworks_sys` as `rgpr_steamworks::sys`.  
-³ Mac requires the bindings in [rgpr_steamworks_sys](rgpr_steamworks_sys) to be generated. Both Steam Deck and MacOs are untested.  
-⁴ A major version bump will likely be necessary.  
+The behavior of safe functionality should be consistent across all platforms supported by the Steam API.
 
 ## Notes
 1. This crate uses the names "_Steam API_" and "_Steamworks_" interchangeably, "_Steam API_" is most often used.  
@@ -84,6 +83,12 @@ The publicly released headers refer to the Steam API under the following names:
     - Steamworks ([`isteamnetworkingutils.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam/isteamnetworkingutils.h))
     - Steamworks API ([`isteamclient.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam/isteamclient.h))
     - Steamworks SDK ([`isteamclient.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam/isteamclient.h))
+
+Both Steam Deck and MacOs are untested.
+Mac requires the bindings in [rgpr_steamworks_sys](rgpr_steamworks_sys) to be generated.
+
+# Building
+
 
 # License
 This project is licensed under either of

@@ -1,5 +1,5 @@
 use crate::dt::AppId;
-use crate::error::Error;
+use crate::error::SteamError;
 use crate::interfaces::Steam;
 use std::time::Duration;
 
@@ -100,6 +100,19 @@ impl Default for CallThreadBuilder {
 	}
 }
 
+/// Tells [`Steam::init`] how to override the [`AppId`].
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum OverrideAppId {
+	/// Unsafe.
+	Env,
+
+	/// Creates a file to do what it needs to.
+	File,
+
+	/// Lets Steam set the app ID.
+	Inherit,
+}
+
 /// Builder for configuring and building a [`SteamInterface`].
 #[derive(Clone, Debug)]
 pub struct SteamBuilder {
@@ -110,7 +123,7 @@ pub struct SteamBuilder {
 
 	/// Force the specified app ID to be used.
 	/// Don't use this on your builds that are launched through Steam.
-	pub(crate) override_app_id: bool,
+	pub(crate) override_app_id: OverrideAppId,
 
 	/// See [`with_restart_through_steam`].
 	///
@@ -124,66 +137,113 @@ impl SteamBuilder {
 		Self {
 			app_id: app_id.into(),
 			call_thread_config: Some(CallThreadBuilder::new()),
-			override_app_id: false,
-			restart_through_steam: false,
+			override_app_id: OverrideAppId::Inherit,
+			restart_through_steam: true,
 		}
 	}
 
 	/// Initializes the Steam API and its interfaces.
 	/// If all instances of [`Steam`] are dropped, the API will be shutdown.
 	/// You can use [`Steam::get`] to get a reference to the API if the current context does not have one.
-	pub fn build(&self) -> Result<Steam, Error> {
+	pub fn build(&self) -> Result<Steam, SteamError> {
 		unsafe { Steam::init(self) }
 	}
 
-	/// See [`CallThreadBuilder`].
-	/// 
-	/// Use [`without_call_thread`] if you don't want a [`CallThread`] to be created.
+	/// Lets Steam decide the [`AppId`].
+	/// This only works if the app is launched through Steam.
 	///
-	/// [`CallThread`]: call::CallThread
-	/// [`without_call_thread`]: Self::without_call_thread
-	pub fn with_call_thread_config(mut self, call_thread_config: CallThreadBuilder) -> Self {
-		self.call_thread_config = Some(call_thread_config);
+	/// This is the opposite of [`override_app_id`].
+	///
+	/// [`override_app_id`]: Self::override_app_id
+	pub fn inherit_app_id(&mut self) -> &mut Self {
+		self.override_app_id = OverrideAppId::Inherit;
 
 		self
 	}
 
-	/// Will not create a dedicated thread to run the [`CallManager`].  
+	/// Overrides the [`AppId`] of this app.  
+	/// This may create a temporary file named `steam_appid.txt`.
+	///
+	/// This is the opposite of [`inherit_app_id`].
+	///
+	/// [`inherit_app_id`]: Self::inherit_app_id
+	pub fn override_app_id(&mut self) -> &mut Self {
+		#[cfg(target_os = "windows")]
+		unsafe {
+			self.override_app_id_env();
+		}
+
+		#[cfg(not(target_os = "windows"))]
+		{
+			self.override_app_id = OverrideAppId::File;
+		}
+
+		self
+	}
+
+	/// Force the specified [`AppId`] to be used by overriding environment variables.
+	/// Use should typically use [`override_app_id`] instead.
+	/// Don't use this on your builds that are launched through Steam.
+	///
+	/// # Safety
+	/// On windows, this function is always safe.
+	///
+	/// For other operating systems, when this is set to `true`:
+	/// Make sure that the environment variables are not being read or written until after [`build`] is called.
+	/// Due to the nature of environment variables, explained in [`set_var`](std::env::set_var),
+	/// the best method to prevent issues is to call [`build`] from the main thread before other threads are created.
+	///
+	/// [`build`]: Self::build
+	/// [`override_app_id`]: Self::override_app_id
+	pub unsafe fn override_app_id_env(&mut self) -> &mut Self {
+		self.override_app_id = OverrideAppId::Env;
+
+		self
+	}
+
+	/// Will not create a dedicated thread to run the [`CallManager`].
 	/// The [`CallManager`] will have to be manually run at no less than 10Hz.
 	/// this can be done with [`CallManager::run`].
 	///
-	/// See [`CallThreadBuilder`] for use with [`with_call_thread_config`].
+	/// See [`CallThreadBuilder`] for use with [`set_call_thread_config`].
 	///
 	/// [`CallManager`]: call::CallManager
 	/// [`CallManager::run`]: call::CallManager::run
-	/// [`with_call_thread_config`]: Self::with_call_thread_config
-	pub fn without_call_thread(mut self) -> Self {
+	/// [`set_call_thread_config`]: Self::set_call_thread_config
+	pub fn remove_call_thread(&mut self) -> &mut Self {
 		self.call_thread_config = None;
 
 		self
 	}
 
-	/// Force the specified app ID to be used.
-	/// Don't use this on your builds that are launched through Steam.
+	/// See [`CallThreadBuilder`].
 	///
-	/// # Safety
-	/// On windows, this function is always safe.  
+	/// Use [`remove_call_thread`] if you don't want a [`CallThread`] to be created.
 	///
-	/// For other operating systems, when this is set to `true`:  
-	/// Make sure that the environment variables are not being read or written until after [`build`] is called.  
-	/// Due to the nature of environment variables, explained in [`set_var`](std::env::set_var),
-	/// the best method to prevent issues is to call [`build`] from the main thread before other threads are created.
-	///
-	/// [`build`]: Self::build
-	pub unsafe fn with_override_app_id(mut self, override_app_id: bool) -> Self {
-		//TODO: use temporary steam_appid.txt file instead of env vars?
-		self.override_app_id = override_app_id;
+	/// [`CallThread`]: call::CallThread
+	/// [`remove_call_thread`]: Self::remove_call_thread
+	pub fn set_call_thread_config(&mut self, call_thread_builder: CallThreadBuilder) -> &mut Self {
+		self.call_thread_config = Some(call_thread_builder);
 
 		self
 	}
 
-	/// Calls [`SteamAPI_RestartAppIfNecessary`].
-	/// Causes an error if the executable was not launched through Steam.
+	/// Same as calling [`override_app_id`] and [`set_restart_through_steam(false)`].
+	///
+	/// [`override_app_id`]: Self::override_app_id
+	/// [`set_restart_through_steam(false)`]: Self::set_restart_through_steam
+	pub fn set_dev(&mut self) -> &mut Self {
+		self.override_app_id = OverrideAppId::File;
+		self.restart_through_steam = false;
+
+		self
+	}
+
+	/// > Checks if your executable was launched through Steam and relaunches it through Steam if it wasn't.
+	///
+	/// Causes [`build`] to error if the executable was not launched through Steam,
+	/// and relaunch the app through Steam.  
+	/// You should check if the error variant is [`RestartingThroughSteam`], and gracefully terminate your app.
 	///
 	/// ## If you're not sure:
 	/// - in development it's fine to set it to `false` for convenience
@@ -193,10 +253,67 @@ impl SteamBuilder {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary)
 	///
 	/// [`build`]: Self::build
-	/// [`RestartingThroughSteam`]: crate::error::Error::RestartingThroughSteam
+	/// [`RestartingThroughSteam`]: crate::error::SteamError::RestartingThroughSteam
 	/// [`SteamAPI_RestartAppIfNecessary`]: https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary
+	pub fn set_restart_through_steam(&mut self, restart_through_steam: bool) -> &mut Self {
+		self.restart_through_steam = restart_through_steam;
+
+		self
+	}
+
+	/// Same as [`remove_call_thread`] but keeps `self` owned.
+	///
+	/// [`remove_call_thread`]: Self::remove_call_thread
+	pub fn without_call_thread(mut self) -> Self {
+		self.remove_call_thread();
+
+		self
+	}
+
+	/// Same as [`set_dev`] but keeps `self` owned.
+	///
+	/// [`set_dev`]: Self::set_dev
+	pub fn with_dev(mut self) -> Self {
+		self.set_dev();
+
+		self
+	}
+
+	/// Same as [`set_call_thread_config`] but keeps `self` owned.
+	///
+	/// [`set_call_thread_config`]: Self::set_call_thread_config
+	pub fn with_call_thread_config(mut self, call_thread_builder: CallThreadBuilder) -> Self {
+		self.set_call_thread_config(call_thread_builder);
+
+		self
+	}
+
+	/// Same as [`override_app_id`] but keeps `self` owned.
+	///
+	/// [`override_app_id`]: Self::override_app_id
+	pub fn with_override_app_id(mut self) -> Self {
+		self.override_app_id();
+
+		self
+	}
+
+	/// Same as [`set_override_app_id_env`] but keeps `self` owned.
+	///
+	/// # Safety
+	/// Safety explained in [`set_override_app_id_env`].
+	///
+	/// [`set_override_app_id_env`]: Self::override_app_id_env
+	pub unsafe fn with_override_app_id_env(mut self) -> Self {
+		self.override_app_id();
+
+		self
+	}
+
+	/// Same as [`set_restart_through_steam`] but keeps `self` owned.
+	///
+	/// [`set_restart_through_steam`]: Self::set_restart_through_steam
 	pub fn with_restart_through_steam(mut self, restart: bool) -> Self {
-		self.restart_through_steam = restart;
+		self.set_restart_through_steam(restart);
 
 		self
 	}

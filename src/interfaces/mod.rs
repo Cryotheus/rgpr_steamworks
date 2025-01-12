@@ -4,15 +4,17 @@ pub mod apps;
 #[cfg(feature = "steam_friends")]
 pub mod friends;
 
-use std::ffi::c_char;
 use crate::call::{CallManager, CallThread};
-use crate::config::{CallThreadBuilder, SteamBuilder};
+use crate::config::{OverrideAppId, SteamBuilder};
 use crate::dt::AppId;
-use crate::error::Error;
-use crate::{sys, Private};
-use std::ops::Deref;
-use std::sync::{Arc, Mutex, MutexGuard, RwLock, Weak};
+use crate::error::SteamError;
 use crate::util::CStrArray;
+use crate::{sys, Private};
+use std::fs;
+use std::io::Write;
+use std::ops::Deref;
+use std::path::PathBuf;
+use std::sync::{Arc, Mutex, MutexGuard, RwLock, Weak};
 
 /// Reference to an interface's initialization function.
 type InterfaceInitFn = &'static (dyn Fn(&SteamInterface) + Send + Sync);
@@ -488,34 +490,51 @@ impl Steam {
 	/// Called by [`SteamBuilder::build`]
 	///
 	/// [`SteamBuilder::build`]: crate::config::SteamBuilder::build
-	pub(crate) unsafe fn init(config: &SteamBuilder) -> Result<Steam, Error> {
+	pub(crate) unsafe fn init(config: &SteamBuilder) -> Result<Steam, SteamError> {
 		let mut global_writer = STEAM_INTERFACE.write().unwrap();
 
 		//dont initialize if we're already attached
 		if global_writer.upgrade().is_some() {
-			return Err(Error::AlreadyExists);
+			return Err(SteamError::AlreadyExists);
 		}
 
 		if config.restart_through_steam {
 			//launches the app id through steam if the exe was not launched through steam
 			if sys::SteamAPI_RestartAppIfNecessary(config.app_id.0) {
-				return Err(Error::RestartingThroughSteam);
+				return Err(SteamError::RestartingThroughSteam);
 			}
 		}
 
-		if config.override_app_id {
-			use std::env::set_var;
+		let steam_appid_file = match config.override_app_id {
+			OverrideAppId::Env => {
+				use std::env::set_var;
 
-			let id_str = config.app_id.to_string();
+				let id_str = config.app_id.to_string();
 
-			set_var("SteamAppId", &id_str);
-			set_var("SteamGameId", id_str);
-		}
+				set_var("SteamAppId", &id_str);
+				set_var("SteamGameId", id_str);
+
+				None
+			}
+
+			OverrideAppId::File => {
+				//overriding the app ID is for development builds only, so unwrapping is fine here
+				let file_path = std::env::current_exe().unwrap().with_file_name("steam_appid.txt");
+				let mut file_handle = fs::OpenOptions::new().write(true).create(true).truncate(true).open(&file_path).unwrap();
+
+				file_handle.write(config.app_id.to_string().as_bytes()).unwrap();
+				file_handle.flush().unwrap();
+
+				Some(file_path)
+			}
+
+			OverrideAppId::Inherit => None,
+		};
 
 		let mut err_msg: CStrArray<1024> = CStrArray::new();
 		let result_cenum = sys::SteamAPI_InitFlat(err_msg.as_mut());
 
-		if let Some(error) = Error::steam_init(result_cenum, err_msg) {
+		if let Some(error) = SteamError::steam_init(result_cenum, err_msg) {
 			return Err(error);
 		}
 
@@ -539,8 +558,9 @@ impl Steam {
 				app_id: config.app_id,
 				arc: Weak::clone(weak),
 				call_thread: mutex(config.call_thread_config.as_ref().map(|config| CallThread::new(config.interval, SteamChild::from(weak)))),
-				call_manager: mutex(CallManager::new()),
+				call_manager: mutex(CallManager::new(SteamChild::from(weak))),
 				interfaces: Interfaces::new(weak.into(), &mut init_functions),
+				steam_appid_file,
 			};
 
 			steam
@@ -556,6 +576,13 @@ impl Steam {
 		//we are able to make sure no instances of `Steam` are available until this drop
 		//explicit drop for significant drop
 		drop(global_writer);
+
+		if let Some(call_thread_config) = &config.call_thread_config {
+			if call_thread_config.auto_start {
+				//start the CallThread to automatically run the CallManager
+				steam_interface.call_thread.lock().unwrap().as_mut().unwrap().start();
+			}
+		}
 
 		Ok(Steam(steam_interface))
 	}
@@ -631,9 +658,17 @@ pub struct SteamInterface {
 	call_manager: Mutex<CallManager>,
 	call_thread: Mutex<Option<CallThread>>,
 	interfaces: Interfaces,
+
+	/// Gets deleted when dropped.
+	steam_appid_file: Option<PathBuf>,
 }
 
 impl SteamInterface {
+	/// Gets the [`AppId`] set by the [`SteamBuilder`].
+	pub fn app_id(&self) -> AppId {
+		self.app_id
+	}
+	
 	/// Blocks the thread until a lock on the [`CallManager`] can be made.
 	/// Make sure to drop this as early as possible.
 	/// Do not hold the guard across awaits.
@@ -671,6 +706,7 @@ impl SteamInterface {
 		self.interfaces.exclusive_interfaces.get_game_server()
 	}
 
+	/// Returns a reference to the full collection of enabled interfaces for the Steam API.
 	pub fn interfaces(&self) -> &Interfaces {
 		&self.interfaces
 	}
@@ -678,12 +714,20 @@ impl SteamInterface {
 
 impl Drop for SteamInterface {
 	fn drop(&mut self) {
+		//lock this first so no refs are created during the shutdown
+		let writer_result = STEAM_INTERFACE.write();
+
 		unsafe {
 			sys::SteamAPI_Shutdown();
 		}
 
+		//it was a temporary file, so we should delete it now
+		if let Some(ref path) = self.steam_appid_file {
+			let _ = fs::remove_file(path);
+		}
+
 		//we don't want to keep the Arc counters alloc'd by holding onto a weak with them
-		if let Ok(mut writer) = STEAM_INTERFACE.write() {
+		if let Ok(mut writer) = writer_result {
 			*writer = Weak::new();
 		}
 	}
@@ -695,12 +739,6 @@ where
 {
 	fn as_ref(&self) -> &T {
 		self.interfaces.as_ref()
-	}
-}
-
-impl AsRef<Interfaces> for SteamInterface {
-	fn as_ref(&self) -> &Interfaces {
-		&self.interfaces
 	}
 }
 

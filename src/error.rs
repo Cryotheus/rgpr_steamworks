@@ -175,7 +175,7 @@ impl TryFrom<u32> for ChatRoomEnterError {
 
 #[non_exhaustive]
 #[derive(Clone, Debug, PartialEq, Eq, thiserror::Error)]
-pub enum Error {
+pub enum SteamError {
 	#[error("interface to the Steam API already exsists, use Steam::get instead")]
 	AlreadyExists,
 
@@ -201,13 +201,13 @@ pub enum Error {
 	SilentFailure,
 }
 
-impl Error {
+impl SteamError {
 	pub(crate) fn steam_init(init_result: sys::ESteamAPIInitResult, message: CStrArray<1024>) -> Option<Self> {
 		Some(Self::SteamInit(InitErrorEnum::new(init_result)?, message.to_string()))
 	}
 }
 
-impl From<SilentFailure> for Error {
+impl From<SilentFailure> for SteamError {
 	fn from(_: SilentFailure) -> Self {
 		Self::SilentFailure
 	}

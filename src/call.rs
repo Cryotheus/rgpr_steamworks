@@ -1,4 +1,3 @@
-use crate::dt::SteamId;
 use crate::error::{CallError, CallFutureError};
 use crate::interfaces::{SteamChild, SteamInterface};
 use crate::{sys, Private};
@@ -10,14 +9,13 @@ use std::ffi::{c_int, c_void};
 use std::fmt::{Debug, Display, Formatter};
 use std::io::{stdout, Write};
 use std::mem::{replace, zeroed, MaybeUninit};
-use std::ops::DerefMut;
+use std::ops::{Deref, DerefMut};
 use std::pin::Pin;
-use std::process::Output;
-use std::sync::mpsc::{channel, Receiver, RecvError, SendError, Sender, TryRecvError};
-use std::sync::{Arc, Mutex, Weak};
+use std::sync::mpsc::{channel, RecvError, SendError, Sender, TryRecvError};
+use std::sync::{Arc, Mutex};
 use std::task::{Context, Poll, Waker};
 use std::thread::JoinHandle;
-use std::time::{Duration, Instant, SystemTime};
+use std::time::{Duration, Instant};
 use std::{slice, thread};
 
 type AnySend = dyn Any + Send + Sync;
@@ -260,15 +258,15 @@ impl<D: Dispatch + Unpin> std::future::Future for CallFuture<D> {
 pub struct CallManager {
 	callbacks: HashMap<i32, CallbackHandler>,
 	dispatches: HashMap<sys::SteamAPICall_t, Dispatched>,
-	pub(crate) steam: Weak<SteamInterface>,
+	steam: SteamChild,
 }
 
 impl CallManager {
-	pub(crate) fn new() -> Self {
+	pub(crate) fn new(steam: SteamChild) -> Self {
 		Self {
 			callbacks: HashMap::new(),
 			dispatches: HashMap::new(),
-			steam: Weak::new(),
+			steam,
 		}
 	}
 
@@ -311,7 +309,7 @@ impl CallManager {
 	pub(crate) unsafe fn get_or_register_raw<C: CallbackRaw>(&mut self) -> &mut CallbackHandler {
 		let entry = self.callbacks.entry(C::CALLBACK_ID);
 
-		entry.or_insert_with(|| CallbackHandler::new_raw::<C>(self.steam.upgrade().unwrap().as_ref()));
+		entry.or_insert_with(|| CallbackHandler::new_raw::<C>(self.steam.get().deref()));
 
 		self.register_raw::<C>()
 	}
@@ -322,7 +320,7 @@ impl CallManager {
 	{
 		let entry = self.callbacks.entry(C::CALLBACK_ID);
 
-		entry.or_insert_with(|| CallbackHandler::new_raw::<C>(self.steam.upgrade().unwrap().as_ref()));
+		entry.or_insert_with(|| CallbackHandler::new_raw::<C>(self.steam.get().deref()));
 
 		self.register_pub::<C>()
 	}
@@ -382,7 +380,7 @@ impl CallManager {
 	where
 		<C as CallbackRaw>::Output: Clone,
 	{
-		self.callbacks.insert(C::CALLBACK_ID, CallbackHandler::new_pub::<C>(self.steam.upgrade().unwrap().as_ref()));
+		self.callbacks.insert(C::CALLBACK_ID, CallbackHandler::new_pub::<C>(self.steam.get().deref()));
 
 		self.callbacks.get_mut(&C::CALLBACK_ID).unwrap()
 	}
@@ -395,7 +393,7 @@ impl CallManager {
 	///
 	/// [`register_pub`]: Self::register_pub
 	pub(crate) unsafe fn register_raw<C: CallbackRaw + Send + Sync>(&mut self) -> &mut CallbackHandler {
-		self.callbacks.insert(C::CALLBACK_ID, CallbackHandler::new_raw::<C>(self.steam.upgrade().unwrap().as_ref()));
+		self.callbacks.insert(C::CALLBACK_ID, CallbackHandler::new_raw::<C>(self.steam.get().deref()));
 
 		self.callbacks.get_mut(&C::CALLBACK_ID).unwrap()
 	}

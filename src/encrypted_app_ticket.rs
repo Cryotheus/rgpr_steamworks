@@ -2,7 +2,7 @@
 //! See [DecryptedAppTicket].
 
 use crate::dt::{AppId, SteamId};
-use crate::error::Error;
+use crate::error::SteamError;
 use crate::sys;
 use std::ffi::{c_uchar, c_uint};
 use std::time::{Duration, SystemTime};
@@ -32,7 +32,7 @@ impl DecryptedAppTicket {
 	/// If `key_bytes` is longer than [`k_nSteamEncryptedAppTicketSymmetricKeyLen`].
 	///
 	/// [`k_nSteamEncryptedAppTicketSymmetricKeyLen`]: https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#k_nSteamEncryptedAppTicketSymmetricKeyLen
-	pub fn new(encrypted_bytes: &[u8], key_bytes: &[u8], capacity: usize) -> Result<Self, Error> {
+	pub fn new(encrypted_bytes: &[u8], key_bytes: &[u8], capacity: usize) -> Result<Self, SteamError> {
 		assert!(
 			key_bytes.len() <= sys::k_nSteamEncryptedAppTicketSymmetricKeyLen as usize,
 			"EncryptedAppTicket key length must be <= {} bytes",
@@ -61,12 +61,12 @@ impl DecryptedAppTicket {
 				buffer.set_len(buffer_used as usize);
 
 				if buffer_used == 0 {
-					Err(Error::DataUnfulfilled)
+					Err(SteamError::DataUnfulfilled)
 				} else {
 					Ok(Self(buffer))
 				}
 			} else {
-				Err(Error::SilentFailure)
+				Err(SteamError::SilentFailure)
 			}
 		}
 	}
