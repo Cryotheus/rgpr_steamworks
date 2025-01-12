@@ -7,3 +7,7 @@ resolver = "2"
 
 [workspace.package]
 repository = "https://github.com/Cryotheus/rgpr_steamworks/"
+
+[[example]]
+name = "hello_world"
+path = "examples/hello_world.rs"

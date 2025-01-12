@@ -1,8 +1,8 @@
 use crate::sys;
+use crate::util::CStrArray;
 use std::error::Error as StdError;
-use std::ffi::{CStr, NulError};
+use std::ffi::NulError;
 use std::fmt::{Debug, Display, Formatter};
-use std::mem::transmute;
 use std::num::TryFromIntError;
 
 #[derive(Debug, Eq, PartialEq, Hash, thiserror::Error)]
@@ -202,14 +202,8 @@ pub enum Error {
 }
 
 impl Error {
-	pub(crate) fn steam_init(init_result: sys::ESteamAPIInitResult, message_bytes: sys::SteamErrMsg) -> Option<Self> {
-		let init_enum = InitErrorEnum::new(init_result)?;
-		let message_bytes = unsafe { transmute::<sys::SteamErrMsg, [u8; 1024]>(message_bytes) };
-
-		//TODO: make this a compile-time assertion
-		debug_assert_eq!(size_of::<sys::SteamErrMsg>(), size_of_val(&message_bytes));
-
-		Some(Self::SteamInit(init_enum, CStr::from_bytes_until_nul(&message_bytes).unwrap().to_string_lossy().to_string()))
+	pub(crate) fn steam_init(init_result: sys::ESteamAPIInitResult, message: CStrArray<1024>) -> Option<Self> {
+		Some(Self::SteamInit(InitErrorEnum::new(init_result)?, message.to_string()))
 	}
 }
 

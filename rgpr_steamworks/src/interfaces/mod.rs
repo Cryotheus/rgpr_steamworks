@@ -4,13 +4,15 @@ pub mod apps;
 #[cfg(feature = "steam_friends")]
 pub mod friends;
 
-use crate::call::CallManager;
-use crate::config::SteamBuilder;
+use std::ffi::c_char;
+use crate::call::{CallManager, CallThread};
+use crate::config::{CallThreadBuilder, SteamBuilder};
 use crate::dt::AppId;
 use crate::error::Error;
 use crate::{sys, Private};
 use std::ops::Deref;
 use std::sync::{Arc, Mutex, MutexGuard, RwLock, Weak};
+use crate::util::CStrArray;
 
 /// Reference to an interface's initialization function.
 type InterfaceInitFn = &'static (dyn Fn(&SteamInterface) + Send + Sync);
@@ -482,6 +484,10 @@ impl Steam {
 	}
 
 	/// Attach to the Steam API and initialize interfaces.
+	///
+	/// Called by [`SteamBuilder::build`]
+	///
+	/// [`SteamBuilder::build`]: crate::config::SteamBuilder::build
 	pub(crate) unsafe fn init(config: &SteamBuilder) -> Result<Steam, Error> {
 		let mut global_writer = STEAM_INTERFACE.write().unwrap();
 
@@ -506,8 +512,8 @@ impl Steam {
 			set_var("SteamGameId", id_str);
 		}
 
-		let mut err_msg: sys::SteamErrMsg = [0; 1024];
-		let result_cenum = sys::SteamAPI_InitFlat(&mut err_msg);
+		let mut err_msg: CStrArray<1024> = CStrArray::new();
+		let result_cenum = sys::SteamAPI_InitFlat(err_msg.as_mut());
 
 		if let Some(error) = Error::steam_init(result_cenum, err_msg) {
 			return Err(error);
@@ -521,13 +527,19 @@ impl Steam {
 		//time for us to do our init
 		let mut init_functions = Vec::new();
 
+		//convenience
+		fn mutex<T>(t: T) -> Mutex<T> {
+			Mutex::new(t)
+		}
+
 		let steam_interface = Arc::<SteamInterface>::new_cyclic(|weak| {
 			*global_writer = Weak::clone(weak);
 
 			let steam = SteamInterface {
 				app_id: config.app_id,
 				arc: Weak::clone(weak),
-				call_manager: Mutex::new(CallManager::new()),
+				call_thread: mutex(config.call_thread_config.as_ref().map(|config| CallThread::new(config.interval, SteamChild::from(weak)))),
+				call_manager: mutex(CallManager::new()),
 				interfaces: Interfaces::new(weak.into(), &mut init_functions),
 			};
 
@@ -539,8 +551,10 @@ impl Steam {
 			init_function(steam_interface.as_ref());
 		}
 
-		//drop after we finish init!
-		//this ensures
+		//we only drop the writer lock once everything is ready to be used
+		//since `Steam::get` will block the thread until it can get a reader lock
+		//we are able to make sure no instances of `Steam` are available until this drop
+		//explicit drop for significant drop
 		drop(global_writer);
 
 		Ok(Steam(steam_interface))
@@ -576,7 +590,7 @@ impl SteamChild {
 	pub(crate) fn get(&self) -> Steam {
 		Steam(self.0.upgrade().unwrap())
 	}
-	
+
 	/// Sets the internal reference to an invalid one,
 	/// allowing the reference counter to fully drop.
 	pub(crate) fn kill(&mut self) {
@@ -615,6 +629,7 @@ pub struct SteamInterface {
 	app_id: AppId,
 	arc: Weak<SteamInterface>,
 	call_manager: Mutex<CallManager>,
+	call_thread: Mutex<Option<CallThread>>,
 	interfaces: Interfaces,
 }
 
@@ -635,25 +650,29 @@ impl SteamInterface {
 	/// Calls [`ExclusiveInterfaces::client`].
 	/// # Panics
 	/// If called on the `GameServer` variant.
-	pub(crate) fn client_interfaces(&self) -> &ClientInterfaces {
+	pub fn client_interfaces(&self) -> &ClientInterfaces {
 		self.interfaces.exclusive_interfaces.client()
 	}
 
 	/// Calls [`ExclusiveInterfaces::game_server`].
 	/// # Panics
 	/// If called on the `Client` variant.
-	pub(crate) fn game_server_interfaces(&self) -> &GameServerInterfaces {
+	pub fn game_server_interfaces(&self) -> &GameServerInterfaces {
 		self.interfaces.exclusive_interfaces.game_server()
 	}
 
 	/// Calls [`ExclusiveInterfaces::get_client`].
-	pub(crate) fn get_client_interfaces(&self) -> Option<&ClientInterfaces> {
+	pub fn get_client_interfaces(&self) -> Option<&ClientInterfaces> {
 		self.interfaces.exclusive_interfaces.get_client()
 	}
 
 	/// Calls [`ExclusiveInterfaces::get_game_server`].
-	pub(crate) fn get_game_server_interfaces(&self) -> Option<&GameServerInterfaces> {
+	pub fn get_game_server_interfaces(&self) -> Option<&GameServerInterfaces> {
 		self.interfaces.exclusive_interfaces.get_game_server()
+	}
+
+	pub fn interfaces(&self) -> &Interfaces {
+		&self.interfaces
 	}
 }
 
@@ -679,6 +698,14 @@ where
 	}
 }
 
+impl AsRef<Interfaces> for SteamInterface {
+	fn as_ref(&self) -> &Interfaces {
+		&self.interfaces
+	}
+}
+
+/// Implemented by Steam API interfaces.
+/// Primarily used for initialization of the interface on both the Rust and C sides.
 pub(crate) trait Interface: Send + Sync + 'static {
 	type CInterface;
 

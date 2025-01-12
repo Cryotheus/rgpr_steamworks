@@ -7,6 +7,7 @@ use crate::{sys, Private};
 use bitflags::bitflags;
 use rgpr_steamworks_sys::SteamAPICall_t;
 use std::ffi::{c_int, c_uint, CStr, CString};
+use std::fmt::{Display, Formatter};
 use std::num::NonZeroU32;
 use std::ops::Deref;
 use std::path::PathBuf;
@@ -107,8 +108,8 @@ impl AppsInterface {
 	/// Returns `None` if you're not running a build downloaded from Steam.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetAppBuildId)
-	pub fn build_id(&self) -> Option<NonZeroU32> {
-		unsafe { NonZeroU32::new(sys::SteamAPI_ISteamApps_GetAppBuildId(*self.fip) as u32) }
+	pub fn build_id(&self) -> BuildId {
+		unsafe { sys::SteamAPI_ISteamApps_GetAppBuildId(*self.fip) }.into()
 	}
 
 	//deprecated
@@ -259,7 +260,7 @@ impl AppsInterface {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetBetaInfo)
 	pub fn get_beta(&self, index: impl IntoCIndex) -> Option<Beta> {
 		let mut flags = 0u32;
-		let mut build_id = 0u32;
+		let mut build_id = BuildId::default();
 		let mut name_buffer = CStrArray::<128>::new(); //size is as shown in example
 		let mut desc_buffer = CStrArray::<1024>::new(); //size is as shown in example
 
@@ -269,7 +270,7 @@ impl AppsInterface {
 				*self.fip,
 				index.into_c_index(),
 				&mut flags as *mut u32 as _,
-				&mut build_id as *mut u32 as _,
+				&mut build_id as *mut BuildId as _,
 				name_buffer.ptr(),
 				name_buffer.c_len(),
 				desc_buffer.ptr(),
@@ -277,7 +278,7 @@ impl AppsInterface {
 			) {
 				Some(Beta {
 					flags: BetaFlags::NONE,
-					build_id: NonZeroU32::new(build_id),
+					build_id,
 					name: name_buffer.to_string(),
 					description: desc_buffer.to_string(),
 				})
@@ -356,6 +357,11 @@ impl AppsInterface {
 		}
 	}
 
+	/// > Allows you to install an optional DLC.
+	///
+	/// Triggers a [`DlcInstalled`] callback.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#InstallDLC)
 	pub fn install_dlc(&self, app_id: impl Into<AppId>) {
 		unsafe {
 			sys::SteamAPI_ISteamApps_InstallDLC(*self.fip, app_id.into().0);
@@ -438,7 +444,10 @@ impl AppsInterface {
 
 	/// > Allows you to force verify game content on next launch.
 	/// If you detect the game is out-of-date (for example, by having the client detect a version mismatch with a server),
-	/// you can call use MarkContentCorrupt to force a verify, show a message to the user, and then quit.
+	/// you can call use `mark_content_corrupt` to force a verify, show a message to the user, and then quit.
+	///
+	/// You don't actually have to quit if you call this.
+	/// Just make sure your client is up-to-date with
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#MarkContentCorrupt)
 	pub fn mark_content_corrupt(&self, missing_files_only: bool) -> Result<(), SilentFailure> {
@@ -557,7 +566,7 @@ impl Interface for AppsInterface {
 #[derive(Clone, Debug)]
 pub struct Beta {
 	flags: BetaFlags,
-	build_id: Option<NonZeroU32>,
+	build_id: BuildId,
 	name: String,
 	description: String,
 }
@@ -568,8 +577,9 @@ impl Beta {
 		self.flags.bits() & BetaFlags::AVAILABLE.bits() != 0
 	}
 
-	/// Returns `None` if no build ID is associated with the beta.
-	pub fn build_id(&self) -> Option<NonZeroU32> {
+	/// Returns the build ID associated with the beta.
+	/// This will match what [`AppsInterface::build_id`] returns if they are on this branch.
+	pub fn build_id(&self) -> BuildId {
 		self.build_id
 	}
 
@@ -580,6 +590,7 @@ impl Beta {
 		self.flags.bits() & BetaFlags::DEFAULT.bits() != 0
 	}
 
+	/// No documentation.
 	pub fn description(&self) -> &str {
 		&self.description
 	}
@@ -589,6 +600,7 @@ impl Beta {
 		self.flags.bits() & BetaFlags::INSTALLED.bits() != 0
 	}
 
+	/// The name that is shown in the game's properties in the user's Steam library.
 	pub fn name(&self) -> &str {
 		&self.name
 	}
@@ -654,6 +666,62 @@ impl<'a> Iterator for BetaIter<'a> {
 }
 
 impl<'a> ExactSizeIterator for BetaIter<'a> {}
+
+/// A build ID
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[repr(transparent)]
+pub struct BuildId(pub Option<NonZeroU32>);
+
+impl BuildId {
+	/// Converts the `BuildId` to a `u32`.
+	#[inline(always)]
+	pub fn as_u32(self) -> u32 {
+		//as is used instead of to or into because it is very cheap to compute
+		//all of this gets compiled away anyways
+		//since we're basically doing `u32 as u32`
+		match self.0 {
+			None => 0,
+			Some(non_zero) => non_zero.get(),
+		}
+	}
+
+	/// Converts a `u32` to a `BuildId`.
+	pub fn new(u32: u32) -> Self {
+		Self(NonZeroU32::new(u32))
+	}
+
+	/// Returns `false` if the `BuildId` is `None` / `0`.
+	pub fn valid(self) -> bool {
+		self.0.is_some()
+	}
+}
+
+impl Display for BuildId {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		Display::fmt(&self.as_u32(), f)
+	}
+}
+
+impl From<BuildId> for u32 {
+	fn from(BuildId(opt): BuildId) -> Self {
+		match opt {
+			None => 0,
+			Some(non_zero) => non_zero.get(),
+		}
+	}
+}
+
+impl From<i32> for BuildId {
+	fn from(value: i32) -> Self {
+		Self::new(value as u32)
+	}
+}
+
+impl From<u32> for BuildId {
+	fn from(value: u32) -> Self {
+		Self::new(value)
+	}
+}
 
 /// Iterator which yields a [`DepotId`] for each of the current app's mounted depots.
 /// Returned by [`AppsInterface::installed_depots_iter`].
@@ -972,5 +1040,15 @@ impl Callback for TimedTrialStatus {
 
 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
 		listener_fn(params.0, params.1, params.2);
+	}
+}
+
+#[cfg(test)]
+mod test {
+	use static_assertions::assert_eq_size;
+
+	#[test]
+	fn assert_sizes() {
+		assert_eq_size!(super::BuildId, u32);
 	}
 }

@@ -1,6 +1,6 @@
 use crate::dt::SteamId;
 use crate::error::{CallError, CallFutureError};
-use crate::interfaces::SteamInterface;
+use crate::interfaces::{SteamChild, SteamInterface};
 use crate::{sys, Private};
 use futures::task::AtomicWaker;
 use std::alloc::{alloc_zeroed, dealloc, Layout};
@@ -9,12 +9,16 @@ use std::collections::HashMap;
 use std::ffi::{c_int, c_void};
 use std::fmt::{Debug, Display, Formatter};
 use std::io::{stdout, Write};
-use std::mem::{replace, zeroed};
+use std::mem::{replace, zeroed, MaybeUninit};
 use std::ops::DerefMut;
 use std::pin::Pin;
-use std::slice;
+use std::process::Output;
+use std::sync::mpsc::{channel, Receiver, RecvError, SendError, Sender, TryRecvError};
 use std::sync::{Arc, Mutex, Weak};
 use std::task::{Context, Poll, Waker};
+use std::thread::JoinHandle;
+use std::time::{Duration, Instant, SystemTime};
+use std::{slice, thread};
 
 type AnySend = dyn Any + Send + Sync;
 
@@ -331,7 +335,7 @@ impl CallManager {
 	/// ```rs
 	/// # use rgpr_steamworks::call::CallManager;
 	/// use rgpr_steamworks::interfaces::apps::DlcInstalled;
-	/// 
+	///
 	/// // Just a type to be used as an identifier.
 	/// // IDs are unique to only the callback,
 	/// // meaning you can re-use the ID for different callback types.
@@ -357,7 +361,10 @@ impl CallManager {
 		<C as CallbackRaw>::Output: Clone,
 	{
 		let callback_handler = self.get_or_register_pub::<C>();
-		let listener_fns = callback_handler.listeners.as_mut().expect("report this - listen on callback without listeners collection, see CallManager::register_raw for safety concerns");
+		let listener_fns = callback_handler
+			.listeners
+			.as_mut()
+			.expect("report this - listen on callback without listeners collection, see CallManager::register_raw for safety concerns");
 		let fn_box: Box<C::Fn> = listener_fn.into();
 
 		//because in order to cast a type as dyn Any
@@ -511,6 +518,122 @@ impl Drop for CallManager {
 	}
 }
 
+/// Calls `CallManager::run` routinely.
+#[derive(Debug)]
+pub struct CallThread {
+	/// # Safety
+	/// Becomes uninit after [`Drop::drop`].
+	thread: MaybeUninit<CallThreadInner>,
+}
+
+impl CallThread {
+	/// Manages a thread for automatically running the [`CallManager`].
+	pub(crate) fn new(interval: Duration, steam: SteamChild) -> Self {
+		Self {
+			thread: MaybeUninit::new(CallThreadInner::new(interval, steam)),
+		}
+	}
+
+	/// Starts running the [`CallManager`] on the interval specified in [`new`].
+	/// # Panics
+	/// If the thread panicked or was shutdown.
+	///
+	/// [`new`]: Self::new
+	pub fn start(&mut self) {
+		unsafe { self.thread.assume_init_mut() }.send_command(CallThreadCommand::Start).unwrap()
+	}
+
+	/// Suspends running the [`CallManager`] causing the thread to only wait for a command.
+	/// # Panics
+	/// If the thread panicked or was shutdown.
+	pub fn stop(&mut self) {
+		unsafe { self.thread.assume_init_mut() }.send_command(CallThreadCommand::Stop).unwrap()
+	}
+}
+
+impl Drop for CallThread {
+	fn drop(&mut self) {
+		unsafe { replace(&mut self.thread, MaybeUninit::uninit()).assume_init() }.kill();
+	}
+}
+
+/// Used by [`CallThreadInner`] for control flow.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum CallThreadCommand {
+	/// Start the callback loop.
+	Start,
+
+	/// Stop the callback loop.
+	Stop,
+
+	/// Kill the callback thread.
+	/// Using [`CallThreadInner::kill`] is preferrable.
+	Kill,
+}
+
+/// The thread handle and channel use by [`CallThread`].
+#[derive(Debug)]
+struct CallThreadInner {
+	command_tx: Sender<CallThreadCommand>,
+	handle: JoinHandle<()>,
+}
+
+impl CallThreadInner {
+	fn new(interval: Duration, steam_child: SteamChild) -> Self {
+		let (command_tx, command_rx) = channel::<CallThreadCommand>();
+
+		let handle = thread::spawn(move || {
+			let mut run = false;
+			let command_rx = command_rx;
+
+			loop {
+				if run {
+					let hit_time = Instant::now() + interval;
+
+					match command_rx.try_recv() {
+						Ok(CallThreadCommand::Stop) => {
+							run = false;
+
+							continue;
+						}
+
+						Ok(CallThreadCommand::Start) | Err(TryRecvError::Empty) => {}
+						Ok(CallThreadCommand::Kill) | Err(TryRecvError::Disconnected) => return,
+					}
+
+					let steam = steam_child.get();
+					let mut guard = steam.call_manager_lock();
+
+					guard.run();
+					drop(guard); //explicit drop for significant drop
+
+					thread::sleep(Instant::now().saturating_duration_since(hit_time));
+				} else {
+					match command_rx.recv() {
+						Ok(CallThreadCommand::Start) => run = true,
+						Ok(CallThreadCommand::Stop) => continue,
+						Ok(CallThreadCommand::Kill) | Err(RecvError) => return,
+					}
+				};
+			}
+		});
+
+		Self { command_tx, handle }
+	}
+
+	fn kill(mut self) {
+		if self.send_command(CallThreadCommand::Kill).is_ok() {
+			self.handle.join().unwrap();
+		}
+	}
+
+	fn send_command(&mut self, command: CallThreadCommand) -> Result<(), SendError<CallThreadCommand>> {
+		//using `.send` does not require mutability,
+		//but a mutable reference does rule out race conditions from being an internal issue
+		self.command_tx.send(command)
+	}
+}
+
 /// A single call dispatched through the Steam API.
 #[derive(Debug)]
 struct Dispatched {
@@ -561,7 +684,7 @@ where
 /// have functions that fulfil the callback's purpose.
 ///
 /// # Safety
-/// - `CType` must match the type associated with the `CALLBACK_ID`.
+/// `CType` must match the type associated with the `CALLBACK_ID`.
 pub unsafe trait CallbackRaw: Sized + Send + Sync + 'static {
 	#[doc(hidden)]
 	const CALLBACK_ID: i32;
@@ -572,6 +695,8 @@ pub unsafe trait CallbackRaw: Sized + Send + Sync + 'static {
 	/// [`on_callback`]: Self::on_callback
 	type CType: Send + Sync;
 
+	/// The type returned from `on_callback`.
+	/// Used by [`Callback`] for calling listener functions.
 	type Output;
 
 	/// Called when the targetted callback was received.
@@ -585,21 +710,11 @@ pub unsafe trait CallbackRaw: Sized + Send + Sync + 'static {
 	fn register(steam: &SteamInterface) -> Self;
 }
 
-//TODO: investigate if SteamAPI_ReleaseCurrentThreadMemory is necessary
-//for game servers: SteamGameServer_ReleaseCurrentThreadMemory
-//could try by attaching as many interfaces as possible,
-//calling async fns and triggering callbacks from as many different threads as possible
-//and recording the memory with a debugger
-//then doing some manual analysis or using a heatmap
-//
-//if the fn does need to be called,
-//it should occasionally be called in `CallFuture`'s `Future::poll` impl
-//
 /// Implementations should initiate a call to the Steam API
 /// which returns a `SteamAPICall_t`.
 /// The [CallManager] will then take the result, and pass it to `post`.
 ///
-/// # Unsafe
+/// # Safety
 /// `Self::CType` must match the type returned from the dispatched call result.
 #[doc(hidden)]
 pub unsafe trait Dispatch: Send {
@@ -617,50 +732,24 @@ pub unsafe trait Dispatch: Send {
 	/// The type returned for failed calls.
 	type Error: Debug + std::error::Error;
 
-	unsafe fn dispatch(&mut self, private: Private) -> sys::SteamAPICall_t;
+	/// For dispatching the asynchronous call.
+	/// Asynchronous calls in the Steam API always return a `SteamAPICall_t`.
+	/// If your call to the Steam API returns its result in a named callback instead,
+	/// you will have to setup your own channel between the callback and your `async fn`.
+	unsafe fn dispatch(&mut self, _: Private) -> sys::SteamAPICall_t;
 
-	fn post(&mut self, c_data: Box<Self::CType>, private: Private) -> Result<Self::Output, Self::Error>;
+	/// Copy fields from the `c_data` here for use inside the callback or for output.
+	/// Although it should be safe, avoid holding onto the `CType` itself.
+	/// Never serve the raw `CType` outside of the crate.
+	fn post(&mut self, c_data: Box<Self::CType>, _: Private) -> Result<Self::Output, Self::Error>;
 }
 
+//TODO: investigate if SteamAPI_ReleaseCurrentThreadMemory is necessary
+//for game servers: SteamGameServer_ReleaseCurrentThreadMemory
+//could try by attaching as many interfaces as possible,
+//calling async fns and triggering callbacks from as many different threads as possible
+//and recording the memory with a debugger
+//then doing some manual analysis or using a heatmap
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//for testing
-#[derive(Debug)]
-struct UserStatsUnloaded;
-
-impl Callback for UserStatsUnloaded {
-	type Fn = dyn Fn(SteamId) + Sync + Send;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
-		listener_fn(params)
-	}
-}
-
-unsafe impl CallbackRaw for UserStatsUnloaded {
-	const CALLBACK_ID: i32 = sys::UserStatsUnloaded_t_k_iCallback as i32;
-	type CType = sys::UserStatsUnloaded_t;
-	type Output = SteamId;
-
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
-		todo!();
-	}
-
-	fn register(_steam: &SteamInterface) -> Self {
-		Self
-	}
-}
+//if the fn does need to be called,
+//it should occasionally be called in `CallFuture`'s `Future::poll` impl
