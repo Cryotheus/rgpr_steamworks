@@ -1,9 +1,10 @@
 [package]
 name = "rgpr_steamworks"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 exclude = ["rgpr_steamworks_sys", ".github", ".idea", "rustfmt.toml"]
 repository.workspace = true
+rust-version = "1.84.0"
 
 [workspace]
 resolver = "2"
@@ -20,7 +21,7 @@ sys = []
 
 #steam interfaces to initialize
 steam_apps = [] #available with game_server
-steam_client = [] #available with game_server
+steam_client = ["dep:lru"] #available with game_server
 steam_friends = []
 steam_game_coordinator = []
 steam_game_server = [] #game server only
@@ -53,7 +54,7 @@ steam_encrypted_app_ticket = []
 bitflags = "2.7.0"
 futures = "0.3.31"
 image = { version = "0.25.5", optional = true }
-lru = "0.12.5"
+lru = { version = "0.12.5", optional = true }
 rgpr_steamworks_sys = { path = "rgpr_steamworks_sys" }
 static_assertions = "1.1.0"
 thiserror = "2.0.11"
