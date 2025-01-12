@@ -1,4 +1,4 @@
-//====== Copyright ©, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½, Valve Corporation, All rights reserved. =======
 //
 // Purpose: interface to the game coordinator for this application
 //

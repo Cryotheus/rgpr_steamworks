@@ -23,7 +23,10 @@ fn main() {
 	// Steam interfaces can be accessed from any thread.
 	let task: JoinHandle<bool> = thread::spawn(check_if_vac_banned);
 
-	println!("Your Steam ID 64 is {owner_steam_id}! Thanks for playing build #{build_id} of my game! Valid build: {}.", build_id.valid());
+	println!(
+		"Your Steam ID 64 is {owner_steam_id}! Thanks for playing build #{build_id} of my game! Valid build: {}.",
+		build_id.valid()
+	);
 	println!("There are currently {dlc_count} DLC available: {dlcs_str}");
 
 	for beta in apps_ifc.beta_iter() {

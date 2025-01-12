@@ -1,6 +1,6 @@
 use crate::call::{Callback, CallbackRaw, Dispatch};
 use crate::dt::{AppId, CsvString, DepotId, IntoCIndex, SteamId};
-use crate::error::{CallError, SteamError, GeneralError, SilentFailure};
+use crate::error::{CallError, GeneralError, SilentFailure, SteamError};
 use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
 use crate::util::{some_string, success, CStrArray, CStrArrayPath, MAX_PATH};
 use crate::{sys, Private};

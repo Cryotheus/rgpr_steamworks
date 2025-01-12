@@ -50,7 +50,10 @@ fn main() {
 		"macos" | "apple" => "dylib",
 		"windows" => "dll",
 		os => {
-			println!("cargo:warning=failed to resolve dylib extension for os `{os}`, defaulting to the host's extension of `{}` which will break cross-compilation", std::env::consts::DLL_EXTENSION);
+			println!(
+				"cargo:warning=failed to resolve dylib extension for os `{os}`, defaulting to the host's extension of `{}` which will break cross-compilation",
+				std::env::consts::DLL_EXTENSION
+			);
 
 			std::env::consts::DLL_EXTENSION
 		}

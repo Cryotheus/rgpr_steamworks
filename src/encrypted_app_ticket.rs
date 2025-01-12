@@ -1,10 +1,11 @@
 //! Utilities for verifying a user's identity
 //! See [DecryptedAppTicket].
+//!
+//! This does not require [`Steam`].
 
 use crate::dt::{AppId, SteamId};
-use crate::error::SteamError;
 use crate::sys;
-use std::ffi::{c_uchar, c_uint};
+use std::ffi::c_uchar;
 use std::time::{Duration, SystemTime};
 
 /// Expect a lack of documentation, as Steamworks lacks documentation for half of this API.  
@@ -32,7 +33,7 @@ impl DecryptedAppTicket {
 	/// If `key_bytes` is longer than [`k_nSteamEncryptedAppTicketSymmetricKeyLen`].
 	///
 	/// [`k_nSteamEncryptedAppTicketSymmetricKeyLen`]: https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#k_nSteamEncryptedAppTicketSymmetricKeyLen
-	pub fn new(encrypted_bytes: &[u8], key_bytes: &[u8], capacity: usize) -> Result<Self, SteamError> {
+	pub fn new(encrypted_bytes: &[u8], key_bytes: &[u8], capacity: usize) -> Result<Self, DecryptionError> {
 		assert!(
 			key_bytes.len() <= sys::k_nSteamEncryptedAppTicketSymmetricKeyLen as usize,
 			"EncryptedAppTicket key length must be <= {} bytes",
@@ -61,12 +62,12 @@ impl DecryptedAppTicket {
 				buffer.set_len(buffer_used as usize);
 
 				if buffer_used == 0 {
-					Err(SteamError::DataUnfulfilled)
+					Err(DecryptionError::DataUnfulfilled)
 				} else {
 					Ok(Self(buffer))
 				}
 			} else {
-				Err(SteamError::SilentFailure)
+				Err(DecryptionError::SilentFailure)
 			}
 		}
 	}
@@ -158,7 +159,7 @@ impl DecryptedAppTicket {
 
 	/// No documentation for this function is currently available on the Steamworks reference.
 	#[cfg(feature = "sys")]
-	pub unsafe fn get_user_variable_data(&self, ptr: *mut c_uint) -> *const c_uchar {
+	pub unsafe fn get_user_variable_data(&self, ptr: *mut std::ffi::c_uint) -> *const c_uchar {
 		//TODO: figure this out
 		sys::SteamEncryptedAppTicket_GetUserVariableData(self.ptr(), self.cub(), ptr)
 	}
@@ -174,4 +175,13 @@ impl From<DecryptedAppTicket> for Vec<u8> {
 	fn from(DecryptedAppTicket(value): DecryptedAppTicket) -> Self {
 		value
 	}
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, thiserror::Error)]
+pub enum DecryptionError {
+	#[error("locations for data were not filled")]
+	DataUnfulfilled,
+
+	#[error("failed, no error message from the SteamEncryptedAppTicket API is available")]
+	SilentFailure,
 }

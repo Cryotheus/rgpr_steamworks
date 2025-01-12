@@ -4,9 +4,9 @@
 
 //! Generated bindings to [Steamworks](https://partner.steamgames.com/).
 
-#[cfg_attr(target_os = "linux", path="bindings/linux.rs")]
-#[cfg_attr(target_os = "macos", path="bindings/macos.rs")]
-#[cfg_attr(target_os = "windows", path="bindings/windows.rs")]
+#[cfg_attr(target_os = "linux", path = "bindings/linux.rs")]
+#[cfg_attr(target_os = "macos", path = "bindings/macos.rs")]
+#[cfg_attr(target_os = "windows", path = "bindings/windows.rs")]
 mod sys;
 
 pub use sys::*;

@@ -88,7 +88,21 @@ Both Steam Deck and MacOs are untested.
 Mac requires the bindings in [rgpr_steamworks_sys](rgpr_steamworks_sys) to be generated.
 
 # Building
+Use `cargo run` and `cargo build` as you normally would.  
 
+When shipping your binaries, make sure to include the binaries in [steamworks_sdk/\<target os\>/\<target arch\>](rgpr_steamworks_sys/lib/steamworks_sdk).  
+
+For example,
+- On 64bit Windows: [`rgpr_steamworks_sys/lib/steamworks_sdk/windows/64/steam_api64.dll`](rgpr_steamworks_sys/lib/steamworks_sdk/windows/64)
+- On 32bit Linux: [`rgpr_steamworks_sys/lib/steamworks_sdk/windows/32/libsteam_api.dll`](rgpr_steamworks_sys/lib/steamworks_sdk/windows/32)
+
+You will always need `libsteam_api` / `steam_api` / `steam_api64`.
+
+If the `steam_encrypted_app_ticket` feature is enabled, make sure to include `libsdkencryptedappticket` / `sdkencryptedappticket` / `sdkencryptedappticket64`.
+
+# Executable won't run?
+
+See [Building](#building).
 
 # License
 This project is licensed under either of

@@ -1766,7 +1766,7 @@ unsafe extern "C" {
 unsafe extern "C" {
 	pub fn SteamAPI_UnregisterCallResult(pCallback: *mut CCallbackBase, hAPICall: SteamAPICall_t);
 }
-//#[doc = " Internal structure used in manual callback dispatch"]
+#[doc = " Internal structure used in manual callback dispatch"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct CallbackMsg_t {
@@ -3796,7 +3796,7 @@ pub const k_cbMaxGameServerGameDescription: ::std::os::raw::c_int = 64;
 pub const k_cbMaxGameServerName: ::std::os::raw::c_int = 64;
 pub const k_cbMaxGameServerTags: ::std::os::raw::c_int = 128;
 pub const k_cbMaxGameServerGameData: ::std::os::raw::c_int = 2048;
-//#[doc = " Store key/value pair used in matchmaking queries.\n\n Actually, the name Key/Value is a bit misleading.  The \"key\" is better\n understood as \"filter operation code\" and the \"value\" is the operand to this\n filter operation.  The meaning of the operand depends upon the filter."]
+#[doc = " Store key/value pair used in matchmaking queries.\n\n Actually, the name Key/Value is a bit misleading.  The \"key\" is better\n understood as \"filter operation code\" and the \"value\" is the operand to this\n filter operation.  The meaning of the operand depends upon the filter."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct MatchMakingKeyValuePair_t {
@@ -3836,41 +3836,41 @@ const _: () = {
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct gameserveritem_t {
-	//#[doc = "< IP/Query Port/Connection Port for this server"]
+	#[doc = "< IP/Query Port/Connection Port for this server"]
 	pub m_NetAdr: servernetadr_t,
-	//#[doc = "< current ping time in milliseconds"]
+	#[doc = "< current ping time in milliseconds"]
 	pub m_nPing: ::std::os::raw::c_int,
-	//#[doc = "< server has responded successfully in the past"]
+	#[doc = "< server has responded successfully in the past"]
 	pub m_bHadSuccessfulResponse: bool,
-	//#[doc = "< server is marked as not responding and should no longer be refreshed"]
+	#[doc = "< server is marked as not responding and should no longer be refreshed"]
 	pub m_bDoNotRefresh: bool,
-	//#[doc = "< current game directory"]
+	#[doc = "< current game directory"]
 	pub m_szGameDir: [::std::os::raw::c_char; 32usize],
-	//#[doc = "< current map"]
+	#[doc = "< current map"]
 	pub m_szMap: [::std::os::raw::c_char; 32usize],
-	//#[doc = "< game description"]
+	#[doc = "< game description"]
 	pub m_szGameDescription: [::std::os::raw::c_char; 64usize],
-	//#[doc = "< Steam App ID of this server"]
+	#[doc = "< Steam App ID of this server"]
 	pub m_nAppID: uint32,
-	//#[doc = "< total number of players currently on the server.  INCLUDES BOTS!!"]
+	#[doc = "< total number of players currently on the server.  INCLUDES BOTS!!"]
 	pub m_nPlayers: ::std::os::raw::c_int,
-	//#[doc = "< Maximum players that can join this server"]
+	#[doc = "< Maximum players that can join this server"]
 	pub m_nMaxPlayers: ::std::os::raw::c_int,
-	//#[doc = "< Number of bots (i.e simulated players) on this server"]
+	#[doc = "< Number of bots (i.e simulated players) on this server"]
 	pub m_nBotPlayers: ::std::os::raw::c_int,
-	//#[doc = "< true if this server needs a password to join"]
+	#[doc = "< true if this server needs a password to join"]
 	pub m_bPassword: bool,
-	//#[doc = "< Is this server protected by VAC"]
+	#[doc = "< Is this server protected by VAC"]
 	pub m_bSecure: bool,
-	//#[doc = "< time (in unix time) when this server was last played on (for favorite/history servers)"]
+	#[doc = "< time (in unix time) when this server was last played on (for favorite/history servers)"]
 	pub m_ulTimeLastPlayed: uint32,
-	//#[doc = "< server version as reported to Steam"]
+	#[doc = "< server version as reported to Steam"]
 	pub m_nServerVersion: ::std::os::raw::c_int,
-	//#[doc = " Game server name"]
+	#[doc = " Game server name"]
 	pub m_szServerName: [::std::os::raw::c_char; 64usize],
-	//#[doc = " the tags this server exposes"]
+	#[doc = " the tags this server exposes"]
 	pub m_szGameTags: [::std::os::raw::c_char; 128usize],
-	//#[doc = " steamID of the game server - invalid if it's doesn't have one (old server, or not connected to Steam)"]
+	#[doc = " steamID of the game server - invalid if it's doesn't have one (old server, or not connected to Steam)"]
 	pub m_steamID: CSteamID,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
@@ -5967,7 +5967,7 @@ pub enum ESNetSocketConnectionType {
 }
 #[repr(C)]
 pub struct ISteamNetworking__bindgen_vtable(::std::os::raw::c_void);
-//#[doc = "      the Steamworks SDK.  Please see ISteamNetworkingSockets and\n      ISteamNetworkingMessages"]
+#[doc = "      the Steamworks SDK.  Please see ISteamNetworkingSockets and\n      ISteamNetworkingMessages"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct ISteamNetworking {
@@ -9533,26 +9533,26 @@ pub type FnSteamRelayNetworkStatusChanged = ::std::option::Option<unsafe extern 
 pub type FnSteamNetworkingMessagesSessionRequest = ::std::option::Option<unsafe extern "C" fn(arg1: *mut SteamNetworkingMessagesSessionRequest_t)>;
 pub type FnSteamNetworkingMessagesSessionFailed = ::std::option::Option<unsafe extern "C" fn(arg1: *mut SteamNetworkingMessagesSessionFailed_t)>;
 pub type FnSteamNetworkingFakeIPResult = ::std::option::Option<unsafe extern "C" fn(arg1: *mut SteamNetworkingFakeIPResult_t)>;
-//#[doc = " Handle used to identify a connection to a remote host."]
+#[doc = " Handle used to identify a connection to a remote host."]
 pub type HSteamNetConnection = uint32;
 pub const k_HSteamNetConnection_Invalid: HSteamNetConnection = 0;
-//#[doc = " Handle used to identify a \"listen socket\".  Unlike traditional\n Berkeley sockets, a listen socket and a connection are two\n different abstractions."]
+#[doc = " Handle used to identify a \"listen socket\".  Unlike traditional\n Berkeley sockets, a listen socket and a connection are two\n different abstractions."]
 pub type HSteamListenSocket = uint32;
 pub const k_HSteamListenSocket_Invalid: HSteamListenSocket = 0;
-//#[doc = " Handle used to identify a poll group, used to query many\n connections at once efficiently."]
+#[doc = " Handle used to identify a poll group, used to query many\n connections at once efficiently."]
 pub type HSteamNetPollGroup = uint32;
 pub const k_HSteamNetPollGroup_Invalid: HSteamNetPollGroup = 0;
-//#[doc = " Max length of diagnostic error message"]
+#[doc = " Max length of diagnostic error message"]
 pub const k_cchMaxSteamNetworkingErrMsg: ::std::os::raw::c_int = 1024;
-//#[doc = " Used to return English-language diagnostic error messages to caller.\n (For debugging or spewing to a console, etc.  Not intended for UI.)"]
+#[doc = " Used to return English-language diagnostic error messages to caller.\n (For debugging or spewing to a console, etc.  Not intended for UI.)"]
 pub type SteamNetworkingErrMsg = [::std::os::raw::c_char; 1024usize];
-//#[doc = " Identifier used for a network location point of presence.  (E.g. a Valve data center.)\n Typically you won't need to directly manipulate these."]
+#[doc = " Identifier used for a network location point of presence.  (E.g. a Valve data center.)\n Typically you won't need to directly manipulate these."]
 pub type SteamNetworkingPOPID = uint32;
-//#[doc = " A local timestamp.  You can subtract two timestamps to get the number of elapsed\n microseconds.  This is guaranteed to increase over time during the lifetime\n of a process, but not globally across runs.  You don't need to worry about\n the value wrapping around.  Note that the underlying clock might not actually have\n microsecond resolution."]
+#[doc = " A local timestamp.  You can subtract two timestamps to get the number of elapsed\n microseconds.  This is guaranteed to increase over time during the lifetime\n of a process, but not globally across runs.  You don't need to worry about\n the value wrapping around.  Note that the underlying clock might not actually have\n microsecond resolution."]
 pub type SteamNetworkingMicroseconds = int64;
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " Describe the status of a particular network resource"]
+#[doc = " Describe the status of a particular network resource"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingAvailability {
 	k_ESteamNetworkingAvailability_CannotTry = -102,
@@ -9568,7 +9568,7 @@ pub enum ESteamNetworkingAvailability {
 }
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " Different methods of describing the identity of a network host"]
+#[doc = " Different methods of describing the identity of a network host"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingIdentityType {
 	k_ESteamNetworkingIdentityType_Invalid = 0,
@@ -9583,7 +9583,7 @@ pub enum ESteamNetworkingIdentityType {
 }
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " \"Fake IPs\" are assigned to hosts, to make it easier to interface with\n older code that assumed all hosts will have an IPv4 address"]
+#[doc = " \"Fake IPs\" are assigned to hosts, to make it easier to interface with\n older code that assumed all hosts will have an IPv4 address"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingFakeIPType {
 	k_ESteamNetworkingFakeIPType_Invalid = 0,
@@ -9592,7 +9592,7 @@ pub enum ESteamNetworkingFakeIPType {
 	k_ESteamNetworkingFakeIPType_LocalIPv4 = 3,
 	k_ESteamNetworkingFakeIPType__Force32Bit = 2147483647,
 }
-//#[doc = " Store an IP and port.  IPv6 is always used; IPv4 is represented using\n \"IPv4-mapped\" addresses: IPv4 aa.bb.cc.dd => IPv6 ::ffff:aabb:ccdd\n (RFC 4291 section 2.5.5.2.)"]
+#[doc = " Store an IP and port.  IPv6 is always used; IPv4 is represented using\n \"IPv4-mapped\" addresses: IPv4 aa.bb.cc.dd => IPv6 ::ffff:aabb:ccdd\n (RFC 4291 section 2.5.5.2.)"]
 #[repr(C, packed)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingIPAddr {
@@ -9606,7 +9606,7 @@ pub const SteamNetworkingIPAddr_k_cchMaxString: SteamNetworkingIPAddr__bindgen_t
 pub enum SteamNetworkingIPAddr__bindgen_ty_1 {
 	k_cchMaxString = 48,
 }
-//#[doc = " RFC4038, section 4.2"]
+#[doc = " RFC4038, section 4.2"]
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingIPAddr_IPv4MappedAddress {
@@ -9643,11 +9643,11 @@ const _: () = {
 	["Alignment of SteamNetworkingIPAddr"][::std::mem::align_of::<SteamNetworkingIPAddr>() - 1usize];
 	["Offset of field: SteamNetworkingIPAddr::m_port"][::std::mem::offset_of!(SteamNetworkingIPAddr, m_port) - 16usize];
 };
-//#[doc = " An abstract way to represent the identity of a network host.  All identities can\n be represented as simple string.  Furthermore, this string representation is actually\n used on the wire in several places, even though it is less efficient, in order to\n facilitate forward compatibility.  (Old client code can handle an identity type that\n it doesn't understand.)"]
+#[doc = " An abstract way to represent the identity of a network host.  All identities can\n be represented as simple string.  Furthermore, this string representation is actually\n used on the wire in several places, even though it is less efficient, in order to\n facilitate forward compatibility.  (Old client code can handle an identity type that\n it doesn't understand.)"]
 #[repr(C, packed)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingIdentity {
-	//#[doc = " Type of identity."]
+	#[doc = " Type of identity."]
 	pub m_eType: ESteamNetworkingIdentityType,
 	pub m_cbSize: ::std::os::raw::c_int,
 	pub __bindgen_anon_1: SteamNetworkingIdentity__bindgen_ty_2,
@@ -9698,28 +9698,28 @@ const _: () = {
 };
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " High level connection status"]
+#[doc = " High level connection status"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConnectionState {
-	//#[doc = " Dummy value used to indicate an error condition in the API.\n Specified connection doesn't exist or has already been closed."]
+	#[doc = " Dummy value used to indicate an error condition in the API.\n Specified connection doesn't exist or has already been closed."]
 	k_ESteamNetworkingConnectionState_None = 0,
-	//#[doc = " We are trying to establish whether peers can talk to each other,\n whether they WANT to talk to each other, perform basic auth,\n and exchange crypt keys.\n\n - For connections on the \"client\" side (initiated locally):\n   We're in the process of trying to establish a connection.\n   Depending on the connection type, we might not know who they are.\n   Note that it is not possible to tell if we are waiting on the\n   network to complete handshake packets, or for the application layer\n   to accept the connection.\n\n - For connections on the \"server\" side (accepted through listen socket):\n   We have completed some basic handshake and the client has presented\n   some proof of identity.  The connection is ready to be accepted\n   using AcceptConnection().\n\n In either case, any unreliable packets sent now are almost certain\n to be dropped.  Attempts to receive packets are guaranteed to fail.\n You may send messages if the send mode allows for them to be queued.\n but if you close the connection before the connection is actually\n established, any queued messages will be discarded immediately.\n (We will not attempt to flush the queue and confirm delivery to the\n remote host, which ordinarily happens when a connection is closed.)"]
+	#[doc = " We are trying to establish whether peers can talk to each other,\n whether they WANT to talk to each other, perform basic auth,\n and exchange crypt keys.\n\n - For connections on the \"client\" side (initiated locally):\n   We're in the process of trying to establish a connection.\n   Depending on the connection type, we might not know who they are.\n   Note that it is not possible to tell if we are waiting on the\n   network to complete handshake packets, or for the application layer\n   to accept the connection.\n\n - For connections on the \"server\" side (accepted through listen socket):\n   We have completed some basic handshake and the client has presented\n   some proof of identity.  The connection is ready to be accepted\n   using AcceptConnection().\n\n In either case, any unreliable packets sent now are almost certain\n to be dropped.  Attempts to receive packets are guaranteed to fail.\n You may send messages if the send mode allows for them to be queued.\n but if you close the connection before the connection is actually\n established, any queued messages will be discarded immediately.\n (We will not attempt to flush the queue and confirm delivery to the\n remote host, which ordinarily happens when a connection is closed.)"]
 	k_ESteamNetworkingConnectionState_Connecting = 1,
-	//#[doc = " Some connection types use a back channel or trusted 3rd party\n for earliest communication.  If the server accepts the connection,\n then these connections switch into the rendezvous state.  During this\n state, we still have not yet established an end-to-end route (through\n the relay network), and so if you send any messages unreliable, they\n are going to be discarded."]
+	#[doc = " Some connection types use a back channel or trusted 3rd party\n for earliest communication.  If the server accepts the connection,\n then these connections switch into the rendezvous state.  During this\n state, we still have not yet established an end-to-end route (through\n the relay network), and so if you send any messages unreliable, they\n are going to be discarded."]
 	k_ESteamNetworkingConnectionState_FindingRoute = 2,
-	//#[doc = " We've received communications from our peer (and we know\n who they are) and are all good.  If you close the connection now,\n we will make our best effort to flush out any reliable sent data that\n has not been acknowledged by the peer.  (But note that this happens\n from within the application process, so unlike a TCP connection, you are\n not totally handing it off to the operating system to deal with it.)"]
+	#[doc = " We've received communications from our peer (and we know\n who they are) and are all good.  If you close the connection now,\n we will make our best effort to flush out any reliable sent data that\n has not been acknowledged by the peer.  (But note that this happens\n from within the application process, so unlike a TCP connection, you are\n not totally handing it off to the operating system to deal with it.)"]
 	k_ESteamNetworkingConnectionState_Connected = 3,
-	//#[doc = " Connection has been closed by our peer, but not closed locally.\n The connection still exists from an API perspective.  You must close the\n handle to free up resources.  If there are any messages in the inbound queue,\n you may retrieve them.  Otherwise, nothing may be done with the connection\n except to close it.\n\n This stats is similar to CLOSE_WAIT in the TCP state machine."]
+	#[doc = " Connection has been closed by our peer, but not closed locally.\n The connection still exists from an API perspective.  You must close the\n handle to free up resources.  If there are any messages in the inbound queue,\n you may retrieve them.  Otherwise, nothing may be done with the connection\n except to close it.\n\n This stats is similar to CLOSE_WAIT in the TCP state machine."]
 	k_ESteamNetworkingConnectionState_ClosedByPeer = 4,
-	//#[doc = " A disruption in the connection has been detected locally.  (E.g. timeout,\n local internet connection disrupted, etc.)\n\n The connection still exists from an API perspective.  You must close the\n handle to free up resources.\n\n Attempts to send further messages will fail.  Any remaining received messages\n in the queue are available."]
+	#[doc = " A disruption in the connection has been detected locally.  (E.g. timeout,\n local internet connection disrupted, etc.)\n\n The connection still exists from an API perspective.  You must close the\n handle to free up resources.\n\n Attempts to send further messages will fail.  Any remaining received messages\n in the queue are available."]
 	k_ESteamNetworkingConnectionState_ProblemDetectedLocally = 5,
-	//#[doc = " We've disconnected on our side, and from an API perspective the connection is closed.\n No more data may be sent or received.  All reliable data has been flushed, or else\n we've given up and discarded it.  We do not yet know for sure that the peer knows\n the connection has been closed, however, so we're just hanging around so that if we do\n get a packet from them, we can send them the appropriate packets so that they can\n know why the connection was closed (and not have to rely on a timeout, which makes\n it appear as if something is wrong)."]
+	#[doc = " We've disconnected on our side, and from an API perspective the connection is closed.\n No more data may be sent or received.  All reliable data has been flushed, or else\n we've given up and discarded it.  We do not yet know for sure that the peer knows\n the connection has been closed, however, so we're just hanging around so that if we do\n get a packet from them, we can send them the appropriate packets so that they can\n know why the connection was closed (and not have to rely on a timeout, which makes\n it appear as if something is wrong)."]
 	k_ESteamNetworkingConnectionState_FinWait = -1,
-	//#[doc = " We've disconnected on our side, and from an API perspective the connection is closed.\n No more data may be sent or received.  From a network perspective, however, on the wire,\n we have not yet given any indication to the peer that the connection is closed.\n We are in the process of flushing out the last bit of reliable data.  Once that is done,\n we will inform the peer that the connection has been closed, and transition to the\n FinWait state.\n\n Note that no indication is given to the remote host that we have closed the connection,\n until the data has been flushed.  If the remote host attempts to send us data, we will\n do whatever is necessary to keep the connection alive until it can be closed properly.\n But in fact the data will be discarded, since there is no way for the application to\n read it back.  Typically this is not a problem, as application protocols that utilize\n the lingering functionality are designed for the remote host to wait for the response\n before sending any more data."]
+	#[doc = " We've disconnected on our side, and from an API perspective the connection is closed.\n No more data may be sent or received.  From a network perspective, however, on the wire,\n we have not yet given any indication to the peer that the connection is closed.\n We are in the process of flushing out the last bit of reliable data.  Once that is done,\n we will inform the peer that the connection has been closed, and transition to the\n FinWait state.\n\n Note that no indication is given to the remote host that we have closed the connection,\n until the data has been flushed.  If the remote host attempts to send us data, we will\n do whatever is necessary to keep the connection alive until it can be closed properly.\n But in fact the data will be discarded, since there is no way for the application to\n read it back.  Typically this is not a problem, as application protocols that utilize\n the lingering functionality are designed for the remote host to wait for the response\n before sending any more data."]
 	k_ESteamNetworkingConnectionState_Linger = -2,
-	//#[doc = " Connection is completely inactive and ready to be destroyed"]
+	#[doc = " Connection is completely inactive and ready to be destroyed"]
 	k_ESteamNetworkingConnectionState_Dead = -3,
-	//#[doc = " Connection is completely inactive and ready to be destroyed"]
+	#[doc = " Connection is completely inactive and ready to be destroyed"]
 	k_ESteamNetworkingConnectionState__Force32Bit = 2147483647,
 }
 impl ESteamNetConnectionEnd {
@@ -9730,7 +9730,7 @@ impl ESteamNetConnectionEnd {
 }
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " Enumerate various causes of connection termination.  These are designed to work similar\n to HTTP error codes: the numeric range gives you a rough classification as to the source\n of the problem."]
+#[doc = " Enumerate various causes of connection termination.  These are designed to work similar\n to HTTP error codes: the numeric range gives you a rough classification as to the source\n of the problem."]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetConnectionEnd {
 	k_ESteamNetConnectionEnd_Invalid = 0,
@@ -9765,11 +9765,11 @@ pub enum ESteamNetConnectionEnd {
 	k_ESteamNetConnectionEnd_Misc_Max = 5999,
 	k_ESteamNetConnectionEnd__Force32Bit = 2147483647,
 }
-//#[doc = " Max length, in bytes (including null terminator) of the reason string\n when a connection is closed."]
+#[doc = " Max length, in bytes (including null terminator) of the reason string\n when a connection is closed."]
 pub const k_cchSteamNetworkingMaxConnectionCloseReason: ::std::os::raw::c_int = 128;
-//#[doc = " Max length, in bytes (include null terminator) of debug description\n of a connection."]
+#[doc = " Max length, in bytes (include null terminator) of debug description\n of a connection."]
 pub const k_cchSteamNetworkingMaxConnectionDescription: ::std::os::raw::c_int = 128;
-//#[doc = " Max length of the app's part of the description"]
+#[doc = " Max length of the app's part of the description"]
 pub const k_cchSteamNetworkingMaxConnectionAppName: ::std::os::raw::c_int = 32;
 pub const k_nSteamNetworkConnectionInfoFlags_Unauthenticated: ::std::os::raw::c_int = 1;
 pub const k_nSteamNetworkConnectionInfoFlags_Unencrypted: ::std::os::raw::c_int = 2;
@@ -9777,34 +9777,34 @@ pub const k_nSteamNetworkConnectionInfoFlags_LoopbackBuffers: ::std::os::raw::c_
 pub const k_nSteamNetworkConnectionInfoFlags_Fast: ::std::os::raw::c_int = 8;
 pub const k_nSteamNetworkConnectionInfoFlags_Relayed: ::std::os::raw::c_int = 16;
 pub const k_nSteamNetworkConnectionInfoFlags_DualWifi: ::std::os::raw::c_int = 32;
-//#[doc = " Describe the state of a connection."]
+#[doc = " Describe the state of a connection."]
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct SteamNetConnectionInfo_t {
-	//#[doc = " Who is on the other end?  Depending on the connection type and phase of the connection, we might not know"]
+	#[doc = " Who is on the other end?  Depending on the connection type and phase of the connection, we might not know"]
 	pub m_identityRemote: SteamNetworkingIdentity,
-	//#[doc = " Arbitrary user data set by the local application code"]
+	#[doc = " Arbitrary user data set by the local application code"]
 	pub m_nUserData: int64,
-	//#[doc = " Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection"]
+	#[doc = " Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection"]
 	pub m_hListenSocket: HSteamListenSocket,
-	//#[doc = " Remote address.  Might be all 0's if we don't know it, or if this is N/A.\n (E.g. Basically everything except direct UDP connection.)"]
+	#[doc = " Remote address.  Might be all 0's if we don't know it, or if this is N/A.\n (E.g. Basically everything except direct UDP connection.)"]
 	pub m_addrRemote: SteamNetworkingIPAddr,
 	pub m__pad1: uint16,
-	//#[doc = " What data center is the remote host in?  (0 if we don't know.)"]
+	#[doc = " What data center is the remote host in?  (0 if we don't know.)"]
 	pub m_idPOPRemote: SteamNetworkingPOPID,
-	//#[doc = " What relay are we using to communicate with the remote host?\n (0 if not applicable.)"]
+	#[doc = " What relay are we using to communicate with the remote host?\n (0 if not applicable.)"]
 	pub m_idPOPRelay: SteamNetworkingPOPID,
-	//#[doc = " High level state of the connection"]
+	#[doc = " High level state of the connection"]
 	pub m_eState: ESteamNetworkingConnectionState,
-	//#[doc = " Basic cause of the connection termination or problem.\n See ESteamNetConnectionEnd for the values used"]
+	#[doc = " Basic cause of the connection termination or problem.\n See ESteamNetConnectionEnd for the values used"]
 	pub m_eEndReason: ::std::os::raw::c_int,
-	//#[doc = " Human-readable, but non-localized explanation for connection\n termination or problem.  This is intended for debugging /\n diagnostic purposes only, not to display to users.  It might\n have some details specific to the issue."]
+	#[doc = " Human-readable, but non-localized explanation for connection\n termination or problem.  This is intended for debugging /\n diagnostic purposes only, not to display to users.  It might\n have some details specific to the issue."]
 	pub m_szEndDebug: [::std::os::raw::c_char; 128usize],
-	//#[doc = " Debug description.  This includes the internal connection ID,\n connection type (and peer information), and any name\n given to the connection by the app.  This string is used in various\n internal logging messages.\n\n Note that the connection ID *usually* matches the HSteamNetConnection\n handle, but in certain cases with symmetric connections it might not."]
+	#[doc = " Debug description.  This includes the internal connection ID,\n connection type (and peer information), and any name\n given to the connection by the app.  This string is used in various\n internal logging messages.\n\n Note that the connection ID *usually* matches the HSteamNetConnection\n handle, but in certain cases with symmetric connections it might not."]
 	pub m_szConnectionDescription: [::std::os::raw::c_char; 128usize],
-	//#[doc = " Misc flags.  Bitmask of k_nSteamNetworkConnectionInfoFlags_Xxxx"]
+	#[doc = " Misc flags.  Bitmask of k_nSteamNetworkConnectionInfoFlags_Xxxx"]
 	pub m_nFlags: ::std::os::raw::c_int,
-	//#[doc = " Internal stuff, room to change API easily"]
+	#[doc = " Internal stuff, room to change API easily"]
 	pub reserved: [uint32; 63usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
@@ -9825,31 +9825,31 @@ const _: () = {
 	["Offset of field: SteamNetConnectionInfo_t::m_nFlags"][::std::mem::offset_of!(SteamNetConnectionInfo_t, m_nFlags) - 440usize];
 	["Offset of field: SteamNetConnectionInfo_t::reserved"][::std::mem::offset_of!(SteamNetConnectionInfo_t, reserved) - 444usize];
 };
-//#[doc = " Quick connection state, pared down to something you could call\n more frequently without it being too big of a perf hit."]
+#[doc = " Quick connection state, pared down to something you could call\n more frequently without it being too big of a perf hit."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetConnectionRealTimeStatus_t {
-	//#[doc = " High level state of the connection"]
+	#[doc = " High level state of the connection"]
 	pub m_eState: ESteamNetworkingConnectionState,
-	//#[doc = " Current ping (ms)"]
+	#[doc = " Current ping (ms)"]
 	pub m_nPing: ::std::os::raw::c_int,
-	//#[doc = " Connection quality measured locally, 0...1.  (Percentage of packets delivered\n end-to-end in order)."]
+	#[doc = " Connection quality measured locally, 0...1.  (Percentage of packets delivered\n end-to-end in order)."]
 	pub m_flConnectionQualityLocal: f32,
-	//#[doc = " Packet delivery success rate as observed from remote host"]
+	#[doc = " Packet delivery success rate as observed from remote host"]
 	pub m_flConnectionQualityRemote: f32,
-	//#[doc = " Current data rates from recent history."]
+	#[doc = " Current data rates from recent history."]
 	pub m_flOutPacketsPerSec: f32,
 	pub m_flOutBytesPerSec: f32,
 	pub m_flInPacketsPerSec: f32,
 	pub m_flInBytesPerSec: f32,
-	//#[doc = " Estimate rate that we believe that we can send data to our peer.\n Note that this could be significantly higher than m_flOutBytesPerSec,\n meaning the capacity of the channel is higher than you are sending data.\n (That's OK!)"]
+	#[doc = " Estimate rate that we believe that we can send data to our peer.\n Note that this could be significantly higher than m_flOutBytesPerSec,\n meaning the capacity of the channel is higher than you are sending data.\n (That's OK!)"]
 	pub m_nSendRateBytesPerSecond: ::std::os::raw::c_int,
-	//#[doc = " Number of bytes pending to be sent.  This is data that you have recently\n requested to be sent but has not yet actually been put on the wire.  The\n reliable number ALSO includes data that was previously placed on the wire,\n but has now been scheduled for re-transmission.  Thus, it's possible to\n observe m_cbPendingReliable increasing between two checks, even if no\n calls were made to send reliable data between the checks.  Data that is\n awaiting the Nagle delay will appear in these numbers."]
+	#[doc = " Number of bytes pending to be sent.  This is data that you have recently\n requested to be sent but has not yet actually been put on the wire.  The\n reliable number ALSO includes data that was previously placed on the wire,\n but has now been scheduled for re-transmission.  Thus, it's possible to\n observe m_cbPendingReliable increasing between two checks, even if no\n calls were made to send reliable data between the checks.  Data that is\n awaiting the Nagle delay will appear in these numbers."]
 	pub m_cbPendingUnreliable: ::std::os::raw::c_int,
 	pub m_cbPendingReliable: ::std::os::raw::c_int,
-	//#[doc = " Number of bytes of reliable data that has been placed the wire, but\n for which we have not yet received an acknowledgment, and thus we may\n have to re-transmit."]
+	#[doc = " Number of bytes of reliable data that has been placed the wire, but\n for which we have not yet received an acknowledgment, and thus we may\n have to re-transmit."]
 	pub m_cbSentUnackedReliable: ::std::os::raw::c_int,
-	//#[doc = " If you queued a message right now, approximately how long would that message\n wait in the queue before we actually started putting its data on the wire in\n a packet?\n\n In general, data that is sent by the application is limited by the bandwidth\n of the channel.  If you send data faster than this, it must be queued and\n put on the wire at a metered rate.  Even sending a small amount of data (e.g.\n a few MTU, say ~3k) will require some of the data to be delayed a bit.\n\n Ignoring multiple lanes, the estimated delay will be approximately equal to\n\n\t\t( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond\n\n plus or minus one MTU.  It depends on how much time has elapsed since the last\n packet was put on the wire.  For example, the queue might have *just* been emptied,\n and the last packet placed on the wire, and we are exactly up against the send\n rate limit.  In that case we might need to wait for one packet's worth of time to\n elapse before we can send again.  On the other extreme, the queue might have data\n in it waiting for Nagle.  (This will always be less than one packet, because as\n soon as we have a complete packet we would send it.)  In that case, we might be\n ready to send data now, and this value will be 0.\n\n This value is only valid if multiple lanes are not used.  If multiple lanes are\n in use, then the queue time will be different for each lane, and you must use\n the value in SteamNetConnectionRealTimeLaneStatus_t.\n\n Nagle delay is ignored for the purposes of this calculation."]
+	#[doc = " If you queued a message right now, approximately how long would that message\n wait in the queue before we actually started putting its data on the wire in\n a packet?\n\n In general, data that is sent by the application is limited by the bandwidth\n of the channel.  If you send data faster than this, it must be queued and\n put on the wire at a metered rate.  Even sending a small amount of data (e.g.\n a few MTU, say ~3k) will require some of the data to be delayed a bit.\n\n Ignoring multiple lanes, the estimated delay will be approximately equal to\n\n\t\t( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond\n\n plus or minus one MTU.  It depends on how much time has elapsed since the last\n packet was put on the wire.  For example, the queue might have *just* been emptied,\n and the last packet placed on the wire, and we are exactly up against the send\n rate limit.  In that case we might need to wait for one packet's worth of time to\n elapse before we can send again.  On the other extreme, the queue might have data\n in it waiting for Nagle.  (This will always be less than one packet, because as\n soon as we have a complete packet we would send it.)  In that case, we might be\n ready to send data now, and this value will be 0.\n\n This value is only valid if multiple lanes are not used.  If multiple lanes are\n in use, then the queue time will be different for each lane, and you must use\n the value in SteamNetConnectionRealTimeLaneStatus_t.\n\n Nagle delay is ignored for the purposes of this calculation."]
 	pub m_usecQueueTime: SteamNetworkingMicroseconds,
 	pub reserved: [uint32; 16usize],
 }
@@ -9872,7 +9872,7 @@ const _: () = {
 	["Offset of field: SteamNetConnectionRealTimeStatus_t::m_usecQueueTime"][::std::mem::offset_of!(SteamNetConnectionRealTimeStatus_t, m_usecQueueTime) - 48usize];
 	["Offset of field: SteamNetConnectionRealTimeStatus_t::reserved"][::std::mem::offset_of!(SteamNetConnectionRealTimeStatus_t, reserved) - 56usize];
 };
-//#[doc = " Quick status of a particular lane"]
+#[doc = " Quick status of a particular lane"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetConnectionRealTimeLaneStatus_t {
@@ -9880,7 +9880,7 @@ pub struct SteamNetConnectionRealTimeLaneStatus_t {
 	pub m_cbPendingReliable: ::std::os::raw::c_int,
 	pub m_cbSentUnackedReliable: ::std::os::raw::c_int,
 	pub _reservePad1: ::std::os::raw::c_int,
-	//#[doc = " Lane-specific queue time.  This value takes into consideration lane priorities\n and weights, and how much data is queued in each lane, and attempts to predict\n how any data currently queued will be sent out."]
+	#[doc = " Lane-specific queue time.  This value takes into consideration lane priorities\n and weights, and how much data is queued in each lane, and attempts to predict\n how any data currently queued will be sent out."]
 	pub m_usecQueueTime: SteamNetworkingMicroseconds,
 	pub reserved: [uint32; 10usize],
 }
@@ -9895,36 +9895,36 @@ const _: () = {
 	["Offset of field: SteamNetConnectionRealTimeLaneStatus_t::m_usecQueueTime"][::std::mem::offset_of!(SteamNetConnectionRealTimeLaneStatus_t, m_usecQueueTime) - 16usize];
 	["Offset of field: SteamNetConnectionRealTimeLaneStatus_t::reserved"][::std::mem::offset_of!(SteamNetConnectionRealTimeLaneStatus_t, reserved) - 24usize];
 };
-//#[doc = " Max size of a single message that we can SEND.\n Note: We might be wiling to receive larger messages,\n and our peer might, too."]
+#[doc = " Max size of a single message that we can SEND.\n Note: We might be wiling to receive larger messages,\n and our peer might, too."]
 pub const k_cbMaxSteamNetworkingSocketsMessageSizeSend: ::std::os::raw::c_int = 524288;
-//#[doc = " A message that has been received."]
+#[doc = " A message that has been received."]
 #[repr(C)]
 pub struct SteamNetworkingMessage_t {
-	//#[doc = " Message payload"]
+	#[doc = " Message payload"]
 	pub m_pData: *mut ::std::os::raw::c_void,
-	//#[doc = " Size of the payload."]
+	#[doc = " Size of the payload."]
 	pub m_cbSize: ::std::os::raw::c_int,
-	//#[doc = " For messages received on connections: what connection did this come from?\n For outgoing messages: what connection to send it to?\n Not used when using the ISteamNetworkingMessages interface"]
+	#[doc = " For messages received on connections: what connection did this come from?\n For outgoing messages: what connection to send it to?\n Not used when using the ISteamNetworkingMessages interface"]
 	pub m_conn: HSteamNetConnection,
-	//#[doc = " For inbound messages: Who sent this to us?\n For outbound messages on connections: not used.\n For outbound messages on the ad-hoc ISteamNetworkingMessages interface: who should we send this to?"]
+	#[doc = " For inbound messages: Who sent this to us?\n For outbound messages on connections: not used.\n For outbound messages on the ad-hoc ISteamNetworkingMessages interface: who should we send this to?"]
 	pub m_identityPeer: SteamNetworkingIdentity,
-	//#[doc = " For messages received on connections, this is the user data\n associated with the connection.\n\n This is *usually* the same as calling GetConnection() and then\n fetching the user data associated with that connection, but for\n the following subtle differences:\n\n - This user data will match the connection's user data at the time\n   is captured at the time the message is returned by the API.\n   If you subsequently change the userdata on the connection,\n   this won't be updated.\n - This is an inline call, so it's *much* faster.\n - You might have closed the connection, so fetching the user data\n   would not be possible.\n\n Not used when sending messages."]
+	#[doc = " For messages received on connections, this is the user data\n associated with the connection.\n\n This is *usually* the same as calling GetConnection() and then\n fetching the user data associated with that connection, but for\n the following subtle differences:\n\n - This user data will match the connection's user data at the time\n   is captured at the time the message is returned by the API.\n   If you subsequently change the userdata on the connection,\n   this won't be updated.\n - This is an inline call, so it's *much* faster.\n - You might have closed the connection, so fetching the user data\n   would not be possible.\n\n Not used when sending messages."]
 	pub m_nConnUserData: int64,
-	//#[doc = " Local timestamp when the message was received\n Not used for outbound messages."]
+	#[doc = " Local timestamp when the message was received\n Not used for outbound messages."]
 	pub m_usecTimeReceived: SteamNetworkingMicroseconds,
-	//#[doc = " Message number assigned by the sender.  This is not used for outbound\n messages.  Note that if multiple lanes are used, each lane has its own\n message numbers, which are assigned sequentially, so messages from\n different lanes will share the same numbers."]
+	#[doc = " Message number assigned by the sender.  This is not used for outbound\n messages.  Note that if multiple lanes are used, each lane has its own\n message numbers, which are assigned sequentially, so messages from\n different lanes will share the same numbers."]
 	pub m_nMessageNumber: int64,
-	//#[doc = " Function used to free up m_pData.  This mechanism exists so that\n apps can create messages with buffers allocated from their own\n heap, and pass them into the library.  This function will\n usually be something like:\n\n free( pMsg->m_pData );"]
+	#[doc = " Function used to free up m_pData.  This mechanism exists so that\n apps can create messages with buffers allocated from their own\n heap, and pass them into the library.  This function will\n usually be something like:\n\n free( pMsg->m_pData );"]
 	pub m_pfnFreeData: ::std::option::Option<unsafe extern "C" fn(pMsg: *mut SteamNetworkingMessage_t)>,
-	//#[doc = " Function to used to decrement the internal reference count and, if\n it's zero, release the message.  You should not set this function pointer,\n or need to access this directly!  Use the Release() function instead!"]
+	#[doc = " Function to used to decrement the internal reference count and, if\n it's zero, release the message.  You should not set this function pointer,\n or need to access this directly!  Use the Release() function instead!"]
 	pub m_pfnRelease: ::std::option::Option<unsafe extern "C" fn(pMsg: *mut SteamNetworkingMessage_t)>,
-	//#[doc = " When using ISteamNetworkingMessages, the channel number the message was received on\n (Not used for messages sent or received on \"connections\")"]
+	#[doc = " When using ISteamNetworkingMessages, the channel number the message was received on\n (Not used for messages sent or received on \"connections\")"]
 	pub m_nChannel: ::std::os::raw::c_int,
-	//#[doc = " Bitmask of k_nSteamNetworkingSend_xxx flags.\n For received messages, only the k_nSteamNetworkingSend_Reliable bit is valid.\n For outbound messages, all bits are relevant"]
+	#[doc = " Bitmask of k_nSteamNetworkingSend_xxx flags.\n For received messages, only the k_nSteamNetworkingSend_Reliable bit is valid.\n For outbound messages, all bits are relevant"]
 	pub m_nFlags: ::std::os::raw::c_int,
-	//#[doc = " Arbitrary user data that you can use when sending messages using\n ISteamNetworkingUtils::AllocateMessage and ISteamNetworkingSockets::SendMessage.\n (The callback you set in m_pfnFreeData might use this field.)\n\n Not used for received messages."]
+	#[doc = " Arbitrary user data that you can use when sending messages using\n ISteamNetworkingUtils::AllocateMessage and ISteamNetworkingSockets::SendMessage.\n (The callback you set in m_pfnFreeData might use this field.)\n\n Not used for received messages."]
 	pub m_nUserData: int64,
-	//#[doc = " For outbound messages, which lane to use?  See ISteamNetworkingSockets::ConfigureConnectionLanes.\n For inbound messages, what lane was the message received on?"]
+	#[doc = " For outbound messages, which lane to use?  See ISteamNetworkingSockets::ConfigureConnectionLanes.\n For inbound messages, what lane was the message received on?"]
 	pub m_idxLane: uint16,
 	pub _pad1__: uint16,
 }
@@ -9956,7 +9956,7 @@ pub const k_nSteamNetworkingSend_Reliable: ::std::os::raw::c_int = 8;
 pub const k_nSteamNetworkingSend_ReliableNoNagle: ::std::os::raw::c_int = 9;
 pub const k_nSteamNetworkingSend_UseCurrentThread: ::std::os::raw::c_int = 16;
 pub const k_nSteamNetworkingSend_AutoRestartBrokenSession: ::std::os::raw::c_int = 32;
-//#[doc = " Object that describes a \"location\" on the Internet with sufficient\n detail that we can reasonably estimate an upper bound on the ping between\n the two hosts, even if a direct route between the hosts is not possible,\n and the connection must be routed through the Steam Datagram Relay network.\n This does not contain any information that identifies the host.  Indeed,\n if two hosts are in the same building or otherwise have nearly identical\n networking characteristics, then it's valid to use the same location\n object for both of them.\n\n NOTE: This object should only be used in the same process!  Do not serialize it,\n send it over the wire, or persist it in a file or database!  If you need\n to do that, convert it to a string representation using the methods in\n ISteamNetworkingUtils()."]
+#[doc = " Object that describes a \"location\" on the Internet with sufficient\n detail that we can reasonably estimate an upper bound on the ping between\n the two hosts, even if a direct route between the hosts is not possible,\n and the connection must be routed through the Steam Datagram Relay network.\n This does not contain any information that identifies the host.  Indeed,\n if two hosts are in the same building or otherwise have nearly identical\n networking characteristics, then it's valid to use the same location\n object for both of them.\n\n NOTE: This object should only be used in the same process!  Do not serialize it,\n send it over the wire, or persist it in a file or database!  If you need\n to do that, convert it to a string representation using the methods in\n ISteamNetworkingUtils()."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkPingLocation_t {
@@ -9968,25 +9968,25 @@ const _: () = {
 	["Alignment of SteamNetworkPingLocation_t"][::std::mem::align_of::<SteamNetworkPingLocation_t>() - 1usize];
 	["Offset of field: SteamNetworkPingLocation_t::m_data"][::std::mem::offset_of!(SteamNetworkPingLocation_t, m_data) - 0usize];
 };
-//#[doc = " Max possible length of a ping location, in string format.  This is\n an extremely conservative worst case value which leaves room for future\n syntax enhancements.  Most strings in practice are a lot shorter.\n If you are storing many of these, you will very likely benefit from\n using dynamic memory."]
+#[doc = " Max possible length of a ping location, in string format.  This is\n an extremely conservative worst case value which leaves room for future\n syntax enhancements.  Most strings in practice are a lot shorter.\n If you are storing many of these, you will very likely benefit from\n using dynamic memory."]
 pub const k_cchMaxSteamNetworkingPingLocationString: ::std::os::raw::c_int = 1024;
-//#[doc = " Special values that are returned by some functions that return a ping."]
+#[doc = " Special values that are returned by some functions that return a ping."]
 pub const k_nSteamNetworkingPing_Failed: ::std::os::raw::c_int = -1;
 pub const k_nSteamNetworkingPing_Unknown: ::std::os::raw::c_int = -2;
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " Configuration values can be applied to different types of objects."]
+#[doc = " Configuration values can be applied to different types of objects."]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConfigScope {
-	//#[doc = " Get/set global option, or defaults.  Even options that apply to more specific scopes\n have global scope, and you may be able to just change the global defaults.  If you\n need different settings per connection (for example), then you will need to set those\n options at the more specific scope."]
+	#[doc = " Get/set global option, or defaults.  Even options that apply to more specific scopes\n have global scope, and you may be able to just change the global defaults.  If you\n need different settings per connection (for example), then you will need to set those\n options at the more specific scope."]
 	k_ESteamNetworkingConfig_Global = 1,
-	//#[doc = " Some options are specific to a particular interface.  Note that all connection\n and listen socket settings can also be set at the interface level, and they will\n apply to objects created through those interfaces."]
+	#[doc = " Some options are specific to a particular interface.  Note that all connection\n and listen socket settings can also be set at the interface level, and they will\n apply to objects created through those interfaces."]
 	k_ESteamNetworkingConfig_SocketsInterface = 2,
-	//#[doc = " Options for a listen socket.  Listen socket options can be set at the interface layer,\n if  you have multiple listen sockets and they all use the same options.\n You can also set connection options on a listen socket, and they set the defaults\n for all connections accepted through this listen socket.  (They will be used if you don't\n set a connection option.)"]
+	#[doc = " Options for a listen socket.  Listen socket options can be set at the interface layer,\n if  you have multiple listen sockets and they all use the same options.\n You can also set connection options on a listen socket, and they set the defaults\n for all connections accepted through this listen socket.  (They will be used if you don't\n set a connection option.)"]
 	k_ESteamNetworkingConfig_ListenSocket = 3,
-	//#[doc = " Options for a specific connection."]
+	#[doc = " Options for a specific connection."]
 	k_ESteamNetworkingConfig_Connection = 4,
-	//#[doc = " Options for a specific connection."]
+	#[doc = " Options for a specific connection."]
 	k_ESteamNetworkingConfigScope__Force32Bit = 2147483647,
 }
 #[repr(i32)]
@@ -10002,156 +10002,156 @@ pub enum ESteamNetworkingConfigDataType {
 }
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " Configuration options"]
+#[doc = " Configuration options"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConfigValue {
 	k_ESteamNetworkingConfig_Invalid = 0,
-	//#[doc = " [connection int32] Timeout value (in ms) to use when first connecting"]
+	#[doc = " [connection int32] Timeout value (in ms) to use when first connecting"]
 	k_ESteamNetworkingConfig_TimeoutInitial = 24,
-	//#[doc = " [connection int32] Timeout value (in ms) to use after connection is established"]
+	#[doc = " [connection int32] Timeout value (in ms) to use after connection is established"]
 	k_ESteamNetworkingConfig_TimeoutConnected = 25,
-	//#[doc = " [connection int32] Upper limit of buffered pending bytes to be sent,\n if this is reached SendMessage will return k_EResultLimitExceeded\n Default is 512k (524288 bytes)"]
+	#[doc = " [connection int32] Upper limit of buffered pending bytes to be sent,\n if this is reached SendMessage will return k_EResultLimitExceeded\n Default is 512k (524288 bytes)"]
 	k_ESteamNetworkingConfig_SendBufferSize = 9,
-	//#[doc = " [connection int32] Upper limit on total size (in bytes) of received messages\n that will be buffered waiting to be processed by the application.  If this limit\n is exceeded, packets will be dropped.  This is to protect us from a malicious\n peer flooding us with messages faster than we can process them.\n\n This must be bigger than k_ESteamNetworkingConfig_RecvMaxMessageSize"]
+	#[doc = " [connection int32] Upper limit on total size (in bytes) of received messages\n that will be buffered waiting to be processed by the application.  If this limit\n is exceeded, packets will be dropped.  This is to protect us from a malicious\n peer flooding us with messages faster than we can process them.\n\n This must be bigger than k_ESteamNetworkingConfig_RecvMaxMessageSize"]
 	k_ESteamNetworkingConfig_RecvBufferSize = 47,
-	//#[doc = " [connection int32] Upper limit on the number of received messages that will\n that will be buffered waiting to be processed by the application.  If this limit\n is exceeded, packets will be dropped.  This is to protect us from a malicious\n peer flooding us with messages faster than we can pull them off the wire."]
+	#[doc = " [connection int32] Upper limit on the number of received messages that will\n that will be buffered waiting to be processed by the application.  If this limit\n is exceeded, packets will be dropped.  This is to protect us from a malicious\n peer flooding us with messages faster than we can pull them off the wire."]
 	k_ESteamNetworkingConfig_RecvBufferMessages = 48,
-	//#[doc = " [connection int32] Maximum message size that we are willing to receive.\n if a client attempts to send us a message larger than this, the connection\n will be immediately closed.\n\n Default is 512k (524288 bytes).  Note that the peer needs to be able to\n send a message this big.  (See k_cbMaxSteamNetworkingSocketsMessageSizeSend.)"]
+	#[doc = " [connection int32] Maximum message size that we are willing to receive.\n if a client attempts to send us a message larger than this, the connection\n will be immediately closed.\n\n Default is 512k (524288 bytes).  Note that the peer needs to be able to\n send a message this big.  (See k_cbMaxSteamNetworkingSocketsMessageSizeSend.)"]
 	k_ESteamNetworkingConfig_RecvMaxMessageSize = 49,
-	//#[doc = " [connection int32] Max number of message segments that can be received\n in a single UDP packet.  While decoding a packet, if the number of segments\n exceeds this, we will abort further packet processing.\n\n The default is effectively unlimited.  If you know that you very rarely\n send small packets, you can protect yourself from malicious senders by\n lowering this number.\n\n In particular, if you are NOT using the reliability layer and are only using\n SteamNetworkingSockets for datagram transport, setting this to a very low\n number may be beneficial.  (We recommend a value of 2.)  Make sure your sender\n disables Nagle!"]
+	#[doc = " [connection int32] Max number of message segments that can be received\n in a single UDP packet.  While decoding a packet, if the number of segments\n exceeds this, we will abort further packet processing.\n\n The default is effectively unlimited.  If you know that you very rarely\n send small packets, you can protect yourself from malicious senders by\n lowering this number.\n\n In particular, if you are NOT using the reliability layer and are only using\n SteamNetworkingSockets for datagram transport, setting this to a very low\n number may be beneficial.  (We recommend a value of 2.)  Make sure your sender\n disables Nagle!"]
 	k_ESteamNetworkingConfig_RecvMaxSegmentsPerPacket = 50,
-	//#[doc = " [connection int64] Get/set userdata as a configuration option.\n The default value is -1.   You may want to set the user data as\n a config value, instead of using ISteamNetworkingSockets::SetConnectionUserData\n in two specific instances:\n\n - You wish to set the userdata atomically when creating\n   an outbound connection, so that the userdata is filled in properly\n   for any callbacks that happen.  However, note that this trick\n   only works for connections initiated locally!  For incoming\n   connections, multiple state transitions may happen and\n   callbacks be queued, before you are able to service the first\n   callback!  Be careful!\n\n - You can set the default userdata for all newly created connections\n   by setting this value at a higher level (e.g. on the listen\n   socket or at the global level.)  Then this default\n   value will be inherited when the connection is created.\n   This is useful in case -1 is a valid userdata value, and you\n   wish to use something else as the default value so you can\n   tell if it has been set or not.\n\n   HOWEVER: once a connection is created, the effective value is\n   then bound to the connection.  Unlike other connection options,\n   if you change it again at a higher level, the new value will not\n   be inherited by connections.\n\n Using the userdata field in callback structs is not advised because\n of tricky race conditions.  Instead, you might try one of these methods:\n\n - Use a separate map with the HSteamNetConnection as the key.\n - Fetch the userdata from the connection in your callback\n   using ISteamNetworkingSockets::GetConnectionUserData, to"]
+	#[doc = " [connection int64] Get/set userdata as a configuration option.\n The default value is -1.   You may want to set the user data as\n a config value, instead of using ISteamNetworkingSockets::SetConnectionUserData\n in two specific instances:\n\n - You wish to set the userdata atomically when creating\n   an outbound connection, so that the userdata is filled in properly\n   for any callbacks that happen.  However, note that this trick\n   only works for connections initiated locally!  For incoming\n   connections, multiple state transitions may happen and\n   callbacks be queued, before you are able to service the first\n   callback!  Be careful!\n\n - You can set the default userdata for all newly created connections\n   by setting this value at a higher level (e.g. on the listen\n   socket or at the global level.)  Then this default\n   value will be inherited when the connection is created.\n   This is useful in case -1 is a valid userdata value, and you\n   wish to use something else as the default value so you can\n   tell if it has been set or not.\n\n   HOWEVER: once a connection is created, the effective value is\n   then bound to the connection.  Unlike other connection options,\n   if you change it again at a higher level, the new value will not\n   be inherited by connections.\n\n Using the userdata field in callback structs is not advised because\n of tricky race conditions.  Instead, you might try one of these methods:\n\n - Use a separate map with the HSteamNetConnection as the key.\n - Fetch the userdata from the connection in your callback\n   using ISteamNetworkingSockets::GetConnectionUserData, to"]
 	k_ESteamNetworkingConfig_ConnectionUserData = 40,
-	//#[doc = " [connection int32] Minimum/maximum send rate clamp, in bytes/sec.\n At the time of this writing these two options should always be set to\n the same value, to manually configure a specific send rate.  The default\n value is 256K.  Eventually we hope to have the library estimate the bandwidth\n of the channel and set the send rate to that estimated bandwidth, and these\n values will only set limits on that send rate."]
+	#[doc = " [connection int32] Minimum/maximum send rate clamp, in bytes/sec.\n At the time of this writing these two options should always be set to\n the same value, to manually configure a specific send rate.  The default\n value is 256K.  Eventually we hope to have the library estimate the bandwidth\n of the channel and set the send rate to that estimated bandwidth, and these\n values will only set limits on that send rate."]
 	k_ESteamNetworkingConfig_SendRateMin = 10,
-	//#[doc = " [connection int32] Minimum/maximum send rate clamp, in bytes/sec.\n At the time of this writing these two options should always be set to\n the same value, to manually configure a specific send rate.  The default\n value is 256K.  Eventually we hope to have the library estimate the bandwidth\n of the channel and set the send rate to that estimated bandwidth, and these\n values will only set limits on that send rate."]
+	#[doc = " [connection int32] Minimum/maximum send rate clamp, in bytes/sec.\n At the time of this writing these two options should always be set to\n the same value, to manually configure a specific send rate.  The default\n value is 256K.  Eventually we hope to have the library estimate the bandwidth\n of the channel and set the send rate to that estimated bandwidth, and these\n values will only set limits on that send rate."]
 	k_ESteamNetworkingConfig_SendRateMax = 11,
-	//#[doc = " [connection int32] Nagle time, in microseconds.  When SendMessage is called, if\n the outgoing message is less than the size of the MTU, it will be\n queued for a delay equal to the Nagle timer value.  This is to ensure\n that if the application sends several small messages rapidly, they are\n coalesced into a single packet.\n See historical RFC 896.  Value is in microseconds.\n Default is 5000us (5ms)."]
+	#[doc = " [connection int32] Nagle time, in microseconds.  When SendMessage is called, if\n the outgoing message is less than the size of the MTU, it will be\n queued for a delay equal to the Nagle timer value.  This is to ensure\n that if the application sends several small messages rapidly, they are\n coalesced into a single packet.\n See historical RFC 896.  Value is in microseconds.\n Default is 5000us (5ms)."]
 	k_ESteamNetworkingConfig_NagleTime = 12,
-	//#[doc = " [connection int32] Don't automatically fail IP connections that don't have\n strong auth.  On clients, this means we will attempt the connection even if\n we don't know our identity or can't get a cert.  On the server, it means that\n we won't automatically reject a connection due to a failure to authenticate.\n (You can examine the incoming connection and decide whether to accept it.)\n\n 0: Don't attempt or accept unauthorized connections\n 1: Attempt authorization when connecting, and allow unauthorized peers, but emit warnings\n 2: don't attempt authentication, or complain if peer is unauthenticated\n\n This is a dev configuration value, and you should not let users modify it in\n production."]
+	#[doc = " [connection int32] Don't automatically fail IP connections that don't have\n strong auth.  On clients, this means we will attempt the connection even if\n we don't know our identity or can't get a cert.  On the server, it means that\n we won't automatically reject a connection due to a failure to authenticate.\n (You can examine the incoming connection and decide whether to accept it.)\n\n 0: Don't attempt or accept unauthorized connections\n 1: Attempt authorization when connecting, and allow unauthorized peers, but emit warnings\n 2: don't attempt authentication, or complain if peer is unauthenticated\n\n This is a dev configuration value, and you should not let users modify it in\n production."]
 	k_ESteamNetworkingConfig_IP_AllowWithoutAuth = 23,
-	//#[doc = " [connection int32] The same as IP_AllowWithoutAuth, but will only apply\n for connections to/from localhost addresses.  Whichever value is larger\n (more permissive) will be used."]
+	#[doc = " [connection int32] The same as IP_AllowWithoutAuth, but will only apply\n for connections to/from localhost addresses.  Whichever value is larger\n (more permissive) will be used."]
 	k_ESteamNetworkingConfig_IPLocalHost_AllowWithoutAuth = 52,
-	//#[doc = " [connection int32] Do not send UDP packets with a payload of\n larger than N bytes.  If you set this, k_ESteamNetworkingConfig_MTU_DataSize\n is automatically adjusted"]
+	#[doc = " [connection int32] Do not send UDP packets with a payload of\n larger than N bytes.  If you set this, k_ESteamNetworkingConfig_MTU_DataSize\n is automatically adjusted"]
 	k_ESteamNetworkingConfig_MTU_PacketSize = 32,
-	//#[doc = " [connection int32] (read only) Maximum message size you can send that\n will not fragment, based on k_ESteamNetworkingConfig_MTU_PacketSize"]
+	#[doc = " [connection int32] (read only) Maximum message size you can send that\n will not fragment, based on k_ESteamNetworkingConfig_MTU_PacketSize"]
 	k_ESteamNetworkingConfig_MTU_DataSize = 33,
-	//#[doc = " [connection int32] Allow unencrypted (and unauthenticated) communication.\n 0: Not allowed (the default)\n 1: Allowed, but prefer encrypted\n 2: Allowed, and preferred\n 3: Required.  (Fail the connection if the peer requires encryption.)\n\n This is a dev configuration value, since its purpose is to disable encryption.\n You should not let users modify it in production.  (But note that it requires\n the peer to also modify their value in order for encryption to be disabled.)"]
+	#[doc = " [connection int32] Allow unencrypted (and unauthenticated) communication.\n 0: Not allowed (the default)\n 1: Allowed, but prefer encrypted\n 2: Allowed, and preferred\n 3: Required.  (Fail the connection if the peer requires encryption.)\n\n This is a dev configuration value, since its purpose is to disable encryption.\n You should not let users modify it in production.  (But note that it requires\n the peer to also modify their value in order for encryption to be disabled.)"]
 	k_ESteamNetworkingConfig_Unencrypted = 34,
-	//#[doc = " [connection int32] Set this to 1 on outbound connections and listen sockets,\n to enable \"symmetric connect mode\", which is useful in the following\n common peer-to-peer use case:\n\n - The two peers are \"equal\" to each other.  (Neither is clearly the \"client\"\n   or \"server\".)\n - Either peer may initiate the connection, and indeed they may do this\n   at the same time\n - The peers only desire a single connection to each other, and if both\n   peers initiate connections simultaneously, a protocol is needed for them\n   to resolve the conflict, so that we end up with a single connection.\n\n This use case is both common, and involves subtle race conditions and tricky\n pitfalls, which is why the API has support for dealing with it.\n\n If an incoming connection arrives on a listen socket or via custom signaling,\n and the application has not attempted to make a matching outbound connection\n in symmetric mode, then the incoming connection can be accepted as usual.\n A \"matching\" connection means that the relevant endpoint information matches.\n (At the time this comment is being written, this is only supported for P2P\n connections, which means that the peer identities must match, and the virtual\n port must match.  At a later time, symmetric mode may be supported for other\n connection types.)\n\n If connections are initiated by both peers simultaneously, race conditions\n can arise, but fortunately, most of them are handled internally and do not\n require any special awareness from the application.  However, there\n is one important case that application code must be aware of:\n If application code attempts an outbound connection using a ConnectXxx\n function in symmetric mode, and a matching incoming connection is already\n waiting on a listen socket, then instead of forming a new connection,\n the ConnectXxx call will accept the existing incoming connection, and return\n a connection handle to this accepted connection.\n IMPORTANT: in this case, a SteamNetConnectionStatusChangedCallback_t\n has probably *already* been posted to the queue for the incoming connection!\n (Once callbacks are posted to the queue, they are not modified.)  It doesn't\n matter if the callback has not been consumed by the app.  Thus, application\n code that makes use of symmetric connections must be aware that, when processing a\n SteamNetConnectionStatusChangedCallback_t for an incoming connection, the\n m_hConn may refer to a new connection that the app has has not\n seen before (the usual case), but it may also refer to a connection that\n has already been accepted implicitly through a call to Connect()!  In this\n case, AcceptConnection() will return k_EResultDuplicateRequest.\n\n Only one symmetric connection to a given peer (on a given virtual port)\n may exist at any given time.  If client code attempts to create a connection,\n and a (live) connection already exists on the local host, then either the\n existing connection will be accepted as described above, or the attempt\n to create a new connection will fail.  Furthermore, linger mode functionality\n is not supported on symmetric connections.\n\n A more complicated race condition can arise if both peers initiate a connection\n at roughly the same time.  In this situation, each peer will receive an incoming\n connection from the other peer, when the application code has already initiated\n an outgoing connection to that peer.  The peers must resolve this conflict and\n decide who is going to act as the \"server\" and who will act as the \"client\".\n Typically the application does not need to be aware of this case as it is handled\n internally.  On both sides, the will observe their outbound connection being\n \"accepted\", although one of them one have been converted internally to act\n as the \"server\".\n\n In general, symmetric mode should be all-or-nothing: do not mix symmetric\n connections with a non-symmetric connection that it might possible \"match\"\n with.  If you use symmetric mode on any connections, then both peers should\n use it on all connections, and the corresponding listen socket, if any.  The\n behaviour when symmetric and ordinary connections are mixed is not defined by\n this API, and you should not rely on it.  (This advice only applies when connections\n might possibly \"match\".  For example, it's OK to use all symmetric mode\n connections on one virtual port, and all ordinary, non-symmetric connections\n on a different virtual port, as there is no potential for ambiguity.)\n\n When using the feature, you should set it in the following situations on\n applicable objects:\n\n - When creating an outbound connection using ConnectXxx function\n - When creating a listen socket.  (Note that this will automatically cause\n   any accepted connections to inherit the flag.)\n - When using custom signaling, before accepting an incoming connection.\n\n Setting the flag on listen socket and accepted connections will enable the\n API to automatically deal with duplicate incoming connections, even if the\n local host has not made any outbound requests.  (In general, such duplicate\n requests from a peer are ignored internally and will not be visible to the\n application code.  The previous connection must be closed or resolved first.)"]
+	#[doc = " [connection int32] Set this to 1 on outbound connections and listen sockets,\n to enable \"symmetric connect mode\", which is useful in the following\n common peer-to-peer use case:\n\n - The two peers are \"equal\" to each other.  (Neither is clearly the \"client\"\n   or \"server\".)\n - Either peer may initiate the connection, and indeed they may do this\n   at the same time\n - The peers only desire a single connection to each other, and if both\n   peers initiate connections simultaneously, a protocol is needed for them\n   to resolve the conflict, so that we end up with a single connection.\n\n This use case is both common, and involves subtle race conditions and tricky\n pitfalls, which is why the API has support for dealing with it.\n\n If an incoming connection arrives on a listen socket or via custom signaling,\n and the application has not attempted to make a matching outbound connection\n in symmetric mode, then the incoming connection can be accepted as usual.\n A \"matching\" connection means that the relevant endpoint information matches.\n (At the time this comment is being written, this is only supported for P2P\n connections, which means that the peer identities must match, and the virtual\n port must match.  At a later time, symmetric mode may be supported for other\n connection types.)\n\n If connections are initiated by both peers simultaneously, race conditions\n can arise, but fortunately, most of them are handled internally and do not\n require any special awareness from the application.  However, there\n is one important case that application code must be aware of:\n If application code attempts an outbound connection using a ConnectXxx\n function in symmetric mode, and a matching incoming connection is already\n waiting on a listen socket, then instead of forming a new connection,\n the ConnectXxx call will accept the existing incoming connection, and return\n a connection handle to this accepted connection.\n IMPORTANT: in this case, a SteamNetConnectionStatusChangedCallback_t\n has probably *already* been posted to the queue for the incoming connection!\n (Once callbacks are posted to the queue, they are not modified.)  It doesn't\n matter if the callback has not been consumed by the app.  Thus, application\n code that makes use of symmetric connections must be aware that, when processing a\n SteamNetConnectionStatusChangedCallback_t for an incoming connection, the\n m_hConn may refer to a new connection that the app has has not\n seen before (the usual case), but it may also refer to a connection that\n has already been accepted implicitly through a call to Connect()!  In this\n case, AcceptConnection() will return k_EResultDuplicateRequest.\n\n Only one symmetric connection to a given peer (on a given virtual port)\n may exist at any given time.  If client code attempts to create a connection,\n and a (live) connection already exists on the local host, then either the\n existing connection will be accepted as described above, or the attempt\n to create a new connection will fail.  Furthermore, linger mode functionality\n is not supported on symmetric connections.\n\n A more complicated race condition can arise if both peers initiate a connection\n at roughly the same time.  In this situation, each peer will receive an incoming\n connection from the other peer, when the application code has already initiated\n an outgoing connection to that peer.  The peers must resolve this conflict and\n decide who is going to act as the \"server\" and who will act as the \"client\".\n Typically the application does not need to be aware of this case as it is handled\n internally.  On both sides, the will observe their outbound connection being\n \"accepted\", although one of them one have been converted internally to act\n as the \"server\".\n\n In general, symmetric mode should be all-or-nothing: do not mix symmetric\n connections with a non-symmetric connection that it might possible \"match\"\n with.  If you use symmetric mode on any connections, then both peers should\n use it on all connections, and the corresponding listen socket, if any.  The\n behaviour when symmetric and ordinary connections are mixed is not defined by\n this API, and you should not rely on it.  (This advice only applies when connections\n might possibly \"match\".  For example, it's OK to use all symmetric mode\n connections on one virtual port, and all ordinary, non-symmetric connections\n on a different virtual port, as there is no potential for ambiguity.)\n\n When using the feature, you should set it in the following situations on\n applicable objects:\n\n - When creating an outbound connection using ConnectXxx function\n - When creating a listen socket.  (Note that this will automatically cause\n   any accepted connections to inherit the flag.)\n - When using custom signaling, before accepting an incoming connection.\n\n Setting the flag on listen socket and accepted connections will enable the\n API to automatically deal with duplicate incoming connections, even if the\n local host has not made any outbound requests.  (In general, such duplicate\n requests from a peer are ignored internally and will not be visible to the\n application code.  The previous connection must be closed or resolved first.)"]
 	k_ESteamNetworkingConfig_SymmetricConnect = 37,
-	//#[doc = " [connection int32] For connection types that use \"virtual ports\", this can be used\n to assign a local virtual port.  For incoming connections, this will always be the\n virtual port of the listen socket (or the port requested by the remote host if custom\n signaling is used and the connection is accepted), and cannot be changed.  For\n connections initiated locally, the local virtual port will default to the same as the\n requested remote virtual port, if you do not specify a different option when creating\n the connection.  The local port is only relevant for symmetric connections, when\n determining if two connections \"match.\"  In this case, if you need the local and remote\n port to differ, you can set this value.\n\n You can also read back this value on listen sockets.\n\n This value should not be read or written in any other context."]
+	#[doc = " [connection int32] For connection types that use \"virtual ports\", this can be used\n to assign a local virtual port.  For incoming connections, this will always be the\n virtual port of the listen socket (or the port requested by the remote host if custom\n signaling is used and the connection is accepted), and cannot be changed.  For\n connections initiated locally, the local virtual port will default to the same as the\n requested remote virtual port, if you do not specify a different option when creating\n the connection.  The local port is only relevant for symmetric connections, when\n determining if two connections \"match.\"  In this case, if you need the local and remote\n port to differ, you can set this value.\n\n You can also read back this value on listen sockets.\n\n This value should not be read or written in any other context."]
 	k_ESteamNetworkingConfig_LocalVirtualPort = 38,
-	//#[doc = " [connection int32] Enable Dual wifi band support for this connection\n 0 = no, 1 = yes, 2 = simulate it for debugging, even if dual wifi not available"]
+	#[doc = " [connection int32] Enable Dual wifi band support for this connection\n 0 = no, 1 = yes, 2 = simulate it for debugging, even if dual wifi not available"]
 	k_ESteamNetworkingConfig_DualWifi_Enable = 39,
-	//#[doc = " [connection int32] True to enable diagnostics reporting through\n generic platform UI.  (Only available on Steam.)"]
+	#[doc = " [connection int32] True to enable diagnostics reporting through\n generic platform UI.  (Only available on Steam.)"]
 	k_ESteamNetworkingConfig_EnableDiagnosticsUI = 46,
-	//#[doc = " [connection int32] Send of time-since-previous-packet values in each UDP packet.\n This add a small amount of packet overhead but allows for detailed jitter measurements\n to be made by the receiver.\n\n -  0: disables the sending\n -  1: enables sending\n - -1: (the default) Use the default for the connection type.  For plain UDP connections,\n       this is disabled, and for relayed connections, it is enabled.  Note that relays\n       always send the value."]
+	#[doc = " [connection int32] Send of time-since-previous-packet values in each UDP packet.\n This add a small amount of packet overhead but allows for detailed jitter measurements\n to be made by the receiver.\n\n -  0: disables the sending\n -  1: enables sending\n - -1: (the default) Use the default for the connection type.  For plain UDP connections,\n       this is disabled, and for relayed connections, it is enabled.  Note that relays\n       always send the value."]
 	k_ESteamNetworkingConfig_SendTimeSincePreviousPacket = 59,
-	//#[doc = " [global float, 0--100] Randomly discard N pct of packets instead of sending/recv\n This is a global option only, since it is applied at a low level\n where we don't have much context"]
+	#[doc = " [global float, 0--100] Randomly discard N pct of packets instead of sending/recv\n This is a global option only, since it is applied at a low level\n where we don't have much context"]
 	k_ESteamNetworkingConfig_FakePacketLoss_Send = 2,
-	//#[doc = " [global float, 0--100] Randomly discard N pct of packets instead of sending/recv\n This is a global option only, since it is applied at a low level\n where we don't have much context"]
+	#[doc = " [global float, 0--100] Randomly discard N pct of packets instead of sending/recv\n This is a global option only, since it is applied at a low level\n where we don't have much context"]
 	k_ESteamNetworkingConfig_FakePacketLoss_Recv = 3,
-	//#[doc = " [global int32].  Delay all outbound/inbound packets by N ms"]
+	#[doc = " [global int32].  Delay all outbound/inbound packets by N ms"]
 	k_ESteamNetworkingConfig_FakePacketLag_Send = 4,
-	//#[doc = " [global int32].  Delay all outbound/inbound packets by N ms"]
+	#[doc = " [global int32].  Delay all outbound/inbound packets by N ms"]
 	k_ESteamNetworkingConfig_FakePacketLag_Recv = 5,
-	//#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
+	#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
 	k_ESteamNetworkingConfig_FakePacketJitter_Send_Avg = 53,
-	//#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
+	#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
 	k_ESteamNetworkingConfig_FakePacketJitter_Send_Max = 54,
-	//#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
+	#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
 	k_ESteamNetworkingConfig_FakePacketJitter_Send_Pct = 55,
-	//#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
+	#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
 	k_ESteamNetworkingConfig_FakePacketJitter_Recv_Avg = 56,
-	//#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
+	#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
 	k_ESteamNetworkingConfig_FakePacketJitter_Recv_Max = 57,
-	//#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
+	#[doc = " Simulated jitter/clumping.\n\n For each packet, a jitter value is determined (which may\n be zero).  This amount is added as extra delay to the\n packet.  When a subsequent packet is queued, it receives its\n own random jitter amount from the current time.  if this would\n result in the packets being delivered out of order, the later\n packet queue time is adjusted to happen after the first packet.\n Thus simulating jitter by itself will not reorder packets, but it\n can \"clump\" them.\n\n\t- Avg: A random jitter time is generated using an exponential\n   distribution using this value as the mean (ms).  The default\n   is zero, which disables random jitter.\n - Max: Limit the random jitter time to this value (ms).\n\t- Pct: odds (0-100) that a random jitter value for the packet\n   will be generated.  Otherwise, a jitter value of zero\n   is used, and the packet will only be delayed by the jitter\n   system if necessary to retain order, due to the jitter of a\n   previous packet.\n\n All values are [global float]\n\n Fake jitter is simulated after fake lag, but before reordering."]
 	k_ESteamNetworkingConfig_FakePacketJitter_Recv_Pct = 58,
-	//#[doc = " [global float] 0-100 Percentage of packets we will add additional\n delay to.  If other packet(s) are sent/received within this delay\n window (that doesn't also randomly receive the same extra delay),\n then the packets become reordered.\n\n This mechanism is primarily intended to generate out-of-order\n packets.  To simulate random jitter, use the FakePacketJitter.\n Fake packet reordering is applied after fake lag and jitter"]
+	#[doc = " [global float] 0-100 Percentage of packets we will add additional\n delay to.  If other packet(s) are sent/received within this delay\n window (that doesn't also randomly receive the same extra delay),\n then the packets become reordered.\n\n This mechanism is primarily intended to generate out-of-order\n packets.  To simulate random jitter, use the FakePacketJitter.\n Fake packet reordering is applied after fake lag and jitter"]
 	k_ESteamNetworkingConfig_FakePacketReorder_Send = 6,
-	//#[doc = " [global float] 0-100 Percentage of packets we will add additional\n delay to.  If other packet(s) are sent/received within this delay\n window (that doesn't also randomly receive the same extra delay),\n then the packets become reordered.\n\n This mechanism is primarily intended to generate out-of-order\n packets.  To simulate random jitter, use the FakePacketJitter.\n Fake packet reordering is applied after fake lag and jitter"]
+	#[doc = " [global float] 0-100 Percentage of packets we will add additional\n delay to.  If other packet(s) are sent/received within this delay\n window (that doesn't also randomly receive the same extra delay),\n then the packets become reordered.\n\n This mechanism is primarily intended to generate out-of-order\n packets.  To simulate random jitter, use the FakePacketJitter.\n Fake packet reordering is applied after fake lag and jitter"]
 	k_ESteamNetworkingConfig_FakePacketReorder_Recv = 7,
-	//#[doc = " [global int32] Extra delay, in ms, to apply to reordered\n packets.  The same time value is used for sending and receiving."]
+	#[doc = " [global int32] Extra delay, in ms, to apply to reordered\n packets.  The same time value is used for sending and receiving."]
 	k_ESteamNetworkingConfig_FakePacketReorder_Time = 8,
-	//#[doc = " [global float 0--100] Globally duplicate some percentage of packets."]
+	#[doc = " [global float 0--100] Globally duplicate some percentage of packets."]
 	k_ESteamNetworkingConfig_FakePacketDup_Send = 26,
-	//#[doc = " [global float 0--100] Globally duplicate some percentage of packets."]
+	#[doc = " [global float 0--100] Globally duplicate some percentage of packets."]
 	k_ESteamNetworkingConfig_FakePacketDup_Recv = 27,
-	//#[doc = " [global int32] Amount of delay, in ms, to delay duplicated packets.\n (We chose a random delay between 0 and this value)"]
+	#[doc = " [global int32] Amount of delay, in ms, to delay duplicated packets.\n (We chose a random delay between 0 and this value)"]
 	k_ESteamNetworkingConfig_FakePacketDup_TimeMax = 28,
-	//#[doc = " [global int32] Trace every UDP packet, similar to Wireshark or tcpdump.\n Value is max number of bytes to dump.  -1 disables tracing."]
+	#[doc = " [global int32] Trace every UDP packet, similar to Wireshark or tcpdump.\n Value is max number of bytes to dump.  -1 disables tracing."]
 	k_ESteamNetworkingConfig_PacketTraceMaxBytes = 41,
 	k_ESteamNetworkingConfig_FakeRateLimit_Send_Rate = 42,
 	k_ESteamNetworkingConfig_FakeRateLimit_Send_Burst = 43,
 	k_ESteamNetworkingConfig_FakeRateLimit_Recv_Rate = 44,
 	k_ESteamNetworkingConfig_FakeRateLimit_Recv_Burst = 45,
 	k_ESteamNetworkingConfig_OutOfOrderCorrectionWindowMicroseconds = 51,
-	//#[doc = " [connection FnSteamNetConnectionStatusChanged] Callback that will be invoked\n when the state of a connection changes.\n\n IMPORTANT: callbacks are dispatched to the handler that is in effect at the time\n the event occurs, which might be in another thread.  For example, immediately after\n creating a listen socket, you may receive an incoming connection.  And then immediately\n after this, the remote host may close the connection.  All of this could happen\n before the function to create the listen socket has returned.  For this reason,\n callbacks usually must be in effect at the time of object creation.  This means\n you should set them when you are creating the listen socket or connection, or have\n them in effect so they will be inherited at the time of object creation.\n\n For example:\n\n exterm void MyStatusChangedFunc( SteamNetConnectionStatusChangedCallback_t *info );\n SteamNetworkingConfigValue_t opt; opt.SetPtr( k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged, MyStatusChangedFunc );\n SteamNetworkingIPAddr localAddress; localAddress.Clear();\n HSteamListenSocket hListenSock = SteamNetworkingSockets()->CreateListenSocketIP( localAddress, 1, &opt );\n\n When accepting an incoming connection, there is no atomic way to switch the\n callback.  However, if the connection is DOA, AcceptConnection() will fail, and\n you can fetch the state of the connection at that time.\n\n If all connections and listen sockets can use the same callback, the simplest\n method is to set it globally before you create any listen sockets or connections."]
+	#[doc = " [connection FnSteamNetConnectionStatusChanged] Callback that will be invoked\n when the state of a connection changes.\n\n IMPORTANT: callbacks are dispatched to the handler that is in effect at the time\n the event occurs, which might be in another thread.  For example, immediately after\n creating a listen socket, you may receive an incoming connection.  And then immediately\n after this, the remote host may close the connection.  All of this could happen\n before the function to create the listen socket has returned.  For this reason,\n callbacks usually must be in effect at the time of object creation.  This means\n you should set them when you are creating the listen socket or connection, or have\n them in effect so they will be inherited at the time of object creation.\n\n For example:\n\n exterm void MyStatusChangedFunc( SteamNetConnectionStatusChangedCallback_t *info );\n SteamNetworkingConfigValue_t opt; opt.SetPtr( k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged, MyStatusChangedFunc );\n SteamNetworkingIPAddr localAddress; localAddress.Clear();\n HSteamListenSocket hListenSock = SteamNetworkingSockets()->CreateListenSocketIP( localAddress, 1, &opt );\n\n When accepting an incoming connection, there is no atomic way to switch the\n callback.  However, if the connection is DOA, AcceptConnection() will fail, and\n you can fetch the state of the connection at that time.\n\n If all connections and listen sockets can use the same callback, the simplest\n method is to set it globally before you create any listen sockets or connections."]
 	k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged = 201,
-	//#[doc = " [global FnSteamNetAuthenticationStatusChanged] Callback that will be invoked\n when our auth state changes.  If you use this, install the callback before creating\n any connections or listen sockets, and don't change it.\n See: ISteamNetworkingUtils::SetGlobalCallback_SteamNetAuthenticationStatusChanged"]
+	#[doc = " [global FnSteamNetAuthenticationStatusChanged] Callback that will be invoked\n when our auth state changes.  If you use this, install the callback before creating\n any connections or listen sockets, and don't change it.\n See: ISteamNetworkingUtils::SetGlobalCallback_SteamNetAuthenticationStatusChanged"]
 	k_ESteamNetworkingConfig_Callback_AuthStatusChanged = 202,
-	//#[doc = " [global FnSteamRelayNetworkStatusChanged] Callback that will be invoked\n when our auth state changes.  If you use this, install the callback before creating\n any connections or listen sockets, and don't change it.\n See: ISteamNetworkingUtils::SetGlobalCallback_SteamRelayNetworkStatusChanged"]
+	#[doc = " [global FnSteamRelayNetworkStatusChanged] Callback that will be invoked\n when our auth state changes.  If you use this, install the callback before creating\n any connections or listen sockets, and don't change it.\n See: ISteamNetworkingUtils::SetGlobalCallback_SteamRelayNetworkStatusChanged"]
 	k_ESteamNetworkingConfig_Callback_RelayNetworkStatusChanged = 203,
-	//#[doc = " [global FnSteamNetworkingMessagesSessionRequest] Callback that will be invoked\n when a peer wants to initiate a SteamNetworkingMessagesSessionRequest.\n See: ISteamNetworkingUtils::SetGlobalCallback_MessagesSessionRequest"]
+	#[doc = " [global FnSteamNetworkingMessagesSessionRequest] Callback that will be invoked\n when a peer wants to initiate a SteamNetworkingMessagesSessionRequest.\n See: ISteamNetworkingUtils::SetGlobalCallback_MessagesSessionRequest"]
 	k_ESteamNetworkingConfig_Callback_MessagesSessionRequest = 204,
-	//#[doc = " [global FnSteamNetworkingMessagesSessionFailed] Callback that will be invoked\n when a session you have initiated, or accepted either fails to connect, or loses\n connection in some unexpected way.\n See: ISteamNetworkingUtils::SetGlobalCallback_MessagesSessionFailed"]
+	#[doc = " [global FnSteamNetworkingMessagesSessionFailed] Callback that will be invoked\n when a session you have initiated, or accepted either fails to connect, or loses\n connection in some unexpected way.\n See: ISteamNetworkingUtils::SetGlobalCallback_MessagesSessionFailed"]
 	k_ESteamNetworkingConfig_Callback_MessagesSessionFailed = 205,
-	//#[doc = " [global FnSteamNetworkingSocketsCreateConnectionSignaling] Callback that will\n be invoked when we need to create a signaling object for a connection\n initiated locally.  See: ISteamNetworkingSockets::ConnectP2P,\n ISteamNetworkingMessages."]
+	#[doc = " [global FnSteamNetworkingSocketsCreateConnectionSignaling] Callback that will\n be invoked when we need to create a signaling object for a connection\n initiated locally.  See: ISteamNetworkingSockets::ConnectP2P,\n ISteamNetworkingMessages."]
 	k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling = 206,
-	//#[doc = " [global FnSteamNetworkingFakeIPResult] Callback that's invoked when\n a FakeIP allocation finishes.  See: ISteamNetworkingSockets::BeginAsyncRequestFakeIP,\n ISteamNetworkingUtils::SetGlobalCallback_FakeIPResult"]
+	#[doc = " [global FnSteamNetworkingFakeIPResult] Callback that's invoked when\n a FakeIP allocation finishes.  See: ISteamNetworkingSockets::BeginAsyncRequestFakeIP,\n ISteamNetworkingUtils::SetGlobalCallback_FakeIPResult"]
 	k_ESteamNetworkingConfig_Callback_FakeIPResult = 207,
-	//#[doc = " [connection string] Comma-separated list of STUN servers that can be used\n for NAT piercing.  If you set this to an empty string, NAT piercing will\n not be attempted.  Also if \"public\" candidates are not allowed for\n P2P_Transport_ICE_Enable, then this is ignored."]
+	#[doc = " [connection string] Comma-separated list of STUN servers that can be used\n for NAT piercing.  If you set this to an empty string, NAT piercing will\n not be attempted.  Also if \"public\" candidates are not allowed for\n P2P_Transport_ICE_Enable, then this is ignored."]
 	k_ESteamNetworkingConfig_P2P_STUN_ServerList = 103,
-	//#[doc = " [connection int32] What types of ICE candidates to share with the peer.\n See k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_xxx values"]
+	#[doc = " [connection int32] What types of ICE candidates to share with the peer.\n See k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_xxx values"]
 	k_ESteamNetworkingConfig_P2P_Transport_ICE_Enable = 104,
-	//#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
+	#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
 	k_ESteamNetworkingConfig_P2P_Transport_ICE_Penalty = 105,
-	//#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
+	#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
 	k_ESteamNetworkingConfig_P2P_Transport_SDR_Penalty = 106,
-	//#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
+	#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
 	k_ESteamNetworkingConfig_P2P_TURN_ServerList = 107,
-	//#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
+	#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
 	k_ESteamNetworkingConfig_P2P_TURN_UserList = 108,
-	//#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
+	#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
 	k_ESteamNetworkingConfig_P2P_TURN_PassList = 109,
-	//#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
+	#[doc = " [connection int32] When selecting P2P transport, add various\n penalties to the scores for selected transports.  (Route selection\n scores are on a scale of milliseconds.  The score begins with the\n route ping time and is then adjusted.)"]
 	k_ESteamNetworkingConfig_P2P_Transport_ICE_Implementation = 110,
-	//#[doc = " [global int32] If the first N pings to a port all fail, mark that port as unavailable for\n a while, and try a different one.  Some ISPs and routers may drop the first\n packet, so setting this to 1 may greatly disrupt communications."]
+	#[doc = " [global int32] If the first N pings to a port all fail, mark that port as unavailable for\n a while, and try a different one.  Some ISPs and routers may drop the first\n packet, so setting this to 1 may greatly disrupt communications."]
 	k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFailInitial = 19,
-	//#[doc = " [global int32] If N consecutive pings to a port fail, after having received successful\n communication, mark that port as unavailable for a while, and try a\n different one."]
+	#[doc = " [global int32] If N consecutive pings to a port fail, after having received successful\n communication, mark that port as unavailable for a while, and try a\n different one."]
 	k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFail = 20,
-	//#[doc = " [global int32] Minimum number of lifetime pings we need to send, before we think our estimate\n is solid.  The first ping to each cluster is very often delayed because of NAT,\n routers not having the best route, etc.  Until we've sent a sufficient number\n of pings, our estimate is often inaccurate.  Keep pinging until we get this\n many pings."]
+	#[doc = " [global int32] Minimum number of lifetime pings we need to send, before we think our estimate\n is solid.  The first ping to each cluster is very often delayed because of NAT,\n routers not having the best route, etc.  Until we've sent a sufficient number\n of pings, our estimate is often inaccurate.  Keep pinging until we get this\n many pings."]
 	k_ESteamNetworkingConfig_SDRClient_MinPingsBeforePingAccurate = 21,
-	//#[doc = " [global int32] Set all steam datagram traffic to originate from the same\n local port. By default, we open up a new UDP socket (on a different local\n port) for each relay.  This is slightly less optimal, but it works around\n some routers that don't implement NAT properly.  If you have intermittent\n problems talking to relays that might be NAT related, try toggling\n this flag"]
+	#[doc = " [global int32] Set all steam datagram traffic to originate from the same\n local port. By default, we open up a new UDP socket (on a different local\n port) for each relay.  This is slightly less optimal, but it works around\n some routers that don't implement NAT properly.  If you have intermittent\n problems talking to relays that might be NAT related, try toggling\n this flag"]
 	k_ESteamNetworkingConfig_SDRClient_SingleSocket = 22,
-	//#[doc = " [global string] Code of relay cluster to force use.  If not empty, we will\n only use relays in that cluster.  E.g. 'iad'"]
+	#[doc = " [global string] Code of relay cluster to force use.  If not empty, we will\n only use relays in that cluster.  E.g. 'iad'"]
 	k_ESteamNetworkingConfig_SDRClient_ForceRelayCluster = 29,
-	//#[doc = " [connection string] For development, a base-64 encoded ticket generated\n using the cert tool.  This can be used to connect to a gameserver via SDR\n without a ticket generated using the game coordinator.  (You will still\n need a key that is trusted for your app, however.)\n\n This can also be passed using the SDR_DEVTICKET environment variable"]
+	#[doc = " [connection string] For development, a base-64 encoded ticket generated\n using the cert tool.  This can be used to connect to a gameserver via SDR\n without a ticket generated using the game coordinator.  (You will still\n need a key that is trusted for your app, however.)\n\n This can also be passed using the SDR_DEVTICKET environment variable"]
 	k_ESteamNetworkingConfig_SDRClient_DevTicket = 30,
-	//#[doc = " [global string] For debugging.  Override list of relays from the config with\n this set (maybe just one).  Comma-separated list."]
+	#[doc = " [global string] For debugging.  Override list of relays from the config with\n this set (maybe just one).  Comma-separated list."]
 	k_ESteamNetworkingConfig_SDRClient_ForceProxyAddr = 31,
-	//#[doc = " [global string] For debugging.  Force ping times to clusters to be the specified\n values.  A comma separated list of <cluster>=<ms> values.  E.g. \"sto=32,iad=100\"\n\n This is a dev configuration value, you probably should not let users modify it\n in production."]
+	#[doc = " [global string] For debugging.  Force ping times to clusters to be the specified\n values.  A comma separated list of <cluster>=<ms> values.  E.g. \"sto=32,iad=100\"\n\n This is a dev configuration value, you probably should not let users modify it\n in production."]
 	k_ESteamNetworkingConfig_SDRClient_FakeClusterPing = 36,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_SDRClient_LimitPingProbesToNearestN = 60,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_LogLevel_AckRTT = 13,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_LogLevel_PacketDecode = 14,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_LogLevel_Message = 15,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_LogLevel_PacketGaps = 16,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_ECN = 999,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfig_DELETED_EnumerateDevVars = 35,
-	//#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
+	#[doc = " [global int32] When probing the SteamDatagram network, we limit exploration\n to the closest N POPs, based on our current best approximated ping to that POP."]
 	k_ESteamNetworkingConfigValue__Force32Bit = 2147483647,
 }
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Default: ::std::os::raw::c_int = -1;
@@ -10160,17 +10160,17 @@ pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Relay: ::std::os::ra
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Private: ::std::os::raw::c_int = 2;
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Public: ::std::os::raw::c_int = 4;
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_All: ::std::os::raw::c_int = 2147483647;
-//#[doc = " In a few places we need to set configuration options on listen sockets and connections, and\n have them take effect *before* the listen socket or connection really starts doing anything.\n Creating the object and then setting the options \"immediately\" after creation doesn't work\n completely, because network packets could be received between the time the object is created and\n when the options are applied.  To set options at creation time in a reliable way, they must be\n passed to the creation function.  This structure is used to pass those options.\n\n For the meaning of these fields, see ISteamNetworkingUtils::SetConfigValue.  Basically\n when the object is created, we just iterate over the list of options and call\n ISteamNetworkingUtils::SetConfigValueStruct, where the scope arguments are supplied by the\n object being created."]
+#[doc = " In a few places we need to set configuration options on listen sockets and connections, and\n have them take effect *before* the listen socket or connection really starts doing anything.\n Creating the object and then setting the options \"immediately\" after creation doesn't work\n completely, because network packets could be received between the time the object is created and\n when the options are applied.  To set options at creation time in a reliable way, they must be\n passed to the creation function.  This structure is used to pass those options.\n\n For the meaning of these fields, see ISteamNetworkingUtils::SetConfigValue.  Basically\n when the object is created, we just iterate over the list of options and call\n ISteamNetworkingUtils::SetConfigValueStruct, where the scope arguments are supplied by the\n object being created."]
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingConfigValue_t {
-	//#[doc = " Which option is being set"]
+	#[doc = " Which option is being set"]
 	pub m_eValue: ESteamNetworkingConfigValue,
-	//#[doc = " Which field below did you fill in?"]
+	#[doc = " Which field below did you fill in?"]
 	pub m_eDataType: ESteamNetworkingConfigDataType,
 	pub m_val: SteamNetworkingConfigValue_t__bindgen_ty_1,
 }
-//#[doc = " Option value"]
+#[doc = " Option value"]
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub union SteamNetworkingConfigValue_t__bindgen_ty_1 {
@@ -10200,7 +10200,7 @@ const _: () = {
 };
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " Return value of ISteamNetworkintgUtils::GetConfigValue"]
+#[doc = " Return value of ISteamNetworkintgUtils::GetConfigValue"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingGetConfigValueResult {
 	k_ESteamNetworkingGetConfigValue_BadValue = -1,
@@ -10212,7 +10212,7 @@ pub enum ESteamNetworkingGetConfigValueResult {
 }
 #[repr(i32)]
 #[non_exhaustive]
-//#[doc = " Detail level for diagnostic output callback.\n See ISteamNetworkingUtils::SetDebugOutputFunction"]
+#[doc = " Detail level for diagnostic output callback.\n See ISteamNetworkingUtils::SetDebugOutputFunction"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingSocketsDebugOutputType {
 	k_ESteamNetworkingSocketsDebugOutputType_None = 0,
@@ -10226,11 +10226,11 @@ pub enum ESteamNetworkingSocketsDebugOutputType {
 	k_ESteamNetworkingSocketsDebugOutputType_Everything = 8,
 	k_ESteamNetworkingSocketsDebugOutputType__Force32Bit = 2147483647,
 }
-//#[doc = " Setup callback for debug output, and the desired verbosity you want."]
+#[doc = " Setup callback for debug output, and the desired verbosity you want."]
 pub type FSteamNetworkingSocketsDebugOutput = ::std::option::Option<unsafe extern "C" fn(nType: ESteamNetworkingSocketsDebugOutputType, pszMsg: *const ::std::os::raw::c_char)>;
-//#[doc = " The POPID \"dev\" is used in non-production environments for testing."]
+#[doc = " The POPID \"dev\" is used in non-production environments for testing."]
 pub const k_SteamDatagramPOPID_dev: SteamNetworkingPOPID = 6579574;
-//#[doc = " Utility class for printing a SteamNetworkingPOPID."]
+#[doc = " Utility class for printing a SteamNetworkingPOPID."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingPOPIDRender {
@@ -10242,12 +10242,12 @@ const _: () = {
 	["Alignment of SteamNetworkingPOPIDRender"][::std::mem::align_of::<SteamNetworkingPOPIDRender>() - 1usize];
 	["Offset of field: SteamNetworkingPOPIDRender::buf"][::std::mem::offset_of!(SteamNetworkingPOPIDRender, buf) - 0usize];
 };
-//#[doc = " A message that has been received."]
+#[doc = " A message that has been received."]
 pub type ISteamNetworkingMessage = SteamNetworkingMessage_t;
 pub type SteamDatagramErrMsg = SteamNetworkingErrMsg;
 #[repr(C)]
 pub struct ISteamNetworkingMessages__bindgen_vtable(::std::os::raw::c_void);
-//#[doc = " The non-connection-oriented interface to send and receive messages\n (whether they be \"clients\" or \"servers\").\n\n ISteamNetworkingSockets is connection-oriented (like TCP), meaning you\n need to listen and connect, and then you send messages using a connection\n handle.  ISteamNetworkingMessages is more like UDP, in that you can just send\n messages to arbitrary peers at any time.  The underlying connections are\n established implicitly.\n\n Under the hood ISteamNetworkingMessages works on top of the ISteamNetworkingSockets\n code, so you get the same routing and messaging efficiency.  The difference is\n mainly in your responsibility to explicitly establish a connection and\n the type of feedback you get about the state of the connection.  Both\n interfaces can do \"P2P\" communications, and both support both unreliable\n and reliable messages, fragmentation and reassembly.\n\n The primary purpose of this interface is to be \"like UDP\", so that UDP-based code\n can be ported easily to take advantage of relayed connections.  If you find\n yourself needing more low level information or control, or to be able to better\n handle failure, then you probably need to use ISteamNetworkingSockets directly.\n Also, note that if your main goal is to obtain a connection between two peers\n without concerning yourself with assigning roles of \"client\" and \"server\",\n you may find the symmetric connection mode of ISteamNetworkingSockets useful.\n (See k_ESteamNetworkingConfig_SymmetricConnect.)\n"]
+#[doc = " The non-connection-oriented interface to send and receive messages\n (whether they be \"clients\" or \"servers\").\n\n ISteamNetworkingSockets is connection-oriented (like TCP), meaning you\n need to listen and connect, and then you send messages using a connection\n handle.  ISteamNetworkingMessages is more like UDP, in that you can just send\n messages to arbitrary peers at any time.  The underlying connections are\n established implicitly.\n\n Under the hood ISteamNetworkingMessages works on top of the ISteamNetworkingSockets\n code, so you get the same routing and messaging efficiency.  The difference is\n mainly in your responsibility to explicitly establish a connection and\n the type of feedback you get about the state of the connection.  Both\n interfaces can do \"P2P\" communications, and both support both unreliable\n and reliable messages, fragmentation and reassembly.\n\n The primary purpose of this interface is to be \"like UDP\", so that UDP-based code\n can be ported easily to take advantage of relayed connections.  If you find\n yourself needing more low level information or control, or to be able to better\n handle failure, then you probably need to use ISteamNetworkingSockets directly.\n Also, note that if your main goal is to obtain a connection between two peers\n without concerning yourself with assigning roles of \"client\" and \"server\",\n you may find the symmetric connection mode of ISteamNetworkingSockets useful.\n (See k_ESteamNetworkingConfig_SymmetricConnect.)\n"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct ISteamNetworkingMessages {
@@ -10258,7 +10258,7 @@ const _: () = {
 	["Size of ISteamNetworkingMessages"][::std::mem::size_of::<ISteamNetworkingMessages>() - 8usize];
 	["Alignment of ISteamNetworkingMessages"][::std::mem::align_of::<ISteamNetworkingMessages>() - 8usize];
 };
-//#[doc = " Posted when a remote host is sending us a message, and we do not already have a session with them"]
+#[doc = " Posted when a remote host is sending us a message, and we do not already have a session with them"]
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingMessagesSessionRequest_t {
@@ -10277,11 +10277,11 @@ const _: () = {
 	["Alignment of SteamNetworkingMessagesSessionRequest_t"][::std::mem::align_of::<SteamNetworkingMessagesSessionRequest_t>() - 1usize];
 	["Offset of field: SteamNetworkingMessagesSessionRequest_t::m_identityRemote"][::std::mem::offset_of!(SteamNetworkingMessagesSessionRequest_t, m_identityRemote) - 0usize];
 };
-//#[doc = " Posted when we fail to establish a connection, or we detect that communications\n have been disrupted it an unusual way.  There is no notification when a peer proactively\n closes the session.  (\"Closed by peer\" is not a concept of UDP-style communications, and\n SteamNetworkingMessages is primarily intended to make porting UDP code easy.)\n\n Remember: callbacks are asynchronous.   See notes on SendMessageToUser,\n and k_nSteamNetworkingSend_AutoRestartBrokenSession in particular.\n\n Also, if a session times out due to inactivity, no callbacks will be posted.  The only\n way to detect that this is happening is that querying the session state may return\n none, connecting, and findingroute again."]
+#[doc = " Posted when we fail to establish a connection, or we detect that communications\n have been disrupted it an unusual way.  There is no notification when a peer proactively\n closes the session.  (\"Closed by peer\" is not a concept of UDP-style communications, and\n SteamNetworkingMessages is primarily intended to make porting UDP code easy.)\n\n Remember: callbacks are asynchronous.   See notes on SendMessageToUser,\n and k_nSteamNetworkingSend_AutoRestartBrokenSession in particular.\n\n Also, if a session times out due to inactivity, no callbacks will be posted.  The only\n way to detect that this is happening is that querying the session state may return\n none, connecting, and findingroute again."]
 #[repr(C, packed)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingMessagesSessionFailed_t {
-	//#[doc = " Detailed info about the session that failed.\n SteamNetConnectionInfo_t::m_identityRemote indicates who this session\n was with."]
+	#[doc = " Detailed info about the session that failed.\n SteamNetConnectionInfo_t::m_identityRemote indicates who this session\n was with."]
 	pub m_info: SteamNetConnectionInfo_t,
 }
 pub const SteamNetworkingMessagesSessionFailed_t_k_iCallback: SteamNetworkingMessagesSessionFailed_t__bindgen_ty_1 = SteamNetworkingMessagesSessionFailed_t__bindgen_ty_1::k_iCallback;
@@ -10314,7 +10314,7 @@ pub struct ISteamNetworkingFakeUDPPort {
 }
 #[repr(C)]
 pub struct ISteamNetworkingSockets__bindgen_vtable(::std::os::raw::c_void);
-//#[doc = " Lower level networking API.\n\n - Connection-oriented API (like TCP, not UDP).  When sending and receiving\n   messages, a connection handle is used.  (For a UDP-style interface, where\n   the peer is identified by their address with each send/recv call, see\n   ISteamNetworkingMessages.)  The typical pattern is for a \"server\" to \"listen\"\n   on a \"listen socket.\"  A \"client\" will \"connect\" to the server, and the\n   server will \"accept\" the connection.  If you have a symmetric situation\n   where either peer may initiate the connection and server/client roles are\n   not clearly defined, check out k_ESteamNetworkingConfig_SymmetricConnect.\n - But unlike TCP, it's message-oriented, not stream-oriented.\n - Mix of reliable and unreliable messages\n - Fragmentation and reassembly\n - Supports connectivity over plain UDP\n - Also supports SDR (\"Steam Datagram Relay\") connections, which are\n   addressed by the identity of the peer.  There is a \"P2P\" use case and\n   a \"hosted dedicated server\" use case.\n\n Note that neither of the terms \"connection\" nor \"socket\" necessarily correspond\n one-to-one with an underlying UDP socket.  An attempt has been made to\n keep the semantics as similar to the standard socket model when appropriate,\n but some deviations do exist.\n\n See also: ISteamNetworkingMessages, the UDP-style interface.  This API might be\n easier to use, especially when porting existing UDP code."]
+#[doc = " Lower level networking API.\n\n - Connection-oriented API (like TCP, not UDP).  When sending and receiving\n   messages, a connection handle is used.  (For a UDP-style interface, where\n   the peer is identified by their address with each send/recv call, see\n   ISteamNetworkingMessages.)  The typical pattern is for a \"server\" to \"listen\"\n   on a \"listen socket.\"  A \"client\" will \"connect\" to the server, and the\n   server will \"accept\" the connection.  If you have a symmetric situation\n   where either peer may initiate the connection and server/client roles are\n   not clearly defined, check out k_ESteamNetworkingConfig_SymmetricConnect.\n - But unlike TCP, it's message-oriented, not stream-oriented.\n - Mix of reliable and unreliable messages\n - Fragmentation and reassembly\n - Supports connectivity over plain UDP\n - Also supports SDR (\"Steam Datagram Relay\") connections, which are\n   addressed by the identity of the peer.  There is a \"P2P\" use case and\n   a \"hosted dedicated server\" use case.\n\n Note that neither of the terms \"connection\" nor \"socket\" necessarily correspond\n one-to-one with an underlying UDP socket.  An attempt has been made to\n keep the semantics as similar to the standard socket model when appropriate,\n but some deviations do exist.\n\n See also: ISteamNetworkingMessages, the UDP-style interface.  This API might be\n easier to use, especially when porting existing UDP code."]
 #[repr(C)]
 #[derive(Debug)]
 pub struct ISteamNetworkingSockets {
@@ -10335,15 +10335,15 @@ impl ISteamNetworkingSockets {
 		ISteamNetworkingSockets_ISteamNetworkingSockets_destructor(self)
 	}
 }
-//#[doc = " This callback is posted whenever a connection is created, destroyed, or changes state.\n The m_info field will contain a complete description of the connection at the time the\n change occurred and the callback was posted.  In particular, m_eState will have the\n new connection state.\n\n You will usually need to listen for this callback to know when:\n - A new connection arrives on a listen socket.\n   m_info.m_hListenSocket will be set, m_eOldState = k_ESteamNetworkingConnectionState_None,\n   and m_info.m_eState = k_ESteamNetworkingConnectionState_Connecting.\n   See ISteamNetworkigSockets::AcceptConnection.\n - A connection you initiated has been accepted by the remote host.\n   m_eOldState = k_ESteamNetworkingConnectionState_Connecting, and\n   m_info.m_eState = k_ESteamNetworkingConnectionState_Connected.\n   Some connections might transition to k_ESteamNetworkingConnectionState_FindingRoute first.\n - A connection has been actively rejected or closed by the remote host.\n   m_eOldState = k_ESteamNetworkingConnectionState_Connecting or k_ESteamNetworkingConnectionState_Connected,\n   and m_info.m_eState = k_ESteamNetworkingConnectionState_ClosedByPeer.  m_info.m_eEndReason\n   and m_info.m_szEndDebug will have for more details.\n   NOTE: upon receiving this callback, you must still destroy the connection using\n   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details\n   passed to the function are not used in this case, since the connection is already closed.)\n - A problem was detected with the connection, and it has been closed by the local host.\n   The most common failure is timeout, but other configuration or authentication failures\n   can cause this.  m_eOldState = k_ESteamNetworkingConnectionState_Connecting or\n   k_ESteamNetworkingConnectionState_Connected, and m_info.m_eState = k_ESteamNetworkingConnectionState_ProblemDetectedLocally.\n   m_info.m_eEndReason and m_info.m_szEndDebug will have for more details.\n   NOTE: upon receiving this callback, you must still destroy the connection using\n   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details\n   passed to the function are not used in this case, since the connection is already closed.)\n\n Remember that callbacks are posted to a queue, and networking connections can\n change at any time.  It is possible that the connection has already changed\n state by the time you process this callback.\n\n Also note that callbacks will be posted when connections are created and destroyed by your own API calls."]
+#[doc = " This callback is posted whenever a connection is created, destroyed, or changes state.\n The m_info field will contain a complete description of the connection at the time the\n change occurred and the callback was posted.  In particular, m_eState will have the\n new connection state.\n\n You will usually need to listen for this callback to know when:\n - A new connection arrives on a listen socket.\n   m_info.m_hListenSocket will be set, m_eOldState = k_ESteamNetworkingConnectionState_None,\n   and m_info.m_eState = k_ESteamNetworkingConnectionState_Connecting.\n   See ISteamNetworkigSockets::AcceptConnection.\n - A connection you initiated has been accepted by the remote host.\n   m_eOldState = k_ESteamNetworkingConnectionState_Connecting, and\n   m_info.m_eState = k_ESteamNetworkingConnectionState_Connected.\n   Some connections might transition to k_ESteamNetworkingConnectionState_FindingRoute first.\n - A connection has been actively rejected or closed by the remote host.\n   m_eOldState = k_ESteamNetworkingConnectionState_Connecting or k_ESteamNetworkingConnectionState_Connected,\n   and m_info.m_eState = k_ESteamNetworkingConnectionState_ClosedByPeer.  m_info.m_eEndReason\n   and m_info.m_szEndDebug will have for more details.\n   NOTE: upon receiving this callback, you must still destroy the connection using\n   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details\n   passed to the function are not used in this case, since the connection is already closed.)\n - A problem was detected with the connection, and it has been closed by the local host.\n   The most common failure is timeout, but other configuration or authentication failures\n   can cause this.  m_eOldState = k_ESteamNetworkingConnectionState_Connecting or\n   k_ESteamNetworkingConnectionState_Connected, and m_info.m_eState = k_ESteamNetworkingConnectionState_ProblemDetectedLocally.\n   m_info.m_eEndReason and m_info.m_szEndDebug will have for more details.\n   NOTE: upon receiving this callback, you must still destroy the connection using\n   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details\n   passed to the function are not used in this case, since the connection is already closed.)\n\n Remember that callbacks are posted to a queue, and networking connections can\n change at any time.  It is possible that the connection has already changed\n state by the time you process this callback.\n\n Also note that callbacks will be posted when connections are created and destroyed by your own API calls."]
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct SteamNetConnectionStatusChangedCallback_t {
-	//#[doc = " Connection handle"]
+	#[doc = " Connection handle"]
 	pub m_hConn: HSteamNetConnection,
-	//#[doc = " Full connection info"]
+	#[doc = " Full connection info"]
 	pub m_info: SteamNetConnectionInfo_t,
-	//#[doc = " Previous state.  (Current state is in m_info.m_eState)"]
+	#[doc = " Previous state.  (Current state is in m_info.m_eState)"]
 	pub m_eOldState: ESteamNetworkingConnectionState,
 }
 pub const SteamNetConnectionStatusChangedCallback_t_k_iCallback: SteamNetConnectionStatusChangedCallback_t__bindgen_ty_1 = SteamNetConnectionStatusChangedCallback_t__bindgen_ty_1::k_iCallback;
@@ -10361,13 +10361,13 @@ const _: () = {
 	["Offset of field: SteamNetConnectionStatusChangedCallback_t::m_info"][::std::mem::offset_of!(SteamNetConnectionStatusChangedCallback_t, m_info) - 8usize];
 	["Offset of field: SteamNetConnectionStatusChangedCallback_t::m_eOldState"][::std::mem::offset_of!(SteamNetConnectionStatusChangedCallback_t, m_eOldState) - 704usize];
 };
-//#[doc = " A struct used to describe our readiness to participate in authenticated,\n encrypted communication.  In order to do this we need:\n\n - The list of trusted CA certificates that might be relevant for this\n   app.\n - A valid certificate issued by a CA.\n\n This callback is posted whenever the state of our readiness changes."]
+#[doc = " A struct used to describe our readiness to participate in authenticated,\n encrypted communication.  In order to do this we need:\n\n - The list of trusted CA certificates that might be relevant for this\n   app.\n - A valid certificate issued by a CA.\n\n This callback is posted whenever the state of our readiness changes."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetAuthenticationStatus_t {
-	//#[doc = " Status"]
+	#[doc = " Status"]
 	pub m_eAvail: ESteamNetworkingAvailability,
-	//#[doc = " Non-localized English language status.  For diagnostic/debugging\n purposes only."]
+	#[doc = " Non-localized English language status.  For diagnostic/debugging\n purposes only."]
 	pub m_debugMsg: [::std::os::raw::c_char; 256usize],
 }
 pub const SteamNetAuthenticationStatus_t_k_iCallback: SteamNetAuthenticationStatus_t__bindgen_ty_1 = SteamNetAuthenticationStatus_t__bindgen_ty_1::k_iCallback;
@@ -10386,7 +10386,7 @@ const _: () = {
 };
 #[repr(C)]
 pub struct ISteamNetworkingUtils__bindgen_vtable(::std::os::raw::c_void);
-//#[doc = " Misc networking utilities for checking the local networking environment\n and estimating pings."]
+#[doc = " Misc networking utilities for checking the local networking environment\n and estimating pings."]
 #[repr(C)]
 #[derive(Debug)]
 pub struct ISteamNetworkingUtils {
@@ -10407,19 +10407,19 @@ impl ISteamNetworkingUtils {
 		ISteamNetworkingUtils_ISteamNetworkingUtils_destructor(self)
 	}
 }
-//#[doc = " A struct used to describe our readiness to use the relay network.\n To do this we first need to fetch the network configuration,\n which describes what POPs are available."]
+#[doc = " A struct used to describe our readiness to use the relay network.\n To do this we first need to fetch the network configuration,\n which describes what POPs are available."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamRelayNetworkStatus_t {
-	//#[doc = " Summary status.  When this is \"current\", initialization has\n completed.  Anything else means you are not ready yet, or\n there is a significant problem."]
+	#[doc = " Summary status.  When this is \"current\", initialization has\n completed.  Anything else means you are not ready yet, or\n there is a significant problem."]
 	pub m_eAvail: ESteamNetworkingAvailability,
-	//#[doc = " Nonzero if latency measurement is in progress (or pending,\n awaiting a prerequisite)."]
+	#[doc = " Nonzero if latency measurement is in progress (or pending,\n awaiting a prerequisite)."]
 	pub m_bPingMeasurementInProgress: ::std::os::raw::c_int,
-	//#[doc = " Status obtaining the network config.  This is a prerequisite\n for relay network access.\n\n Failure to obtain the network config almost always indicates\n a problem with the local internet connection."]
+	#[doc = " Status obtaining the network config.  This is a prerequisite\n for relay network access.\n\n Failure to obtain the network config almost always indicates\n a problem with the local internet connection."]
 	pub m_eAvailNetworkConfig: ESteamNetworkingAvailability,
-	//#[doc = " Current ability to communicate with ANY relay.  Note that\n the complete failure to communicate with any relays almost\n always indicates a problem with the local Internet connection.\n (However, just because you can reach a single relay doesn't\n mean that the local connection is in perfect health.)"]
+	#[doc = " Current ability to communicate with ANY relay.  Note that\n the complete failure to communicate with any relays almost\n always indicates a problem with the local Internet connection.\n (However, just because you can reach a single relay doesn't\n mean that the local connection is in perfect health.)"]
 	pub m_eAvailAnyRelay: ESteamNetworkingAvailability,
-	//#[doc = " Non-localized English language status.  For diagnostic/debugging\n purposes only."]
+	#[doc = " Non-localized English language status.  For diagnostic/debugging\n purposes only."]
 	pub m_debugMsg: [::std::os::raw::c_char; 256usize],
 }
 pub const SteamRelayNetworkStatus_t_k_iCallback: SteamRelayNetworkStatus_t__bindgen_ty_1 = SteamRelayNetworkStatus_t__bindgen_ty_1::k_iCallback;
@@ -10439,7 +10439,7 @@ const _: () = {
 	["Offset of field: SteamRelayNetworkStatus_t::m_eAvailAnyRelay"][::std::mem::offset_of!(SteamRelayNetworkStatus_t, m_eAvailAnyRelay) - 12usize];
 	["Offset of field: SteamRelayNetworkStatus_t::m_debugMsg"][::std::mem::offset_of!(SteamRelayNetworkStatus_t, m_debugMsg) - 16usize];
 };
-//#[doc = " Utility class for printing a SteamNetworkingIdentity.\n E.g. printf( \"Identity is '%s'\\n\", SteamNetworkingIdentityRender( identity ).c_str() );"]
+#[doc = " Utility class for printing a SteamNetworkingIdentity.\n E.g. printf( \"Identity is '%s'\\n\", SteamNetworkingIdentityRender( identity ).c_str() );"]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingIdentityRender {
@@ -10451,7 +10451,7 @@ const _: () = {
 	["Alignment of SteamNetworkingIdentityRender"][::std::mem::align_of::<SteamNetworkingIdentityRender>() - 1usize];
 	["Offset of field: SteamNetworkingIdentityRender::buf"][::std::mem::offset_of!(SteamNetworkingIdentityRender, buf) - 0usize];
 };
-//#[doc = " Utility class for printing a SteamNetworkingIPAddrRender."]
+#[doc = " Utility class for printing a SteamNetworkingIPAddrRender."]
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingIPAddrRender {
@@ -10500,23 +10500,23 @@ unsafe extern "C" {
 	pub fn SteamAPI_SetTryCatchCallbacks(bTryCatchCallbacks: bool);
 }
 unsafe extern "C" {
-	//#[doc = " Inform the API that you wish to use manual event dispatch.  This must be called after SteamAPI_Init, but before\n you use any of the other manual dispatch functions below."]
+	#[doc = " Inform the API that you wish to use manual event dispatch.  This must be called after SteamAPI_Init, but before\n you use any of the other manual dispatch functions below."]
 	pub fn SteamAPI_ManualDispatch_Init();
 }
 unsafe extern "C" {
-	//#[doc = " Perform certain periodic actions that need to be performed."]
+	#[doc = " Perform certain periodic actions that need to be performed."]
 	pub fn SteamAPI_ManualDispatch_RunFrame(hSteamPipe: HSteamPipe);
 }
 unsafe extern "C" {
-	//#[doc = " Fetch the next pending callback on the given pipe, if any.  If a callback is available, true is returned\n and the structure is populated.  In this case, you MUST call SteamAPI_ManualDispatch_FreeLastCallback\n (after dispatching the callback) before calling SteamAPI_ManualDispatch_GetNextCallback again."]
+	#[doc = " Fetch the next pending callback on the given pipe, if any.  If a callback is available, true is returned\n and the structure is populated.  In this case, you MUST call SteamAPI_ManualDispatch_FreeLastCallback\n (after dispatching the callback) before calling SteamAPI_ManualDispatch_GetNextCallback again."]
 	pub fn SteamAPI_ManualDispatch_GetNextCallback(hSteamPipe: HSteamPipe, pCallbackMsg: *mut CallbackMsg_t) -> bool;
 }
 unsafe extern "C" {
-	//#[doc = " You must call this after dispatching the callback, if SteamAPI_ManualDispatch_GetNextCallback returns true."]
+	#[doc = " You must call this after dispatching the callback, if SteamAPI_ManualDispatch_GetNextCallback returns true."]
 	pub fn SteamAPI_ManualDispatch_FreeLastCallback(hSteamPipe: HSteamPipe);
 }
 unsafe extern "C" {
-	//#[doc = " Return the call result for the specified call on the specified pipe.  You really should\n only call this in a handler for SteamAPICallCompleted_t callback."]
+	#[doc = " Return the call result for the specified call on the specified pipe.  You really should\n only call this in a handler for SteamAPICallCompleted_t callback."]
 	pub fn SteamAPI_ManualDispatch_GetAPICallResult(
 		hSteamPipe: HSteamPipe,
 		hSteamAPICall: SteamAPICall_t,
@@ -15152,7 +15152,7 @@ pub enum EServerMode {
 	eServerModeAuthentication = 2,
 	eServerModeAuthenticationAndSecure = 3,
 }
-//#[doc = " Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic\n UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a\n socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket\n and ISteamGameServer::GetNextOutgoingPacket to handle packets related to server discovery on your socket."]
+#[doc = " Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic\n UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a\n socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket\n and ISteamGameServer::GetNextOutgoingPacket to handle packets related to server discovery on your socket."]
 pub const STEAMGAMESERVER_QUERY_PORT_SHARED: uint16 = 65535;
 pub const MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE: uint16 = 65535;
 unsafe extern "C" {

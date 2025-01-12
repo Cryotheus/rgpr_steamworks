@@ -2,10 +2,8 @@
 //!
 //! [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#typedefs)
 
-use crate::error::IntoCIndexError;
 use rgpr_steamworks_sys as sys;
 use std::fmt::{Display, Formatter};
-use crate::interfaces::Steam;
 
 /// > Unique identifier for an app.
 /// For more information see the [Applications] documentation.
@@ -306,10 +304,10 @@ impl SteamId {
 	}
 
 	/// Returns `None` if the provided value was 0 when turned into a `SteamId`.
-	pub fn non_zero_from(value: impl Into<SteamId>)  -> Option<Self> {
+	pub fn non_zero_from(value: impl Into<SteamId>) -> Option<Self> {
 		value.into().non_zero()
 	}
-	
+
 	/// Returns `None` if the unpacked enum was invalid.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EUniverse)
@@ -397,6 +395,7 @@ pub enum Universe {
 
 /// For conversion into a positive `i32`,
 /// which is the equivalent type for iteration in Steamworks.
+#[cfg(feature = "steam")]
 pub trait IntoCIndex: Sized {
 	/// Always returns an `i32` that is positive.
 	///
@@ -406,21 +405,23 @@ pub trait IntoCIndex: Sized {
 		self.try_into_c_index().unwrap()
 	}
 
-	fn try_into_c_index(self) -> Result<i32, IntoCIndexError>;
+	fn try_into_c_index(self) -> Result<i32, crate::error::IntoCIndexError>;
 }
 
+#[cfg(feature = "steam")]
 impl IntoCIndex for i32 {
-	fn try_into_c_index(self) -> Result<i32, IntoCIndexError> {
+	fn try_into_c_index(self) -> Result<i32, crate::error::IntoCIndexError> {
 		if self < 0 {
-			Err(IntoCIndexError::Negative)
+			Err(crate::error::IntoCIndexError::Negative)
 		} else {
 			Ok(self)
 		}
 	}
 }
 
+#[cfg(feature = "steam")]
 impl IntoCIndex for usize {
-	fn try_into_c_index(self) -> Result<i32, IntoCIndexError> {
+	fn try_into_c_index(self) -> Result<i32, crate::error::IntoCIndexError> {
 		Ok(self.try_into()?)
 	}
 }

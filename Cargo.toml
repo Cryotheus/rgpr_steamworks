@@ -8,51 +8,53 @@ rust-version = "1.84.0"
 
 [workspace]
 resolver = "2"
-members = [
-    "rgpr_steamworks_sys"
-]
+members = ["rgpr_steamworks_sys"]
 
 [workspace.package]
 repository = "https://github.com/Cryotheus/rgpr_steamworks/"
 
 [features]
-default = ["steam_apps", "steam_friends"]
+default = ["steam"]
+steam = ["dep:futures"]
 sys = []
 
 #steam interfaces to initialize
-steam_apps = [] #available with game_server
-steam_client = [] #available with game_server
-steam_friends = ["dep:lru"]
-steam_game_coordinator = []
-steam_game_server = [] #game server only
-steam_game_server_stats = [] #game server only
-steam_html = ["dep:image"]
-steam_http = [] #available with game_server
-steam_input = []
-steam_inventory = []
-steam_networking = [] #available with game_server
-steam_match_making = []
-steam_match_making_servers = []
-steam_music_remote = []
-steam_music = []
-steam_parental_settings = []
-steam_parties = []
-steam_remote_play = []
-steam_remote_storage = []
-steam_screenshots = []
-steam_timeline = []
-steam_ugc = [] #available with game_server
-steam_user = []
-steam_user_stats = []
-steam_utils = [] #available with game_server
-steam_video = []
+steam_apps = ["steam", "dep:bitflags"] #available with game_server
+steam_client = ["steam"] #available with game_server
+steam_friends = ["steam", "dep:lru", "dep:bitflags"]
+steam_game_coordinator = ["steam"]
+steam_game_server = ["steam"] #game server only
+steam_game_server_stats = ["steam"] #game server only
+steam_html = ["steam", "dep:image"]
+steam_http = ["steam"] #available with game_server
+steam_input = ["steam"]
+steam_inventory = ["steam"]
+steam_networking = ["steam"] #available with game_server
+steam_match_making = ["steam"]
+steam_match_making_servers = ["steam"]
+steam_music_remote = ["steam"]
+steam_music = ["steam"]
+steam_parental_settings = ["steam"]
+steam_parties = ["steam"]
+steam_remote_play = ["steam"]
+steam_remote_storage = ["steam"]
+steam_screenshots = ["steam"]
+steam_timeline = ["steam"]
+steam_ugc = ["steam"] #available with game_server
+steam_user = ["steam"]
+steam_user_stats = ["steam"]
+steam_utils = ["steam"] #available with game_server
+steam_video = ["steam"]
 
 #enable the encrypted_app_ticket module for DRM authentication using a trusted server
+#the steam feature is not required
+#has its own dylib to ship alongside, see README.md # Building
 steam_encrypted_app_ticket = []
 
 [dependencies]
-bitflags = "2.7.0"
-futures = "0.3.31"
+bitflags = { version = "2.7.0", optional = true }
+cfg-if = "1.0.0"
+futures = { version = "0.3.31", optional = true }
 image = { version = "0.25.5", optional = true }
 lru = { version = "0.12.5", optional = true }
 rgpr_steamworks_sys = { path = "rgpr_steamworks_sys" }
@@ -62,6 +64,7 @@ thiserror = "2.0.11"
 [[example]]
 name = "hello_world"
 path = "examples/hello_world.rs"
+required-features = ["steam_apps"]
 
 [package.metadata.example.hello_world]
 hidden = true

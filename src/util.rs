@@ -1,4 +1,3 @@
-use crate::error::SilentFailure;
 use crate::sys;
 use std::ffi::{c_char, c_int, CStr, CString};
 use std::mem::transmute;
@@ -124,13 +123,14 @@ pub unsafe fn some_string(char_ptr: *const c_char) -> Option<String> {
 
 /// Turns a bool into `Result<(), SilentFailure>`  
 /// where `true` is `Ok(())`  
-/// and `false` is `Err(SilentFailure)`  
+/// and `false` is `Err(SilentFailure)`
+#[cfg(feature = "steam")]
 #[doc(hidden)]
 #[inline(always)]
-pub fn success(success: bool) -> Result<(), SilentFailure> {
+pub fn success(success: bool) -> Result<(), crate::error::SilentFailure> {
 	if success {
 		Ok(())
 	} else {
-		Err(SilentFailure)
+		Err(crate::error::SilentFailure)
 	}
 }

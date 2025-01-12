@@ -207,6 +207,18 @@ impl SteamError {
 	}
 }
 
+#[cfg(feature = "steam_encrypted_app_ticket")]
+impl From<crate::encrypted_app_ticket::DecryptionError> for SteamError {
+	fn from(value: crate::encrypted_app_ticket::DecryptionError) -> Self {
+		use crate::encrypted_app_ticket::DecryptionError;
+
+		match value {
+			DecryptionError::DataUnfulfilled => Self::DataUnfulfilled,
+			DecryptionError::SilentFailure => Self::SilentFailure,
+		}
+	}
+}
+
 impl From<SilentFailure> for SteamError {
 	fn from(_: SilentFailure) -> Self {
 		Self::SilentFailure

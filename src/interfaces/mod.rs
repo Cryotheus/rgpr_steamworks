@@ -668,7 +668,7 @@ impl SteamInterface {
 	pub fn app_id(&self) -> AppId {
 		self.app_id
 	}
-	
+
 	/// Blocks the thread until a lock on the [`CallManager`] can be made.
 	/// Make sure to drop this as early as possible.
 	/// Do not hold the guard across awaits.
