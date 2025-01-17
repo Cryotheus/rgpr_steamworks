@@ -577,6 +577,8 @@ struct CallThreadInner {
 }
 
 impl CallThreadInner {
+	/// # Panics
+	/// If the OS fails to create the thread.
 	fn new(interval: Duration, steam_child: SteamChild) -> Self {
 		let (command_tx, command_rx) = channel::<CallThreadCommand>();
 
@@ -614,7 +616,7 @@ impl CallThreadInner {
 					}
 				};
 			}
-		});
+		}).unwrap();
 
 		Self { command_tx, handle }
 	}
