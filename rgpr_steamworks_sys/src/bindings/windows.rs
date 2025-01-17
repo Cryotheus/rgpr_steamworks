@@ -331,7 +331,6 @@ pub const k_uAccountIdInvalid: AccountID_t = 0;
 pub type PartyBeaconID_t = uint64;
 pub const k_ulPartyBeaconIdInvalid: PartyBeaconID_t = 0;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamIPType {
 	k_ESteamIPTypeIPv4 = 0,
@@ -365,7 +364,6 @@ const _: () = {
 	["Offset of field: SteamIPAddress_t::m_eType"][::std::mem::offset_of!(SteamIPAddress_t, m_eType) - 16usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUniverse {
 	k_EUniverseInvalid = 0,
@@ -376,7 +374,6 @@ pub enum EUniverse {
 	k_EUniverseMax = 5,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EResult {
 	k_EResultNone = 0,
@@ -511,7 +508,6 @@ pub enum EResult {
 	k_EResultOfflineAppCacheInvalid = 130,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EVoiceResult {
 	k_EVoiceResultOK = 0,
@@ -526,7 +522,6 @@ pub enum EVoiceResult {
 	k_EVoiceResultReceiverDidNotAnswer = 9,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EDenyReason {
 	k_EDenyInvalid = 0,
@@ -549,7 +544,6 @@ pub enum EDenyReason {
 pub type HAuthTicket = uint32;
 pub const k_HAuthTicketInvalid: HAuthTicket = 0;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EBeginAuthSessionResult {
 	k_EBeginAuthSessionResultOK = 0,
@@ -560,7 +554,6 @@ pub enum EBeginAuthSessionResult {
 	k_EBeginAuthSessionResultExpiredTicket = 5,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EAuthSessionResponse {
 	k_EAuthSessionResponseOK = 0,
@@ -576,7 +569,6 @@ pub enum EAuthSessionResponse {
 	k_EAuthSessionResponseAuthTicketNetworkIdentityFailure = 10,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUserHasLicenseForAppResult {
 	k_EUserHasLicenseResultHasLicense = 0,
@@ -584,7 +576,6 @@ pub enum EUserHasLicenseForAppResult {
 	k_EUserHasLicenseResultNoAuth = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EAccountType {
 	k_EAccountTypeInvalid = 0,
@@ -601,7 +592,6 @@ pub enum EAccountType {
 	k_EAccountTypeMax = 11,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EChatEntryType {
 	k_EChatEntryTypeInvalid = 0,
@@ -618,7 +608,6 @@ pub enum EChatEntryType {
 	k_EChatEntryTypeLinkBlocked = 14,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EChatRoomEnterResponse {
 	k_EChatRoomEnterResponseSuccess = 1,
@@ -638,7 +627,6 @@ pub const k_unSteamAccountIDMask: ::std::os::raw::c_uint = 4294967295;
 pub const k_unSteamAccountInstanceMask: ::std::os::raw::c_uint = 1048575;
 pub const k_unSteamUserDefaultInstance: ::std::os::raw::c_uint = 1;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EChatSteamIDInstanceFlags {
 	k_EChatAccountInstanceMask = 4095,
@@ -647,7 +635,6 @@ pub enum EChatSteamIDInstanceFlags {
 	k_EChatInstanceFlagMMSLobby = 131072,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ENotificationPosition {
 	k_EPositionInvalid = -1,
@@ -657,7 +644,6 @@ pub enum ENotificationPosition {
 	k_EPositionBottomRight = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EBroadcastUploadResult {
 	k_EBroadcastUploadResultNone = 0,
@@ -686,7 +672,6 @@ pub enum EBroadcastUploadResult {
 	k_EBroadcastUploadResultAudioInitFailed = 23,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EMarketNotAllowedReasonFlags {
 	k_EMarketNotAllowedReason_None = 0,
@@ -708,7 +693,6 @@ pub enum EMarketNotAllowedReasonFlags {
 	k_EMarketNotAllowedReason_AcceptedWalletGift = 32768,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EDurationControlProgress {
 	k_EDurationControlProgress_Full = 0,
@@ -719,7 +703,6 @@ pub enum EDurationControlProgress {
 	k_EDurationControl_ExitSoon_Night = 5,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EDurationControlNotification {
 	k_EDurationControlNotification_None = 0,
@@ -732,7 +715,6 @@ pub enum EDurationControlNotification {
 	k_EDurationControlNotification_ExitSoon_Night = 7,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EDurationControlOnlineState {
 	k_EDurationControlOnlineState_Invalid = 0,
@@ -741,7 +723,6 @@ pub enum EDurationControlOnlineState {
 	k_EDurationControlOnlineState_OnlineHighPri = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EBetaBranchFlags {
 	k_EBetaBranch_None = 0,
@@ -955,7 +936,6 @@ pub struct CGameID {
 	pub __bindgen_anon_1: CGameID__bindgen_ty_1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum CGameID_EGameIDType {
 	k_EGameIDTypeApp = 0,
@@ -1108,7 +1088,6 @@ impl CGameID {
 pub const k_cchGameExtraInfoMax: ::std::os::raw::c_int = 64;
 pub type PFNPreMinidumpCallback = ::std::option::Option<unsafe extern "C" fn(context: *mut ::std::os::raw::c_void)>;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EGameSearchErrorCode_t {
 	k_EGameSearchErrorCode_OK = 1,
@@ -1122,7 +1101,6 @@ pub enum EGameSearchErrorCode_t {
 	k_EGameSearchErrorCode_Failed_Unknown_Error = 9,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EPlayerResult_t {
 	k_EPlayerResultFailedToConnect = 1,
@@ -1132,7 +1110,6 @@ pub enum EPlayerResult_t {
 	k_EPlayerResultCompleted = 5,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamIPv6ConnectivityProtocol {
 	k_ESteamIPv6ConnectivityProtocol_Invalid = 0,
@@ -1140,7 +1117,6 @@ pub enum ESteamIPv6ConnectivityProtocol {
 	k_ESteamIPv6ConnectivityProtocol_UDP = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamIPv6ConnectivityState {
 	k_ESteamIPv6ConnectivityState_Unknown = 0,
@@ -1189,7 +1165,6 @@ pub struct CCallbackBase {
 pub const CCallbackBase_k_ECallbackFlagsRegistered: CCallbackBase__bindgen_ty_1 = CCallbackBase__bindgen_ty_1::k_ECallbackFlagsRegistered;
 pub const CCallbackBase_k_ECallbackFlagsGameServer: CCallbackBase__bindgen_ty_1 = CCallbackBase__bindgen_ty_1::k_ECallbackFlagsGameServer;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum CCallbackBase__bindgen_ty_1 {
 	k_ECallbackFlagsRegistered = 1,
@@ -1225,7 +1200,6 @@ pub struct __vcrt_va_list_is_reference {
 }
 pub const __vcrt_va_list_is_reference___the_value: __vcrt_va_list_is_reference__bindgen_ty_1 = __vcrt_va_list_is_reference__bindgen_ty_1::__the_value;
 #[repr(u8)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum __vcrt_va_list_is_reference__bindgen_ty_1 {
 	__the_value = 0,
@@ -1796,266 +1770,228 @@ pub struct ISteamPS3OverlayRender {
 }
 pub const k_iSteamUserCallbacks: _bindgen_ty_1 = _bindgen_ty_1::k_iSteamUserCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_1 {
 	k_iSteamUserCallbacks = 100,
 }
 pub const k_iSteamGameServerCallbacks: _bindgen_ty_2 = _bindgen_ty_2::k_iSteamGameServerCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_2 {
 	k_iSteamGameServerCallbacks = 200,
 }
 pub const k_iSteamFriendsCallbacks: _bindgen_ty_3 = _bindgen_ty_3::k_iSteamFriendsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_3 {
 	k_iSteamFriendsCallbacks = 300,
 }
 pub const k_iSteamBillingCallbacks: _bindgen_ty_4 = _bindgen_ty_4::k_iSteamBillingCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_4 {
 	k_iSteamBillingCallbacks = 400,
 }
 pub const k_iSteamMatchmakingCallbacks: _bindgen_ty_5 = _bindgen_ty_5::k_iSteamMatchmakingCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_5 {
 	k_iSteamMatchmakingCallbacks = 500,
 }
 pub const k_iSteamContentServerCallbacks: _bindgen_ty_6 = _bindgen_ty_6::k_iSteamContentServerCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_6 {
 	k_iSteamContentServerCallbacks = 600,
 }
 pub const k_iSteamUtilsCallbacks: _bindgen_ty_7 = _bindgen_ty_7::k_iSteamUtilsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_7 {
 	k_iSteamUtilsCallbacks = 700,
 }
 pub const k_iSteamAppsCallbacks: _bindgen_ty_8 = _bindgen_ty_8::k_iSteamAppsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_8 {
 	k_iSteamAppsCallbacks = 1000,
 }
 pub const k_iSteamUserStatsCallbacks: _bindgen_ty_9 = _bindgen_ty_9::k_iSteamUserStatsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_9 {
 	k_iSteamUserStatsCallbacks = 1100,
 }
 pub const k_iSteamNetworkingCallbacks: _bindgen_ty_10 = _bindgen_ty_10::k_iSteamNetworkingCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_10 {
 	k_iSteamNetworkingCallbacks = 1200,
 }
 pub const k_iSteamNetworkingSocketsCallbacks: _bindgen_ty_11 = _bindgen_ty_11::k_iSteamNetworkingSocketsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_11 {
 	k_iSteamNetworkingSocketsCallbacks = 1220,
 }
 pub const k_iSteamNetworkingMessagesCallbacks: _bindgen_ty_12 = _bindgen_ty_12::k_iSteamNetworkingMessagesCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_12 {
 	k_iSteamNetworkingMessagesCallbacks = 1250,
 }
 pub const k_iSteamNetworkingUtilsCallbacks: _bindgen_ty_13 = _bindgen_ty_13::k_iSteamNetworkingUtilsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_13 {
 	k_iSteamNetworkingUtilsCallbacks = 1280,
 }
 pub const k_iSteamRemoteStorageCallbacks: _bindgen_ty_14 = _bindgen_ty_14::k_iSteamRemoteStorageCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_14 {
 	k_iSteamRemoteStorageCallbacks = 1300,
 }
 pub const k_iSteamGameServerItemsCallbacks: _bindgen_ty_15 = _bindgen_ty_15::k_iSteamGameServerItemsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_15 {
 	k_iSteamGameServerItemsCallbacks = 1500,
 }
 pub const k_iSteamGameCoordinatorCallbacks: _bindgen_ty_16 = _bindgen_ty_16::k_iSteamGameCoordinatorCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_16 {
 	k_iSteamGameCoordinatorCallbacks = 1700,
 }
 pub const k_iSteamGameServerStatsCallbacks: _bindgen_ty_17 = _bindgen_ty_17::k_iSteamGameServerStatsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_17 {
 	k_iSteamGameServerStatsCallbacks = 1800,
 }
 pub const k_iSteam2AsyncCallbacks: _bindgen_ty_18 = _bindgen_ty_18::k_iSteam2AsyncCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_18 {
 	k_iSteam2AsyncCallbacks = 1900,
 }
 pub const k_iSteamGameStatsCallbacks: _bindgen_ty_19 = _bindgen_ty_19::k_iSteamGameStatsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_19 {
 	k_iSteamGameStatsCallbacks = 2000,
 }
 pub const k_iSteamHTTPCallbacks: _bindgen_ty_20 = _bindgen_ty_20::k_iSteamHTTPCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_20 {
 	k_iSteamHTTPCallbacks = 2100,
 }
 pub const k_iSteamScreenshotsCallbacks: _bindgen_ty_21 = _bindgen_ty_21::k_iSteamScreenshotsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_21 {
 	k_iSteamScreenshotsCallbacks = 2300,
 }
 pub const k_iSteamStreamLauncherCallbacks: _bindgen_ty_22 = _bindgen_ty_22::k_iSteamStreamLauncherCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_22 {
 	k_iSteamStreamLauncherCallbacks = 2600,
 }
 pub const k_iSteamControllerCallbacks: _bindgen_ty_23 = _bindgen_ty_23::k_iSteamControllerCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_23 {
 	k_iSteamControllerCallbacks = 2800,
 }
 pub const k_iSteamUGCCallbacks: _bindgen_ty_24 = _bindgen_ty_24::k_iSteamUGCCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_24 {
 	k_iSteamUGCCallbacks = 3400,
 }
 pub const k_iSteamStreamClientCallbacks: _bindgen_ty_25 = _bindgen_ty_25::k_iSteamStreamClientCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_25 {
 	k_iSteamStreamClientCallbacks = 3500,
 }
 pub const k_iSteamMusicCallbacks: _bindgen_ty_26 = _bindgen_ty_26::k_iSteamMusicCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_26 {
 	k_iSteamMusicCallbacks = 4000,
 }
 pub const k_iSteamMusicRemoteCallbacks: _bindgen_ty_27 = _bindgen_ty_27::k_iSteamMusicRemoteCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_27 {
 	k_iSteamMusicRemoteCallbacks = 4100,
 }
 pub const k_iSteamGameNotificationCallbacks: _bindgen_ty_28 = _bindgen_ty_28::k_iSteamGameNotificationCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_28 {
 	k_iSteamGameNotificationCallbacks = 4400,
 }
 pub const k_iSteamHTMLSurfaceCallbacks: _bindgen_ty_29 = _bindgen_ty_29::k_iSteamHTMLSurfaceCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_29 {
 	k_iSteamHTMLSurfaceCallbacks = 4500,
 }
 pub const k_iSteamVideoCallbacks: _bindgen_ty_30 = _bindgen_ty_30::k_iSteamVideoCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_30 {
 	k_iSteamVideoCallbacks = 4600,
 }
 pub const k_iSteamInventoryCallbacks: _bindgen_ty_31 = _bindgen_ty_31::k_iSteamInventoryCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_31 {
 	k_iSteamInventoryCallbacks = 4700,
 }
 pub const k_ISteamParentalSettingsCallbacks: _bindgen_ty_32 = _bindgen_ty_32::k_ISteamParentalSettingsCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_32 {
 	k_ISteamParentalSettingsCallbacks = 5000,
 }
 pub const k_iSteamGameSearchCallbacks: _bindgen_ty_33 = _bindgen_ty_33::k_iSteamGameSearchCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_33 {
 	k_iSteamGameSearchCallbacks = 5200,
 }
 pub const k_iSteamPartiesCallbacks: _bindgen_ty_34 = _bindgen_ty_34::k_iSteamPartiesCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_34 {
 	k_iSteamPartiesCallbacks = 5300,
 }
 pub const k_iSteamSTARCallbacks: _bindgen_ty_35 = _bindgen_ty_35::k_iSteamSTARCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_35 {
 	k_iSteamSTARCallbacks = 5500,
 }
 pub const k_iSteamRemotePlayCallbacks: _bindgen_ty_36 = _bindgen_ty_36::k_iSteamRemotePlayCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_36 {
 	k_iSteamRemotePlayCallbacks = 5700,
 }
 pub const k_iSteamChatCallbacks: _bindgen_ty_37 = _bindgen_ty_37::k_iSteamChatCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_37 {
 	k_iSteamChatCallbacks = 5900,
 }
 pub const k_iSteamTimelineCallbacks: _bindgen_ty_38 = _bindgen_ty_38::k_iSteamTimelineCallbacks;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_38 {
 	k_iSteamTimelineCallbacks = 6000,
@@ -2091,7 +2027,6 @@ pub struct SteamServersConnected_t {
 }
 pub const SteamServersConnected_t_k_iCallback: SteamServersConnected_t__bindgen_ty_1 = SteamServersConnected_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamServersConnected_t__bindgen_ty_1 {
 	k_iCallback = 101,
@@ -2109,7 +2044,6 @@ pub struct SteamServerConnectFailure_t {
 }
 pub const SteamServerConnectFailure_t_k_iCallback: SteamServerConnectFailure_t__bindgen_ty_1 = SteamServerConnectFailure_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamServerConnectFailure_t__bindgen_ty_1 {
 	k_iCallback = 102,
@@ -2128,7 +2062,6 @@ pub struct SteamServersDisconnected_t {
 }
 pub const SteamServersDisconnected_t_k_iCallback: SteamServersDisconnected_t__bindgen_ty_1 = SteamServersDisconnected_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamServersDisconnected_t__bindgen_ty_1 {
 	k_iCallback = 103,
@@ -2150,7 +2083,6 @@ pub struct ClientGameServerDeny_t {
 }
 pub const ClientGameServerDeny_t_k_iCallback: ClientGameServerDeny_t__bindgen_ty_1 = ClientGameServerDeny_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ClientGameServerDeny_t__bindgen_ty_1 {
 	k_iCallback = 113,
@@ -2172,13 +2104,11 @@ pub struct IPCFailure_t {
 }
 pub const IPCFailure_t_k_iCallback: IPCFailure_t__bindgen_ty_1 = IPCFailure_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum IPCFailure_t__bindgen_ty_1 {
 	k_iCallback = 117,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum IPCFailure_t_EFailureType {
 	k_EFailureFlushedCallbackQueue = 0,
@@ -2197,7 +2127,6 @@ pub struct LicensesUpdated_t {
 }
 pub const LicensesUpdated_t_k_iCallback: LicensesUpdated_t__bindgen_ty_1 = LicensesUpdated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LicensesUpdated_t__bindgen_ty_1 {
 	k_iCallback = 125,
@@ -2216,7 +2145,6 @@ pub struct ValidateAuthTicketResponse_t {
 }
 pub const ValidateAuthTicketResponse_t_k_iCallback: ValidateAuthTicketResponse_t__bindgen_ty_1 = ValidateAuthTicketResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ValidateAuthTicketResponse_t__bindgen_ty_1 {
 	k_iCallback = 143,
@@ -2238,7 +2166,6 @@ pub struct MicroTxnAuthorizationResponse_t {
 }
 pub const MicroTxnAuthorizationResponse_t_k_iCallback: MicroTxnAuthorizationResponse_t__bindgen_ty_1 = MicroTxnAuthorizationResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MicroTxnAuthorizationResponse_t__bindgen_ty_1 {
 	k_iCallback = 152,
@@ -2258,7 +2185,6 @@ pub struct EncryptedAppTicketResponse_t {
 }
 pub const EncryptedAppTicketResponse_t_k_iCallback: EncryptedAppTicketResponse_t__bindgen_ty_1 = EncryptedAppTicketResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EncryptedAppTicketResponse_t__bindgen_ty_1 {
 	k_iCallback = 154,
@@ -2277,7 +2203,6 @@ pub struct GetAuthSessionTicketResponse_t {
 }
 pub const GetAuthSessionTicketResponse_t_k_iCallback: GetAuthSessionTicketResponse_t__bindgen_ty_1 = GetAuthSessionTicketResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GetAuthSessionTicketResponse_t__bindgen_ty_1 {
 	k_iCallback = 163,
@@ -2296,7 +2221,6 @@ pub struct GameWebCallback_t {
 }
 pub const GameWebCallback_t_k_iCallback: GameWebCallback_t__bindgen_ty_1 = GameWebCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameWebCallback_t__bindgen_ty_1 {
 	k_iCallback = 164,
@@ -2314,7 +2238,6 @@ pub struct StoreAuthURLResponse_t {
 }
 pub const StoreAuthURLResponse_t_k_iCallback: StoreAuthURLResponse_t__bindgen_ty_1 = StoreAuthURLResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum StoreAuthURLResponse_t__bindgen_ty_1 {
 	k_iCallback = 165,
@@ -2336,7 +2259,6 @@ pub struct MarketEligibilityResponse_t {
 }
 pub const MarketEligibilityResponse_t_k_iCallback: MarketEligibilityResponse_t__bindgen_ty_1 = MarketEligibilityResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MarketEligibilityResponse_t__bindgen_ty_1 {
 	k_iCallback = 166,
@@ -2365,7 +2287,6 @@ pub struct DurationControl_t {
 }
 pub const DurationControl_t_k_iCallback: DurationControl_t__bindgen_ty_1 = DurationControl_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum DurationControl_t__bindgen_ty_1 {
 	k_iCallback = 167,
@@ -2393,7 +2314,6 @@ pub struct GetTicketForWebApiResponse_t {
 }
 pub const GetTicketForWebApiResponse_t_k_iCallback: GetTicketForWebApiResponse_t__bindgen_ty_1 = GetTicketForWebApiResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GetTicketForWebApiResponse_t__bindgen_ty_1 {
 	k_iCallback = 168,
@@ -2409,7 +2329,6 @@ const _: () = {
 	["Offset of field: GetTicketForWebApiResponse_t::m_rgubTicket"][::std::mem::offset_of!(GetTicketForWebApiResponse_t, m_rgubTicket) - 12usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EFriendRelationship {
 	k_EFriendRelationshipNone = 0,
@@ -2428,7 +2347,6 @@ pub type FriendsGroupID_t = int16;
 pub const k_FriendsGroupID_Invalid: FriendsGroupID_t = -1;
 pub const k_cEnumerateFollowersMax: ::std::os::raw::c_int = 50;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EPersonaState {
 	k_EPersonaStateOffline = 0,
@@ -2442,7 +2360,6 @@ pub enum EPersonaState {
 	k_EPersonaStateMax = 8,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EFriendFlags {
 	k_EFriendFlagNone = 0,
@@ -2482,14 +2399,12 @@ pub const k_usFriendGameInfoQueryPort_Error: uint16 = 65534;
 pub const k_cchPersonaNameMax: _bindgen_ty_39 = _bindgen_ty_39::k_cchPersonaNameMax;
 pub const k_cwchPersonaNameMax: _bindgen_ty_39 = _bindgen_ty_39::k_cwchPersonaNameMax;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_39 {
 	k_cchPersonaNameMax = 128,
 	k_cwchPersonaNameMax = 32,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUserRestriction {
 	k_nUserRestrictionNone = 0,
@@ -2504,27 +2419,23 @@ pub enum EUserRestriction {
 pub const k_cubChatMetadataMax: uint32 = 8192;
 pub const k_cchMaxRichPresenceKeys: _bindgen_ty_40 = _bindgen_ty_40::k_cchMaxRichPresenceKeys;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_40 {
 	k_cchMaxRichPresenceKeys = 30,
 }
 pub const k_cchMaxRichPresenceKeyLength: _bindgen_ty_41 = _bindgen_ty_41::k_cchMaxRichPresenceKeyLength;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_41 {
 	k_cchMaxRichPresenceKeyLength = 64,
 }
 pub const k_cchMaxRichPresenceValueLength: _bindgen_ty_42 = _bindgen_ty_42::k_cchMaxRichPresenceValueLength;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_42 {
 	k_cchMaxRichPresenceValueLength = 256,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EOverlayToStoreFlag {
 	k_EOverlayToStoreFlag_None = 0,
@@ -2532,14 +2443,12 @@ pub enum EOverlayToStoreFlag {
 	k_EOverlayToStoreFlag_AddToCartAndShow = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EActivateGameOverlayToWebPageMode {
 	k_EActivateGameOverlayToWebPageMode_Default = 0,
 	k_EActivateGameOverlayToWebPageMode_Modal = 1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ECommunityProfileItemType {
 	k_ECommunityProfileItemType_AnimatedAvatar = 0,
@@ -2549,7 +2458,6 @@ pub enum ECommunityProfileItemType {
 	k_ECommunityProfileItemType_MiniProfileBackground = 4,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ECommunityProfileItemProperty {
 	k_ECommunityProfileItemProperty_ImageSmall = 0,
@@ -2585,7 +2493,6 @@ pub struct PersonaStateChange_t {
 }
 pub const PersonaStateChange_t_k_iCallback: PersonaStateChange_t__bindgen_ty_1 = PersonaStateChange_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum PersonaStateChange_t__bindgen_ty_1 {
 	k_iCallback = 304,
@@ -2598,7 +2505,6 @@ const _: () = {
 	["Offset of field: PersonaStateChange_t::m_nChangeFlags"][::std::mem::offset_of!(PersonaStateChange_t, m_nChangeFlags) - 8usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EPersonaChange {
 	k_EPersonaChangeName = 1,
@@ -2627,7 +2533,6 @@ pub struct GameOverlayActivated_t {
 }
 pub const GameOverlayActivated_t_k_iCallback: GameOverlayActivated_t__bindgen_ty_1 = GameOverlayActivated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameOverlayActivated_t__bindgen_ty_1 {
 	k_iCallback = 331,
@@ -2649,7 +2554,6 @@ pub struct GameServerChangeRequested_t {
 }
 pub const GameServerChangeRequested_t_k_iCallback: GameServerChangeRequested_t__bindgen_ty_1 = GameServerChangeRequested_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameServerChangeRequested_t__bindgen_ty_1 {
 	k_iCallback = 332,
@@ -2669,7 +2573,6 @@ pub struct GameLobbyJoinRequested_t {
 }
 pub const GameLobbyJoinRequested_t_k_iCallback: GameLobbyJoinRequested_t__bindgen_ty_1 = GameLobbyJoinRequested_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameLobbyJoinRequested_t__bindgen_ty_1 {
 	k_iCallback = 333,
@@ -2691,7 +2594,6 @@ pub struct AvatarImageLoaded_t {
 }
 pub const AvatarImageLoaded_t_k_iCallback: AvatarImageLoaded_t__bindgen_ty_1 = AvatarImageLoaded_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AvatarImageLoaded_t__bindgen_ty_1 {
 	k_iCallback = 334,
@@ -2714,7 +2616,6 @@ pub struct ClanOfficerListResponse_t {
 }
 pub const ClanOfficerListResponse_t_k_iCallback: ClanOfficerListResponse_t__bindgen_ty_1 = ClanOfficerListResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ClanOfficerListResponse_t__bindgen_ty_1 {
 	k_iCallback = 335,
@@ -2735,7 +2636,6 @@ pub struct FriendRichPresenceUpdate_t {
 }
 pub const FriendRichPresenceUpdate_t_k_iCallback: FriendRichPresenceUpdate_t__bindgen_ty_1 = FriendRichPresenceUpdate_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FriendRichPresenceUpdate_t__bindgen_ty_1 {
 	k_iCallback = 336,
@@ -2755,7 +2655,6 @@ pub struct GameRichPresenceJoinRequested_t {
 }
 pub const GameRichPresenceJoinRequested_t_k_iCallback: GameRichPresenceJoinRequested_t__bindgen_ty_1 = GameRichPresenceJoinRequested_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameRichPresenceJoinRequested_t__bindgen_ty_1 {
 	k_iCallback = 337,
@@ -2776,7 +2675,6 @@ pub struct GameConnectedClanChatMsg_t {
 }
 pub const GameConnectedClanChatMsg_t_k_iCallback: GameConnectedClanChatMsg_t__bindgen_ty_1 = GameConnectedClanChatMsg_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameConnectedClanChatMsg_t__bindgen_ty_1 {
 	k_iCallback = 338,
@@ -2797,7 +2695,6 @@ pub struct GameConnectedChatJoin_t {
 }
 pub const GameConnectedChatJoin_t_k_iCallback: GameConnectedChatJoin_t__bindgen_ty_1 = GameConnectedChatJoin_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameConnectedChatJoin_t__bindgen_ty_1 {
 	k_iCallback = 339,
@@ -2819,7 +2716,6 @@ pub struct GameConnectedChatLeave_t {
 }
 pub const GameConnectedChatLeave_t_k_iCallback: GameConnectedChatLeave_t__bindgen_ty_1 = GameConnectedChatLeave_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameConnectedChatLeave_t__bindgen_ty_1 {
 	k_iCallback = 340,
@@ -2840,7 +2736,6 @@ pub struct DownloadClanActivityCountsResult_t {
 }
 pub const DownloadClanActivityCountsResult_t_k_iCallback: DownloadClanActivityCountsResult_t__bindgen_ty_1 = DownloadClanActivityCountsResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum DownloadClanActivityCountsResult_t__bindgen_ty_1 {
 	k_iCallback = 341,
@@ -2859,7 +2754,6 @@ pub struct JoinClanChatRoomCompletionResult_t {
 }
 pub const JoinClanChatRoomCompletionResult_t_k_iCallback: JoinClanChatRoomCompletionResult_t__bindgen_ty_1 = JoinClanChatRoomCompletionResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum JoinClanChatRoomCompletionResult_t__bindgen_ty_1 {
 	k_iCallback = 342,
@@ -2879,7 +2773,6 @@ pub struct GameConnectedFriendChatMsg_t {
 }
 pub const GameConnectedFriendChatMsg_t_k_iCallback: GameConnectedFriendChatMsg_t__bindgen_ty_1 = GameConnectedFriendChatMsg_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GameConnectedFriendChatMsg_t__bindgen_ty_1 {
 	k_iCallback = 343,
@@ -2900,7 +2793,6 @@ pub struct FriendsGetFollowerCount_t {
 }
 pub const FriendsGetFollowerCount_t_k_iCallback: FriendsGetFollowerCount_t__bindgen_ty_1 = FriendsGetFollowerCount_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FriendsGetFollowerCount_t__bindgen_ty_1 {
 	k_iCallback = 344,
@@ -2922,7 +2814,6 @@ pub struct FriendsIsFollowing_t {
 }
 pub const FriendsIsFollowing_t_k_iCallback: FriendsIsFollowing_t__bindgen_ty_1 = FriendsIsFollowing_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FriendsIsFollowing_t__bindgen_ty_1 {
 	k_iCallback = 345,
@@ -2945,7 +2836,6 @@ pub struct FriendsEnumerateFollowingList_t {
 }
 pub const FriendsEnumerateFollowingList_t_k_iCallback: FriendsEnumerateFollowingList_t__bindgen_ty_1 = FriendsEnumerateFollowingList_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FriendsEnumerateFollowingList_t__bindgen_ty_1 {
 	k_iCallback = 346,
@@ -2968,7 +2858,6 @@ pub struct SetPersonaNameResponse_t {
 }
 pub const SetPersonaNameResponse_t_k_iCallback: SetPersonaNameResponse_t__bindgen_ty_1 = SetPersonaNameResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SetPersonaNameResponse_t__bindgen_ty_1 {
 	k_iCallback = 347,
@@ -2988,7 +2877,6 @@ pub struct UnreadChatMessagesChanged_t {
 }
 pub const UnreadChatMessagesChanged_t_k_iCallback: UnreadChatMessagesChanged_t__bindgen_ty_1 = UnreadChatMessagesChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UnreadChatMessagesChanged_t__bindgen_ty_1 {
 	k_iCallback = 348,
@@ -3005,7 +2893,6 @@ pub struct OverlayBrowserProtocolNavigation_t {
 }
 pub const OverlayBrowserProtocolNavigation_t_k_iCallback: OverlayBrowserProtocolNavigation_t__bindgen_ty_1 = OverlayBrowserProtocolNavigation_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum OverlayBrowserProtocolNavigation_t__bindgen_ty_1 {
 	k_iCallback = 349,
@@ -3023,7 +2910,6 @@ pub struct EquippedProfileItemsChanged_t {
 }
 pub const EquippedProfileItemsChanged_t_k_iCallback: EquippedProfileItemsChanged_t__bindgen_ty_1 = EquippedProfileItemsChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EquippedProfileItemsChanged_t__bindgen_ty_1 {
 	k_iCallback = 350,
@@ -3048,7 +2934,6 @@ pub struct EquippedProfileItems_t {
 }
 pub const EquippedProfileItems_t_k_iCallback: EquippedProfileItems_t__bindgen_ty_1 = EquippedProfileItems_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EquippedProfileItems_t__bindgen_ty_1 {
 	k_iCallback = 351,
@@ -3067,7 +2952,6 @@ const _: () = {
 	["Offset of field: EquippedProfileItems_t::m_bFromCache"][::std::mem::offset_of!(EquippedProfileItems_t, m_bFromCache) - 17usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamAPICallFailure {
 	k_ESteamAPICallFailureNone = -1,
@@ -3077,21 +2961,18 @@ pub enum ESteamAPICallFailure {
 	k_ESteamAPICallFailureMismatchedCallback = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EGamepadTextInputMode {
 	k_EGamepadTextInputModeNormal = 0,
 	k_EGamepadTextInputModePassword = 1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EGamepadTextInputLineMode {
 	k_EGamepadTextInputLineModeSingleLine = 0,
 	k_EGamepadTextInputLineModeMultipleLines = 1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EFloatingGamepadTextInputMode {
 	k_EFloatingGamepadTextInputModeModeSingleLine = 0,
@@ -3100,7 +2981,6 @@ pub enum EFloatingGamepadTextInputMode {
 	k_EFloatingGamepadTextInputModeModeNumeric = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ETextFilteringContext {
 	k_ETextFilteringContextUnknown = 0,
@@ -3127,7 +3007,6 @@ pub struct IPCountry_t {
 }
 pub const IPCountry_t_k_iCallback: IPCountry_t__bindgen_ty_1 = IPCountry_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum IPCountry_t__bindgen_ty_1 {
 	k_iCallback = 701,
@@ -3144,7 +3023,6 @@ pub struct LowBatteryPower_t {
 }
 pub const LowBatteryPower_t_k_iCallback: LowBatteryPower_t__bindgen_ty_1 = LowBatteryPower_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LowBatteryPower_t__bindgen_ty_1 {
 	k_iCallback = 702,
@@ -3164,7 +3042,6 @@ pub struct SteamAPICallCompleted_t {
 }
 pub const SteamAPICallCompleted_t_k_iCallback: SteamAPICallCompleted_t__bindgen_ty_1 = SteamAPICallCompleted_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamAPICallCompleted_t__bindgen_ty_1 {
 	k_iCallback = 703,
@@ -3184,7 +3061,6 @@ pub struct SteamShutdown_t {
 }
 pub const SteamShutdown_t_k_iCallback: SteamShutdown_t__bindgen_ty_1 = SteamShutdown_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamShutdown_t__bindgen_ty_1 {
 	k_iCallback = 704,
@@ -3195,7 +3071,6 @@ const _: () = {
 	["Alignment of SteamShutdown_t"][::std::mem::align_of::<SteamShutdown_t>() - 1usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ECheckFileSignature {
 	k_ECheckFileSignatureInvalidSignature = 0,
@@ -3211,7 +3086,6 @@ pub struct CheckFileSignature_t {
 }
 pub const CheckFileSignature_t_k_iCallback: CheckFileSignature_t__bindgen_ty_1 = CheckFileSignature_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum CheckFileSignature_t__bindgen_ty_1 {
 	k_iCallback = 705,
@@ -3231,7 +3105,6 @@ pub struct GamepadTextInputDismissed_t {
 }
 pub const GamepadTextInputDismissed_t_k_iCallback: GamepadTextInputDismissed_t__bindgen_ty_1 = GamepadTextInputDismissed_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GamepadTextInputDismissed_t__bindgen_ty_1 {
 	k_iCallback = 714,
@@ -3251,7 +3124,6 @@ pub struct AppResumingFromSuspend_t {
 }
 pub const AppResumingFromSuspend_t_k_iCallback: AppResumingFromSuspend_t__bindgen_ty_1 = AppResumingFromSuspend_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AppResumingFromSuspend_t__bindgen_ty_1 {
 	k_iCallback = 736,
@@ -3268,7 +3140,6 @@ pub struct FloatingGamepadTextInputDismissed_t {
 }
 pub const FloatingGamepadTextInputDismissed_t_k_iCallback: FloatingGamepadTextInputDismissed_t__bindgen_ty_1 = FloatingGamepadTextInputDismissed_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FloatingGamepadTextInputDismissed_t__bindgen_ty_1 {
 	k_iCallback = 738,
@@ -3285,7 +3156,6 @@ pub struct FilterTextDictionaryChanged_t {
 }
 pub const FilterTextDictionaryChanged_t_k_iCallback: FilterTextDictionaryChanged_t__bindgen_ty_1 = FilterTextDictionaryChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FilterTextDictionaryChanged_t__bindgen_ty_1 {
 	k_iCallback = 739,
@@ -3811,7 +3681,6 @@ const _: () = {
 	["Offset of field: MatchMakingKeyValuePair_t::m_szValue"][::std::mem::offset_of!(MatchMakingKeyValuePair_t, m_szValue) - 256usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EMatchMakingServerResponse {
 	eServerResponded = 0,
@@ -3897,7 +3766,6 @@ const _: () = {
 	["Offset of field: gameserveritem_t::m_steamID"][::std::mem::offset_of!(gameserveritem_t, m_steamID) - 364usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ELobbyType {
 	k_ELobbyTypePrivate = 0,
@@ -3907,7 +3775,6 @@ pub enum ELobbyType {
 	k_ELobbyTypePrivateUnique = 4,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ELobbyComparison {
 	k_ELobbyComparisonEqualToOrLessThan = -2,
@@ -3918,7 +3785,6 @@ pub enum ELobbyComparison {
 	k_ELobbyComparisonNotEqual = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ELobbyDistanceFilter {
 	k_ELobbyDistanceFilterClose = 0,
@@ -4005,7 +3871,6 @@ pub const k_unFavoriteFlagNone: uint32 = 0;
 pub const k_unFavoriteFlagFavorite: uint32 = 1;
 pub const k_unFavoriteFlagHistory: uint32 = 2;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EChatMemberStateChange {
 	k_EChatMemberStateChangeEntered = 1,
@@ -4027,7 +3892,6 @@ const _: () = {
 	["Alignment of ISteamGameSearch"][::std::mem::align_of::<ISteamGameSearch>() - 8usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamPartyBeaconLocationType {
 	k_ESteamPartyBeaconLocationType_Invalid = 0,
@@ -4048,7 +3912,6 @@ const _: () = {
 	["Offset of field: SteamPartyBeaconLocation_t::m_ulLocationID"][::std::mem::offset_of!(SteamPartyBeaconLocation_t, m_ulLocationID) - 8usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamPartyBeaconLocationData {
 	k_ESteamPartyBeaconLocationDataInvalid = 0,
@@ -4082,7 +3945,6 @@ pub struct FavoritesListChanged_t {
 }
 pub const FavoritesListChanged_t_k_iCallback: FavoritesListChanged_t__bindgen_ty_1 = FavoritesListChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FavoritesListChanged_t__bindgen_ty_1 {
 	k_iCallback = 502,
@@ -4108,7 +3970,6 @@ pub struct LobbyInvite_t {
 }
 pub const LobbyInvite_t_k_iCallback: LobbyInvite_t__bindgen_ty_1 = LobbyInvite_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyInvite_t__bindgen_ty_1 {
 	k_iCallback = 503,
@@ -4131,7 +3992,6 @@ pub struct LobbyEnter_t {
 }
 pub const LobbyEnter_t_k_iCallback: LobbyEnter_t__bindgen_ty_1 = LobbyEnter_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyEnter_t__bindgen_ty_1 {
 	k_iCallback = 504,
@@ -4154,7 +4014,6 @@ pub struct LobbyDataUpdate_t {
 }
 pub const LobbyDataUpdate_t_k_iCallback: LobbyDataUpdate_t__bindgen_ty_1 = LobbyDataUpdate_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyDataUpdate_t__bindgen_ty_1 {
 	k_iCallback = 505,
@@ -4177,7 +4036,6 @@ pub struct LobbyChatUpdate_t {
 }
 pub const LobbyChatUpdate_t_k_iCallback: LobbyChatUpdate_t__bindgen_ty_1 = LobbyChatUpdate_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyChatUpdate_t__bindgen_ty_1 {
 	k_iCallback = 506,
@@ -4201,7 +4059,6 @@ pub struct LobbyChatMsg_t {
 }
 pub const LobbyChatMsg_t_k_iCallback: LobbyChatMsg_t__bindgen_ty_1 = LobbyChatMsg_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyChatMsg_t__bindgen_ty_1 {
 	k_iCallback = 507,
@@ -4225,7 +4082,6 @@ pub struct LobbyGameCreated_t {
 }
 pub const LobbyGameCreated_t_k_iCallback: LobbyGameCreated_t__bindgen_ty_1 = LobbyGameCreated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyGameCreated_t__bindgen_ty_1 {
 	k_iCallback = 509,
@@ -4246,7 +4102,6 @@ pub struct LobbyMatchList_t {
 }
 pub const LobbyMatchList_t_k_iCallback: LobbyMatchList_t__bindgen_ty_1 = LobbyMatchList_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyMatchList_t__bindgen_ty_1 {
 	k_iCallback = 510,
@@ -4266,7 +4121,6 @@ pub struct LobbyKicked_t {
 }
 pub const LobbyKicked_t_k_iCallback: LobbyKicked_t__bindgen_ty_1 = LobbyKicked_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyKicked_t__bindgen_ty_1 {
 	k_iCallback = 512,
@@ -4287,7 +4141,6 @@ pub struct LobbyCreated_t {
 }
 pub const LobbyCreated_t_k_iCallback: LobbyCreated_t__bindgen_ty_1 = LobbyCreated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LobbyCreated_t__bindgen_ty_1 {
 	k_iCallback = 513,
@@ -4307,7 +4160,6 @@ pub struct PSNGameBootInviteResult_t {
 }
 pub const PSNGameBootInviteResult_t_k_iCallback: PSNGameBootInviteResult_t__bindgen_ty_1 = PSNGameBootInviteResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum PSNGameBootInviteResult_t__bindgen_ty_1 {
 	k_iCallback = 515,
@@ -4326,7 +4178,6 @@ pub struct FavoritesListAccountsUpdated_t {
 }
 pub const FavoritesListAccountsUpdated_t_k_iCallback: FavoritesListAccountsUpdated_t__bindgen_ty_1 = FavoritesListAccountsUpdated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FavoritesListAccountsUpdated_t__bindgen_ty_1 {
 	k_iCallback = 516,
@@ -4349,7 +4200,6 @@ pub struct SearchForGameProgressCallback_t {
 }
 pub const SearchForGameProgressCallback_t_k_iCallback: SearchForGameProgressCallback_t__bindgen_ty_1 = SearchForGameProgressCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SearchForGameProgressCallback_t__bindgen_ty_1 {
 	k_iCallback = 5201,
@@ -4377,7 +4227,6 @@ pub struct SearchForGameResultCallback_t {
 }
 pub const SearchForGameResultCallback_t_k_iCallback: SearchForGameResultCallback_t__bindgen_ty_1 = SearchForGameResultCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SearchForGameResultCallback_t__bindgen_ty_1 {
 	k_iCallback = 5202,
@@ -4401,7 +4250,6 @@ pub struct RequestPlayersForGameProgressCallback_t {
 }
 pub const RequestPlayersForGameProgressCallback_t_k_iCallback: RequestPlayersForGameProgressCallback_t__bindgen_ty_1 = RequestPlayersForGameProgressCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RequestPlayersForGameProgressCallback_t__bindgen_ty_1 {
 	k_iCallback = 5211,
@@ -4429,13 +4277,11 @@ pub struct RequestPlayersForGameResultCallback_t {
 }
 pub const RequestPlayersForGameResultCallback_t_k_iCallback: RequestPlayersForGameResultCallback_t__bindgen_ty_1 = RequestPlayersForGameResultCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RequestPlayersForGameResultCallback_t__bindgen_ty_1 {
 	k_iCallback = 5212,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RequestPlayersForGameResultCallback_t_PlayerAcceptState_t {
 	k_EStateUnknown = 0,
@@ -4466,7 +4312,6 @@ pub struct RequestPlayersForGameFinalResultCallback_t {
 }
 pub const RequestPlayersForGameFinalResultCallback_t_k_iCallback: RequestPlayersForGameFinalResultCallback_t__bindgen_ty_1 = RequestPlayersForGameFinalResultCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RequestPlayersForGameFinalResultCallback_t__bindgen_ty_1 {
 	k_iCallback = 5213,
@@ -4488,7 +4333,6 @@ pub struct SubmitPlayerResultResultCallback_t {
 }
 pub const SubmitPlayerResultResultCallback_t_k_iCallback: SubmitPlayerResultResultCallback_t__bindgen_ty_1 = SubmitPlayerResultResultCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SubmitPlayerResultResultCallback_t__bindgen_ty_1 {
 	k_iCallback = 5214,
@@ -4509,7 +4353,6 @@ pub struct EndGameResultCallback_t {
 }
 pub const EndGameResultCallback_t_k_iCallback: EndGameResultCallback_t__bindgen_ty_1 = EndGameResultCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EndGameResultCallback_t__bindgen_ty_1 {
 	k_iCallback = 5215,
@@ -4531,7 +4374,6 @@ pub struct JoinPartyCallback_t {
 }
 pub const JoinPartyCallback_t_k_iCallback: JoinPartyCallback_t__bindgen_ty_1 = JoinPartyCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum JoinPartyCallback_t__bindgen_ty_1 {
 	k_iCallback = 5301,
@@ -4553,7 +4395,6 @@ pub struct CreateBeaconCallback_t {
 }
 pub const CreateBeaconCallback_t_k_iCallback: CreateBeaconCallback_t__bindgen_ty_1 = CreateBeaconCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum CreateBeaconCallback_t__bindgen_ty_1 {
 	k_iCallback = 5302,
@@ -4573,7 +4414,6 @@ pub struct ReservationNotificationCallback_t {
 }
 pub const ReservationNotificationCallback_t_k_iCallback: ReservationNotificationCallback_t__bindgen_ty_1 = ReservationNotificationCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ReservationNotificationCallback_t__bindgen_ty_1 {
 	k_iCallback = 5303,
@@ -4592,7 +4432,6 @@ pub struct ChangeNumOpenSlotsCallback_t {
 }
 pub const ChangeNumOpenSlotsCallback_t_k_iCallback: ChangeNumOpenSlotsCallback_t__bindgen_ty_1 = ChangeNumOpenSlotsCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ChangeNumOpenSlotsCallback_t__bindgen_ty_1 {
 	k_iCallback = 5304,
@@ -4610,7 +4449,6 @@ pub struct AvailableBeaconLocationsUpdated_t {
 }
 pub const AvailableBeaconLocationsUpdated_t_k_iCallback: AvailableBeaconLocationsUpdated_t__bindgen_ty_1 = AvailableBeaconLocationsUpdated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AvailableBeaconLocationsUpdated_t__bindgen_ty_1 {
 	k_iCallback = 5305,
@@ -4627,7 +4465,6 @@ pub struct ActiveBeaconsUpdated_t {
 }
 pub const ActiveBeaconsUpdated_t_k_iCallback: ActiveBeaconsUpdated_t__bindgen_ty_1 = ActiveBeaconsUpdated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ActiveBeaconsUpdated_t__bindgen_ty_1 {
 	k_iCallback = 5306,
@@ -4667,7 +4504,6 @@ pub const k_cchTagListMax: uint32 = 1025;
 pub const k_cchFilenameMax: uint32 = 260;
 pub const k_cchPublishedFileURLMax: uint32 = 256;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ERemoteStoragePlatform {
 	k_ERemoteStoragePlatformNone = 0,
@@ -4681,7 +4517,6 @@ pub enum ERemoteStoragePlatform {
 	k_ERemoteStoragePlatformAll = -1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ERemoteStoragePublishedFileVisibility {
 	k_ERemoteStoragePublishedFileVisibilityPublic = 0,
@@ -4693,7 +4528,6 @@ impl EWorkshopFileType {
 	pub const k_EWorkshopFileTypeCommunity: EWorkshopFileType = EWorkshopFileType::k_EWorkshopFileTypeFirst;
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EWorkshopFileType {
 	k_EWorkshopFileTypeFirst = 0,
@@ -4716,7 +4550,6 @@ pub enum EWorkshopFileType {
 	k_EWorkshopFileTypeMax = 17,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EWorkshopVote {
 	k_EWorkshopVoteUnvoted = 0,
@@ -4725,14 +4558,12 @@ pub enum EWorkshopVote {
 	k_EWorkshopVoteLater = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EWorkshopFileAction {
 	k_EWorkshopFileActionPlayed = 0,
 	k_EWorkshopFileActionCompleted = 1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EWorkshopEnumerationType {
 	k_EWorkshopEnumerationTypeRankedByVote = 0,
@@ -4744,14 +4575,12 @@ pub enum EWorkshopEnumerationType {
 	k_EWorkshopEnumerationTypeRecentFromFollowedUsers = 6,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EWorkshopVideoProvider {
 	k_EWorkshopVideoProviderNone = 0,
 	k_EWorkshopVideoProviderYoutube = 1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUGCReadAction {
 	k_EUGCRead_ContinueReadingUntilFinished = 0,
@@ -4759,7 +4588,6 @@ pub enum EUGCReadAction {
 	k_EUGCRead_Close = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ERemoteStorageLocalFileChange {
 	k_ERemoteStorageLocalFileChange_Invalid = 0,
@@ -4767,7 +4595,6 @@ pub enum ERemoteStorageLocalFileChange {
 	k_ERemoteStorageLocalFileChange_FileDeleted = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ERemoteStorageFilePathType {
 	k_ERemoteStorageFilePathType_Invalid = 0,
@@ -4795,7 +4622,6 @@ pub struct RemoteStorageFileShareResult_t {
 }
 pub const RemoteStorageFileShareResult_t_k_iCallback: RemoteStorageFileShareResult_t__bindgen_ty_1 = RemoteStorageFileShareResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageFileShareResult_t__bindgen_ty_1 {
 	k_iCallback = 1307,
@@ -4817,7 +4643,6 @@ pub struct RemoteStoragePublishFileResult_t {
 }
 pub const RemoteStoragePublishFileResult_t_k_iCallback: RemoteStoragePublishFileResult_t__bindgen_ty_1 = RemoteStoragePublishFileResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStoragePublishFileResult_t__bindgen_ty_1 {
 	k_iCallback = 1309,
@@ -4839,7 +4664,6 @@ pub struct RemoteStorageDeletePublishedFileResult_t {
 }
 pub const RemoteStorageDeletePublishedFileResult_t_k_iCallback: RemoteStorageDeletePublishedFileResult_t__bindgen_ty_1 = RemoteStorageDeletePublishedFileResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageDeletePublishedFileResult_t__bindgen_ty_1 {
 	k_iCallback = 1311,
@@ -4862,7 +4686,6 @@ pub struct RemoteStorageEnumerateUserPublishedFilesResult_t {
 pub const RemoteStorageEnumerateUserPublishedFilesResult_t_k_iCallback: RemoteStorageEnumerateUserPublishedFilesResult_t__bindgen_ty_1 =
 	RemoteStorageEnumerateUserPublishedFilesResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageEnumerateUserPublishedFilesResult_t__bindgen_ty_1 {
 	k_iCallback = 1312,
@@ -4884,7 +4707,6 @@ pub struct RemoteStorageSubscribePublishedFileResult_t {
 }
 pub const RemoteStorageSubscribePublishedFileResult_t_k_iCallback: RemoteStorageSubscribePublishedFileResult_t__bindgen_ty_1 = RemoteStorageSubscribePublishedFileResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageSubscribePublishedFileResult_t__bindgen_ty_1 {
 	k_iCallback = 1313,
@@ -4908,7 +4730,6 @@ pub struct RemoteStorageEnumerateUserSubscribedFilesResult_t {
 pub const RemoteStorageEnumerateUserSubscribedFilesResult_t_k_iCallback: RemoteStorageEnumerateUserSubscribedFilesResult_t__bindgen_ty_1 =
 	RemoteStorageEnumerateUserSubscribedFilesResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageEnumerateUserSubscribedFilesResult_t__bindgen_ty_1 {
 	k_iCallback = 1314,
@@ -4935,7 +4756,6 @@ pub struct RemoteStorageUnsubscribePublishedFileResult_t {
 pub const RemoteStorageUnsubscribePublishedFileResult_t_k_iCallback: RemoteStorageUnsubscribePublishedFileResult_t__bindgen_ty_1 =
 	RemoteStorageUnsubscribePublishedFileResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageUnsubscribePublishedFileResult_t__bindgen_ty_1 {
 	k_iCallback = 1315,
@@ -4956,7 +4776,6 @@ pub struct RemoteStorageUpdatePublishedFileResult_t {
 }
 pub const RemoteStorageUpdatePublishedFileResult_t_k_iCallback: RemoteStorageUpdatePublishedFileResult_t__bindgen_ty_1 = RemoteStorageUpdatePublishedFileResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageUpdatePublishedFileResult_t__bindgen_ty_1 {
 	k_iCallback = 1316,
@@ -4982,7 +4801,6 @@ pub struct RemoteStorageDownloadUGCResult_t {
 }
 pub const RemoteStorageDownloadUGCResult_t_k_iCallback: RemoteStorageDownloadUGCResult_t__bindgen_ty_1 = RemoteStorageDownloadUGCResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageDownloadUGCResult_t__bindgen_ty_1 {
 	k_iCallback = 1317,
@@ -5026,7 +4844,6 @@ pub struct RemoteStorageGetPublishedFileDetailsResult_t {
 pub const RemoteStorageGetPublishedFileDetailsResult_t_k_iCallback: RemoteStorageGetPublishedFileDetailsResult_t__bindgen_ty_1 =
 	RemoteStorageGetPublishedFileDetailsResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageGetPublishedFileDetailsResult_t__bindgen_ty_1 {
 	k_iCallback = 1318,
@@ -5070,7 +4887,6 @@ pub struct RemoteStorageEnumerateWorkshopFilesResult_t {
 }
 pub const RemoteStorageEnumerateWorkshopFilesResult_t_k_iCallback: RemoteStorageEnumerateWorkshopFilesResult_t__bindgen_ty_1 = RemoteStorageEnumerateWorkshopFilesResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageEnumerateWorkshopFilesResult_t__bindgen_ty_1 {
 	k_iCallback = 1319,
@@ -5100,7 +4916,6 @@ pub struct RemoteStorageGetPublishedItemVoteDetailsResult_t {
 pub const RemoteStorageGetPublishedItemVoteDetailsResult_t_k_iCallback: RemoteStorageGetPublishedItemVoteDetailsResult_t__bindgen_ty_1 =
 	RemoteStorageGetPublishedItemVoteDetailsResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageGetPublishedItemVoteDetailsResult_t__bindgen_ty_1 {
 	k_iCallback = 1320,
@@ -5124,7 +4939,6 @@ pub struct RemoteStoragePublishedFileSubscribed_t {
 }
 pub const RemoteStoragePublishedFileSubscribed_t_k_iCallback: RemoteStoragePublishedFileSubscribed_t__bindgen_ty_1 = RemoteStoragePublishedFileSubscribed_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStoragePublishedFileSubscribed_t__bindgen_ty_1 {
 	k_iCallback = 1321,
@@ -5144,7 +4958,6 @@ pub struct RemoteStoragePublishedFileUnsubscribed_t {
 }
 pub const RemoteStoragePublishedFileUnsubscribed_t_k_iCallback: RemoteStoragePublishedFileUnsubscribed_t__bindgen_ty_1 = RemoteStoragePublishedFileUnsubscribed_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStoragePublishedFileUnsubscribed_t__bindgen_ty_1 {
 	k_iCallback = 1322,
@@ -5164,7 +4977,6 @@ pub struct RemoteStoragePublishedFileDeleted_t {
 }
 pub const RemoteStoragePublishedFileDeleted_t_k_iCallback: RemoteStoragePublishedFileDeleted_t__bindgen_ty_1 = RemoteStoragePublishedFileDeleted_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStoragePublishedFileDeleted_t__bindgen_ty_1 {
 	k_iCallback = 1323,
@@ -5185,7 +4997,6 @@ pub struct RemoteStorageUpdateUserPublishedItemVoteResult_t {
 pub const RemoteStorageUpdateUserPublishedItemVoteResult_t_k_iCallback: RemoteStorageUpdateUserPublishedItemVoteResult_t__bindgen_ty_1 =
 	RemoteStorageUpdateUserPublishedItemVoteResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageUpdateUserPublishedItemVoteResult_t__bindgen_ty_1 {
 	k_iCallback = 1324,
@@ -5206,7 +5017,6 @@ pub struct RemoteStorageUserVoteDetails_t {
 }
 pub const RemoteStorageUserVoteDetails_t_k_iCallback: RemoteStorageUserVoteDetails_t__bindgen_ty_1 = RemoteStorageUserVoteDetails_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageUserVoteDetails_t__bindgen_ty_1 {
 	k_iCallback = 1325,
@@ -5230,7 +5040,6 @@ pub struct RemoteStorageEnumerateUserSharedWorkshopFilesResult_t {
 pub const RemoteStorageEnumerateUserSharedWorkshopFilesResult_t_k_iCallback: RemoteStorageEnumerateUserSharedWorkshopFilesResult_t__bindgen_ty_1 =
 	RemoteStorageEnumerateUserSharedWorkshopFilesResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageEnumerateUserSharedWorkshopFilesResult_t__bindgen_ty_1 {
 	k_iCallback = 1326,
@@ -5257,7 +5066,6 @@ pub struct RemoteStorageSetUserPublishedFileActionResult_t {
 pub const RemoteStorageSetUserPublishedFileActionResult_t_k_iCallback: RemoteStorageSetUserPublishedFileActionResult_t__bindgen_ty_1 =
 	RemoteStorageSetUserPublishedFileActionResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageSetUserPublishedFileActionResult_t__bindgen_ty_1 {
 	k_iCallback = 1327,
@@ -5283,7 +5091,6 @@ pub struct RemoteStorageEnumeratePublishedFilesByUserActionResult_t {
 pub const RemoteStorageEnumeratePublishedFilesByUserActionResult_t_k_iCallback: RemoteStorageEnumeratePublishedFilesByUserActionResult_t__bindgen_ty_1 =
 	RemoteStorageEnumeratePublishedFilesByUserActionResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageEnumeratePublishedFilesByUserActionResult_t__bindgen_ty_1 {
 	k_iCallback = 1328,
@@ -5311,7 +5118,6 @@ pub struct RemoteStoragePublishFileProgress_t {
 }
 pub const RemoteStoragePublishFileProgress_t_k_iCallback: RemoteStoragePublishFileProgress_t__bindgen_ty_1 = RemoteStoragePublishFileProgress_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStoragePublishFileProgress_t__bindgen_ty_1 {
 	k_iCallback = 1329,
@@ -5332,7 +5138,6 @@ pub struct RemoteStoragePublishedFileUpdated_t {
 }
 pub const RemoteStoragePublishedFileUpdated_t_k_iCallback: RemoteStoragePublishedFileUpdated_t__bindgen_ty_1 = RemoteStoragePublishedFileUpdated_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStoragePublishedFileUpdated_t__bindgen_ty_1 {
 	k_iCallback = 1330,
@@ -5352,7 +5157,6 @@ pub struct RemoteStorageFileWriteAsyncComplete_t {
 }
 pub const RemoteStorageFileWriteAsyncComplete_t_k_iCallback: RemoteStorageFileWriteAsyncComplete_t__bindgen_ty_1 = RemoteStorageFileWriteAsyncComplete_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageFileWriteAsyncComplete_t__bindgen_ty_1 {
 	k_iCallback = 1331,
@@ -5373,7 +5177,6 @@ pub struct RemoteStorageFileReadAsyncComplete_t {
 }
 pub const RemoteStorageFileReadAsyncComplete_t_k_iCallback: RemoteStorageFileReadAsyncComplete_t__bindgen_ty_1 = RemoteStorageFileReadAsyncComplete_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageFileReadAsyncComplete_t__bindgen_ty_1 {
 	k_iCallback = 1332,
@@ -5394,7 +5197,6 @@ pub struct RemoteStorageLocalFileChange_t {
 }
 pub const RemoteStorageLocalFileChange_t_k_iCallback: RemoteStorageLocalFileChange_t__bindgen_ty_1 = RemoteStorageLocalFileChange_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoteStorageLocalFileChange_t__bindgen_ty_1 {
 	k_iCallback = 1333,
@@ -5406,21 +5208,18 @@ const _: () = {
 };
 pub const k_cchStatNameMax: _bindgen_ty_43 = _bindgen_ty_43::k_cchStatNameMax;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_43 {
 	k_cchStatNameMax = 128,
 }
 pub const k_cchLeaderboardNameMax: _bindgen_ty_44 = _bindgen_ty_44::k_cchLeaderboardNameMax;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_44 {
 	k_cchLeaderboardNameMax = 128,
 }
 pub const k_cLeaderboardDetailsMax: _bindgen_ty_45 = _bindgen_ty_45::k_cLeaderboardDetailsMax;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum _bindgen_ty_45 {
 	k_cLeaderboardDetailsMax = 64,
@@ -5428,7 +5227,6 @@ pub enum _bindgen_ty_45 {
 pub type SteamLeaderboard_t = uint64;
 pub type SteamLeaderboardEntries_t = uint64;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ELeaderboardDataRequest {
 	k_ELeaderboardDataRequestGlobal = 0,
@@ -5437,7 +5235,6 @@ pub enum ELeaderboardDataRequest {
 	k_ELeaderboardDataRequestUsers = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ELeaderboardSortMethod {
 	k_ELeaderboardSortMethodNone = 0,
@@ -5445,7 +5242,6 @@ pub enum ELeaderboardSortMethod {
 	k_ELeaderboardSortMethodDescending = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ELeaderboardDisplayType {
 	k_ELeaderboardDisplayTypeNone = 0,
@@ -5454,7 +5250,6 @@ pub enum ELeaderboardDisplayType {
 	k_ELeaderboardDisplayTypeTimeMilliSeconds = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ELeaderboardUploadScoreMethod {
 	k_ELeaderboardUploadScoreMethodNone = 0,
@@ -5501,7 +5296,6 @@ pub struct UserStatsReceived_t {
 }
 pub const UserStatsReceived_t_k_iCallback: UserStatsReceived_t__bindgen_ty_1 = UserStatsReceived_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UserStatsReceived_t__bindgen_ty_1 {
 	k_iCallback = 1101,
@@ -5522,7 +5316,6 @@ pub struct UserStatsStored_t {
 }
 pub const UserStatsStored_t_k_iCallback: UserStatsStored_t__bindgen_ty_1 = UserStatsStored_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UserStatsStored_t__bindgen_ty_1 {
 	k_iCallback = 1102,
@@ -5545,7 +5338,6 @@ pub struct UserAchievementStored_t {
 }
 pub const UserAchievementStored_t_k_iCallback: UserAchievementStored_t__bindgen_ty_1 = UserAchievementStored_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UserAchievementStored_t__bindgen_ty_1 {
 	k_iCallback = 1103,
@@ -5568,7 +5360,6 @@ pub struct LeaderboardFindResult_t {
 }
 pub const LeaderboardFindResult_t_k_iCallback: LeaderboardFindResult_t__bindgen_ty_1 = LeaderboardFindResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LeaderboardFindResult_t__bindgen_ty_1 {
 	k_iCallback = 1104,
@@ -5589,7 +5380,6 @@ pub struct LeaderboardScoresDownloaded_t {
 }
 pub const LeaderboardScoresDownloaded_t_k_iCallback: LeaderboardScoresDownloaded_t__bindgen_ty_1 = LeaderboardScoresDownloaded_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LeaderboardScoresDownloaded_t__bindgen_ty_1 {
 	k_iCallback = 1105,
@@ -5614,7 +5404,6 @@ pub struct LeaderboardScoreUploaded_t {
 }
 pub const LeaderboardScoreUploaded_t_k_iCallback: LeaderboardScoreUploaded_t__bindgen_ty_1 = LeaderboardScoreUploaded_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LeaderboardScoreUploaded_t__bindgen_ty_1 {
 	k_iCallback = 1106,
@@ -5638,7 +5427,6 @@ pub struct NumberOfCurrentPlayers_t {
 }
 pub const NumberOfCurrentPlayers_t_k_iCallback: NumberOfCurrentPlayers_t__bindgen_ty_1 = NumberOfCurrentPlayers_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum NumberOfCurrentPlayers_t__bindgen_ty_1 {
 	k_iCallback = 1107,
@@ -5657,7 +5445,6 @@ pub struct UserStatsUnloaded_t {
 }
 pub const UserStatsUnloaded_t_k_iCallback: UserStatsUnloaded_t__bindgen_ty_1 = UserStatsUnloaded_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UserStatsUnloaded_t__bindgen_ty_1 {
 	k_iCallback = 1108,
@@ -5678,7 +5465,6 @@ pub struct UserAchievementIconFetched_t {
 }
 pub const UserAchievementIconFetched_t_k_iCallback: UserAchievementIconFetched_t__bindgen_ty_1 = UserAchievementIconFetched_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UserAchievementIconFetched_t__bindgen_ty_1 {
 	k_iCallback = 1109,
@@ -5700,7 +5486,6 @@ pub struct GlobalAchievementPercentagesReady_t {
 }
 pub const GlobalAchievementPercentagesReady_t_k_iCallback: GlobalAchievementPercentagesReady_t__bindgen_ty_1 = GlobalAchievementPercentagesReady_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GlobalAchievementPercentagesReady_t__bindgen_ty_1 {
 	k_iCallback = 1110,
@@ -5720,7 +5505,6 @@ pub struct LeaderboardUGCSet_t {
 }
 pub const LeaderboardUGCSet_t_k_iCallback: LeaderboardUGCSet_t__bindgen_ty_1 = LeaderboardUGCSet_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum LeaderboardUGCSet_t__bindgen_ty_1 {
 	k_iCallback = 1111,
@@ -5741,7 +5525,6 @@ pub struct PS3TrophiesInstalled_t {
 }
 pub const PS3TrophiesInstalled_t_k_iCallback: PS3TrophiesInstalled_t__bindgen_ty_1 = PS3TrophiesInstalled_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum PS3TrophiesInstalled_t__bindgen_ty_1 {
 	k_iCallback = 1112,
@@ -5762,7 +5545,6 @@ pub struct GlobalStatsReceived_t {
 }
 pub const GlobalStatsReceived_t_k_iCallback: GlobalStatsReceived_t__bindgen_ty_1 = GlobalStatsReceived_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GlobalStatsReceived_t__bindgen_ty_1 {
 	k_iCallback = 1112,
@@ -5794,7 +5576,6 @@ pub struct DlcInstalled_t {
 }
 pub const DlcInstalled_t_k_iCallback: DlcInstalled_t__bindgen_ty_1 = DlcInstalled_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum DlcInstalled_t__bindgen_ty_1 {
 	k_iCallback = 1005,
@@ -5812,7 +5593,6 @@ pub struct NewUrlLaunchParameters_t {
 }
 pub const NewUrlLaunchParameters_t_k_iCallback: NewUrlLaunchParameters_t__bindgen_ty_1 = NewUrlLaunchParameters_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum NewUrlLaunchParameters_t__bindgen_ty_1 {
 	k_iCallback = 1014,
@@ -5832,7 +5612,6 @@ pub struct AppProofOfPurchaseKeyResponse_t {
 }
 pub const AppProofOfPurchaseKeyResponse_t_k_iCallback: AppProofOfPurchaseKeyResponse_t__bindgen_ty_1 = AppProofOfPurchaseKeyResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AppProofOfPurchaseKeyResponse_t__bindgen_ty_1 {
 	k_iCallback = 1021,
@@ -5856,7 +5635,6 @@ pub struct FileDetailsResult_t {
 }
 pub const FileDetailsResult_t_k_iCallback: FileDetailsResult_t__bindgen_ty_1 = FileDetailsResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum FileDetailsResult_t__bindgen_ty_1 {
 	k_iCallback = 1023,
@@ -5880,7 +5658,6 @@ pub struct TimedTrialStatus_t {
 }
 pub const TimedTrialStatus_t_k_iCallback: TimedTrialStatus_t__bindgen_ty_1 = TimedTrialStatus_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum TimedTrialStatus_t__bindgen_ty_1 {
 	k_iCallback = 1030,
@@ -5895,7 +5672,6 @@ const _: () = {
 	["Offset of field: TimedTrialStatus_t::m_unSecondsPlayed"][::std::mem::offset_of!(TimedTrialStatus_t, m_unSecondsPlayed) - 12usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EP2PSessionError {
 	k_EP2PSessionErrorNone = 0,
@@ -5906,7 +5682,6 @@ pub enum EP2PSessionError {
 	k_EP2PSessionErrorMax = 5,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EP2PSend {
 	k_EP2PSendUnreliable = 0,
@@ -5942,7 +5717,6 @@ const _: () = {
 pub type SNetSocket_t = uint32;
 pub type SNetListenSocket_t = uint32;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESNetSocketState {
 	k_ESNetSocketStateInvalid = 0,
@@ -5958,7 +5732,6 @@ pub enum ESNetSocketState {
 	k_ESNetSocketStateConnectionBroken = 25,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESNetSocketConnectionType {
 	k_ESNetSocketConnectionTypeNotConnected = 0,
@@ -5985,7 +5758,6 @@ pub struct P2PSessionRequest_t {
 }
 pub const P2PSessionRequest_t_k_iCallback: P2PSessionRequest_t__bindgen_ty_1 = P2PSessionRequest_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum P2PSessionRequest_t__bindgen_ty_1 {
 	k_iCallback = 1202,
@@ -6004,7 +5776,6 @@ pub struct P2PSessionConnectFail_t {
 }
 pub const P2PSessionConnectFail_t_k_iCallback: P2PSessionConnectFail_t__bindgen_ty_1 = P2PSessionConnectFail_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum P2PSessionConnectFail_t__bindgen_ty_1 {
 	k_iCallback = 1203,
@@ -6026,7 +5797,6 @@ pub struct SocketStatusCallback_t {
 }
 pub const SocketStatusCallback_t_k_iCallback: SocketStatusCallback_t__bindgen_ty_1 = SocketStatusCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SocketStatusCallback_t__bindgen_ty_1 {
 	k_iCallback = 1201,
@@ -6047,7 +5817,6 @@ pub const k_cubUFSTagValueMax: ::std::os::raw::c_int = 255;
 pub const k_ScreenshotThumbWidth: ::std::os::raw::c_int = 200;
 pub type ScreenshotHandle = uint32;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EVRScreenshotType {
 	k_EVRScreenshotType_None = 0,
@@ -6077,7 +5846,6 @@ pub struct ScreenshotReady_t {
 }
 pub const ScreenshotReady_t_k_iCallback: ScreenshotReady_t__bindgen_ty_1 = ScreenshotReady_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ScreenshotReady_t__bindgen_ty_1 {
 	k_iCallback = 2301,
@@ -6096,7 +5864,6 @@ pub struct ScreenshotRequested_t {
 }
 pub const ScreenshotRequested_t_k_iCallback: ScreenshotRequested_t__bindgen_ty_1 = ScreenshotRequested_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ScreenshotRequested_t__bindgen_ty_1 {
 	k_iCallback = 2302,
@@ -6107,7 +5874,6 @@ const _: () = {
 	["Alignment of ScreenshotRequested_t"][::std::mem::align_of::<ScreenshotRequested_t>() - 1usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AudioPlayback_Status {
 	AudioPlayback_Undefined = 0,
@@ -6134,7 +5900,6 @@ pub struct PlaybackStatusHasChanged_t {
 }
 pub const PlaybackStatusHasChanged_t_k_iCallback: PlaybackStatusHasChanged_t__bindgen_ty_1 = PlaybackStatusHasChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum PlaybackStatusHasChanged_t__bindgen_ty_1 {
 	k_iCallback = 4001,
@@ -6151,7 +5916,6 @@ pub struct VolumeHasChanged_t {
 }
 pub const VolumeHasChanged_t_k_iCallback: VolumeHasChanged_t__bindgen_ty_1 = VolumeHasChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum VolumeHasChanged_t__bindgen_ty_1 {
 	k_iCallback = 4002,
@@ -6181,7 +5945,6 @@ pub struct MusicPlayerRemoteWillActivate_t {
 }
 pub const MusicPlayerRemoteWillActivate_t_k_iCallback: MusicPlayerRemoteWillActivate_t__bindgen_ty_1 = MusicPlayerRemoteWillActivate_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerRemoteWillActivate_t__bindgen_ty_1 {
 	k_iCallback = 4101,
@@ -6198,7 +5961,6 @@ pub struct MusicPlayerRemoteWillDeactivate_t {
 }
 pub const MusicPlayerRemoteWillDeactivate_t_k_iCallback: MusicPlayerRemoteWillDeactivate_t__bindgen_ty_1 = MusicPlayerRemoteWillDeactivate_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerRemoteWillDeactivate_t__bindgen_ty_1 {
 	k_iCallback = 4102,
@@ -6215,7 +5977,6 @@ pub struct MusicPlayerRemoteToFront_t {
 }
 pub const MusicPlayerRemoteToFront_t_k_iCallback: MusicPlayerRemoteToFront_t__bindgen_ty_1 = MusicPlayerRemoteToFront_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerRemoteToFront_t__bindgen_ty_1 {
 	k_iCallback = 4103,
@@ -6232,7 +5993,6 @@ pub struct MusicPlayerWillQuit_t {
 }
 pub const MusicPlayerWillQuit_t_k_iCallback: MusicPlayerWillQuit_t__bindgen_ty_1 = MusicPlayerWillQuit_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWillQuit_t__bindgen_ty_1 {
 	k_iCallback = 4104,
@@ -6249,7 +6009,6 @@ pub struct MusicPlayerWantsPlay_t {
 }
 pub const MusicPlayerWantsPlay_t_k_iCallback: MusicPlayerWantsPlay_t__bindgen_ty_1 = MusicPlayerWantsPlay_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsPlay_t__bindgen_ty_1 {
 	k_iCallback = 4105,
@@ -6266,7 +6025,6 @@ pub struct MusicPlayerWantsPause_t {
 }
 pub const MusicPlayerWantsPause_t_k_iCallback: MusicPlayerWantsPause_t__bindgen_ty_1 = MusicPlayerWantsPause_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsPause_t__bindgen_ty_1 {
 	k_iCallback = 4106,
@@ -6283,7 +6041,6 @@ pub struct MusicPlayerWantsPlayPrevious_t {
 }
 pub const MusicPlayerWantsPlayPrevious_t_k_iCallback: MusicPlayerWantsPlayPrevious_t__bindgen_ty_1 = MusicPlayerWantsPlayPrevious_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsPlayPrevious_t__bindgen_ty_1 {
 	k_iCallback = 4107,
@@ -6300,7 +6057,6 @@ pub struct MusicPlayerWantsPlayNext_t {
 }
 pub const MusicPlayerWantsPlayNext_t_k_iCallback: MusicPlayerWantsPlayNext_t__bindgen_ty_1 = MusicPlayerWantsPlayNext_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsPlayNext_t__bindgen_ty_1 {
 	k_iCallback = 4108,
@@ -6317,7 +6073,6 @@ pub struct MusicPlayerWantsShuffled_t {
 }
 pub const MusicPlayerWantsShuffled_t_k_iCallback: MusicPlayerWantsShuffled_t__bindgen_ty_1 = MusicPlayerWantsShuffled_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsShuffled_t__bindgen_ty_1 {
 	k_iCallback = 4109,
@@ -6335,7 +6090,6 @@ pub struct MusicPlayerWantsLooped_t {
 }
 pub const MusicPlayerWantsLooped_t_k_iCallback: MusicPlayerWantsLooped_t__bindgen_ty_1 = MusicPlayerWantsLooped_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsLooped_t__bindgen_ty_1 {
 	k_iCallback = 4110,
@@ -6353,7 +6107,6 @@ pub struct MusicPlayerWantsVolume_t {
 }
 pub const MusicPlayerWantsVolume_t_k_iCallback: MusicPlayerWantsVolume_t__bindgen_ty_1 = MusicPlayerWantsVolume_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsVolume_t__bindgen_ty_1 {
 	k_iCallback = 4011,
@@ -6371,7 +6124,6 @@ pub struct MusicPlayerSelectsQueueEntry_t {
 }
 pub const MusicPlayerSelectsQueueEntry_t_k_iCallback: MusicPlayerSelectsQueueEntry_t__bindgen_ty_1 = MusicPlayerSelectsQueueEntry_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerSelectsQueueEntry_t__bindgen_ty_1 {
 	k_iCallback = 4012,
@@ -6389,7 +6141,6 @@ pub struct MusicPlayerSelectsPlaylistEntry_t {
 }
 pub const MusicPlayerSelectsPlaylistEntry_t_k_iCallback: MusicPlayerSelectsPlaylistEntry_t__bindgen_ty_1 = MusicPlayerSelectsPlaylistEntry_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerSelectsPlaylistEntry_t__bindgen_ty_1 {
 	k_iCallback = 4013,
@@ -6407,7 +6158,6 @@ pub struct MusicPlayerWantsPlayingRepeatStatus_t {
 }
 pub const MusicPlayerWantsPlayingRepeatStatus_t_k_iCallback: MusicPlayerWantsPlayingRepeatStatus_t__bindgen_ty_1 = MusicPlayerWantsPlayingRepeatStatus_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum MusicPlayerWantsPlayingRepeatStatus_t__bindgen_ty_1 {
 	k_iCallback = 4114,
@@ -6419,7 +6169,6 @@ const _: () = {
 	["Offset of field: MusicPlayerWantsPlayingRepeatStatus_t::m_nPlayingRepeatStatus"][::std::mem::offset_of!(MusicPlayerWantsPlayingRepeatStatus_t, m_nPlayingRepeatStatus) - 0usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EHTTPMethod {
 	k_EHTTPMethodInvalid = 0,
@@ -6432,7 +6181,6 @@ pub enum EHTTPMethod {
 	k_EHTTPMethodPATCH = 7,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EHTTPStatusCode {
 	k_EHTTPStatusCodeInvalid = 0,
@@ -6507,7 +6255,6 @@ pub struct HTTPRequestCompleted_t {
 }
 pub const HTTPRequestCompleted_t_k_iCallback: HTTPRequestCompleted_t__bindgen_ty_1 = HTTPRequestCompleted_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTTPRequestCompleted_t__bindgen_ty_1 {
 	k_iCallback = 2101,
@@ -6530,7 +6277,6 @@ pub struct HTTPRequestHeadersReceived_t {
 }
 pub const HTTPRequestHeadersReceived_t_k_iCallback: HTTPRequestHeadersReceived_t__bindgen_ty_1 = HTTPRequestHeadersReceived_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTTPRequestHeadersReceived_t__bindgen_ty_1 {
 	k_iCallback = 2102,
@@ -6552,7 +6298,6 @@ pub struct HTTPRequestDataReceived_t {
 }
 pub const HTTPRequestDataReceived_t_k_iCallback: HTTPRequestDataReceived_t__bindgen_ty_1 = HTTPRequestDataReceived_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTTPRequestDataReceived_t__bindgen_ty_1 {
 	k_iCallback = 2103,
@@ -6567,7 +6312,6 @@ const _: () = {
 	["Offset of field: HTTPRequestDataReceived_t::m_cBytesReceived"][::std::mem::offset_of!(HTTPRequestDataReceived_t, m_cBytesReceived) - 20usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EInputSourceMode {
 	k_EInputSourceMode_None = 0,
@@ -6589,7 +6333,6 @@ pub enum EInputSourceMode {
 	k_EInputSourceMode_Switches = 16,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EInputActionOrigin {
 	k_EInputActionOrigin_None = 0,
@@ -7006,7 +6749,6 @@ pub enum EInputActionOrigin {
 	k_EInputActionOrigin_MaximumPossibleValue = 32767,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EXboxOrigin {
 	k_EXboxOrigin_A = 0,
@@ -7040,14 +6782,12 @@ pub enum EXboxOrigin {
 	k_EXboxOrigin_Count = 28,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamControllerPad {
 	k_ESteamControllerPad_Left = 0,
 	k_ESteamControllerPad_Right = 1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EControllerHapticLocation {
 	k_EControllerHapticLocation_Left = 1,
@@ -7055,7 +6795,6 @@ pub enum EControllerHapticLocation {
 	k_EControllerHapticLocation_Both = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EControllerHapticType {
 	k_EControllerHapticType_Off = 0,
@@ -7063,7 +6802,6 @@ pub enum EControllerHapticType {
 	k_EControllerHapticType_Click = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamInputType {
 	k_ESteamInputType_Unknown = 0,
@@ -7085,7 +6823,6 @@ pub enum ESteamInputType {
 	k_ESteamInputType_MaximumPossibleValue = 255,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamInputConfigurationEnableType {
 	k_ESteamInputConfigurationEnableType_None = 0,
@@ -7095,14 +6832,12 @@ pub enum ESteamInputConfigurationEnableType {
 	k_ESteamInputConfigurationEnableType_Switch = 8,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamInputLEDFlag {
 	k_ESteamInputLEDFlag_SetColor = 0,
 	k_ESteamInputLEDFlag_RestoreUserDefault = 1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamInputGlyphSize {
 	k_ESteamInputGlyphSize_Small = 0,
@@ -7111,7 +6846,6 @@ pub enum ESteamInputGlyphSize {
 	k_ESteamInputGlyphSize_Count = 3,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamInputGlyphStyle {
 	ESteamInputGlyphStyle_Knockout = 0,
@@ -7121,7 +6855,6 @@ pub enum ESteamInputGlyphStyle {
 	ESteamInputGlyphStyle_SolidABXY = 32,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamInputActionEventType {
 	ESteamInputActionEventType_DigitalAction = 0,
@@ -7268,7 +7001,6 @@ pub struct SteamInputDeviceConnected_t {
 }
 pub const SteamInputDeviceConnected_t_k_iCallback: SteamInputDeviceConnected_t__bindgen_ty_1 = SteamInputDeviceConnected_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInputDeviceConnected_t__bindgen_ty_1 {
 	k_iCallback = 2801,
@@ -7286,7 +7018,6 @@ pub struct SteamInputDeviceDisconnected_t {
 }
 pub const SteamInputDeviceDisconnected_t_k_iCallback: SteamInputDeviceDisconnected_t__bindgen_ty_1 = SteamInputDeviceDisconnected_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInputDeviceDisconnected_t__bindgen_ty_1 {
 	k_iCallback = 2802,
@@ -7310,7 +7041,6 @@ pub struct SteamInputConfigurationLoaded_t {
 }
 pub const SteamInputConfigurationLoaded_t_k_iCallback: SteamInputConfigurationLoaded_t__bindgen_ty_1 = SteamInputConfigurationLoaded_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInputConfigurationLoaded_t__bindgen_ty_1 {
 	k_iCallback = 2803,
@@ -7338,7 +7068,6 @@ pub struct SteamInputGamepadSlotChange_t {
 }
 pub const SteamInputGamepadSlotChange_t_k_iCallback: SteamInputGamepadSlotChange_t__bindgen_ty_1 = SteamInputGamepadSlotChange_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInputGamepadSlotChange_t__bindgen_ty_1 {
 	k_iCallback = 2804,
@@ -7354,7 +7083,6 @@ const _: () = {
 	["Offset of field: SteamInputGamepadSlotChange_t::m_nNewGamepadSlot"][::std::mem::offset_of!(SteamInputGamepadSlotChange_t, m_nNewGamepadSlot) - 24usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EControllerActionOrigin {
 	k_EControllerActionOrigin_None = 0,
@@ -7751,7 +7479,6 @@ pub enum EControllerActionOrigin {
 	k_EControllerActionOrigin_MaximumPossibleValue = 32767,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamControllerLEDFlag {
 	k_ESteamControllerLEDFlag_SetColor = 0,
@@ -7778,7 +7505,6 @@ pub type UGCUpdateHandle_t = uint64;
 pub const k_UGCQueryHandleInvalid: UGCQueryHandle_t = 18446744073709551615;
 pub const k_UGCUpdateHandleInvalid: UGCUpdateHandle_t = 18446744073709551615;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUGCMatchingUGCType {
 	k_EUGCMatchingUGCType_Items = 0,
@@ -7797,7 +7523,6 @@ pub enum EUGCMatchingUGCType {
 	k_EUGCMatchingUGCType_All = -1,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUserUGCList {
 	k_EUserUGCList_Published = 0,
@@ -7811,7 +7536,6 @@ pub enum EUserUGCList {
 	k_EUserUGCList_Followed = 8,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUserUGCListSortOrder {
 	k_EUserUGCListSortOrder_CreationOrderDesc = 0,
@@ -7823,7 +7547,6 @@ pub enum EUserUGCListSortOrder {
 	k_EUserUGCListSortOrder_ForModeration = 6,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUGCQuery {
 	k_EUGCQuery_RankedByVote = 0,
@@ -7848,7 +7571,6 @@ pub enum EUGCQuery {
 	k_EUGCQuery_RankedByLastUpdatedDate = 19,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EItemUpdateStatus {
 	k_EItemUpdateStatusInvalid = 0,
@@ -7859,7 +7581,6 @@ pub enum EItemUpdateStatus {
 	k_EItemUpdateStatusCommittingChanges = 5,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EItemState {
 	k_EItemStateNone = 0,
@@ -7872,7 +7593,6 @@ pub enum EItemState {
 	k_EItemStateDisabledLocally = 64,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EItemStatistic {
 	k_EItemStatistic_NumSubscriptions = 0,
@@ -7890,7 +7610,6 @@ pub enum EItemStatistic {
 	k_EItemStatistic_NumPlaytimeSessionsDuringTimePeriod = 12,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EItemPreviewType {
 	k_EItemPreviewType_Image = 0,
@@ -7902,7 +7621,6 @@ pub enum EItemPreviewType {
 	k_EItemPreviewType_ReservedMax = 255,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EUGCContentDescriptorID {
 	k_EUGCContentDescriptor_NudityOrSexualContent = 1,
@@ -8000,7 +7718,6 @@ pub struct SteamUGCQueryCompleted_t {
 }
 pub const SteamUGCQueryCompleted_t_k_iCallback: SteamUGCQueryCompleted_t__bindgen_ty_1 = SteamUGCQueryCompleted_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamUGCQueryCompleted_t__bindgen_ty_1 {
 	k_iCallback = 3401,
@@ -8024,7 +7741,6 @@ pub struct SteamUGCRequestUGCDetailsResult_t {
 }
 pub const SteamUGCRequestUGCDetailsResult_t_k_iCallback: SteamUGCRequestUGCDetailsResult_t__bindgen_ty_1 = SteamUGCRequestUGCDetailsResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamUGCRequestUGCDetailsResult_t__bindgen_ty_1 {
 	k_iCallback = 3402,
@@ -8045,7 +7761,6 @@ pub struct CreateItemResult_t {
 }
 pub const CreateItemResult_t_k_iCallback: CreateItemResult_t__bindgen_ty_1 = CreateItemResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum CreateItemResult_t__bindgen_ty_1 {
 	k_iCallback = 3403,
@@ -8067,7 +7782,6 @@ pub struct SubmitItemUpdateResult_t {
 }
 pub const SubmitItemUpdateResult_t_k_iCallback: SubmitItemUpdateResult_t__bindgen_ty_1 = SubmitItemUpdateResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SubmitItemUpdateResult_t__bindgen_ty_1 {
 	k_iCallback = 3404,
@@ -8090,7 +7804,6 @@ pub struct ItemInstalled_t {
 }
 pub const ItemInstalled_t_k_iCallback: ItemInstalled_t__bindgen_ty_1 = ItemInstalled_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ItemInstalled_t__bindgen_ty_1 {
 	k_iCallback = 3405,
@@ -8113,7 +7826,6 @@ pub struct DownloadItemResult_t {
 }
 pub const DownloadItemResult_t_k_iCallback: DownloadItemResult_t__bindgen_ty_1 = DownloadItemResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum DownloadItemResult_t__bindgen_ty_1 {
 	k_iCallback = 3406,
@@ -8135,7 +7847,6 @@ pub struct UserFavoriteItemsListChanged_t {
 }
 pub const UserFavoriteItemsListChanged_t_k_iCallback: UserFavoriteItemsListChanged_t__bindgen_ty_1 = UserFavoriteItemsListChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UserFavoriteItemsListChanged_t__bindgen_ty_1 {
 	k_iCallback = 3407,
@@ -8157,7 +7868,6 @@ pub struct SetUserItemVoteResult_t {
 }
 pub const SetUserItemVoteResult_t_k_iCallback: SetUserItemVoteResult_t__bindgen_ty_1 = SetUserItemVoteResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SetUserItemVoteResult_t__bindgen_ty_1 {
 	k_iCallback = 3408,
@@ -8181,7 +7891,6 @@ pub struct GetUserItemVoteResult_t {
 }
 pub const GetUserItemVoteResult_t_k_iCallback: GetUserItemVoteResult_t__bindgen_ty_1 = GetUserItemVoteResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GetUserItemVoteResult_t__bindgen_ty_1 {
 	k_iCallback = 3409,
@@ -8203,7 +7912,6 @@ pub struct StartPlaytimeTrackingResult_t {
 }
 pub const StartPlaytimeTrackingResult_t_k_iCallback: StartPlaytimeTrackingResult_t__bindgen_ty_1 = StartPlaytimeTrackingResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum StartPlaytimeTrackingResult_t__bindgen_ty_1 {
 	k_iCallback = 3410,
@@ -8221,7 +7929,6 @@ pub struct StopPlaytimeTrackingResult_t {
 }
 pub const StopPlaytimeTrackingResult_t_k_iCallback: StopPlaytimeTrackingResult_t__bindgen_ty_1 = StopPlaytimeTrackingResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum StopPlaytimeTrackingResult_t__bindgen_ty_1 {
 	k_iCallback = 3411,
@@ -8241,7 +7948,6 @@ pub struct AddUGCDependencyResult_t {
 }
 pub const AddUGCDependencyResult_t_k_iCallback: AddUGCDependencyResult_t__bindgen_ty_1 = AddUGCDependencyResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AddUGCDependencyResult_t__bindgen_ty_1 {
 	k_iCallback = 3412,
@@ -8263,7 +7969,6 @@ pub struct RemoveUGCDependencyResult_t {
 }
 pub const RemoveUGCDependencyResult_t_k_iCallback: RemoveUGCDependencyResult_t__bindgen_ty_1 = RemoveUGCDependencyResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoveUGCDependencyResult_t__bindgen_ty_1 {
 	k_iCallback = 3413,
@@ -8285,7 +7990,6 @@ pub struct AddAppDependencyResult_t {
 }
 pub const AddAppDependencyResult_t_k_iCallback: AddAppDependencyResult_t__bindgen_ty_1 = AddAppDependencyResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AddAppDependencyResult_t__bindgen_ty_1 {
 	k_iCallback = 3414,
@@ -8307,7 +8011,6 @@ pub struct RemoveAppDependencyResult_t {
 }
 pub const RemoveAppDependencyResult_t_k_iCallback: RemoveAppDependencyResult_t__bindgen_ty_1 = RemoveAppDependencyResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum RemoveAppDependencyResult_t__bindgen_ty_1 {
 	k_iCallback = 3415,
@@ -8331,7 +8034,6 @@ pub struct GetAppDependenciesResult_t {
 }
 pub const GetAppDependenciesResult_t_k_iCallback: GetAppDependenciesResult_t__bindgen_ty_1 = GetAppDependenciesResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GetAppDependenciesResult_t__bindgen_ty_1 {
 	k_iCallback = 3416,
@@ -8354,7 +8056,6 @@ pub struct DeleteItemResult_t {
 }
 pub const DeleteItemResult_t_k_iCallback: DeleteItemResult_t__bindgen_ty_1 = DeleteItemResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum DeleteItemResult_t__bindgen_ty_1 {
 	k_iCallback = 3417,
@@ -8373,7 +8074,6 @@ pub struct UserSubscribedItemsListChanged_t {
 }
 pub const UserSubscribedItemsListChanged_t_k_iCallback: UserSubscribedItemsListChanged_t__bindgen_ty_1 = UserSubscribedItemsListChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum UserSubscribedItemsListChanged_t__bindgen_ty_1 {
 	k_iCallback = 3418,
@@ -8396,7 +8096,6 @@ pub struct WorkshopEULAStatus_t {
 }
 pub const WorkshopEULAStatus_t_k_iCallback: WorkshopEULAStatus_t__bindgen_ty_1 = WorkshopEULAStatus_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum WorkshopEULAStatus_t__bindgen_ty_1 {
 	k_iCallback = 3420,
@@ -8422,7 +8121,6 @@ pub struct ISteamHTMLSurface {
 	pub vtable_: *const ISteamHTMLSurface__bindgen_vtable,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ISteamHTMLSurface_EHTMLMouseButton {
 	eHTMLMouseButton_Left = 0,
@@ -8430,7 +8128,6 @@ pub enum ISteamHTMLSurface_EHTMLMouseButton {
 	eHTMLMouseButton_Middle = 2,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ISteamHTMLSurface_EMouseCursor {
 	dc_user = 0,
@@ -8477,7 +8174,6 @@ pub enum ISteamHTMLSurface_EMouseCursor {
 	dc_last = 41,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ISteamHTMLSurface_EHTMLKeyModifiers {
 	k_eHTMLKeyModifier_None = 0,
@@ -8497,7 +8193,6 @@ pub struct HTML_BrowserReady_t {
 }
 pub const HTML_BrowserReady_t_k_iCallback: HTML_BrowserReady_t__bindgen_ty_1 = HTML_BrowserReady_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_BrowserReady_t__bindgen_ty_1 {
 	k_iCallback = 4501,
@@ -8526,7 +8221,6 @@ pub struct HTML_NeedsPaint_t {
 }
 pub const HTML_NeedsPaint_t_k_iCallback: HTML_NeedsPaint_t__bindgen_ty_1 = HTML_NeedsPaint_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_NeedsPaint_t__bindgen_ty_1 {
 	k_iCallback = 4502,
@@ -8559,7 +8253,6 @@ pub struct HTML_StartRequest_t {
 }
 pub const HTML_StartRequest_t_k_iCallback: HTML_StartRequest_t__bindgen_ty_1 = HTML_StartRequest_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_StartRequest_t__bindgen_ty_1 {
 	k_iCallback = 4503,
@@ -8581,7 +8274,6 @@ pub struct HTML_CloseBrowser_t {
 }
 pub const HTML_CloseBrowser_t_k_iCallback: HTML_CloseBrowser_t__bindgen_ty_1 = HTML_CloseBrowser_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_CloseBrowser_t__bindgen_ty_1 {
 	k_iCallback = 4504,
@@ -8604,7 +8296,6 @@ pub struct HTML_URLChanged_t {
 }
 pub const HTML_URLChanged_t_k_iCallback: HTML_URLChanged_t__bindgen_ty_1 = HTML_URLChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_URLChanged_t__bindgen_ty_1 {
 	k_iCallback = 4505,
@@ -8629,7 +8320,6 @@ pub struct HTML_FinishedRequest_t {
 }
 pub const HTML_FinishedRequest_t_k_iCallback: HTML_FinishedRequest_t__bindgen_ty_1 = HTML_FinishedRequest_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_FinishedRequest_t__bindgen_ty_1 {
 	k_iCallback = 4506,
@@ -8650,7 +8340,6 @@ pub struct HTML_OpenLinkInNewTab_t {
 }
 pub const HTML_OpenLinkInNewTab_t_k_iCallback: HTML_OpenLinkInNewTab_t__bindgen_ty_1 = HTML_OpenLinkInNewTab_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_OpenLinkInNewTab_t__bindgen_ty_1 {
 	k_iCallback = 4507,
@@ -8670,7 +8359,6 @@ pub struct HTML_ChangedTitle_t {
 }
 pub const HTML_ChangedTitle_t_k_iCallback: HTML_ChangedTitle_t__bindgen_ty_1 = HTML_ChangedTitle_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_ChangedTitle_t__bindgen_ty_1 {
 	k_iCallback = 4508,
@@ -8691,7 +8379,6 @@ pub struct HTML_SearchResults_t {
 }
 pub const HTML_SearchResults_t_k_iCallback: HTML_SearchResults_t__bindgen_ty_1 = HTML_SearchResults_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_SearchResults_t__bindgen_ty_1 {
 	k_iCallback = 4509,
@@ -8713,7 +8400,6 @@ pub struct HTML_CanGoBackAndForward_t {
 }
 pub const HTML_CanGoBackAndForward_t_k_iCallback: HTML_CanGoBackAndForward_t__bindgen_ty_1 = HTML_CanGoBackAndForward_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_CanGoBackAndForward_t__bindgen_ty_1 {
 	k_iCallback = 4510,
@@ -8738,7 +8424,6 @@ pub struct HTML_HorizontalScroll_t {
 }
 pub const HTML_HorizontalScroll_t_k_iCallback: HTML_HorizontalScroll_t__bindgen_ty_1 = HTML_HorizontalScroll_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_HorizontalScroll_t__bindgen_ty_1 {
 	k_iCallback = 4511,
@@ -8766,7 +8451,6 @@ pub struct HTML_VerticalScroll_t {
 }
 pub const HTML_VerticalScroll_t_k_iCallback: HTML_VerticalScroll_t__bindgen_ty_1 = HTML_VerticalScroll_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_VerticalScroll_t__bindgen_ty_1 {
 	k_iCallback = 4512,
@@ -8794,7 +8478,6 @@ pub struct HTML_LinkAtPosition_t {
 }
 pub const HTML_LinkAtPosition_t_k_iCallback: HTML_LinkAtPosition_t__bindgen_ty_1 = HTML_LinkAtPosition_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_LinkAtPosition_t__bindgen_ty_1 {
 	k_iCallback = 4513,
@@ -8818,7 +8501,6 @@ pub struct HTML_JSAlert_t {
 }
 pub const HTML_JSAlert_t_k_iCallback: HTML_JSAlert_t__bindgen_ty_1 = HTML_JSAlert_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_JSAlert_t__bindgen_ty_1 {
 	k_iCallback = 4514,
@@ -8838,7 +8520,6 @@ pub struct HTML_JSConfirm_t {
 }
 pub const HTML_JSConfirm_t_k_iCallback: HTML_JSConfirm_t__bindgen_ty_1 = HTML_JSConfirm_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_JSConfirm_t__bindgen_ty_1 {
 	k_iCallback = 4515,
@@ -8859,7 +8540,6 @@ pub struct HTML_FileOpenDialog_t {
 }
 pub const HTML_FileOpenDialog_t_k_iCallback: HTML_FileOpenDialog_t__bindgen_ty_1 = HTML_FileOpenDialog_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_FileOpenDialog_t__bindgen_ty_1 {
 	k_iCallback = 4516,
@@ -8885,7 +8565,6 @@ pub struct HTML_NewWindow_t {
 }
 pub const HTML_NewWindow_t_k_iCallback: HTML_NewWindow_t__bindgen_ty_1 = HTML_NewWindow_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_NewWindow_t__bindgen_ty_1 {
 	k_iCallback = 4521,
@@ -8910,7 +8589,6 @@ pub struct HTML_SetCursor_t {
 }
 pub const HTML_SetCursor_t_k_iCallback: HTML_SetCursor_t__bindgen_ty_1 = HTML_SetCursor_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_SetCursor_t__bindgen_ty_1 {
 	k_iCallback = 4522,
@@ -8930,7 +8608,6 @@ pub struct HTML_StatusText_t {
 }
 pub const HTML_StatusText_t_k_iCallback: HTML_StatusText_t__bindgen_ty_1 = HTML_StatusText_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_StatusText_t__bindgen_ty_1 {
 	k_iCallback = 4523,
@@ -8950,7 +8627,6 @@ pub struct HTML_ShowToolTip_t {
 }
 pub const HTML_ShowToolTip_t_k_iCallback: HTML_ShowToolTip_t__bindgen_ty_1 = HTML_ShowToolTip_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_ShowToolTip_t__bindgen_ty_1 {
 	k_iCallback = 4524,
@@ -8970,7 +8646,6 @@ pub struct HTML_UpdateToolTip_t {
 }
 pub const HTML_UpdateToolTip_t_k_iCallback: HTML_UpdateToolTip_t__bindgen_ty_1 = HTML_UpdateToolTip_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_UpdateToolTip_t__bindgen_ty_1 {
 	k_iCallback = 4525,
@@ -8989,7 +8664,6 @@ pub struct HTML_HideToolTip_t {
 }
 pub const HTML_HideToolTip_t_k_iCallback: HTML_HideToolTip_t__bindgen_ty_1 = HTML_HideToolTip_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_HideToolTip_t__bindgen_ty_1 {
 	k_iCallback = 4526,
@@ -9008,7 +8682,6 @@ pub struct HTML_BrowserRestarted_t {
 }
 pub const HTML_BrowserRestarted_t_k_iCallback: HTML_BrowserRestarted_t__bindgen_ty_1 = HTML_BrowserRestarted_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum HTML_BrowserRestarted_t__bindgen_ty_1 {
 	k_iCallback = 4527,
@@ -9026,7 +8699,6 @@ unsafe extern "C" {
 }
 pub type SteamItemDef_t = int32;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamItemFlags {
 	k_ESteamItemNoTrade = 1,
@@ -9074,7 +8746,6 @@ pub struct SteamInventoryResultReady_t {
 }
 pub const SteamInventoryResultReady_t_k_iCallback: SteamInventoryResultReady_t__bindgen_ty_1 = SteamInventoryResultReady_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInventoryResultReady_t__bindgen_ty_1 {
 	k_iCallback = 4700,
@@ -9093,7 +8764,6 @@ pub struct SteamInventoryFullUpdate_t {
 }
 pub const SteamInventoryFullUpdate_t_k_iCallback: SteamInventoryFullUpdate_t__bindgen_ty_1 = SteamInventoryFullUpdate_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInventoryFullUpdate_t__bindgen_ty_1 {
 	k_iCallback = 4701,
@@ -9111,7 +8781,6 @@ pub struct SteamInventoryDefinitionUpdate_t {
 }
 pub const SteamInventoryDefinitionUpdate_t_k_iCallback: SteamInventoryDefinitionUpdate_t__bindgen_ty_1 = SteamInventoryDefinitionUpdate_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInventoryDefinitionUpdate_t__bindgen_ty_1 {
 	k_iCallback = 4702,
@@ -9131,7 +8800,6 @@ pub struct SteamInventoryEligiblePromoItemDefIDs_t {
 }
 pub const SteamInventoryEligiblePromoItemDefIDs_t_k_iCallback: SteamInventoryEligiblePromoItemDefIDs_t__bindgen_ty_1 = SteamInventoryEligiblePromoItemDefIDs_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInventoryEligiblePromoItemDefIDs_t__bindgen_ty_1 {
 	k_iCallback = 4703,
@@ -9154,7 +8822,6 @@ pub struct SteamInventoryStartPurchaseResult_t {
 }
 pub const SteamInventoryStartPurchaseResult_t_k_iCallback: SteamInventoryStartPurchaseResult_t__bindgen_ty_1 = SteamInventoryStartPurchaseResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInventoryStartPurchaseResult_t__bindgen_ty_1 {
 	k_iCallback = 4704,
@@ -9175,7 +8842,6 @@ pub struct SteamInventoryRequestPricesResult_t {
 }
 pub const SteamInventoryRequestPricesResult_t_k_iCallback: SteamInventoryRequestPricesResult_t__bindgen_ty_1 = SteamInventoryRequestPricesResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamInventoryRequestPricesResult_t__bindgen_ty_1 {
 	k_iCallback = 4705,
@@ -9188,7 +8854,6 @@ const _: () = {
 	["Offset of field: SteamInventoryRequestPricesResult_t::m_rgchCurrency"][::std::mem::offset_of!(SteamInventoryRequestPricesResult_t, m_rgchCurrency) - 4usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ETimelineGameMode {
 	k_ETimelineGameMode_Invalid = 0,
@@ -9199,7 +8864,6 @@ pub enum ETimelineGameMode {
 	k_ETimelineGameMode_Max = 5,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ETimelineEventClipPriority {
 	k_ETimelineEventClipPriority_Invalid = 0,
@@ -9235,7 +8899,6 @@ pub struct SteamTimelineGamePhaseRecordingExists_t {
 }
 pub const SteamTimelineGamePhaseRecordingExists_t_k_iCallback: SteamTimelineGamePhaseRecordingExists_t__bindgen_ty_1 = SteamTimelineGamePhaseRecordingExists_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamTimelineGamePhaseRecordingExists_t__bindgen_ty_1 {
 	k_iCallback = 6001,
@@ -9258,7 +8921,6 @@ pub struct SteamTimelineEventRecordingExists_t {
 }
 pub const SteamTimelineEventRecordingExists_t_k_iCallback: SteamTimelineEventRecordingExists_t__bindgen_ty_1 = SteamTimelineEventRecordingExists_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamTimelineEventRecordingExists_t__bindgen_ty_1 {
 	k_iCallback = 6002,
@@ -9291,7 +8953,6 @@ pub struct GetVideoURLResult_t {
 }
 pub const GetVideoURLResult_t_k_iCallback: GetVideoURLResult_t__bindgen_ty_1 = GetVideoURLResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GetVideoURLResult_t__bindgen_ty_1 {
 	k_iCallback = 4611,
@@ -9312,7 +8973,6 @@ pub struct GetOPFSettingsResult_t {
 }
 pub const GetOPFSettingsResult_t_k_iCallback: GetOPFSettingsResult_t__bindgen_ty_1 = GetOPFSettingsResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GetOPFSettingsResult_t__bindgen_ty_1 {
 	k_iCallback = 4624,
@@ -9331,7 +8991,6 @@ pub struct BroadcastUploadStart_t {
 }
 pub const BroadcastUploadStart_t_k_iCallback: BroadcastUploadStart_t__bindgen_ty_1 = BroadcastUploadStart_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum BroadcastUploadStart_t__bindgen_ty_1 {
 	k_iCallback = 4604,
@@ -9349,7 +9008,6 @@ pub struct BroadcastUploadStop_t {
 }
 pub const BroadcastUploadStop_t_k_iCallback: BroadcastUploadStop_t__bindgen_ty_1 = BroadcastUploadStop_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum BroadcastUploadStop_t__bindgen_ty_1 {
 	k_iCallback = 4605,
@@ -9361,7 +9019,6 @@ const _: () = {
 	["Offset of field: BroadcastUploadStop_t::m_eResult"][::std::mem::offset_of!(BroadcastUploadStop_t, m_eResult) - 0usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EParentalFeature {
 	k_EFeatureInvalid = 0,
@@ -9401,7 +9058,6 @@ pub struct SteamParentalSettingsChanged_t {
 }
 pub const SteamParentalSettingsChanged_t_k_iCallback: SteamParentalSettingsChanged_t__bindgen_ty_1 = SteamParentalSettingsChanged_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamParentalSettingsChanged_t__bindgen_ty_1 {
 	k_iCallback = 5001,
@@ -9412,7 +9068,6 @@ const _: () = {
 	["Alignment of SteamParentalSettingsChanged_t"][::std::mem::align_of::<SteamParentalSettingsChanged_t>() - 1usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamDeviceFormFactor {
 	k_ESteamDeviceFormFactorUnknown = 0,
@@ -9442,7 +9097,6 @@ pub struct SteamRemotePlaySessionConnected_t {
 }
 pub const SteamRemotePlaySessionConnected_t_k_iCallback: SteamRemotePlaySessionConnected_t__bindgen_ty_1 = SteamRemotePlaySessionConnected_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamRemotePlaySessionConnected_t__bindgen_ty_1 {
 	k_iCallback = 5701,
@@ -9460,7 +9114,6 @@ pub struct SteamRemotePlaySessionDisconnected_t {
 }
 pub const SteamRemotePlaySessionDisconnected_t_k_iCallback: SteamRemotePlaySessionDisconnected_t__bindgen_ty_1 = SteamRemotePlaySessionDisconnected_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamRemotePlaySessionDisconnected_t__bindgen_ty_1 {
 	k_iCallback = 5702,
@@ -9478,7 +9131,6 @@ pub struct SteamRemotePlayTogetherGuestInvite_t {
 }
 pub const SteamRemotePlayTogetherGuestInvite_t_k_iCallback: SteamRemotePlayTogetherGuestInvite_t__bindgen_ty_1 = SteamRemotePlayTogetherGuestInvite_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamRemotePlayTogetherGuestInvite_t__bindgen_ty_1 {
 	k_iCallback = 5703,
@@ -9551,7 +9203,6 @@ pub type SteamNetworkingPOPID = uint32;
 #[doc = " A local timestamp.  You can subtract two timestamps to get the number of elapsed\n microseconds.  This is guaranteed to increase over time during the lifetime\n of a process, but not globally across runs.  You don't need to worry about\n the value wrapping around.  Note that the underlying clock might not actually have\n microsecond resolution."]
 pub type SteamNetworkingMicroseconds = int64;
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " Describe the status of a particular network resource"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingAvailability {
@@ -9567,7 +9218,6 @@ pub enum ESteamNetworkingAvailability {
 	k_ESteamNetworkingAvailability__Force32bit = 2147483647,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " Different methods of describing the identity of a network host"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingIdentityType {
@@ -9582,7 +9232,6 @@ pub enum ESteamNetworkingIdentityType {
 	k_ESteamNetworkingIdentityType__Force32bit = 2147483647,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " \"Fake IPs\" are assigned to hosts, to make it easier to interface with\n older code that assumed all hosts will have an IPv4 address"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingFakeIPType {
@@ -9601,7 +9250,6 @@ pub struct SteamNetworkingIPAddr {
 }
 pub const SteamNetworkingIPAddr_k_cchMaxString: SteamNetworkingIPAddr__bindgen_ty_1 = SteamNetworkingIPAddr__bindgen_ty_1::k_cchMaxString;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamNetworkingIPAddr__bindgen_ty_1 {
 	k_cchMaxString = 48,
@@ -9657,7 +9305,6 @@ pub const SteamNetworkingIdentity_k_cchMaxGenericString: SteamNetworkingIdentity
 pub const SteamNetworkingIdentity_k_cchMaxXboxPairwiseID: SteamNetworkingIdentity__bindgen_ty_1 = SteamNetworkingIdentity__bindgen_ty_1::k_cchMaxXboxPairwiseID;
 pub const SteamNetworkingIdentity_k_cbMaxGenericBytes: SteamNetworkingIdentity__bindgen_ty_1 = SteamNetworkingIdentity__bindgen_ty_1::k_cchMaxGenericString;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamNetworkingIdentity__bindgen_ty_1 {
 	k_cchMaxString = 128,
@@ -9697,7 +9344,6 @@ const _: () = {
 	["Offset of field: SteamNetworkingIdentity::m_cbSize"][::std::mem::offset_of!(SteamNetworkingIdentity, m_cbSize) - 4usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " High level connection status"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConnectionState {
@@ -9729,7 +9375,6 @@ impl ESteamNetConnectionEnd {
 	pub const k_ESteamNetConnectionEnd_AppException_Generic: ESteamNetConnectionEnd = ESteamNetConnectionEnd::k_ESteamNetConnectionEnd_AppException_Min;
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " Enumerate various causes of connection termination.  These are designed to work similar\n to HTTP error codes: the numeric range gives you a rough classification as to the source\n of the problem."]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetConnectionEnd {
@@ -9974,7 +9619,6 @@ pub const k_cchMaxSteamNetworkingPingLocationString: ::std::os::raw::c_int = 102
 pub const k_nSteamNetworkingPing_Failed: ::std::os::raw::c_int = -1;
 pub const k_nSteamNetworkingPing_Unknown: ::std::os::raw::c_int = -2;
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " Configuration values can be applied to different types of objects."]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConfigScope {
@@ -9990,7 +9634,6 @@ pub enum ESteamNetworkingConfigScope {
 	k_ESteamNetworkingConfigScope__Force32Bit = 2147483647,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConfigDataType {
 	k_ESteamNetworkingConfig_Int32 = 1,
@@ -10001,7 +9644,6 @@ pub enum ESteamNetworkingConfigDataType {
 	k_ESteamNetworkingConfigDataType__Force32Bit = 2147483647,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " Configuration options"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConfigValue {
@@ -10199,7 +9841,6 @@ const _: () = {
 	["Offset of field: SteamNetworkingConfigValue_t::m_val"][::std::mem::offset_of!(SteamNetworkingConfigValue_t, m_val) - 8usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " Return value of ISteamNetworkintgUtils::GetConfigValue"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingGetConfigValueResult {
@@ -10211,7 +9852,6 @@ pub enum ESteamNetworkingGetConfigValueResult {
 	k_ESteamNetworkingGetConfigValueResult__Force32Bit = 2147483647,
 }
 #[repr(i32)]
-#[non_exhaustive]
 #[doc = " Detail level for diagnostic output callback.\n See ISteamNetworkingUtils::SetDebugOutputFunction"]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingSocketsDebugOutputType {
@@ -10266,7 +9906,6 @@ pub struct SteamNetworkingMessagesSessionRequest_t {
 }
 pub const SteamNetworkingMessagesSessionRequest_t_k_iCallback: SteamNetworkingMessagesSessionRequest_t__bindgen_ty_1 = SteamNetworkingMessagesSessionRequest_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamNetworkingMessagesSessionRequest_t__bindgen_ty_1 {
 	k_iCallback = 1251,
@@ -10286,7 +9925,6 @@ pub struct SteamNetworkingMessagesSessionFailed_t {
 }
 pub const SteamNetworkingMessagesSessionFailed_t_k_iCallback: SteamNetworkingMessagesSessionFailed_t__bindgen_ty_1 = SteamNetworkingMessagesSessionFailed_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamNetworkingMessagesSessionFailed_t__bindgen_ty_1 {
 	k_iCallback = 1252,
@@ -10348,7 +9986,6 @@ pub struct SteamNetConnectionStatusChangedCallback_t {
 }
 pub const SteamNetConnectionStatusChangedCallback_t_k_iCallback: SteamNetConnectionStatusChangedCallback_t__bindgen_ty_1 = SteamNetConnectionStatusChangedCallback_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamNetConnectionStatusChangedCallback_t__bindgen_ty_1 {
 	k_iCallback = 1221,
@@ -10372,7 +10009,6 @@ pub struct SteamNetAuthenticationStatus_t {
 }
 pub const SteamNetAuthenticationStatus_t_k_iCallback: SteamNetAuthenticationStatus_t__bindgen_ty_1 = SteamNetAuthenticationStatus_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamNetAuthenticationStatus_t__bindgen_ty_1 {
 	k_iCallback = 1222,
@@ -10424,7 +10060,6 @@ pub struct SteamRelayNetworkStatus_t {
 }
 pub const SteamRelayNetworkStatus_t_k_iCallback: SteamRelayNetworkStatus_t__bindgen_ty_1 = SteamRelayNetworkStatus_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum SteamRelayNetworkStatus_t__bindgen_ty_1 {
 	k_iCallback = 1281,
@@ -10464,7 +10099,6 @@ const _: () = {
 	["Offset of field: SteamNetworkingIPAddrRender::buf"][::std::mem::offset_of!(SteamNetworkingIPAddrRender, buf) - 0usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamAPIInitResult {
 	k_ESteamAPIInitResult_OK = 0,
@@ -10549,7 +10183,6 @@ pub struct GSClientApprove_t {
 }
 pub const GSClientApprove_t_k_iCallback: GSClientApprove_t__bindgen_ty_1 = GSClientApprove_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSClientApprove_t__bindgen_ty_1 {
 	k_iCallback = 201,
@@ -10570,7 +10203,6 @@ pub struct GSClientDeny_t {
 }
 pub const GSClientDeny_t_k_iCallback: GSClientDeny_t__bindgen_ty_1 = GSClientDeny_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSClientDeny_t__bindgen_ty_1 {
 	k_iCallback = 202,
@@ -10591,7 +10223,6 @@ pub struct GSClientKick_t {
 }
 pub const GSClientKick_t_k_iCallback: GSClientKick_t__bindgen_ty_1 = GSClientKick_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSClientKick_t__bindgen_ty_1 {
 	k_iCallback = 203,
@@ -10612,7 +10243,6 @@ pub struct GSClientAchievementStatus_t {
 }
 pub const GSClientAchievementStatus_t_k_iCallback: GSClientAchievementStatus_t__bindgen_ty_1 = GSClientAchievementStatus_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSClientAchievementStatus_t__bindgen_ty_1 {
 	k_iCallback = 206,
@@ -10632,7 +10262,6 @@ pub struct GSPolicyResponse_t {
 }
 pub const GSPolicyResponse_t_k_iCallback: GSPolicyResponse_t__bindgen_ty_1 = GSPolicyResponse_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSPolicyResponse_t__bindgen_ty_1 {
 	k_iCallback = 115,
@@ -10653,7 +10282,6 @@ pub struct GSGameplayStats_t {
 }
 pub const GSGameplayStats_t_k_iCallback: GSGameplayStats_t__bindgen_ty_1 = GSGameplayStats_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSGameplayStats_t__bindgen_ty_1 {
 	k_iCallback = 207,
@@ -10677,7 +10305,6 @@ pub struct GSClientGroupStatus_t {
 }
 pub const GSClientGroupStatus_t_k_iCallback: GSClientGroupStatus_t__bindgen_ty_1 = GSClientGroupStatus_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSClientGroupStatus_t__bindgen_ty_1 {
 	k_iCallback = 208,
@@ -10704,7 +10331,6 @@ pub struct GSReputation_t {
 }
 pub const GSReputation_t_k_iCallback: GSReputation_t__bindgen_ty_1 = GSReputation_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSReputation_t__bindgen_ty_1 {
 	k_iCallback = 209,
@@ -10728,7 +10354,6 @@ pub struct AssociateWithClanResult_t {
 }
 pub const AssociateWithClanResult_t_k_iCallback: AssociateWithClanResult_t__bindgen_ty_1 = AssociateWithClanResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum AssociateWithClanResult_t__bindgen_ty_1 {
 	k_iCallback = 210,
@@ -10750,7 +10375,6 @@ pub struct ComputeNewPlayerCompatibilityResult_t {
 }
 pub const ComputeNewPlayerCompatibilityResult_t_k_iCallback: ComputeNewPlayerCompatibilityResult_t__bindgen_ty_1 = ComputeNewPlayerCompatibilityResult_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ComputeNewPlayerCompatibilityResult_t__bindgen_ty_1 {
 	k_iCallback = 211,
@@ -10788,7 +10412,6 @@ pub struct GSStatsReceived_t {
 }
 pub const GSStatsReceived_t_k_iCallback: GSStatsReceived_t__bindgen_ty_1 = GSStatsReceived_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSStatsReceived_t__bindgen_ty_1 {
 	k_iCallback = 1800,
@@ -10808,7 +10431,6 @@ pub struct GSStatsStored_t {
 }
 pub const GSStatsStored_t_k_iCallback: GSStatsStored_t__bindgen_ty_1 = GSStatsStored_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSStatsStored_t__bindgen_ty_1 {
 	k_iCallback = 1801,
@@ -10827,7 +10449,6 @@ pub struct GSStatsUnloaded_t {
 }
 pub const GSStatsUnloaded_t_k_iCallback: GSStatsUnloaded_t__bindgen_ty_1 = GSStatsUnloaded_t__bindgen_ty_1::k_iCallback;
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum GSStatsUnloaded_t__bindgen_ty_1 {
 	k_iCallback = 1108,
@@ -15144,7 +14765,6 @@ const _: () = {
 	["Alignment of ISteamAppTicket"][::std::mem::align_of::<ISteamAppTicket>() - 8usize];
 };
 #[repr(i32)]
-#[non_exhaustive]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum EServerMode {
 	eServerModeInvalid = 0,

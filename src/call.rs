@@ -580,7 +580,7 @@ impl CallThreadInner {
 	fn new(interval: Duration, steam_child: SteamChild) -> Self {
 		let (command_tx, command_rx) = channel::<CallThreadCommand>();
 
-		let handle = thread::spawn(move || {
+		let handle = thread::Builder::new().name(String::from("CallManager_CallThread")).spawn(move || {
 			let mut run = false;
 			let command_rx = command_rx;
 

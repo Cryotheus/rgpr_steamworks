@@ -102,7 +102,7 @@ fn main() {
 			.clang_arg("-xc++")
 			.clang_arg("-std=c++14")
 			.clang_arg(format!("-I{}", sdk_dir.display()))
-			.default_enum_style(bindgen::EnumVariation::Rust { non_exhaustive: true })
+			.default_enum_style(bindgen::EnumVariation::Rust { non_exhaustive: false })
 			.formatter(
 				//don't waste time formatting the linux version - we will have to anyways
 				if cfg!(all(target_os = "linux", target_pointer_width = "64")) {

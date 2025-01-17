@@ -5,114 +5,6 @@
 use rgpr_steamworks_sys as sys;
 use std::fmt::{Display, Formatter};
 
-/// > Unique identifier for an app.
-/// For more information see the [Applications] documentation.
-///
-/// Equivalent to `AppId_t`.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#AppId_t)
-///
-/// [Applications]: https://partner.steamgames.com/doc/store/application
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[repr(transparent)]
-pub struct AppId(pub u32);
-
-impl Display for AppId {
-	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-		Display::fmt(&self.0, f)
-	}
-}
-
-impl From<u32> for AppId {
-	fn from(value: u32) -> Self {
-		Self(value)
-	}
-}
-
-impl From<AppId> for u32 {
-	fn from(AppId(value): AppId) -> Self {
-		value
-	}
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[repr(transparent)]
-pub struct AuthTicket(pub u32);
-
-impl From<u32> for AuthTicket {
-	fn from(value: u32) -> Self {
-		Self(value)
-	}
-}
-
-impl From<AuthTicket> for u32 {
-	fn from(AuthTicket(value): AuthTicket) -> Self {
-		value
-	}
-}
-
-/// A String expected to be a comma-separated list of values.
-#[derive(Clone, Debug, PartialEq)]
-pub struct CsvString(pub String);
-
-impl CsvString {
-	/// Collect the values into a [`Vec<&str>`](Vec).
-	pub fn collect(&self) -> Vec<&str> {
-		self.iter().collect()
-	}
-
-	/// Returns an iterator over each value in the string.
-	pub fn iter(&self) -> impl Iterator<Item = &str> + DoubleEndedIterator {
-		self.0.split(',')
-	}
-
-	/// Returns the string wrapped.
-	pub fn take(self) -> String {
-		self.0
-	}
-}
-
-impl AsRef<str> for CsvString {
-	fn as_ref(&self) -> &str {
-		&self.0
-	}
-}
-
-impl From<CsvString> for String {
-	fn from(CsvString(value): CsvString) -> Self {
-		value
-	}
-}
-
-/// > Unique identifier for a depot.
-///
-/// See [Depots] for an explanation.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#DepotId_t)
-///
-/// [Depots]: https://partner.steamgames.com/doc/store/application/depots
-#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-#[repr(transparent)]
-pub struct DepotId(pub u32);
-
-impl Display for DepotId {
-	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-		Display::fmt(&self.0, f)
-	}
-}
-
-impl From<u32> for DepotId {
-	fn from(value: u32) -> Self {
-		Self(value)
-	}
-}
-
-impl From<DepotId> for u32 {
-	fn from(DepotId(value): DepotId) -> Self {
-		value
-	}
-}
-
 /// Steam account types.
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EAccountType)
@@ -190,7 +82,7 @@ impl From<sys::EAccountType> for AccountType {
 			k_EAccountTypeChat => Self::Chat,
 			k_EAccountTypeConsoleUser => Self::ConsoleUser,
 			k_EAccountTypeAnonUser => Self::AnonUser,
-			k_EAccountTypeMax | _ => unreachable!(),
+			k_EAccountTypeMax => unreachable!(),
 		}
 	}
 }
@@ -231,6 +123,262 @@ impl TryFrom<u32> for AccountType {
 	}
 }
 
+/// > Unique identifier for an app.
+/// For more information see the [Applications] documentation.
+///
+/// Equivalent to `AppId_t`.
+///
+/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#AppId_t)
+///
+/// [Applications]: https://partner.steamgames.com/doc/store/application
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
+pub struct AppId(pub u32);
+
+impl AppId {
+	pub fn invalid(self) -> bool {
+		self.0 == 0u32
+	}
+
+	pub fn valid(self) -> bool {
+		self.0 != 0u32
+	}
+}
+
+impl Display for AppId {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		Display::fmt(&self.0, f)
+	}
+}
+
+impl From<u32> for AppId {
+	fn from(value: u32) -> Self {
+		Self(value)
+	}
+}
+
+impl From<AppId> for u32 {
+	fn from(AppId(value): AppId) -> Self {
+		value
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
+pub struct AuthTicket(pub u32);
+
+impl From<u32> for AuthTicket {
+	fn from(value: u32) -> Self {
+		Self(value)
+	}
+}
+
+impl From<AuthTicket> for u32 {
+	fn from(AuthTicket(value): AuthTicket) -> Self {
+		value
+	}
+}
+
+/// A String expected to be a comma-separated list of values.
+/// Use [`iter`] to iterate over the values.
+/// 
+/// [`iter`]: CsvString::iter
+#[derive(Clone, Debug, PartialEq)]
+pub struct CsvString(pub String);
+
+impl CsvString {
+	/// Collect the values into a [`Vec<&str>`](Vec).
+	pub fn collect(&self) -> Vec<&str> {
+		self.iter().collect()
+	}
+
+	/// Returns an iterator over each value in the string.
+	pub fn iter(&self) -> impl Iterator<Item = &str> + DoubleEndedIterator {
+		self.0.split(',')
+	}
+
+	/// Returns the wrapped [`String`].
+	pub fn take(self) -> String {
+		self.0
+	}
+}
+
+impl AsRef<str> for CsvString {
+	fn as_ref(&self) -> &str {
+		&self.0
+	}
+}
+
+impl From<CsvString> for String {
+	fn from(CsvString(value): CsvString) -> Self {
+		value
+	}
+}
+
+/// > Unique identifier for a depot.
+///
+/// See [Depots] for an explanation.
+///
+/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#DepotId_t)
+///
+/// [Depots]: https://partner.steamgames.com/doc/store/application/depots
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[repr(transparent)]
+pub struct DepotId(pub u32);
+
+impl DepotId {
+	pub fn invalid(self) -> bool {
+		self.0 == 0u32
+	}
+	
+	pub fn valid(self) -> bool {
+		self.0 != 0u32
+	}
+}
+
+impl Display for DepotId {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		Display::fmt(&self.0, f)
+	}
+}
+
+impl From<u32> for DepotId {
+	fn from(value: u32) -> Self {
+		Self(value)
+	}
+}
+
+impl From<DepotId> for u32 {
+	fn from(DepotId(value): DepotId) -> Self {
+		value
+	}
+}
+
+/// > The globally unique identifier for Steam Games.
+///
+/// This is an [`AppId`] with additional information.
+///
+/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#CGameID)
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct GameId(pub u64);
+
+impl GameId {
+	/// The contained [`AppId`].
+	pub fn app_id(self) -> AppId {
+		AppId(self.c_union().m_nAppID() as u32)
+	}
+
+	/// # Panics
+	/// If the type byte is not in the range of `0..4`.  
+	/// This only happens if the internal representation of the `GameId` is incorrectly tampered with.
+	pub fn id_type(self) -> GameIdType {
+		self.c_union().m_nType().try_into().ok().unwrap()
+	}
+
+	/// Checks if the `GameId` is of a valid representation.
+	pub fn valid(self) -> bool {
+		let Ok(id_type) = self.c_union().m_nType().try_into() else {
+			return false;
+		};
+
+		/// `0b__1000_0000___0000_0000___0000_0000___0000_0000`
+		const MOD_MASK: u32 = 0x80_00_00_00;
+
+		match id_type {
+			//normal steam app
+			GameIdType::App => self.app_id().valid(),
+
+			//mod, steam pipe maybe?
+			GameIdType::GameMod => self.app_id().valid() && (self.mod_id() & MOD_MASK) != 0u32,
+
+			GameIdType::Shortcut => {
+				let mod_id = self.mod_id();
+
+				self.app_id().invalid() && (mod_id & MOD_MASK) != 0 && mod_id >= (5000 | MOD_MASK)
+				// 5000 k_unMaxExpectedLocalAppId - shortcuts are pushed beyond that range
+			}
+
+			GameIdType::P2p => self.app_id().invalid() && (self.mod_id() & MOD_MASK) != 0u32,
+		}
+	}
+
+	/// Seems to be only used interally in Steam.
+	pub fn mod_id(self) -> u32 {
+		self.c_union().m_nModID() as u32
+	}
+
+	/// Changes the [`AppId`]
+	pub fn set_app_id(&mut self, app_id: impl Into<AppId>) {
+		self.c_union().set_m_nAppID(app_id.into().0 as _);
+	}
+
+	/// Same as [`set_app_id`] but returns a copy of `self`.
+	///
+	/// [`set_app_id`]: Self::set_app_id
+	pub fn with_app_id(mut self, app_id: impl Into<AppId>) -> Self {
+		self.set_app_id(app_id);
+
+		self
+	}
+
+	fn c_union(self) -> sys::CGameID_GameID_t {
+		unsafe { sys::CGameID__bindgen_ty_1 { m_ulGameID: self.0 }.m_gameID }
+	}
+}
+
+impl Display for GameId {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		Display::fmt(&self.0, f)
+	}
+}
+
+impl From<u64> for GameId {
+	fn from(value: u64) -> Self {
+		Self(value)
+	}
+}
+
+impl From<GameId> for u64 {
+	fn from(GameId(value): GameId) -> Self {
+		value
+	}
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub enum GameIdType {
+	App,
+	GameMod,
+	Shortcut,
+	P2p,
+}
+
+impl From<sys::CGameID_EGameIDType> for GameIdType {
+	fn from(value: sys::CGameID_EGameIDType) -> Self {
+		use sys::CGameID_EGameIDType::*;
+
+		match value {
+			k_EGameIDTypeApp => Self::App,
+			k_EGameIDTypeGameMod => Self::GameMod,
+			k_EGameIDTypeShortcut => Self::Shortcut,
+			k_EGameIDTypeP2P => Self::P2p,
+		}
+	}
+}
+
+impl TryFrom<u32> for GameIdType {
+	type Error = ();
+
+	fn try_from(value: u32) -> Result<Self, Self::Error> {
+		Ok(match value {
+			0 => Self::App,
+			1 => Self::GameMod,
+			2 => Self::Shortcut,
+			3 => Self::P2p,
+			_ => return Err(()),
+		})
+	}
+}
+
 /// > A Steam ID is a unique identifier for a Steam accounts, Steam groups, Lobbies and Chat rooms,
 /// and used to differentiate users in all parts of the Steamworks API.
 ///
@@ -244,6 +392,9 @@ impl SteamId {
 		self.comp().m_unAccountID()
 	}
 
+	/// An ID that is unique to this `SteamId`'s [`universe`] only.
+	/// 
+	/// [`universe`]: Self::universe
 	pub fn account_instance(self) -> u32 {
 		self.comp().m_unAccountInstance()
 	}
@@ -254,7 +405,7 @@ impl SteamId {
 	}
 
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EAccountType)
-	pub fn is_anonymous(self) -> bool {
+	pub fn anonymous(self) -> bool {
 		match self.account_type() {
 			AccountType::AnonGameServer => true,
 			AccountType::AnonUser => true,
@@ -262,8 +413,15 @@ impl SteamId {
 		}
 	}
 
+	/// Steam groups, usually.
+	/// 
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EAccountType)
-	pub fn is_game_server(self) -> bool {
+	pub fn clan(self) -> bool {
+		self.account_type() == AccountType::Clan
+	}
+
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EAccountType)
+	pub fn game_server(self) -> bool {
 		match self.account_type() {
 			AccountType::AnonGameServer => true,
 			AccountType::GameServer => true,
@@ -271,27 +429,12 @@ impl SteamId {
 		}
 	}
 
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EAccountType)
-	pub fn is_group(self) -> bool {
-		self.account_type() == AccountType::Clan
-	}
-
 	/// Returns `true` if the Steam ID is for a lobby **OR** group chat.
 	/// Steam does not differentiate between the two.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EAccountType)
-	pub fn is_lobby(self) -> bool {
+	pub fn lobby(self) -> bool {
 		self.account_type() == AccountType::Chat
-	}
-
-	/// Is a user account that can play games.
-	pub fn is_user(self) -> bool {
-		match self.account_type() {
-			AccountType::Individual => true,
-			AccountType::Multiseat => true,
-			AccountType::ConsoleUser => true,
-			_ => false,
-		}
 	}
 
 	/// Returns `None` if the `SteamId` is 0.
@@ -308,6 +451,16 @@ impl SteamId {
 		value.into().non_zero()
 	}
 
+	/// Is a user account that can play games.
+	pub fn user(self) -> bool {
+		match self.account_type() {
+			AccountType::Individual => true,
+			AccountType::Multiseat => true,
+			AccountType::ConsoleUser => true,
+			_ => false,
+		}
+	}
+
 	/// Returns `None` if the unpacked enum was invalid.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EUniverse)
@@ -320,7 +473,7 @@ impl SteamId {
 			k_EUniverseBeta => Some(Universe::Beta),
 			k_EUniverseInternal => Some(Universe::Internal),
 			k_EUniverseDev => Some(Universe::Dev),
-			k_EUniverseMax | _ => None,
+			k_EUniverseMax => None,
 		}
 	}
 
