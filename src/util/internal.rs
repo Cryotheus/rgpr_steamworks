@@ -1,10 +1,15 @@
+//! Ah!
+
 use crate::sys;
+use std::alloc::{alloc, alloc_zeroed, dealloc, Layout};
 use std::ffi::{c_char, c_int, CStr, CString};
 use std::fmt::{Debug, Formatter};
+use std::intrinsics::transmute;
 use std::mem;
-use std::mem::{transmute, MaybeUninit};
+use std::mem::MaybeUninit;
 use std::ops::{Deref, DerefMut};
 use std::path::Path;
+use std::ptr::NonNull;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Mutex, MutexGuard, RwLock, RwLockReadGuard, RwLockWriteGuard};
 
@@ -15,10 +20,8 @@ use std::sync::{Mutex, MutexGuard, RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 #[cfg(target_os = "windows")]
 pub const MAX_PATH: usize = 260;
-
 #[cfg(target_os = "macos")]
 pub const MAX_PATH: usize = 1024;
-
 #[cfg(target_os = "linux")]
 pub const MAX_PATH: usize = 4096;
 
@@ -114,6 +117,17 @@ impl From<CStrArray<1024>> for sys::SteamErrMsg {
 	}
 }
 
+/// Same as [`some_string`], but panics.
+///
+/// # Panics
+/// If [`some_string`] returns `None`.
+///
+/// # Safety
+/// The pointer must point to a valid null-terminated allocation, or be null.
+pub unsafe fn expect_string(char_ptr: *const c_char) -> String {
+	some_string(char_ptr).expect("expected some C string but got none")
+}
+
 /// Converts a char ptr into a `String`, returning `None` if it's empty or null.
 /// If there are invalid UTF-8 codepoints, they will be replaced.
 ///
@@ -135,14 +149,15 @@ pub unsafe fn some_string(char_ptr: *const c_char) -> Option<String> {
 #[cfg(feature = "steam")]
 #[doc(hidden)]
 #[inline(always)]
-pub fn success(success: bool) -> Result<(), crate::error::SilentFailure> {
+pub fn success(success: bool) -> Result<(), crate::error::UnspecifiedError> {
 	if success {
 		Ok(())
 	} else {
-		Err(crate::error::SilentFailure)
+		Err(crate::error::UnspecifiedError)
 	}
 }
 
+//TODO: Futex and UnsafeCell instead of Mutex, AtomicBool, and RwLock
 /// For dealing with a specific issue in the external APIs:
 /// Some lists can be mutated during iteration causing iterators to skip items or yield duplicates.
 ///
@@ -332,3 +347,109 @@ impl<'a, Q> DerefMut for ForeignWriteGuardQueue<'a, Q> {
 pub trait ForeignLockQueue {
 	fn flush_lock_queue(&mut self);
 }
+
+/// A `Box<T>` without the known type `T` or [type id].
+/// Destructors will never be called for the contained data.
+///
+/// [type id]: std::any::TypeId
+#[derive(Debug)]
+pub struct IncognitoBox {
+	layout: Layout,
+	pointer: NonNull<u8>,
+}
+
+impl IncognitoBox {
+	/// # Safety
+	/// `T` must not implement or contain any deconstructors.
+	///
+	/// # Panics
+	/// If the layout of `T` has a size of zero.
+	pub unsafe fn new<T>(x: T) -> Self {
+		let layout = Layout::new::<T>();
+
+		assert_ne!(layout.size(), 0, "given layout with zero-size");
+
+		let pointer = NonNull::new(unsafe { alloc(layout) }).expect("failed to alloc");
+
+		//put the owned value into the allocation
+		unsafe { (pointer.as_ptr() as *mut T).write(x) };
+
+		Self { layout, pointer }
+	}
+
+	#[must_use]
+	#[inline(always)]
+	pub fn as_ptr(&mut self) -> *mut u8 {
+		self.pointer.as_ptr()
+	}
+
+	/// # Safety
+	/// See [`new`].
+	///
+	/// # Panics
+	/// If the layout of `T` has a size of zero.
+	///
+	/// [`new`]: Self::new
+	pub unsafe fn from_box<T: Sized>(boxxed: Box<T>) -> Self {
+		Self {
+			layout: Layout::new::<T>(),
+			pointer: NonNull::new(Box::into_raw(boxxed) as *mut u8).unwrap(),
+		}
+	}
+
+	/// The internal allocation will be zeroed.
+	///
+	/// # Panics
+	/// If the layout has a size of zero.
+	pub fn from_layout(layout: Layout) -> Self {
+		assert_ne!(layout.size(), 0, "given layout with zero-size");
+
+		let alloc = unsafe { alloc_zeroed(layout) };
+
+		Self {
+			layout,
+			pointer: NonNull::new(alloc).unwrap(),
+		}
+	}
+
+	/// Turns the `IncognitoBox` into a `Box<T>` given the known type `T`.
+	/// # Safety
+	/// `T` provided here must match the type used in [`new`]/[`from_box`] or what was written through [`as_ptr`].
+	/// `T` must be initialized; use [`identify_uninit`] if the memory could be uninit.
+	///
+	/// [`as_ptr`]: Self::as_ptr
+	/// [`from_box`]: Self::from_box
+	/// [`identify_uninit`]: Self::identify_uninit
+	/// [`new`]: Self::new
+	pub unsafe fn identify<T>(self) -> Box<T> {
+		assert_eq!(self.layout, Layout::new::<T>(), "generic T does not have the same layout as self");
+
+		Box::from_raw(self.pointer.as_ptr() as *mut T)
+	}
+
+	/// Turns the `IncognitoBox` into a `Box<MaybeUninit<T>>` given the known type `T`.
+	///
+	/// See [`identify`] for initialized data.
+	///
+	/// [`identify`]: Self::identify
+	pub fn identify_uninit<T>(self) -> Box<MaybeUninit<T>> {
+		assert_eq!(self.layout, Layout::new::<T>(), "generic T does not have the same layout as self");
+
+		unsafe { Box::from_raw(self.pointer.as_ptr() as *mut MaybeUninit<T>) }
+	}
+
+	/// Returns the [layout] the `IngonitoBox` was created with.
+	///
+	/// [layout]: Layout
+	pub fn layout(&self) -> Layout {
+		self.layout
+	}
+}
+
+impl Drop for IncognitoBox {
+	fn drop(&mut self) {
+		unsafe { dealloc(self.pointer.as_ptr(), self.layout) };
+	}
+}
+
+static_assertions::assert_not_impl_all!(IncognitoBox: Send, Sync);

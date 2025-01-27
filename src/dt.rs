@@ -136,8 +136,19 @@ impl TryFrom<u32> for AccountType {
 pub struct AppId(pub u32);
 
 impl AppId {
-	pub fn invalid(self) -> bool {
-		self.0 == 0u32
+	pub fn new(id: u32) -> Self {
+		Self(id)
+	}
+
+	/// Returns `None` if the provided value was invalid when turned into a `AppId`.
+	pub fn valid_from(value: impl Into<AppId>) -> Option<Self> {
+		let app_id = value.into();
+
+		if app_id.valid() {
+			Some(app_id)
+		} else {
+			None
+		}
 	}
 
 	pub fn valid(self) -> bool {
@@ -181,7 +192,7 @@ impl From<AuthTicket> for u32 {
 
 /// A String expected to be a comma-separated list of values.
 /// Use [`iter`] to iterate over the values.
-/// 
+///
 /// [`iter`]: CsvString::iter
 #[derive(Clone, Debug, PartialEq)]
 pub struct CsvString(pub String);
@@ -227,10 +238,10 @@ impl From<CsvString> for String {
 pub struct DepotId(pub u32);
 
 impl DepotId {
-	pub fn invalid(self) -> bool {
-		self.0 == 0u32
+	pub fn new(id: u32) -> Self {
+		Self(id)
 	}
-	
+
 	pub fn valid(self) -> bool {
 		self.0 != 0u32
 	}
@@ -294,11 +305,11 @@ impl GameId {
 			GameIdType::Shortcut => {
 				let mod_id = self.mod_id();
 
-				self.app_id().invalid() && (mod_id & MOD_MASK) != 0 && mod_id >= (5000 | MOD_MASK)
+				!self.app_id().valid() && (mod_id & MOD_MASK) != 0 && mod_id >= (5000 | MOD_MASK)
 				// 5000 k_unMaxExpectedLocalAppId - shortcuts are pushed beyond that range
 			}
 
-			GameIdType::P2p => self.app_id().invalid() && (self.mod_id() & MOD_MASK) != 0u32,
+			GameIdType::P2p => !self.app_id().valid() && (self.mod_id() & MOD_MASK) != 0u32,
 		}
 	}
 
@@ -383,17 +394,21 @@ impl TryFrom<u32> for GameIdType {
 /// and used to differentiate users in all parts of the Steamworks API.
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#CSteamID)
-#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
 pub struct SteamId(pub u64);
 
 impl SteamId {
+	pub fn new(id: u64) -> Self {
+		Self(id)
+	}
+
 	pub fn account_id(self) -> u32 {
 		self.comp().m_unAccountID()
 	}
 
 	/// An ID that is unique to this `SteamId`'s [`universe`] only.
-	/// 
+	///
 	/// [`universe`]: Self::universe
 	pub fn account_instance(self) -> u32 {
 		self.comp().m_unAccountInstance()
@@ -414,7 +429,7 @@ impl SteamId {
 	}
 
 	/// Steam groups, usually.
-	/// 
+	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#EAccountType)
 	pub fn clan(self) -> bool {
 		self.account_type() == AccountType::Clan
@@ -437,18 +452,17 @@ impl SteamId {
 		self.account_type() == AccountType::Chat
 	}
 
-	/// Returns `None` if the `SteamId` is 0.
-	pub fn non_zero(self) -> Option<Self> {
-		if self.0 == 0 {
-			None
-		} else {
-			Some(self)
-		}
-	}
+	/// Returns `None` if the provided value was [`invalid`] when turned into a `SteamId`.
+	///
+	/// [`invalid`]: Self::valid
+	pub fn valid_from(value: impl Into<SteamId>) -> Option<Self> {
+		let steam_id = value.into();
 
-	/// Returns `None` if the provided value was 0 when turned into a `SteamId`.
-	pub fn non_zero_from(value: impl Into<SteamId>) -> Option<Self> {
-		value.into().non_zero()
+		if steam_id.valid() {
+			Some(steam_id)
+		} else {
+			None
+		}
 	}
 
 	/// Is a user account that can play games.
@@ -475,6 +489,12 @@ impl SteamId {
 			k_EUniverseDev => Some(Universe::Dev),
 			k_EUniverseMax => None,
 		}
+	}
+
+	/// Checks if the `SteamId` is of valid representation.
+	/// This does not check if the `SteamId` is associated with an existing entity on Steam.
+	pub fn valid(self) -> bool {
+		self.0 != 0
 	}
 
 	#[doc(hidden)]

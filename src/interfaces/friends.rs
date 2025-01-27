@@ -1,110 +1,93 @@
+//! See [FriendsInterface].
+
 use crate::call::{CallFuture, Callback, CallbackRaw, Dispatch};
 use crate::dt::{AppId, SteamId};
-use crate::error::{CallError, GeneralError, SilentFailure};
-use crate::interfaces::{FixedInterfacePtr, Interface, Steam, SteamChild, SteamInterface};
-use crate::util::{some_string, success, ForeignLock, ForeignLockQueue, ForeignReadGuard, ForeignWriteGuard};
+use crate::error::{CallError, GeneralError, UnspecifiedError};
+use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
+use crate::iter::{SteamApiIterator, SteamApiStream, Unreliable};
+use crate::util::{some_string, success};
 use crate::{sys, Private};
 use bitflags::bitflags;
 use futures::channel::oneshot::{channel, Sender};
-use futures::AsyncWriteExt;
 use lru::LruCache;
 use rgpr_steamworks_sys::SteamAPICall_t;
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::default::Default;
-use std::ffi::CString;
+use std::ffi::{c_int, c_uint, CString};
 use std::future::Future;
 use std::num::NonZeroUsize;
-use std::ops::Deref;
+use std::ops::{Deref, Index};
 use std::pin::Pin;
-use std::sync::{Mutex, MutexGuard, RwLockReadGuard};
+use std::sync::{Mutex, MutexGuard};
 use std::task::{Context, Poll};
-use std::{mem, usize};
-//const k_cchPersonaNameMax
 
+/// > Interface to access information about individual users and interact with the [Steam Overlay].
+///
+/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends)
+///
+/// [Steam Overlay]: https://partner.steamgames.com/doc/features/overlay
 #[derive(Debug)]
 pub struct FriendsInterface {
 	fip: FixedInterfacePtr<sys::ISteamFriends>,
 	clan_lru: Mutex<LruCache<SteamId, ClanRecord>>,
 	clan_counters: Mutex<HashMap<SteamId, ClanActivityCounts>>,
-	coplay_lock: ForeignLock<CoplayQueue>,
 	in_game_speaking: Mutex<HashSet<SteamId>>,
 	user_info_requests: Mutex<HashMap<SteamId, VecDeque<(Sender<()>, bool)>>>,
 	steam: SteamChild,
 }
 
-#[derive(Debug)]
-struct CoplayQueue {
-	set_played_with: Vec<SteamId>,
-	steam: SteamChild,
-}
-
-impl ForeignLockQueue for CoplayQueue {
-	fn flush_lock_queue(&mut self) {
-		if self.set_played_with.is_empty() {
-			return;
-		}
-
-		let steam = self.steam.get();
-		let fip = *steam.client_interfaces().friends.fip;
-
-		for steam_id in mem::replace(&mut self.set_played_with, Vec::new()) {
-			unsafe {
-				sys::SteamAPI_ISteamFriends_SetPlayedWith(fip, steam_id.0);
-			}
-		}
-
-		drop(steam); //sanity check
-		self.set_played_with.shrink_to(0);
-	}
-}
+///const k_cchPersonaNameMax
 
 impl FriendsInterface {
 	/// The maximum amount of retained clan records.
 	const CLAN_LRU_CAP: usize = 64;
 
-	/// See [`ActivateGameOverlay`].
+	/// Opens the Steam overlay to a specific window.
+	///
+	/// # Panics
+	/// If the `url` field of [`ActivateGameOverlay::WebPage`] contains a null character.
 	pub fn activate_game_overlay(&self, instruction: ActivateGameOverlay) {
 		use ActivateGameOverlay::*;
 
-		let interface = *self.fip;
+		let fip = *self.fip;
 
 		unsafe {
 			match instruction {
 				//ActivateGameOverlay
-				Friends => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c"Friends".as_ptr()),
-				Community => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c"Community".as_ptr()),
-				Players => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c"Players".as_ptr()),
-				Settings => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c"Settings".as_ptr()),
-				OfficialGameGroup => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c"OfficialGameGroup".as_ptr()),
-				Stats(None) => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c"Stats".as_ptr()),
-				Achievements(None) => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c"Achievements".as_ptr()),
+				Friends => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c"Friends".as_ptr()),
+				Community => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c"Community".as_ptr()),
+				Players => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c"Players".as_ptr()),
+				Settings => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c"Settings".as_ptr()),
+				OfficialGameGroup => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c"OfficialGameGroup".as_ptr()),
+				Stats(None) => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c"Stats".as_ptr()),
+				Achievements(None) => sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c"Achievements".as_ptr()),
 
 				//still ActivateGameOverlay, just a little special
 				ChatRoomGroup(steam_id) => {
 					let string = format!("chatroomgroup/{}", steam_id.0);
 					let c_string = CString::new(string).unwrap();
 
-					sys::SteamAPI_ISteamFriends_ActivateGameOverlay(interface, c_string.as_ptr())
+					sys::SteamAPI_ISteamFriends_ActivateGameOverlay(fip, c_string.as_ptr())
 				}
 
 				//ActivateGameOverlayToUser
-				Profile(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"steamid".as_ptr(), steam_id.0),
-				Chat(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"chat".as_ptr(), steam_id.0),
-				JoinTrade(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"jointrade".as_ptr(), steam_id.0),
-				Stats(Some(steam_id)) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"stats".as_ptr(), steam_id.0),
-				Achievements(Some(steam_id)) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"achievements".as_ptr(), steam_id.0),
-				FriendAdd(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"friendadd".as_ptr(), steam_id.0),
-				FriendRemove(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"friendremove".as_ptr(), steam_id.0),
-				FriendRequestAccept(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"friendrequestaccept".as_ptr(), steam_id.0),
-				FriendRequestIgnore(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(interface, c"friendrequestignore".as_ptr(), steam_id.0),
+				Profile(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"steamid".as_ptr(), steam_id.0),
+				Chat(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"chat".as_ptr(), steam_id.0),
+				JoinTrade(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"jointrade".as_ptr(), steam_id.0),
+				Stats(Some(steam_id)) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"stats".as_ptr(), steam_id.0),
+				Achievements(Some(steam_id)) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"achievements".as_ptr(), steam_id.0),
+				FriendAdd(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"friendadd".as_ptr(), steam_id.0),
+				FriendRemove(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"friendremove".as_ptr(), steam_id.0),
+				FriendRequestAccept(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"friendrequestaccept".as_ptr(), steam_id.0),
+				FriendRequestIgnore(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayToUser(fip, c"friendrequestignore".as_ptr(), steam_id.0),
 
 				//ActivateGameOverlayInviteDialog
-				InviteDialog(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayInviteDialog(interface, steam_id.0),
+				InviteDialog(steam_id) => sys::SteamAPI_ISteamFriends_ActivateGameOverlayInviteDialog(fip, steam_id.0),
 
 				//ActivateGameOverlayToStore
 				Store { app_id, show_in_cart } => {
 					sys::SteamAPI_ISteamFriends_ActivateGameOverlayToStore(
-						interface,
+						fip,
 						app_id.0,
 						if show_in_cart {
 							sys::EOverlayToStoreFlag::k_EOverlayToStoreFlag_AddToCartAndShow
@@ -119,7 +102,7 @@ impl FriendsInterface {
 					let c_str = CString::new(url).unwrap();
 
 					sys::SteamAPI_ISteamFriends_ActivateGameOverlayToWebPage(
-						interface,
+						fip,
 						c_str.as_ptr(),
 						if modal {
 							sys::EActivateGameOverlayToWebPageMode::k_EActivateGameOverlayToWebPageMode_Modal
@@ -132,22 +115,13 @@ impl FriendsInterface {
 		}
 	}
 
-	/// > Gets the number of Steam groups that the current user is a member of.
-	///
-	/// The function to iterate with is deprecated according to the docs.
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetClanCount)
-	pub fn clan_count(&self) -> u32 {
-		unsafe { sys::SteamAPI_ISteamFriends_GetClanCount(*self.fip) as u32 }
-	}
-
-	/// Clears all cached [`Clan`] data.
-	/// The cache is a statically sized allocation, and thus calling this will not deallocate or reduce the size of the allocation.
+	/// Clears all cached [`Clans`] data.
+	/// Calling this will not deallocate the cache or reduce memory usage.
 	pub fn clear_clan_cache(&self) {
 		self.clan_lru.lock().unwrap().clear();
 	}
 
-	/// Clears the list of currently speaking users.  
+	/// Clears the list of currently speaking users.
 	/// This is the same as calling [`set_in_game_speaking`] with `false` for each user that last had `true` set,
 	/// but does so uninterrupted as the lock on the speaking users cache is held until it is cleared.
 	///
@@ -184,23 +158,69 @@ impl FriendsInterface {
 		}
 	}
 
+	/// > Gets the number of Steam groups that the current user is a member of.
+	///
+	/// The function to iterate with is deprecated according to the docs.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetClanCount)
+	pub fn clan_count(&self) -> u32 {
+		unsafe { sys::SteamAPI_ISteamFriends_GetClanCount(*self.fip) as u32 }
+	}
+
+	///
+	pub fn clans(&self) -> Clans {
+		Clans {
+			friends_interface: &self,
+			guard_cache: self.clan_lru.lock().unwrap(),
+		}
+	}
+
 	/// > Closes the specified Steam group chat room in the Steam UI.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#CloseClanChatWindowInSteam)
-	pub fn close_clan_chat_window_in_steam(&self, group_chat_id: SteamId) -> Result<(), SilentFailure> {
+	pub fn close_clan_chat_window_in_steam(&self, group_chat_id: SteamId) -> Result<(), UnspecifiedError> {
 		unsafe { success(sys::SteamAPI_ISteamFriends_CloseClanChatWindowInSteam(*self.fip, group_chat_id.0)) }
 	}
 
-	/// Downloads and caches [`ClanActivityCounts`] for the provided clans' [`SteamId`]s.  
-	/// Use [`load_clan`] alongside [`Clan::activity_counts`] if you just want one.  
-	/// If you want to use an existing cached count, use [`get_clan`] instead.
+	/// > Gets the number of players that the current user has recently played with, across all games.
+	/// This is used for iteration, after calling this then GetCoplayFriend can be used to get the Steam ID of each player.
+	/// These players have been set with previous calls to [`set_played_with`].
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetCoplayFriendCount)
+	///
+	/// [`set_played_with`]: Self::set_played_with
+	pub fn coplay_friend_count(&self) -> u32 {
+		unsafe { sys::SteamAPI_ISteamFriends_GetCoplayFriendCount(*self.fip) as u32 }
+	}
+
+	/// Returns an iterator which yields the [`SteamId`]s of players that were recently played with.
+	/// Using [`set_played_with`] during iteration will cause skipped or duplicated.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetCoplayFriendCount)
+	///
+	/// [`set_played_with`]: Self::set_played_with
+	pub fn coplay_friend_iter(&self) -> Unreliable<CoplayFriendIter> {
+		CoplayFriendIter { cursor: 0, friends_interface: &self }.wrap()
+	}
+
+	/// > Gets the app ID of the game that user played with someone on their recently-played-with list.
+	///
+	/// Returns `None` if the `AppId` is invalid.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendCoplayGame)
+	pub fn coplay_friend_game(&self, steam_id: impl Into<SteamId>) -> Option<AppId> {
+		AppId::valid_from(unsafe { sys::SteamAPI_ISteamFriends_GetFriendCoplayGame(*self.fip, steam_id.into().0) })
+	}
+
+	/// Downloads and caches [`ClanActivityCounts`] for the provided clans' [`SteamId`]s.
+	/// Use [`load_clan`] alongside [`Clans::activity_counts`] if you just want one.
+	/// If you want to use an existing cached count, use [`get_clans`] instead.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCounts)
 	///
-	/// [`get_clan`]: Self::get_clan
+	/// [`get_clans`]: Self::clans
 	/// [`load_clan`]: Self::load_clan
-	/// [zip]: Iterator::zip
-	pub async fn download_clan_activity_counts(&self, clan_ids: impl Into<Vec<SteamId>>) -> Result<Vec<Option<ClanActivityCounts>>, CallError<SilentFailure>> {
+	pub async fn download_clan_activity_counts(&self, clan_ids: impl Into<Vec<SteamId>>) -> Result<Vec<Option<ClanActivityCounts>>, CallError<UnspecifiedError>> {
 		let clan_ids = clan_ids.into();
 		let steam = self.steam.get();
 		let mut guard_call_manager = steam.call_manager_lock();
@@ -261,101 +281,28 @@ impl FriendsInterface {
 	/// Dispatches will be created as the stream is polled.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#EnumerateFollowingList)
-	pub fn following_list(&self) -> FollowingListStream {
+	pub fn following_list(&self) -> Unreliable<FollowingListStream> {
 		FollowingListStream {
 			allow_dispatch: true,
 			call_future: None,
-			dedupe: Some(HashSet::new()),
 			dispatch_cursor: 0,
-			terminated: false,
-			reported_total: 0,
-			steam: self.steam.clone(),
 			queue: VecDeque::new(),
+			steam: self.steam.clone(),
+			terminated: false,
 		}
+		.wrap()
 	}
 
-	/// Gets a cached [`Clan`].
-	/// Also see [`load_clan`].
+	/// Returns an iterator the gets the current user's friends.
 	///
-	/// [`load_clan`]: Self::load_clan
-	pub fn get_clan(&self, steam_id: SteamId) -> Option<Clan> {
-		let mut guard_cache = self.clan_lru.lock().unwrap();
-
-		if guard_cache.get(&steam_id).is_none() {
-			return None;
-		}
-
-		Some(Clan {
-			clan_id: steam_id,
-			friends_interface: &self,
-			guard_cache,
-		})
-	}
-
-	/// > Gets the number of players that the current user has recently played with, across all games.
-	/// This is used for iteration, after calling this then GetCoplayFriend can be used to get the Steam ID of each player.
-	/// These players have been set with previous calls to [`set_played_with`].
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetCoplayFriendCount)
-	///
-	/// [`set_played_with`]: Self::set_played_with
-	pub fn coplay_friend_count(&self) -> u32 {
-		unsafe { sys::SteamAPI_ISteamFriends_GetCoplayFriendCount(*self.fip) as u32 }
-	}
-
-	/// Returns an iterator which yields the [`SteamId`]s of players that were recently played with.
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetCoplayFriendCount)
-	pub fn coplay_friend_iter(&self) -> CoplayFriendIter {
-		CoplayFriendIter {
-			count: self.coplay_friend_count() as usize,
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetFriendByIndex)
+	pub fn friend_iter(&self, flags: FriendFlags) -> Unreliable<FriendIter> {
+		FriendIter {
 			cursor: 0,
-			lock: self.coplay_lock.read(),
+			flags,
 			friends_interface: &self,
 		}
-	}
-
-	/// Returns a single cached [`ClanActivityCounts`], or `None` if there is no cached value.
-	/// If [`download_clan_activity_counts`] has not yet been called for the [`SteamId`],
-	/// the returned `Option<ClanActivityCounts>` will always be `None`.
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCounts)
-	///
-	/// [`download_clan_activity_counts`]: Self::download_clan_activity_counts
-	pub fn get_single_clan_activity_counts(&self, clan_id: &SteamId) -> Option<ClanActivityCounts> {
-		self.clan_counters.lock().unwrap().get(clan_id).cloned()
-	}
-
-	/// Gets a clan from the cache, or loads one.
-	/// The [`Clan`] will be accessible with [`get_clan`],
-	/// until it is pushed out of the cache by more recently used [`Clan`]s.
-	///
-	/// [`get_clan`]: Self::get_clan
-	pub async fn load_clan(&self, steam_id: SteamId) -> Clan {
-		let mut guard_cache = self.clan_lru.lock().unwrap();
-		let clan_record = guard_cache.get_or_insert_mut(steam_id, || ClanRecord {
-			activity_counts: None,
-			officer_count: None,
-		});
-
-		let needs_activity_counts = clan_record.activity_counts.is_none();
-		let needs_officer_count = clan_record.officer_count.is_none();
-
-		let mut clan = Clan {
-			clan_id: steam_id,
-			friends_interface: &self,
-			guard_cache,
-		};
-
-		if needs_activity_counts {
-			let _ = clan.request_activity_counts().await;
-		}
-
-		if needs_officer_count {
-			let _ = clan.request_officers().await;
-		}
-
-		clan
+		.wrap()
 	}
 
 	/// > Requests the persona name and optionally the avatar of a specified user.
@@ -372,7 +319,8 @@ impl FriendsInterface {
 	/// This means the call only needs to be `await`ed if the request was made.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#RequestUserInformation)
-	pub fn request_user_info(&self, steam_id: SteamId, request_avatar: bool) -> Option<impl Future<Output = ()>> {
+	pub fn request_user_info(&self, steam_id: impl Into<SteamId>, request_avatar: bool) -> Option<impl Future<Output = ()>> {
+		let steam_id = steam_id.into();
 		let mut guard = self.user_info_requests.lock().unwrap();
 
 		//only make the request when we have the guard
@@ -411,7 +359,8 @@ impl FriendsInterface {
 	/// This will suppress the microphone for all voice communication in the Steam UI.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#SetInGameVoiceSpeaking)
-	pub fn set_in_game_speaking(&self, steam_id: SteamId, speaking: bool) {
+	pub fn set_in_game_speaking(&self, steam_id: impl Into<SteamId>, speaking: bool) {
+		let steam_id = steam_id.into();
 		let mut guard = self.in_game_speaking.lock().unwrap();
 
 		if speaking {
@@ -430,27 +379,13 @@ impl FriendsInterface {
 
 	/// > Mark a target user as 'played with'.
 	///
-	/// Exclusive with .
+	/// A list of players with this mark can be iterated using [`coplay_friend_iter`].
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#SetPlayedWith)
-	pub fn set_played_with(&self, steam_id: SteamId) {
-		let guard = self.coplay_lock.try_write();
-
-		match guard {
-			ForeignWriteGuard::Exclusive(guard) => unsafe {
-				self.set_played_with_unchecked(steam_id);
-				drop(guard); //explicit drop for significant drop
-			},
-
-			ForeignWriteGuard::Queue(mut guard) => guard.set_played_with.push(steam_id),
-		}
-	}
-
-	/// Used internally by [`set_played_with`].
-	/// 
-	/// [`set_played_with`]: Self::set_played_with
-	unsafe fn set_played_with_unchecked(&self, steam_id: SteamId) {
-		sys::SteamAPI_ISteamFriends_SetPlayedWith(*self.fip, steam_id.0);
+	///
+	/// [`coplay_friend_iter`]: Self::coplay_friend_iter
+	pub fn set_played_with(&self, steam_id: impl Into<SteamId>) {
+		unsafe { sys::SteamAPI_ISteamFriends_SetPlayedWith(*self.fip, steam_id.into().0) };
 	}
 }
 
@@ -461,11 +396,6 @@ impl Interface for FriendsInterface {
 		Self {
 			fip,
 			clan_lru: Mutex::new(LruCache::new(NonZeroUsize::new(Self::CLAN_LRU_CAP).unwrap())),
-			coplay_lock: ForeignLock::new(CoplayQueue {
-				set_played_with: Vec::new(),
-				steam: steam.clone(),
-			}),
-
 			steam,
 
 			//simple collections
@@ -487,13 +417,15 @@ impl Interface for FriendsInterface {
 	}
 }
 
-/// For use with [activate_game_overlay](FriendsInterface::activate_game_overlay),
+/// For use with [`activate_game_overlay`],
 /// represents the available parameters for all possible options of the following:
 /// - [ActivateGameOverlay](https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlay)
 /// - [ActivateGameOverlayToUser](https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToUser)
 /// - [ActivateGameOverlayInviteDialog](https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayInviteDialog)
 /// - [ActivateGameOverlayToStore](https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToStore)
 /// - [ActivateGameOverlayToWebPage](https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlayToWebPage)
+///
+/// [`activate_game_overlay`]: FriendsInterface::activate_game_overlay
 #[derive(Clone, Debug)]
 pub enum ActivateGameOverlay {
 	/// Internally `"Friends"` [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#ActivateGameOverlay)
@@ -572,6 +504,9 @@ pub enum ActivateGameOverlay {
 	WebPage {
 		/// The webpage to open.
 		/// Must start with protocol e.g. `https://`
+		/// If this contains any null characters, [`activate_game_overlay`] will panic.
+		///
+		/// [`activate_game_overlay`]: FriendsInterface::activate_game_overlay
 		url: String,
 
 		/// Set to `false`:
@@ -612,14 +547,14 @@ impl ActivateGameOverlay {
 	}
 }
 
+/// Provides access
 #[derive(Debug)]
-pub struct Clan<'a> {
-	clan_id: SteamId,
+pub struct Clans<'a> {
 	friends_interface: &'a FriendsInterface,
 	guard_cache: MutexGuard<'a, LruCache<SteamId, ClanRecord>>,
 }
 
-impl<'a> Clan<'a> {
+impl<'a> Clans<'a> {
 	/// > Gets the most recent information we have about what the users in a Steam Group are doing.
 	///
 	/// Returns `None` if [`request_activity_counts`] failed, or the clan is inaccessible.
@@ -628,17 +563,46 @@ impl<'a> Clan<'a> {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetClanActivityCounts)
 	///
 	/// [`request_activity_counts`]: Self::request_activity_counts
-	pub fn activity_counts(&mut self) -> Option<ClanActivityCounts> {
-		self.record().activity_counts
+	pub fn activity_counts(&mut self, steam_id: impl Into<SteamId>) -> Option<ClanActivityCounts> {
+		self.record(steam_id).activity_counts
+	}
+
+	/// Automatically calls [`request_activity_counts`].
+	///
+	/// [`request_activity_counts`]: Self::request_activity_counts
+	pub async fn load(&mut self, steam_id: impl Into<SteamId>, officers: bool) -> Result<(), CallError<UnspecifiedError>> {
+		let steam_id = steam_id.into();
+
+		self.guard_cache.get_or_insert(steam_id, ClanRecord::new);
+
+		if officers {
+			//cannot join futures because they require mutable access
+			let act_result = self.request_activity_counts(steam_id).await;
+			let ofc_result = self.request_officers(steam_id).await;
+
+			act_result?;
+			ofc_result
+		} else {
+			self.request_activity_counts(steam_id).await
+		}
+	}
+
+	/// Loads without calling [`request_activity_counts`].
+	///
+	/// [`request_activity_counts`]: Self::request_activity_counts
+	pub fn load_empty(&mut self, steam_id: impl Into<SteamId>) {
+		self.guard_cache.get_or_insert(steam_id.into(), ClanRecord::new);
 	}
 
 	/// > Gets the display name for the specified Steam group; if the local client knows about it.
 	///
-	/// Returns `None` if the clan is inaccessible.
+	/// May return `None` if [`request_activity_counts`] has not been called for this group.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetClanName)
-	pub fn name(&self) -> Option<String> {
-		unsafe { some_string(sys::SteamAPI_ISteamFriends_GetClanName(*self.friends_interface.fip, self.clan_id.0)) }
+	///
+	/// [`request_activity_counts`]: Self::request_activity_counts
+	pub fn name(&self, steam_id: impl Into<SteamId>) -> Option<String> {
+		unsafe { some_string(sys::SteamAPI_ISteamFriends_GetClanName(*self.friends_interface.fip, steam_id.into().0)) }
 	}
 
 	/// > Gets the number of officers (administrators and moderators) in a specified Steam group.
@@ -650,8 +614,8 @@ impl<'a> Clan<'a> {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOfficerCount)
 	///
 	/// [`request_officers`]: Self::request_officers
-	pub fn officer_count(&mut self) -> Option<u32> {
-		self.record().officer_count
+	pub fn officer_count(&mut self, steam_id: impl Into<SteamId>) -> Option<u32> {
+		self.record(steam_id).officer_count
 	}
 
 	/// > Gets the owner of a Steam Group.
@@ -661,26 +625,28 @@ impl<'a> Clan<'a> {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetClanOwner)
 	///
 	/// [`request_officers`]: Self::request_officers
-	pub fn owner(&self) -> Option<SteamId> {
-		unsafe { SteamId::non_zero_from(sys::SteamAPI_ISteamFriends_GetClanOwner(*self.friends_interface.fip, self.clan_id.0)) }
+	pub fn owner(&self, steam_id: impl Into<SteamId>) -> Option<SteamId> {
+		unsafe { SteamId::valid_from(sys::SteamAPI_ISteamFriends_GetClanOwner(*self.friends_interface.fip, steam_id.into().0)) }
 	}
 
 	/// > Refresh the Steam Group activity data or get the data from groups other than one that the current user is a member.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#DownloadClanActivityCounts)
-	pub async fn request_activity_counts(&mut self) -> Result<(), CallError<SilentFailure>> {
+	pub async fn request_activity_counts(&mut self, steam_id: impl Into<SteamId>) -> Result<(), CallError<UnspecifiedError>> {
+		let steam_id = steam_id.into();
 		let steam = self.friends_interface.steam.get();
 		let mut guard_call_manager = steam.call_manager_lock();
 
 		let future = guard_call_manager.dispatch(DownloadClanActivityCounts {
 			steam: steam.child(),
-			clan_ids: vec![self.clan_id],
+			clan_ids: vec![steam_id],
 		});
 
 		//explicit drop for significant drop
 		drop(guard_call_manager);
 
-		self.record().activity_counts = future.await?[0];
+		let counts = future.await?[0];
+		self.record(steam_id).activity_counts = counts;
 
 		Ok(())
 	}
@@ -692,7 +658,7 @@ impl<'a> Clan<'a> {
 	/// then call [`FriendsInterface::request_user_info`] to download the avatar.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#RequestClanOfficerList)
-	pub async fn request_officers(&mut self) -> Result<(), CallError<SilentFailure>> {
+	pub async fn request_officers(&mut self, steam_id: impl Into<SteamId>) -> Result<(), CallError<UnspecifiedError>> {
 		#[derive(Debug)]
 		struct RequestClanOfficerList {
 			clan_id: SteamId,
@@ -702,7 +668,7 @@ impl<'a> Clan<'a> {
 		unsafe impl Dispatch for RequestClanOfficerList {
 			type CType = sys::ClanOfficerListResponse_t;
 			type Output = u32;
-			type Error = SilentFailure;
+			type Error = UnspecifiedError;
 
 			unsafe fn dispatch(&mut self, _: Private) -> SteamAPICall_t {
 				let steam = self.steam.get();
@@ -713,32 +679,29 @@ impl<'a> Clan<'a> {
 			fn post(&mut self, c_data: Box<Self::CType>, _: Private) -> Result<Self::Output, Self::Error> {
 				//for some reason, m_bSuccess success is a u8 instead of a bool
 				if c_data.m_bSuccess == 0 {
-					return Err(SilentFailure);
+					return Err(UnspecifiedError);
 				}
 
 				Ok(c_data.m_cOfficers as u32)
 			}
 		}
 
+		let steam_id = steam_id.into();
 		let steam = self.friends_interface.steam.get();
 		let mut guard_call_manager = steam.call_manager_lock();
 
 		let future = guard_call_manager.dispatch(RequestClanOfficerList {
-			clan_id: self.clan_id,
+			clan_id: steam_id,
 			steam: steam.child(),
 		});
 
 		//explicit drop for significant drop
 		drop(guard_call_manager);
 
-		self.record().officer_count = Some(future.await?);
+		let count = future.await?;
+		self.record(steam_id).officer_count = Some(count);
 
 		Ok(())
-	}
-
-	/// The [`SteamId`] of the group/clan.
-	pub fn steam_id(&self) -> SteamId {
-		self.clan_id
 	}
 
 	/// > Gets the unique tag (abbreviation) for the specified Steam group;
@@ -746,20 +709,37 @@ impl<'a> Clan<'a> {
 	/// The Steam group abbreviation is a unique way for people to identify the group and is limited to 12 characters.
 	/// In some games this will appear next to the name of group members.
 	///
+	/// May return `None` if [`request_activity_counts`] has not been called for this group.
+	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GetClanTag)
-	pub fn tag(&self) -> Option<String> {
-		unsafe { some_string(sys::SteamAPI_ISteamFriends_GetClanTag(*self.friends_interface.fip, self.clan_id.0)) }
+	///
+	/// [`request_activity_counts`]: Self::request_activity_counts
+	pub fn tag(&self, steam_id: impl Into<SteamId>) -> Option<String> {
+		unsafe { some_string(sys::SteamAPI_ISteamFriends_GetClanTag(*self.friends_interface.fip, steam_id.into().0)) }
 	}
 
 	/// Gets a lock on the [`ClanRecord`] this `Clan` reference is associated with.
 	#[doc(hidden)]
-	fn record(&mut self) -> &mut ClanRecord {
-		self.guard_cache.get_mut(&self.clan_id).unwrap()
+	fn record(&mut self, steam_id: impl Into<SteamId>) -> &mut ClanRecord {
+		self.guard_cache.get_mut(&steam_id.into()).unwrap()
 	}
 }
 
+/// The different counts for Steam groups the Steam API provides.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
+pub struct ClanActivityCounts {
+	/// Online users, exclusing invisible users.
+	pub online: u32,
+
+	/// Online users in a game, exclusing invisible users.
+	pub in_game: u32,
+
+	/// Online users with the group's chat open, exclusing invisible users.
+	pub chatting: u32,
+}
+
 /// Internal record for clan information.
-/// Use [`FriendsInterface::load_clan`] and [`Clan`] to access this data.
+/// Use [`FriendsInterface::load_clan`] and [`FriendsInterface::clans`] to access this data.
 #[derive(Debug)]
 #[doc(hidden)]
 struct ClanRecord {
@@ -767,55 +747,50 @@ struct ClanRecord {
 	officer_count: Option<u32>,
 }
 
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Hash)]
-pub struct ClanActivityCounts {
-	pub online: u32,
-	pub in_game: u32,
-	pub chatting: u32,
+impl ClanRecord {
+	fn new() -> Self {
+		Self {
+			activity_counts: None,
+			officer_count: None,
+		}
+	}
 }
 
-/// May miss a [`SteamId`] if the user's coplay friends list changes while iterating.
+/// See [`FriendsInterface::coplay_friend_iter`].
 #[derive(Debug)]
 pub struct CoplayFriendIter<'a> {
-	count: usize,
-	cursor: usize,
-	lock: ForeignReadGuard<'a, CoplayQueue>,
+	cursor: c_int,
 	friends_interface: &'a FriendsInterface,
 }
 
-impl<'a> Iterator for CoplayFriendIter<'a> {
+unsafe impl<'a> SteamApiIterator for CoplayFriendIter<'a> {
 	type Item = SteamId;
+	type Index = c_int;
 
-	fn next(&mut self) -> Option<Self::Item> {
-		let opt = SteamId::non_zero_from(unsafe { sys::SteamAPI_ISteamFriends_GetCoplayFriend(*self.friends_interface.fip, self.cursor as _) });
-		self.cursor += 1;
-
-		opt
+	unsafe fn steam_api_setup(&self, _: Private) {
+		sys::SteamAPI_ISteamFriends_GetCoplayFriendCount(*self.friends_interface.fip);
 	}
 
-	fn size_hint(&self) -> (usize, Option<usize>) {
-		let reamin = self.count.saturating_sub(self.cursor);
+	fn steam_api_cursor(&mut self, _: Private) -> &mut Self::Index {
+		&mut self.cursor
+	}
 
-		(reamin, Some(reamin))
+	unsafe fn steam_api_get(&self, index: Self::Index, _: Private) -> Option<Self::Item> {
+		SteamId::valid_from(sys::SteamAPI_ISteamFriends_GetCoplayFriend(*self.friends_interface.fip, index))
 	}
 }
 
+/// Used by [`FriendsInterface::download_clan_activity_counts`] and [`FriendsInterface::request_activity_counts`].
 #[derive(Debug)]
 struct DownloadClanActivityCounts {
 	steam: SteamChild,
 	clan_ids: Vec<SteamId>,
 }
 
-impl DownloadClanActivityCounts {
-	fn fip(&self) -> FixedInterfacePtr<sys::ISteamFriends> {
-		self.steam.get().client_interfaces().friends.fip
-	}
-}
-
 unsafe impl Dispatch for DownloadClanActivityCounts {
 	type CType = sys::DownloadClanActivityCountsResult_t;
 	type Output = Vec<Option<ClanActivityCounts>>;
-	type Error = SilentFailure;
+	type Error = UnspecifiedError;
 
 	unsafe fn dispatch(&mut self, _: Private) -> SteamAPICall_t {
 		let steam = self.steam.get();
@@ -825,7 +800,7 @@ unsafe impl Dispatch for DownloadClanActivityCounts {
 
 	fn post(&mut self, c_data: Box<Self::CType>, _: Private) -> Result<Self::Output, Self::Error> {
 		if !c_data.m_bSuccess {
-			return Err(SilentFailure);
+			return Err(UnspecifiedError);
 		}
 
 		let steam = self.steam.get();
@@ -867,14 +842,13 @@ unsafe impl Dispatch for DownloadClanActivityCounts {
 #[derive(Debug)]
 #[doc(hidden)]
 struct FollowingListDispatch {
-	dedupe: Option<HashSet<SteamId>>,
-	index: u32,
+	index: c_uint,
 	steam: SteamChild,
 }
 
 unsafe impl Dispatch for FollowingListDispatch {
 	type CType = sys::FriendsEnumerateFollowingList_t;
-	type Output = (u32, VecDeque<SteamId>, HashSet<SteamId>);
+	type Output = VecDeque<SteamId>;
 	type Error = GeneralError;
 
 	unsafe fn dispatch(&mut self, _: Private) -> SteamAPICall_t {
@@ -888,7 +862,6 @@ unsafe impl Dispatch for FollowingListDispatch {
 			return Err(general_error);
 		}
 
-		let mut dedupe = self.dedupe.take().unwrap();
 		let mut queue: VecDeque<SteamId> = VecDeque::new();
 
 		//only allocate if there are entries to push
@@ -900,18 +873,15 @@ unsafe impl Dispatch for FollowingListDispatch {
 			for c_steam_id in &c_data.m_rgSteamID[..c_data.m_nResultsReturned as usize] {
 				let steam_id = SteamId::from(*c_steam_id);
 
-				if dedupe.insert(steam_id) {
-					queue.push_back(steam_id);
-				}
+				queue.push_back(steam_id);
 			}
 		}
 
-		Ok((c_data.m_nTotalResultCount as u32, queue, dedupe))
+		Ok(queue)
 	}
 }
 
-/// May miss a [`SteamId`] if the user's following list changes while streaming.
-/// Will never return a duplicate [`SteamId`].
+/// See [`FriendsInterface::following_list`].
 #[derive(Debug)]
 pub struct FollowingListStream {
 	/// Set to `false` when there is no need for dispatching.
@@ -921,25 +891,18 @@ pub struct FollowingListStream {
 	/// The current in-progress dispatch.
 	call_future: Option<CallFuture<FollowingListDispatch>>,
 
-	/// Holds a list of [`SteamId`]s that have already been seen.
-	dedupe: Option<HashSet<SteamId>>,
-
 	/// The index to use in a dispatch if the stream runs out of [`SteamId`]s.
-	dispatch_cursor: u32,
-
-	/// Set to `true` when the stream should stop yielding [`SteamId`]s.
-	terminated: bool,
-
-	/// What the function returned as the total.
-	/// Unrealiable because the list can change while we stream it.
-	reported_total: u32,
-
-	/// Weak reference to the [`SteamInterface`].  
-	/// If this gets dropped, the stream should giveup.
-	steam: SteamChild,
+	dispatch_cursor: c_uint,
 
 	/// A queue of fetched [`SteamId`]s waiting to be returned.
 	queue: VecDeque<SteamId>,
+
+	/// Weak reference to the [`SteamInterface`].
+	/// If this gets dropped, the stream should giveup.
+	steam: SteamChild,
+
+	/// Set to `true` when the stream should stop yielding [`SteamId`]s.
+	terminated: bool,
 }
 
 impl FollowingListStream {
@@ -960,10 +923,10 @@ impl FollowingListStream {
 	}
 }
 
-impl futures::Stream for FollowingListStream {
+unsafe impl SteamApiStream for FollowingListStream {
 	type Item = Result<SteamId, CallError<GeneralError>>;
 
-	fn poll_next(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+	fn steam_api_poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>, _: Private) -> Poll<Option<Self::Item>> {
 		if self.terminated {
 			return Poll::Ready(None);
 		}
@@ -977,7 +940,7 @@ impl futures::Stream for FollowingListStream {
 					self.call_future = None;
 
 					match result {
-						Ok((new_total, new_queue, borrowed_dedupe)) => {
+						Ok(new_queue) => {
 							match new_queue.len() {
 								//its empty, the stream is finished
 								0 => return Poll::Ready(None),
@@ -992,10 +955,8 @@ impl futures::Stream for FollowingListStream {
 							}
 
 							//prepare the cursor for future dispatches
-							self.dedupe = Some(borrowed_dedupe);
 							self.dispatch_cursor += new_queue.len() as u32;
 							self.queue = new_queue;
-							self.reported_total = self.reported_total.max(new_total);
 						}
 
 						Err(error) => {
@@ -1017,7 +978,6 @@ impl futures::Stream for FollowingListStream {
 			let steam = self.steam.get();
 			let mut guard_call_manager = steam.call_manager_lock();
 			let call_future = guard_call_manager.dispatch(FollowingListDispatch {
-				dedupe: self.dedupe.take(),
 				steam: steam.child(),
 				index: self.dispatch_cursor,
 			});
@@ -1045,97 +1005,35 @@ impl futures::Stream for FollowingListStream {
 			Poll::Ready(None)
 		}
 	}
-
-	fn size_hint(&self) -> (usize, Option<usize>) {
-		if self.terminated {
-			return (0, Some(0));
-		}
-
-		let queue_len = self.queue.len();
-		let lower_bound: usize = queue_len;
-		let upper_bound: Option<usize>;
-
-		if !self.allow_dispatch {
-			//if dispatching isn't allowed
-			//what we currently have queued is all that is left for this stream
-			//if it changes while the stream is still polling these queued values - too bad!
-			//we won't be dispatching again to get the updated list of users
-			upper_bound = Some(queue_len);
-		} else {
-			let polled = queue_len + self.dispatch_cursor as usize;
-			let estimated_total = Self::MAX_QUEUE.max(self.reported_total as usize - polled);
-
-			upper_bound = Some(estimated_total);
-		}
-
-		(lower_bound, upper_bound)
-	}
 }
 
-impl futures::stream::FusedStream for FollowingListStream {
+impl futures::stream::FusedStream for Unreliable<FollowingListStream> {
 	fn is_terminated(&self) -> bool {
 		self.terminated
 	}
 }
 
-bitflags! {
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#EFriendFlags)
-	#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-	pub struct FriendFlags: i32 {
-		/// > None.
-		const NONE = sys::EFriendFlags::k_EFriendFlagNone as i32;
+/// See [`FriendsInterface::friend_iter`].
+pub struct FriendIter<'a> {
+	cursor: c_int,
+	flags: FriendFlags,
+	friends_interface: &'a FriendsInterface,
+}
 
-		/// > Users that the current user has blocked from contacting.
-		const BLOCKED = sys::EFriendFlags::k_EFriendFlagBlocked as i32;
+unsafe impl<'a> SteamApiIterator for FriendIter<'a> {
+	type Item = SteamId;
+	type Index = c_int;
 
-		/// > Users that have sent a friend invite to the current user.
-		const FRIENDSHIP_REQUESTED = sys::EFriendFlags::k_EFriendFlagFriendshipRequested as i32;
-
-		/// > The current user's "regular" friends.
-		const IMMEDIATE = sys::EFriendFlags::k_EFriendFlagImmediate as i32;
-
-		/// > Users that are in one of the same (small) Steam groups as the current user.
-		const CLAN_MEMBER = sys::EFriendFlags::k_EFriendFlagClanMember as i32;
-
-		/// > Users that are on the same game server; as set by [`FriendsInterface::set_played_with`].
-		const ON_GAME_SERVER = sys::EFriendFlags::k_EFriendFlagOnGameServer as i32;
-
-		/// > Users that the current user has sent friend invites to.
-		const REQUESTING_FRIENDSHIP = sys::EFriendFlags::k_EFriendFlagRequestingFriendship as i32;
-
-		/// > Users that are currently sending additional info about themselves after a call to [`FriendsInterface::request_user_info`]
-		const REQUESTING_INFO = sys::EFriendFlags::k_EFriendFlagRequestingInfo as i32;
-
-		/// > Users that the current user has ignored from contacting them.
-		const IGNORED = sys::EFriendFlags::k_EFriendFlagIgnored as i32;
-
-		/// > Users that have ignored the current user; but the current user still knows about them.
-		const IGNORED_FRIEND = sys::EFriendFlags::k_EFriendFlagIgnoredFriend as i32;
-
-		/// > Users in one of the same chats.
-		const CHAT_MEMBER = sys::EFriendFlags::k_EFriendFlagChatMember as i32;
+	unsafe fn steam_api_setup(&self, _: Private) {
+		sys::SteamAPI_ISteamFriends_GetFriendCount(*self.friends_interface.fip, self.flags.bits() as Self::Index);
 	}
 
-	/// > Used in [``]
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#EPersonaChange).
-	#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-	pub struct PersonaChange: i32 {
-		const NAME = sys::EPersonaChange::k_EPersonaChangeName as i32;
-		const STATUS = sys::EPersonaChange::k_EPersonaChangeStatus as i32;
-		const COME_ONLINE = sys::EPersonaChange::k_EPersonaChangeComeOnline as i32;
-		const GONE_OFFLINE = sys::EPersonaChange::k_EPersonaChangeGoneOffline as i32;
-		const GAME_PLAYED = sys::EPersonaChange::k_EPersonaChangeGamePlayed as i32;
-		const GAME_SERVER = sys::EPersonaChange::k_EPersonaChangeGameServer as i32;
-		const AVATAR = sys::EPersonaChange::k_EPersonaChangeAvatar as i32;
-		const JOINED_SOURCE = sys::EPersonaChange::k_EPersonaChangeJoinedSource as i32;
-		const LEFT_SOURCE = sys::EPersonaChange::k_EPersonaChangeLeftSource as i32;
-		const RELATIONSHIP_CHANGED = sys::EPersonaChange::k_EPersonaChangeRelationshipChanged as i32;
-		const NAME_FIRST_SET = sys::EPersonaChange::k_EPersonaChangeNameFirstSet as i32;
-		const FACEBOOK_INFO = sys::EPersonaChange::k_EPersonaChangeBroadcast as i32;
-		const NICKNAME = sys::EPersonaChange::k_EPersonaChangeNickname as i32;
-		const STEAM_LEVEL = sys::EPersonaChange::k_EPersonaChangeSteamLevel as i32;
-		const RICH_PRESENCE = sys::EPersonaChange::k_EPersonaChangeRichPresence as i32;
+	fn steam_api_cursor(&mut self, _: Private) -> &mut Self::Index {
+		&mut self.cursor
+	}
+
+	unsafe fn steam_api_get(&self, index: Self::Index, _: Private) -> Option<Self::Item> {
+		SteamId::valid_from(sys::SteamAPI_ISteamFriends_GetFriendByIndex(*self.friends_interface.fip, index, self.flags.bits() as _))
 	}
 }
 
@@ -1184,6 +1082,7 @@ impl From<sys::EPersonaState> for PersonaState {
 	}
 }
 
+/// Callback.
 #[derive(Debug)]
 pub struct PersonaStateChange {
 	steam: SteamChild,
@@ -1238,5 +1137,77 @@ impl Callback for PersonaStateChange {
 
 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
 		listener_fn(params.0, params.1);
+	}
+}
+
+bitflags! {
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#EFriendFlags)
+	#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+	pub struct FriendFlags: i32 {
+		/// > None.
+		const NONE = sys::EFriendFlags::k_EFriendFlagNone as i32;
+
+		/// > Users that the current user has blocked from contacting.
+		const BLOCKED = sys::EFriendFlags::k_EFriendFlagBlocked as i32;
+
+		/// > Users that have sent a friend invite to the current user.
+		const FRIENDSHIP_REQUESTED = sys::EFriendFlags::k_EFriendFlagFriendshipRequested as i32;
+
+		/// > The current user's "regular" friends.
+		const IMMEDIATE = sys::EFriendFlags::k_EFriendFlagImmediate as i32;
+
+		/// > Users that are in one of the same (small) Steam groups as the current user.
+		const CLAN_MEMBER = sys::EFriendFlags::k_EFriendFlagClanMember as i32;
+
+		/// > Users that are on the same game server; as set by [`FriendsInterface::set_played_with`].
+		const ON_GAME_SERVER = sys::EFriendFlags::k_EFriendFlagOnGameServer as i32;
+
+		/// > Users that the current user has sent friend invites to.
+		const REQUESTING_FRIENDSHIP = sys::EFriendFlags::k_EFriendFlagRequestingFriendship as i32;
+
+		/// > Users that are currently sending additional info about themselves after a call to [`FriendsInterface::request_user_info`]
+		const REQUESTING_INFO = sys::EFriendFlags::k_EFriendFlagRequestingInfo as i32;
+
+		/// > Users that the current user has ignored from contacting them.
+		const IGNORED = sys::EFriendFlags::k_EFriendFlagIgnored as i32;
+
+		/// > Users that have ignored the current user; but the current user still knows about them.
+		const IGNORED_FRIEND = sys::EFriendFlags::k_EFriendFlagIgnoredFriend as i32;
+
+		/// > Users in one of the same chats.
+		const CHAT_MEMBER = sys::EFriendFlags::k_EFriendFlagChatMember as i32;
+	}
+
+	/// > Provided by the [`PersonaStateChange`] callback.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#EPersonaChange).
+	#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+	pub struct PersonaChange: i32 {
+		const NAME = sys::EPersonaChange::k_EPersonaChangeName as i32;
+		const STATUS = sys::EPersonaChange::k_EPersonaChangeStatus as i32;
+		const COME_ONLINE = sys::EPersonaChange::k_EPersonaChangeComeOnline as i32;
+		const GONE_OFFLINE = sys::EPersonaChange::k_EPersonaChangeGoneOffline as i32;
+		const GAME_PLAYED = sys::EPersonaChange::k_EPersonaChangeGamePlayed as i32;
+		const GAME_SERVER = sys::EPersonaChange::k_EPersonaChangeGameServer as i32;
+		const AVATAR = sys::EPersonaChange::k_EPersonaChangeAvatar as i32;
+		const JOINED_SOURCE = sys::EPersonaChange::k_EPersonaChangeJoinedSource as i32;
+		const LEFT_SOURCE = sys::EPersonaChange::k_EPersonaChangeLeftSource as i32;
+		const RELATIONSHIP_CHANGED = sys::EPersonaChange::k_EPersonaChangeRelationshipChanged as i32;
+		const NAME_FIRST_SET = sys::EPersonaChange::k_EPersonaChangeNameFirstSet as i32;
+		const FACEBOOK_INFO = sys::EPersonaChange::k_EPersonaChangeBroadcast as i32;
+		const NICKNAME = sys::EPersonaChange::k_EPersonaChangeNickname as i32;
+		const STEAM_LEVEL = sys::EPersonaChange::k_EPersonaChangeSteamLevel as i32;
+		const RICH_PRESENCE = sys::EPersonaChange::k_EPersonaChangeRichPresence as i32;
+	}
+}
+
+#[cfg(test)]
+mod test {
+	use static_assertions::assert_eq_size;
+	use std::ffi::c_int;
+
+	#[test]
+	fn assert_sizes() {
+		assert_eq_size!(super::FriendFlags, c_int);
 	}
 }

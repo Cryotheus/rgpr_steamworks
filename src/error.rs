@@ -198,7 +198,7 @@ pub enum SteamError {
 	RestartingThroughSteam,
 
 	#[error("failed, no error message from the Steam API is available")]
-	SilentFailure,
+	Unspecified,
 }
 
 impl SteamError {
@@ -214,23 +214,22 @@ impl From<crate::encrypted_app_ticket::DecryptionError> for SteamError {
 
 		match value {
 			DecryptionError::DataUnfulfilled => Self::DataUnfulfilled,
-			DecryptionError::SilentFailure => Self::SilentFailure,
+			DecryptionError::SilentFailure => Self::Unspecified,
 		}
 	}
 }
 
-impl From<SilentFailure> for SteamError {
-	fn from(_: SilentFailure) -> Self {
-		Self::SilentFailure
+impl From<UnspecifiedError> for SteamError {
+	fn from(_: UnspecifiedError) -> Self {
+		Self::Unspecified
 	}
 }
 
 /// The unsuccessful variants of [EResult](https://partner.steamgames.com/doc/api/steam_api#EResult).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, thiserror::Error)]
 pub enum GeneralError {
-	#[error("SteamAPI error: unknown error {0}")]
-	Unknown(i32),
-
+	//#[error("SteamAPI error: unknown error {0}")]
+	//Unknown(i32),
 	#[error("SteamAPI error: Fail")]
 	Fail,
 
@@ -751,7 +750,7 @@ impl GeneralError {
 			k_EResultNotSupported => NotSupported,
 			k_EResultFamilySizeLimitExceeded => FamilySizeLimitExceeded,
 			k_EResultOfflineAppCacheInvalid => OfflineAppCacheInvalid,
-			c_enum => Unknown(c_enum as i32),
+			//c_enum => Unknown(c_enum as i32),
 		})
 	}
 }
@@ -773,7 +772,7 @@ impl InitErrorEnum {
 			k_ESteamAPIInitResult_FailedGeneric => Some(Self::FailedGeneric),
 			k_ESteamAPIInitResult_NoSteamClient => Some(Self::NoSteamClient),
 			k_ESteamAPIInitResult_VersionMismatch => Some(Self::VersionMismatch),
-			unknown => Some(Self::Unknown(unknown as i32)),
+			//unknown => Some(Self::Unknown(unknown as i32)),
 		}
 	}
 }
@@ -793,12 +792,12 @@ pub enum IntoCIndexError {
 /// but no error code or message is given,
 /// this struct is used.
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub struct SilentFailure;
+pub struct UnspecifiedError;
 
-impl Display for SilentFailure {
+impl Display for UnspecifiedError {
 	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
 		f.write_str("failed, no error message from the Steam API is available")
 	}
 }
 
-impl StdError for SilentFailure {}
+impl StdError for UnspecifiedError {}

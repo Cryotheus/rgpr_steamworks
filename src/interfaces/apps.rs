@@ -1,13 +1,17 @@
+//! See [AppsInterface].
+
 use crate::call::{Callback, CallbackRaw, Dispatch};
 use crate::dt::{AppId, CsvString, DepotId, IntoCIndex, SteamId};
-use crate::error::{CallError, GeneralError, SilentFailure, SteamError};
+use crate::error::{CallError, GeneralError, SteamError, UnspecifiedError};
 use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
-use crate::util::{some_string, success, CStrArray, CStrArrayPath, MAX_PATH};
+use crate::iter::{SteamApiIterator, Unreliable};
+use crate::util::{expect_string, some_string, success, CStrArray, CStrArrayPath, MAX_PATH};
 use crate::{sys, Private};
 use bitflags::bitflags;
 use rgpr_steamworks_sys::SteamAPICall_t;
-use std::ffi::{c_int, c_uint, CStr, CString};
+use std::ffi::{c_int, c_uint, CString};
 use std::fmt::{Display, Formatter};
+use std::iter::FusedIterator;
 use std::num::NonZeroU32;
 use std::ops::Deref;
 use std::path::PathBuf;
@@ -15,6 +19,11 @@ use std::ptr::null_mut;
 use std::sync::Arc;
 use std::time::{Duration, SystemTime};
 
+/// > Exposes a wide range of information and actions for applications and [Downloadable Content (DLC)].
+///
+/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps)
+///
+/// [Downloadable Content (DLC)]: https://partner.steamgames.com/doc/store/application/dlc
 #[derive(Debug)]
 pub struct AppsInterface {
 	fip: FixedInterfacePtr<sys::ISteamApps>,
@@ -51,16 +60,10 @@ impl AppsInterface {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetAvailableGameLanguages)
 	///
 	/// [Localization and Languages]: https://partner.steamgames.com/doc/store/localization
+	///
+	/// TODO: Steam may treat an empty string as nominal, if so: use some_string instead
 	pub fn available_languages(&self) -> CsvString {
-		unsafe {
-			let char_ptr = sys::SteamAPI_ISteamApps_GetAvailableGameLanguages(*self.fip);
-
-			if char_ptr.is_null() {
-				todo!();
-			}
-
-			CsvString(CStr::from_ptr(char_ptr).to_string_lossy().to_string())
-		}
+		unsafe { CsvString(expect_string(sys::SteamAPI_ISteamApps_GetAvailableGameLanguages(*self.fip))) }
 	}
 
 	/// > Returns total number of known app branches (including default "public" branch)
@@ -98,8 +101,8 @@ impl AppsInterface {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetBetaInfo)
 	///
 	/// [`get_beta`]: Self::get_beta
-	pub fn beta_iter(&self) -> BetaIter {
-		BetaIter { apps_interface: &self, current: 0 }
+	pub fn beta_iter(&self) -> Unreliable<BetaIter> {
+		BetaIter { apps_interface: &self, cursor: 0 }.wrap()
 	}
 
 	/// > Gets the buildid of this app,
@@ -111,9 +114,6 @@ impl AppsInterface {
 	pub fn build_id(&self) -> BuildId {
 		unsafe { sys::SteamAPI_ISteamApps_GetAppBuildId(*self.fip) }.into()
 	}
-
-	//deprecated
-	//pub fn cyber_cafe(&self) -> bool { unsafe { sys::SteamAPI_ISteamApps_BIsCybercafe(*self.interface) } }
 
 	/// > Checks if the user is running from a beta branch, and gets the name of the branch if they are.
 	///
@@ -152,8 +152,8 @@ impl AppsInterface {
 	/// Consider using [`dlc_iter`](Self::dlc_iter) to get a list of the DLC apps.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetDLCCount)
-	pub fn dlc_count(&self) -> i32 {
-		unsafe { sys::SteamAPI_ISteamApps_GetDLCCount(*self.fip) }
+	pub fn dlc_count(&self) -> u32 {
+		unsafe { sys::SteamAPI_ISteamApps_GetDLCCount(*self.fip) as u32 }
 	}
 
 	/// > Gets the download progress for optional DLC.
@@ -171,14 +171,14 @@ impl AppsInterface {
 		}
 	}
 
-	/// Returns an iterator that calls [`get_dlc`](Self::get_dlc).
+	/// Returns an iterator
 	///
 	/// > If you have more than 64 DLC,
 	/// you may want to setup your own internal list of DLC instead.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetDLCCount)
-	pub fn dlc_iter(&self) -> DlcIter {
-		DlcIter { apps_interface: &self, current: 0 }
+	pub fn dlc_iter(&self) -> Unreliable<DlcIter> {
+		DlcIter { apps_interface: &self, cursor: 0 }.wrap()
 	}
 
 	/// > Checks if the user owns a specific DLC and if the DLC is installed.
@@ -288,38 +288,6 @@ impl AppsInterface {
 		}
 	}
 
-	/// > Returns metadata for a DLC by index.
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#BGetDLCDataByIndex)
-	pub fn get_dlc(&self, index: impl IntoCIndex) -> Option<DlcData> {
-		let mut app_id = c_uint::default();
-		let mut available = false;
-
-		//TODO: verify that this function respects null terminator
-		//128 is what is shown in the example
-		let mut buffer = CStrArray::<128>::new();
-
-		//BGetDLCDataByIndex returns true upon success
-		if unsafe {
-			sys::SteamAPI_ISteamApps_BGetDLCDataByIndex(
-				*self.fip,
-				index.into_c_index(),
-				&mut app_id as *mut sys::AppId_t,
-				&mut available as *mut _,
-				buffer.ptr(),
-				buffer.c_len(),
-			)
-		} {
-			Some(DlcData {
-				app_id: app_id.into(),
-				available,
-				name: buffer.to_string(),
-			})
-		} else {
-			None
-		}
-	}
-
 	/// > Gets a list of all installed depots for a given App ID in mount order.
 	///
 	/// Gets up to a maximum of `capacity` depots, the `capacity` of the vector that is allocated.
@@ -391,13 +359,13 @@ impl AppsInterface {
 	/// > Gets a list of all installed depots for a given App ID in mount order.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
-	pub fn installed_depots_iter(&self, app_id: impl Into<AppId>) -> DepotIter {
-		DepotIter {
+	pub fn installed_depots_iter(&self, app_id: impl Into<AppId>) -> Unreliable<DepotIter> {
+		Unreliable(DepotIter {
 			apps_interface: &self,
 			app_id: app_id.into(),
-			current: 0,
+			cursor: 0,
 			depots: Vec::new(),
-		}
+		})
 	}
 
 	/// > Gets the command line if the game was launched via Steam URL, e.g. `steam://run/<appid>//<command line>/`.
@@ -450,7 +418,7 @@ impl AppsInterface {
 	/// Just make sure your client is up-to-date with
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#MarkContentCorrupt)
-	pub fn mark_content_corrupt(&self, missing_files_only: bool) -> Result<(), SilentFailure> {
+	pub fn mark_content_corrupt(&self, missing_files_only: bool) -> Result<(), UnspecifiedError> {
 		success(unsafe { sys::SteamAPI_ISteamApps_MarkContentCorrupt(*self.fip, missing_files_only) })
 	}
 
@@ -464,7 +432,7 @@ impl AppsInterface {
 		if unsafe { sys::SteamAPI_ISteamApps_SetActiveBeta(*self.fip, c_string.as_ptr()) } {
 			Ok(())
 		} else {
-			Err(SteamError::SilentFailure)
+			Err(SteamError::Unspecified)
 		}
 	}
 
@@ -474,7 +442,7 @@ impl AppsInterface {
 	///
 	/// > Set current DLC AppID being played (or 0 if none).
 	/// Allows Steam to track usage of major DLC extensions
-	pub fn set_dlc_context(&self, app_id: impl Into<AppId>) -> Result<(), SilentFailure> {
+	pub fn set_dlc_context(&self, app_id: impl Into<AppId>) -> Result<(), UnspecifiedError> {
 		success(unsafe { sys::SteamAPI_ISteamApps_SetDlcContext(*self.fip, app_id.into().0) })
 	}
 
@@ -563,7 +531,7 @@ impl Interface for AppsInterface {
 /// Represents a single beta branch.
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetBetaInfo)
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Hash)]
 pub struct Beta {
 	flags: BetaFlags,
 	build_id: BuildId,
@@ -617,7 +585,7 @@ impl Beta {
 }
 
 /// The different counts of beta branches.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Hash)]
 pub struct BetaCount {
 	pub total: u32,
 	pub available: u32,
@@ -626,7 +594,7 @@ pub struct BetaCount {
 
 bitflags! {
 	/// `steamclientpublic.h` `EBetaBranchFlags`
-	#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+	#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 	struct BetaFlags: u32 {
 		const NONE = 0;
 		const DEFAULT = 1;
@@ -643,32 +611,54 @@ bitflags! {
 #[derive(Debug)]
 pub struct BetaIter<'a> {
 	apps_interface: &'a AppsInterface,
-	current: i32,
+	cursor: c_int,
 }
 
-impl<'a> Iterator for BetaIter<'a> {
+unsafe impl<'a> SteamApiIterator for BetaIter<'a> {
 	type Item = Beta;
+	type Index = c_int;
 
-	fn next(&mut self) -> Option<Self::Item> {
-		//unwrap: the function only returns None if we're out-of-bounds
-		//dlc_count check above prevents that
-		let beta_opt = self.apps_interface.get_beta(self.current);
-		self.current += 1;
-
-		beta_opt
+	unsafe fn steam_api_setup(&self, _: Private) {
+		sys::SteamAPI_ISteamApps_GetNumBetas(*self.apps_interface.fip, null_mut(), null_mut());
 	}
 
-	fn size_hint(&self) -> (usize, Option<usize>) {
-		let dlc_count = self.apps_interface.beta_count().total as usize;
+	fn steam_api_cursor(&mut self, _: Private) -> &mut Self::Index {
+		&mut self.cursor
+	}
 
-		(dlc_count, Some(dlc_count))
+	unsafe fn steam_api_get(&self, index: Self::Index, _: Private) -> Option<Self::Item> {
+		let mut flags = BetaFlags::NONE;
+		let mut build_id = BuildId::default();
+		let mut name_buffer = CStrArray::<128>::new(); //size is as shown in steamworks example
+		let mut desc_buffer = CStrArray::<1024>::new(); //size is as shown in steamworks example
+
+		//unfn returns true upon success
+		if unsafe {
+			sys::SteamAPI_ISteamApps_GetBetaInfo(
+				*self.apps_interface.fip,
+				index,
+				&mut flags as *mut BetaFlags as *mut c_uint,
+				&mut build_id as *mut BuildId as *mut c_uint,
+				name_buffer.ptr(),
+				name_buffer.c_len(),
+				desc_buffer.ptr(),
+				desc_buffer.c_len(),
+			)
+		} {
+			Some(Beta {
+				flags: BetaFlags::NONE,
+				build_id,
+				name: name_buffer.to_string(),
+				description: desc_buffer.to_string(),
+			})
+		} else {
+			None
+		}
 	}
 }
-
-impl<'a> ExactSizeIterator for BetaIter<'a> {}
 
 /// A build ID
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 #[repr(transparent)]
 pub struct BuildId(pub Option<NonZeroU32>);
 
@@ -693,6 +683,16 @@ impl BuildId {
 	/// Returns `false` if the `BuildId` is `None` / `0`.
 	pub fn valid(self) -> bool {
 		self.0.is_some()
+	}
+
+	pub fn valid_from(value: impl Into<Self>) -> Option<Self> {
+		let value = value.into();
+
+		if value.valid() {
+			Some(value)
+		} else {
+			None
+		}
 	}
 }
 
@@ -726,26 +726,30 @@ impl From<u32> for BuildId {
 /// Iterator which yields a [`DepotId`] for each of the current app's mounted depots.
 /// Returned by [`AppsInterface::installed_depots_iter`].
 ///
+/// This list is not expected to change during the program's lifetime.
+/// Steam requires launched apps to be shutdown during update installation,
+/// so the [unreliability] most Steam API iterators have is only encountered in a development environment.
+///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
+///
+/// [unreliability]: Unreliable
 #[derive(Debug)]
 pub struct DepotIter<'a> {
 	apps_interface: &'a AppsInterface,
 	app_id: AppId,
-	current: usize,
+	cursor: usize,
 	depots: Vec<DepotId>,
 }
 
 impl<'a> DepotIter<'a> {
+	/// How much to increase the allocation by
+	const ALLOC_STEP: usize = 16;
+
 	/// Consumes the iterator returning the current alloc of [`DepotId`]s.
 	/// This includes entries already iterated over.
 	pub fn collect_current(self) -> Vec<DepotId> {
 		self.depots
 	}
-}
-
-impl<'a> DepotIter<'a> {
-	//how much to increase the alloc by when the alloc
-	const ALLOC_STEP: usize = 16;
 }
 
 impl<'a> Iterator for DepotIter<'a> {
@@ -756,12 +760,12 @@ impl<'a> Iterator for DepotIter<'a> {
 		//ask steam for more
 		//we essentially keep doing this until `length < capacity`
 		//at which the cursor stops incrementing
-		if self.current == self.depots.capacity() {
+		if self.cursor == self.depots.capacity() {
 			//reserve goes by po2
 			//we can save on calls by starting with a bigger step
 			//the current start is 16
 			//meaning the sizes in order are typically 16, 32, 64, 128, etc.
-			self.depots.reserve(Self::ALLOC_STEP);
+			self.depots.reserve(DepotIter::ALLOC_STEP);
 
 			unsafe {
 				let filled = sys::SteamAPI_ISteamApps_GetInstalledDepots(*self.apps_interface.fip, self.app_id.0, self.depots.as_mut_ptr() as _, self.depots.capacity() as _);
@@ -770,24 +774,27 @@ impl<'a> Iterator for DepotIter<'a> {
 			}
 		}
 
-		let depot_id = self.depots.get(self.current);
+		//cheap to clone
+		let depot_id = self.depots.get(self.cursor).cloned();
 
 		//only progress if we had an entry
 		//if this index is now out-of-bounds
 		//the next iteration will fill the vec with more
 		if depot_id.is_some() {
-			self.current += 1;
+			self.cursor += 1;
 		}
 
-		depot_id.cloned()
+		depot_id
 	}
 }
+
+impl<'a> FusedIterator for DepotIter<'a> {}
 
 /// Metadata for DLC.
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#BGetDLCDataByIndex)
-#[derive(Clone, Debug)]
-pub struct DlcData {
+#[derive(Clone, Debug, Hash)]
+pub struct Dlc {
 	/// App ID of the DLC itself, not the app that owns it.
 	pub app_id: AppId,
 
@@ -797,10 +804,11 @@ pub struct DlcData {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#BGetDLCDataByIndex)
 	pub available: bool,
 
+	/// Display name of the DLC.
 	pub name: String,
 }
 
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct DlcDownloadProgress {
 	/// The amount of bytes that have been downloaded.
 	pub downloaded: u64,
@@ -810,10 +818,11 @@ pub struct DlcDownloadProgress {
 }
 
 impl DlcDownloadProgress {
-	fn new(downloaded: u64, total: u64) -> Self {
+	pub fn new(downloaded: u64, total: u64) -> Self {
 		Self { downloaded, total }
 	}
 
+	/// Returns the download progress as a fraction `0f32 ..= 1f32`.
 	pub fn fraction(&self) -> f32 {
 		self.downloaded as f32 / self.total as f32
 	}
@@ -856,35 +865,55 @@ impl Callback for DlcInstalled {
 	}
 }
 
-/// Iterator which yields a [`DlcData`] for each of the current app's DLCs.
+/// Iterator which yields a [`Dlc`] for each of the current app's DLCs.
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#BGetDLCDataByIndex)
 #[derive(Debug)]
 pub struct DlcIter<'a> {
 	apps_interface: &'a AppsInterface,
-	current: i32,
+	cursor: c_int,
 }
 
-impl<'a> Iterator for DlcIter<'a> {
-	type Item = DlcData;
+unsafe impl<'a> SteamApiIterator for DlcIter<'a> {
+	type Item = Dlc;
+	type Index = c_int;
 
-	fn next(&mut self) -> Option<Self::Item> {
-		//unwrap: the function only returns None if we're out-of-bounds
-		//dlc_count check above prevents that
-		let dlc_opt = self.apps_interface.get_dlc(self.current);
-		self.current += 1;
-
-		dlc_opt
+	unsafe fn steam_api_setup(&self, _: Private) {
+		sys::SteamAPI_ISteamApps_GetDLCCount(*self.apps_interface.fip);
 	}
 
-	fn size_hint(&self) -> (usize, Option<usize>) {
-		let dlc_count = self.apps_interface.dlc_count() as usize;
+	fn steam_api_cursor(&mut self, _: Private) -> &mut Self::Index {
+		&mut self.cursor
+	}
 
-		(dlc_count, Some(dlc_count))
+	unsafe fn steam_api_get(&self, index: Self::Index, _: Private) -> Option<Self::Item> {
+		let mut app_id = c_uint::default();
+		let mut available = false;
+
+		//128 is what is shown in the example
+		let mut buffer = CStrArray::<128>::new();
+
+		//BGetDLCDataByIndex returns true upon success
+		if unsafe {
+			sys::SteamAPI_ISteamApps_BGetDLCDataByIndex(
+				*self.apps_interface.fip,
+				index,
+				&mut app_id as *mut sys::AppId_t,
+				&mut available as *mut _,
+				buffer.ptr(),
+				buffer.c_len(),
+			)
+		} {
+			Some(Dlc {
+				app_id: app_id.into(),
+				available,
+				name: buffer.to_string(),
+			})
+		} else {
+			None
+		}
 	}
 }
-
-impl<'a> ExactSizeIterator for DlcIter<'a> {}
 
 /// Yielded from [`AppsInterface::file_details`].
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -973,7 +1002,7 @@ impl Callback for NewUrlLaunchParameters {
 }
 
 /// Provided by [`AppsInterface::is_timed_trial`].
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct TimedTrial {
 	pub secs_allowed: u32,
 	pub secs_played: u32,
@@ -1046,9 +1075,12 @@ impl Callback for TimedTrialStatus {
 #[cfg(test)]
 mod test {
 	use static_assertions::assert_eq_size;
+	use std::ffi::*;
 
 	#[test]
 	fn assert_sizes() {
-		assert_eq_size!(super::BuildId, u32);
+		assert_eq_size!(super::BuildId, c_uint);
+		assert_eq_size!(super::BetaFlags, c_uint);
+		assert_eq_size!(u32, c_uint); //for BetaCount
 	}
 }

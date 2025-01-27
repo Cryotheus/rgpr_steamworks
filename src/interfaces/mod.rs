@@ -33,7 +33,16 @@ static STEAM_INTERFACE: RwLock<Weak<SteamInterface>> = RwLock::new(Weak::new());
 /// - Must not be used after Steamworks has been shutdown
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug)]
+#[cfg(not(feature = "sys"))]
 pub(crate) struct FixedInterfacePtr<T>(*mut T);
+
+/// Stores a raw mutable pointer to a thread-safe Steam API interface.
+/// # Safety
+/// - Must not be used after Steamworks has been shutdown
+#[repr(transparent)]
+#[derive(Clone, Copy, Debug)]
+#[cfg(feature = "sys")]
+pub struct FixedInterfacePtr<T>(*mut T);
 
 unsafe impl<T> Send for FixedInterfacePtr<T> {}
 unsafe impl<T> Sync for FixedInterfacePtr<T> {}

@@ -145,6 +145,13 @@ impl SteamBuilder {
 	/// Initializes the Steam API and its interfaces.
 	/// If all instances of [`Steam`] are dropped, the API will be shutdown.
 	/// You can use [`Steam::get`] to get a reference to the API if the current context does not have one.
+	/// 
+	/// > While in development and running your game in a debugger,
+	/// the overlay is loaded when you call SteamAPI_Init.
+	/// As such you'll need to make sure to call SteamAPI_Init prior to initializing the OpenGL/D3D device,
+	/// otherwise it won't be able to hook the device creation.
+	/// 
+	/// [Steam Overlay Requirements](https://partner.steamgames.com/doc/features/overlay#requirements)
 	pub fn build(&self) -> Result<Steam, SteamError> {
 		unsafe { Steam::init(self) }
 	}
@@ -253,7 +260,7 @@ impl SteamBuilder {
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary)
 	///
 	/// [`build`]: Self::build
-	/// [`RestartingThroughSteam`]: crate::error::SteamError::RestartingThroughSteam
+	/// [`RestartingThroughSteam`]: SteamError::RestartingThroughSteam
 	/// [`SteamAPI_RestartAppIfNecessary`]: https://partner.steamgames.com/doc/api/steam_api#SteamAPI_RestartAppIfNecessary
 	pub fn set_restart_through_steam(&mut self, restart_through_steam: bool) -> &mut Self {
 		self.restart_through_steam = restart_through_steam;

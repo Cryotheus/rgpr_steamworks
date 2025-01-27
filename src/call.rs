@@ -1,8 +1,9 @@
 use crate::error::{CallError, CallFutureError};
 use crate::interfaces::{SteamChild, SteamInterface};
+use crate::util::IncognitoBox;
 use crate::{sys, Private};
 use futures::task::AtomicWaker;
-use std::alloc::{alloc_zeroed, dealloc, Layout};
+use std::alloc::Layout;
 use std::any::{type_name, Any, TypeId};
 use std::collections::HashMap;
 use std::ffi::{c_int, c_void};
@@ -11,20 +12,20 @@ use std::io::{stdout, Write};
 use std::mem::{replace, zeroed, MaybeUninit};
 use std::ops::{Deref, DerefMut};
 use std::pin::Pin;
+use std::slice;
 use std::sync::mpsc::{channel, RecvError, SendError, Sender, TryRecvError};
 use std::sync::{Arc, Mutex};
 use std::task::{Context, Poll, Waker};
-use std::thread::JoinHandle;
+use std::thread::{self, JoinHandle};
 use std::time::{Duration, Instant};
-use std::{slice, thread};
 
 type AnySend = dyn Any + Send + Sync;
 
 /// Result of a call to the Steam API.
-/// Upon storing the `Ok(*mut c_void)`, the following is guaranteed:
+/// Upon storing the `Ok(IncognitoBox)`, the following is guaranteed:
 /// - The pointer points to an allocation that is the exact memory layout of a [`CType`].
 /// There is no reflection for the [`CType`], so the type must be known elsewhere.
-/// - The pointer is unique, no other instances/copies of the pointer exists anywhere but this CallResult.
+/// - IncognitoBox: The pointer is unique, no other instances/copies of the pointer exists anywhere.
 /// - The data pointed to implements [Send] + [Sync]
 /// - The data pointed to does not have a thread-dependent destructor
 ///
@@ -32,17 +33,11 @@ type AnySend = dyn Any + Send + Sync;
 #[doc(hidden)]
 #[derive(Debug)]
 #[repr(transparent)]
-struct CallResult(Result<*mut c_void, CallFutureError>);
+struct CallResult(Result<IncognitoBox, CallFutureError>);
 
 /// SAFETY: See guarantees for Ok variant above.
 unsafe impl Send for CallResult {}
 unsafe impl Sync for CallResult {}
-
-impl From<Result<*mut c_void, CallFutureError>> for CallResult {
-	fn from(value: Result<*mut c_void, CallFutureError>) -> Self {
-		Self(value)
-	}
-}
 
 /// Performs callback-specific tasks and optionally calls listeners.
 /// Manual impls of Send + Sync are because of the raw pointer.
@@ -58,17 +53,17 @@ pub(crate) struct CallbackHandler {
 }
 
 impl CallbackHandler {
-	/// # Panics
-	/// If the provided callback type is not what is stored.
-	pub(crate) fn data<C: CallbackRaw>(&self) -> &C {
-		self.callback_impl.downcast_ref::<C>().unwrap()
-	}
+	// /// # Panics
+	// /// If the provided callback type is not what is stored.
+	// pub(crate) fn data<C: CallbackRaw>(&self) -> &C {
+	// 	self.callback_impl.downcast_ref::<C>().unwrap()
+	// }
 
-	/// # Panics
-	/// If the provided callback type is not what is stored.
-	pub(crate) fn data_mut<C: CallbackRaw>(&mut self) -> &mut C {
-		self.callback_impl.downcast_mut::<C>().unwrap()
-	}
+	// /// # Panics
+	// /// If the provided callback type is not what is stored.
+	// pub(crate) fn data_mut<C: CallbackRaw>(&mut self) -> &mut C {
+	// 	self.callback_impl.downcast_mut::<C>().unwrap()
+	// }
 
 	fn new_raw<C: CallbackRaw>(steam: &SteamInterface) -> Self {
 		Self {
@@ -92,7 +87,7 @@ impl CallbackHandler {
 		Self {
 			callback_impl: Box::from(C::register(steam)),
 			on_callback_fn: Box::new(|any_send, void_ptr, listeners| {
-				let callback = any_send.downcast_mut::<C>().unwrap();
+				let callback = any_send.downcast_mut::<C>().unwrap(); //unwrap panicked
 				let c_data = unsafe { &*(void_ptr as *const C::CType) };
 
 				unsafe {
@@ -107,8 +102,7 @@ impl CallbackHandler {
 	}
 }
 
-unsafe impl Send for CallbackHandler {}
-unsafe impl Sync for CallbackHandler {}
+static_assertions::assert_impl_all!(CallbackHandler: Send, Sync);
 
 impl Debug for CallbackHandler {
 	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -127,10 +121,6 @@ pub(crate) struct CallChannel {
 
 	/// Data received from the call.
 	call_result: Mutex<Option<CallResult>>,
-
-	/// The layout of `Dispatch::CType`.
-	/// Necessary for deallocating the contained Box.
-	layout: Layout,
 }
 
 impl CallChannel {
@@ -147,7 +137,7 @@ impl CallChannel {
 		};
 
 		//take ownership
-		let CallResult(call_result) = replace(call_result, Err(CallFutureError::Moved).into());
+		let CallResult(call_result) = replace(call_result, CallResult(Err(CallFutureError::Moved)));
 
 		//`MutexGuard<T>` does not behave like `&mut T`
 		//it doesn't know how to drop early
@@ -157,7 +147,7 @@ impl CallChannel {
 		//now that the `Box<c_void>` has been turned into a box with the same memory layout as what was allocated
 		//we can be sure it is safe to drop
 		let c_box = match call_result {
-			Ok(void_ptr) => unsafe { Box::from_raw(void_ptr as *mut D::CType) },
+			Ok(incog_box) => unsafe { incog_box.identify() },
 			Err(error) => return Poll::Ready(Err(error.into())),
 		};
 
@@ -165,14 +155,14 @@ impl CallChannel {
 	}
 
 	/// Silently fails if data has already been sent.
-	fn send(&self, result: impl Into<CallResult>) -> Result<(), CallChannelFilled> {
+	fn send(&self, result: CallResult) -> Result<(), CallChannelFilled> {
 		let mut guard = self.call_result.lock().unwrap();
 
 		if guard.is_some() {
 			return Err(CallChannelFilled);
 		}
 
-		*guard = Some(result.into());
+		*guard = Some(result);
 
 		self.atomic_waker.wake();
 
@@ -189,26 +179,19 @@ impl Drop for CallChannel {
 		let opt_ref = guard.deref_mut();
 
 		match opt_ref {
-			//we had a ptr to Dispatch::CData
-			//carefully deallocate it
-			Some(CallResult(Ok(void_ptr))) => unsafe {
-				dealloc(*void_ptr as _, self.layout);
-
-				//then leave an error behind
-				*opt_ref = Some(CallResult(Err(CallFutureError::EarlyDrop)))
-			},
-
-			//its an error, nothing special to do
-			Some(CallResult(Err(_))) => {}
-
 			//the value was still pending
 			//so place an error to let the CallManager know
 			//it should deallocate what was going to be a Box<Dispatch::CData>
-			None => *opt_ref = Some(CallResult(Err(CallFutureError::EarlyDrop))),
+			//if this is the IncognitoBox then it is dropped due to this
+			None | Some(CallResult(Ok(_))) => *opt_ref = Some(CallResult(Err(CallFutureError::EarlyDrop))),
+
+			//its an error, nothing special to do
+			Some(CallResult(Err(_))) => {}
 		}
 	}
 }
 
+/// The [`CallChannel`] already had data sent.
 #[derive(Debug)]
 struct CallChannelFilled;
 
@@ -287,7 +270,6 @@ impl CallManager {
 		let channel = Arc::new(CallChannel {
 			atomic_waker: AtomicWaker::new(),
 			call_result: Mutex::new(None),
-			layout,
 		});
 
 		self.dispatches.insert(
@@ -437,16 +419,16 @@ impl CallManager {
 					};
 
 					//if the call to the steam API failed
-					let mut failed = false;
+					let mut failed = true;
 
 					//true if we should deallocate the allocation
 					//this gets set to false if the allocation has been sent off to the future for usage
-					let mut please_dealloc = true;
-					let alloc = alloc_zeroed(dispatch.layout) as *mut c_void;
+					let mut incog_box = IncognitoBox::from_layout(dispatch.layout);
+					let mut send_err = true;
 
 					assert_eq!(call.m_cubParam as usize, dispatch.layout.size(), "call result cubParam should match layout size");
 
-					if sys::SteamAPI_ManualDispatch_GetAPICallResult(pipe, call_id, alloc, call.m_cubParam as c_int, call.m_iCallback, &mut failed) {
+					if sys::SteamAPI_ManualDispatch_GetAPICallResult(pipe, call_id, incog_box.as_ptr() as _, call.m_cubParam as c_int, call.m_iCallback, &mut failed) {
 						//TODO: research or ask Valve for what the bool returned signifies vs the bool from the pointer
 						//because it's possible the data could be good even if this if statement below fails
 						//for example: the CType is a union of the good data and an error enum/message
@@ -455,39 +437,39 @@ impl CallManager {
 						//Valve probably makes good decisions for steamworks since theres more than 100,000 games that use it
 						//...right?
 						if !failed {
-							//please dealloc if we can't send
-							//don't dealloc if there were no errors - because the value has been sent to the CallFuture successfully
-							please_dealloc = dispatch.channel.send(Ok(alloc)).is_err();
-						}
+							let _ = dispatch.channel.send(CallResult(Ok(incog_box)));
+							send_err = false;
+						} else {
+							//check if the allocation was modified even though the failed ptr is true
+							#[cfg(debug_assertions)]
+							{
+								let alloc_bytes = slice::from_raw_parts::<u8>(incog_box.as_ptr(), dispatch.layout.size());
+								let mut stdout = stdout();
 
-						//check if the allocation was modified even though the failed ptr is true
-						#[cfg(debug_assertions)]
-						{
-							let alloc_bytes = slice::from_raw_parts::<u8>(alloc as _, dispatch.layout.size());
-							let mut stdout = stdout();
+								writeln!(
+									stdout,
+									"SteamAPI_ManualDispatch_GetAPICallResult alloc addr {:p} was initialized zero, but contains non-zero bytes after a partial failure",
+									incog_box.as_ptr()
+								)
+								.unwrap();
+								writeln!(stdout, "call ID: {call_id}").unwrap();
+								writeln!(stdout, "dispatch type name: {}", dispatch.dispatch_type_name).unwrap();
 
-							writeln!(
-								stdout,
-								"SteamAPI_ManualDispatch_GetAPICallResult alloc addr {alloc:p} was initialized zero, but contains non-zero bytes after a partial failure"
-							)
-							.unwrap();
-							writeln!(stdout, "call ID: {call_id}").unwrap();
-							writeln!(stdout, "dispatch type name: {}", dispatch.dispatch_type_name).unwrap();
+								for byte in alloc_bytes {
+									write!(stdout, "{byte} ").unwrap();
+								}
 
-							for byte in alloc_bytes {
-								write!(stdout, "{byte} ").unwrap();
+								stdout.flush().unwrap();
 							}
-
-							stdout.flush().unwrap();
 						}
 					}
 
-					if please_dealloc {
-						dealloc(alloc as _, dispatch.layout);
-
+					//we always need to send something
+					//otherwise the CallFuture could wait forever
+					if send_err {
 						//if we can't send the error
 						//it's because CallFutureError::EarlyDrop has already been sent
-						let _ = dispatch.channel.send(Err(CallFutureError::Failed));
+						let _ = dispatch.channel.send(CallResult(Err(CallFutureError::Failed)));
 					}
 				} else if let Some(CallbackHandler {
 					callback_impl,
@@ -496,7 +478,7 @@ impl CallManager {
 				}) = self.callbacks.get_mut(&callback_id)
 				{
 					//the data behind callback_msg.m_pubParam must be used before the end of this iteration
-					on_callback_fn.as_mut()(callback_impl, callback_msg.m_pubParam as *const c_void, listeners.as_mut());
+					on_callback_fn.as_mut()(callback_impl.as_mut(), callback_msg.m_pubParam as *const c_void, listeners.as_mut());
 				}
 
 				//TODO: maybe attempt to call this when unwinding from this loop?
@@ -511,7 +493,7 @@ impl Drop for CallManager {
 		for (_, Dispatched { channel, .. }) in self.dispatches.drain() {
 			//its okay if this fails
 			//since having CallFutureError::EarlyDrop already sent is to be expected
-			let _ = channel.send(Err(CallFutureError::Shutdown));
+			let _ = channel.send(CallResult(Err(CallFutureError::Shutdown)));
 		}
 	}
 }
@@ -582,41 +564,44 @@ impl CallThreadInner {
 	fn new(interval: Duration, steam_child: SteamChild) -> Self {
 		let (command_tx, command_rx) = channel::<CallThreadCommand>();
 
-		let handle = thread::Builder::new().name(String::from("CallManager_CallThread")).spawn(move || {
-			let mut run = false;
-			let command_rx = command_rx;
+		let handle = thread::Builder::new()
+			.name(String::from("CallManager_CallThread"))
+			.spawn(move || {
+				let mut run = false;
+				let command_rx = command_rx;
 
-			loop {
-				if run {
-					let hit_time = Instant::now() + interval;
+				loop {
+					if run {
+						let hit_time = Instant::now() + interval;
 
-					match command_rx.try_recv() {
-						Ok(CallThreadCommand::Stop) => {
-							run = false;
+						match command_rx.try_recv() {
+							Ok(CallThreadCommand::Stop) => {
+								run = false;
 
-							continue;
+								continue;
+							}
+
+							Ok(CallThreadCommand::Start) | Err(TryRecvError::Empty) => {}
+							Ok(CallThreadCommand::Kill) | Err(TryRecvError::Disconnected) => return,
 						}
 
-						Ok(CallThreadCommand::Start) | Err(TryRecvError::Empty) => {}
-						Ok(CallThreadCommand::Kill) | Err(TryRecvError::Disconnected) => return,
-					}
+						let steam = steam_child.get();
+						let mut guard = steam.call_manager_lock();
 
-					let steam = steam_child.get();
-					let mut guard = steam.call_manager_lock();
+						guard.run();
+						drop(guard); //explicit drop for significant drop
 
-					guard.run();
-					drop(guard); //explicit drop for significant drop
-
-					thread::sleep(Instant::now().saturating_duration_since(hit_time));
-				} else {
-					match command_rx.recv() {
-						Ok(CallThreadCommand::Start) => run = true,
-						Ok(CallThreadCommand::Stop) => continue,
-						Ok(CallThreadCommand::Kill) | Err(RecvError) => return,
-					}
-				};
-			}
-		}).unwrap();
+						thread::sleep(Instant::now().saturating_duration_since(hit_time));
+					} else {
+						match command_rx.recv() {
+							Ok(CallThreadCommand::Start) => run = true,
+							Ok(CallThreadCommand::Stop) => continue,
+							Ok(CallThreadCommand::Kill) | Err(RecvError) => return,
+						}
+					};
+				}
+			})
+			.unwrap();
 
 		Self { command_tx, handle }
 	}
@@ -721,9 +706,9 @@ pub unsafe trait Dispatch: Send {
 	/// The type that the SteamAPI provides in the call result.
 	/// This will be provided to [post](Dispatch::post).
 	///
-	/// Although this type itself may not be sent between threads,
-	/// a raw pointer to it will.
-	/// This ensures
+	/// # Safety
+	/// This type must not require destructors.
+	/// `Drop` implementations may not be called.
 	type CType: Send + Sync;
 
 	/// The type returned for successful calls.

@@ -57,6 +57,7 @@ cfg-if = "1.0.0"
 futures = { version = "0.3.31", optional = true }
 image = { version = "0.25.5", optional = true }
 lru = { version = "0.12.5", optional = true }
+num-traits = "0.2.19"
 rgpr_steamworks_sys = { path = "rgpr_steamworks_sys" }
 static_assertions = "1.1.0"
 thiserror = "2.0.11"
@@ -67,4 +68,12 @@ path = "examples/hello_world.rs"
 required-features = ["steam_apps"]
 
 [package.metadata.example.hello_world]
+hidden = true
+
+[[example]]
+name = "pain"
+path = "examples/pain.rs"
+required-features = ["steam_apps", "steam_friends", "sys"]
+
+[package.metadata.example.pain]
 hidden = true
