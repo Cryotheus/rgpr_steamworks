@@ -6,6 +6,7 @@ build = "build.rs"
 repository.workspace = true
 
 [lib]
+doc = false
 doctest = false
 
 [build-dependencies]

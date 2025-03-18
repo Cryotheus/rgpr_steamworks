@@ -4,6 +4,12 @@
 
 use rgpr_steamworks_sys as sys;
 use std::fmt::{Display, Formatter};
+use std::hash::{Hash, Hasher};
+use std::num::NonZeroU64;
+
+/// A [`SteamId`].
+/// Type alias is purely to help show the usage or provision of a [`SteamId`] is meant to be a lobby.
+pub type LobbyId = SteamId;
 
 /// Steam account types.
 ///
@@ -355,6 +361,12 @@ impl From<GameId> for u64 {
 	}
 }
 
+impl From<sys::CGameID> for GameId {
+	fn from(value: sys::CGameID) -> Self {
+		Self(unsafe { value.__bindgen_anon_1.m_ulGameID } as u64)
+	}
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum GameIdType {
 	App,
@@ -389,6 +401,65 @@ impl TryFrom<u32> for GameIdType {
 		})
 	}
 }
+
+/// A handle to an image managed by the Steam API.
+///
+/// To get the image, enabled the `image` feature and call [`UtilsInterface::image`].
+///
+/// [`UtilsInterface::image`]: crate::interfaces::utils::UtilsInterface::image
+#[derive(Clone, Copy, Debug)]
+pub struct ImageHandle {
+	/// The handle to the image cached/stored by Steam.
+	pub(crate) handle: i32,
+
+	/// The width and height packed into a `u64`.
+	/// Width is packed in the 32 most-significant bits
+	/// and height is in the 32 least-significant bits.
+	///
+	/// Image dimensions should never be zero,
+	/// thus we can utilize Rust's null pointer optimization here.
+	pub(crate) size: Option<NonZeroU64>,
+}
+
+impl ImageHandle {
+	/// Gets the size of the image if it is cached.
+	/// 
+	/// The order is `[width, height]`.
+	pub fn get_cached_size(&self) -> Option<[u32; 2]> {
+		let packed = self.size?.get();
+
+		Some([
+			(packed >> 32) as u32,
+			//we don't have to actually use the mask
+			//we could just `packed as u32` - but I'm scared
+			//worst case scenario: this just gets optimized out anyways
+			(packed & 0b11111111_11111111_11111111_11111111) as u32,
+		])
+	}
+
+	/// # Panics
+	/// If size is `Some([0, 0])`.
+	pub(crate) fn new(handle: i32, size: Option<[u32; 2]>) -> Self {
+		Self {
+			handle,
+			size: size.map(|[width, height]| NonZeroU64::new(((width as u64) << 32) + height as u64).unwrap()),
+		}
+	}
+}
+
+impl Hash for ImageHandle {
+	fn hash<H: Hasher>(&self, state: &mut H) {
+		state.write_i32(self.handle);
+	}
+}
+
+impl PartialEq for ImageHandle {
+	fn eq(&self, other: &Self) -> bool {
+		self.handle == other.handle
+	}
+}
+
+impl Eq for ImageHandle {}
 
 /// > A Steam ID is a unique identifier for a Steam accounts, Steam groups, Lobbies and Chat rooms,
 /// and used to differentiate users in all parts of the Steamworks API.
@@ -609,6 +680,7 @@ mod test {
 		assert_eq_size!(super::AppId, sys::AppId_t);
 		assert_eq_size!(super::AuthTicket, sys::HAuthTicket);
 		assert_eq_size!(super::DepotId, sys::DepotId_t);
+		assert_eq_size!(super::GameId, sys::CGameID);
 		assert_eq_size!(super::SteamId, sys::CSteamID);
 	}
 }

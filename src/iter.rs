@@ -100,21 +100,16 @@ pub unsafe trait SteamApiIterator {
 	}
 
 	/// # Private
-	///
-	/// Call the function from the Steam API for updating the API's list and count.
-	#[doc(hidden)]
-	unsafe fn steam_api_setup(&self, _: Private) {}
-
-	/// # Private
 	#[doc(hidden)]
 	fn steam_api_cursor(&mut self, _: Private) -> &mut Self::Index;
 
 	/// # Private
+	///
+	/// # Safety
 	#[doc(hidden)]
 	unsafe fn steam_api_get(&self, index: Self::Index, _: Private) -> Option<Self::Item>;
 
 	/// # Private
-	///
 	/// Called by [`Unreliable`]'s [`Iterator`] implementation.
 	#[doc(hidden)]
 	fn steam_api_next(&mut self, _: Private) -> Option<Self::Item> {
@@ -124,6 +119,23 @@ pub unsafe trait SteamApiIterator {
 
 		unsafe { self.steam_api_get(index, Private) }
 	}
+
+	/// Call the function from the Steam API for updating the API's list and count.
+	/// Otherwise the index functions in the Steam API may not have the list.
+	///
+	/// # Private
+	/// This is called automatically by [`wrap`].
+	///
+	/// # Safety
+	/// This function is marked as `unsafe` as convenience for the implementations,
+	/// which always require and `unsafe` block.
+	///
+	/// Ensure calling this function is safe,
+	/// even if it is called more than once on the same iterator.
+	///
+	/// [`wrap`]: Self::wrap
+	#[doc(hidden)]
+	unsafe fn steam_api_setup(&self, _: Private) {}
 }
 
 /// For asynchronous iterators sourced from the Steam API,
@@ -167,7 +179,7 @@ pub unsafe trait SteamApiStream {
 /// even if iteration happens as quickly as possible.
 /// This causes entries to be repeated or skipped during iteration.
 ///
-/// Unlike the lists, the lists' items do not suffer these issues.
+/// Fortunately, the items in the lists themselves do not have these issues.
 ///
 /// # Solutions
 /// **If the [`Item`] type does not implement [`Hash`]**

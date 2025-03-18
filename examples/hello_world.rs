@@ -1,6 +1,7 @@
-use rgpr_steamworks::interfaces::{apps::AppsInterface, Steam};
+use rgpr_steamworks::interfaces::apps::AppsInterface;
 use rgpr_steamworks::{config::SteamBuilder, error::SteamError};
 use std::thread::{self, JoinHandle};
+use rgpr_steamworks::steam::Steam;
 
 fn main() {
 	let steam = match SteamBuilder::new(480).with_dev().build() {

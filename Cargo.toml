@@ -6,6 +6,10 @@ exclude = ["rgpr_steamworks_sys", ".github", ".idea", "rustfmt.toml"]
 repository.workspace = true
 rust-version = "1.84.0"
 
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
+rustc-args = ["--cfg"]
+
 [workspace]
 resolver = "2"
 members = ["rgpr_steamworks_sys"]
@@ -15,6 +19,7 @@ repository = "https://github.com/Cryotheus/rgpr_steamworks/"
 
 [features]
 default = ["steam"]
+image = ["dep:image"]
 steam = ["dep:futures"]
 sys = []
 
@@ -52,15 +57,15 @@ steam_video = ["steam"]
 steam_encrypted_app_ticket = []
 
 [dependencies]
-bitflags = { version = "2.7.0", optional = true }
+bitflags = { version = "2.9.0", optional = true }
 cfg-if = "1.0.0"
 futures = { version = "0.3.31", optional = true }
 image = { version = "0.25.5", optional = true }
-lru = { version = "0.12.5", optional = true }
+lru = { version = "0.13.0", optional = true }
 num-traits = "0.2.19"
 rgpr_steamworks_sys = { path = "rgpr_steamworks_sys" }
 static_assertions = "1.1.0"
-thiserror = "2.0.11"
+thiserror = "2.0.12"
 
 [[example]]
 name = "hello_world"
@@ -73,7 +78,7 @@ hidden = true
 [[example]]
 name = "pain"
 path = "examples/pain.rs"
-required-features = ["steam_apps", "steam_friends", "sys"]
+required-features = ["steam_apps", "steam_friends", "steam_utils", "sys"]
 
 [package.metadata.example.pain]
 hidden = true

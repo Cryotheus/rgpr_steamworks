@@ -514,16 +514,14 @@ impl CallThread {
 		}
 	}
 
-	/// Starts running the [`CallManager`] on the interval specified in [`new`].
 	/// # Panics
 	/// If the thread panicked or was shutdown.
-	///
-	/// [`new`]: Self::new
 	pub fn start(&mut self) {
 		unsafe { self.thread.assume_init_mut() }.send_command(CallThreadCommand::Start).unwrap()
 	}
 
 	/// Suspends running the [`CallManager`] causing the thread to only wait for a command.
+	/// 
 	/// # Panics
 	/// If the thread panicked or was shutdown.
 	pub fn stop(&mut self) {
@@ -601,7 +599,7 @@ impl CallThreadInner {
 					};
 				}
 			})
-			.unwrap();
+			.expect("failed to create CallManager thread");
 
 		Self { command_tx, handle }
 	}

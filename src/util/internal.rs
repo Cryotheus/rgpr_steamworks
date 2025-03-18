@@ -1,17 +1,20 @@
-//! Ah!
+//! Internal utilities for working with the Steam API.
+//! These utilities are either unsafe, or have turbulent APIs.
 
 use crate::sys;
+use cfg_if::cfg_if;
+use futures::channel::oneshot;
 use std::alloc::{alloc, alloc_zeroed, dealloc, Layout};
+use std::collections::hash_map::Entry;
+use std::collections::{HashMap, VecDeque};
 use std::ffi::{c_char, c_int, CStr, CString};
 use std::fmt::{Debug, Formatter};
-use std::intrinsics::transmute;
-use std::mem;
-use std::mem::MaybeUninit;
-use std::ops::{Deref, DerefMut};
+use std::hash::Hash;
+use std::mem::{transmute, MaybeUninit};
 use std::path::Path;
-use std::ptr::NonNull;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Mutex, MutexGuard, RwLock, RwLockReadGuard, RwLockWriteGuard};
+use std::ptr::{null, NonNull};
+
+pub const EMPTY_CSTR: &'static CStr = c"";
 
 /// Maximum path length.
 /// - `"windows"` = 260
@@ -52,22 +55,41 @@ impl<const LEN: usize> CStrArray<LEN> {
 		CString::from(self.c_str())
 	}
 
-	pub fn ptr(&mut self) -> *mut c_char {
-		self.0.as_mut_ptr()
+	/// Returns `None` if the path is not UTF-8 compliant on windows.
+	pub fn get_path(&self) -> Option<&Path> {
+		let bytes = self.c_str().to_bytes();
+
+		cfg_if! {
+			if #[cfg(target_os = "linux")] {
+				Some(<OsStr as AsRef<Path>>::as_ref(std::os::unix::ffi::OsStrExt::from_bytes(bytes)))
+			} else {
+				std::str::from_utf8(bytes).ok().map(|str| <str as AsRef<Path>>::as_ref(str))
+			}
+		}
 	}
 
+	/// Also see [`get_path`].
+	///
+	/// # Panics
+	/// On windows, if the path is not UTF-8 compliant.
+	///
+	/// [`get_path`]: Self::get_path
 	pub fn path(&self) -> &Path {
 		let bytes = self.c_str().to_bytes();
 
-		#[cfg(target_os = "linux")]
-		{
-			std::os::unix::ffi::OsStrExt::from_bytes(bytes).as_ref()
+		//linux makes things easy
+		//windows - not so much
+		cfg_if! {
+			if #[cfg(target_os = "linux")] {
+				<OsStr as AsRef<Path>>::as_ref(std::os::unix::ffi::OsStrExt::from_bytes(bytes))
+			} else {
+				std::str::from_utf8(bytes).expect("CStrArray must be UTF-8 to support &Path on windows").as_ref()
+			}
 		}
+	}
 
-		#[cfg(not(target_os = "linux"))]
-		{
-			std::str::from_utf8(bytes).unwrap().as_ref()
-		}
+	pub fn ptr(&mut self) -> *mut c_char {
+		self.0.as_mut_ptr()
 	}
 
 	pub fn to_string(mut self) -> String {
@@ -117,235 +139,73 @@ impl From<CStrArray<1024>> for sys::SteamErrMsg {
 	}
 }
 
-/// Same as [`some_string`], but panics.
-///
-/// # Panics
-/// If [`some_string`] returns `None`.
-///
-/// # Safety
-/// The pointer must point to a valid null-terminated allocation, or be null.
-pub unsafe fn expect_string(char_ptr: *const c_char) -> String {
-	some_string(char_ptr).expect("expected some C string but got none")
-}
+/// An `Option<CString>` for optional C char pointers.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct OptionalCString(Option<CString>);
 
-/// Converts a char ptr into a `String`, returning `None` if it's empty or null.
-/// If there are invalid UTF-8 codepoints, they will be replaced.
-///
-/// # Safety
-/// The pointer must point to a valid null-terminated allocation, or be null.
-#[doc(hidden)]
-#[inline(always)]
-pub unsafe fn some_string(char_ptr: *const c_char) -> Option<String> {
-	if char_ptr.is_null() || *char_ptr == c_char::default() {
-		None
-	} else {
-		Some(CStr::from_ptr(char_ptr).to_string_lossy().to_string())
+impl OptionalCString {
+	pub fn new() -> Self {
+		Self(None)
 	}
-}
 
-/// Turns a bool into `Result<(), SilentFailure>`  
-/// where `true` is `Ok(())`  
-/// and `false` is `Err(SilentFailure)`
-#[cfg(feature = "steam")]
-#[doc(hidden)]
-#[inline(always)]
-pub fn success(success: bool) -> Result<(), crate::error::UnspecifiedError> {
-	if success {
-		Ok(())
-	} else {
-		Err(crate::error::UnspecifiedError)
+	fn map(bytes: impl Into<Vec<u8>>) -> CString {
+		CString::new(bytes).expect("CString must not contain nul bytes")
 	}
-}
 
-//TODO: Futex and UnsafeCell instead of Mutex, AtomicBool, and RwLock
-/// For dealing with a specific issue in the external APIs:
-/// Some lists can be mutated during iteration causing iterators to skip items or yield duplicates.
-///
-/// A simple solution would be to hold a `Mutex<()>` or `RwLock<()>` which would then be used as a lock when calling the functions that cause this issue,
-/// but it may be undesirable if those functions' calls should nominally be allowed to overlap without deadlocking.
-/// A `ForeignLock` acts as a `RwLock<()>` with the ability to delay calls until an exclusive write lock can be made.
-///
-/// The `Q` data type should be used to store calls that must be made later.
-pub struct ForeignLock<Q> {
-	queue: Mutex<Q>,
-
-	/// Set to `true` if the `Q` is exposed,
-	/// and `false` after a flush is performed.
-	needs_flush: AtomicBool,
-
-	/// Solely to keep track of readers and writers.
-	state: RwLock<()>,
-}
-
-impl<Q> ForeignLock<Q> {
-	pub fn new(queue: Q) -> Self {
-		Self {
-			queue: Mutex::new(queue),
-			needs_flush: AtomicBool::new(false),
-			state: Default::default(),
-		}
+	pub fn as_ref(&self) -> Option<&CStr> {
+		self.0.as_ref().map(|c_string| c_string.as_ref())
 	}
-}
 
-impl<Q: ForeignLockQueue> ForeignLock<Q> {
-	/// Creates a read lock forcing writes to queue.
-	/// # Panics
-	/// If the internal `RwLock<()>` is poisoned.
-	pub fn read(&self) -> ForeignReadGuard<Q> {
-		ForeignReadGuard {
-			read_guard: MaybeUninit::new((&self, self.state.read().unwrap())),
+	pub fn fill(&mut self, bytes: impl Into<Vec<u8>>) {
+		self.0 = Some(Self::map(bytes));
+	}
+
+	pub fn fill_str(&mut self, str: impl AsRef<str>) {
+		self.fill(str.as_ref().as_bytes());
+	}
+
+	/// Use [`as_ptr`] if the C char pointer cannot be null.
+	pub fn as_nullable_ptr(&self) -> *const c_char {
+		match &self.0 {
+			None => null(),
+			Some(c_string) => c_string.as_ptr(),
 		}
 	}
 
-	/// Attempts to get a [`ForeignWriteGuardExclusive`] to call [`flush`].
-	/// Returns `true` if the queue was flushed.
+	/// Will return a raw pointer to a static empty [`CStr`] if the `OptionalCString` has not been filled.  
+	/// If a null pointer is acceptable, use [`as_nullable_ptr`] instead.
 	///
-	/// # Panics
-	/// If the internal `Mutex<Q>` or `RwLock<()>` is poisoned.
-	///
-	/// [`flush`]: ForeignWriteGuardExclusive::flush
-	pub fn try_flush(&self) -> bool {
-		if let Some(mut exclusive) = self.try_write_exclusive() {
-			exclusive.flush();
-
-			true
-		} else {
-			false
-		}
-	}
-
-	/// Attempts to get a [`ForeignWriteGuardExclusive`],
-	/// and returns a [`ForeignWriteGuardQueue`] upon failure.
-	///
-	/// # Panics
-	/// If the internal `Mutex<Q>` or `RwLock<()>` is poisoned.
-	pub fn try_write(&self) -> ForeignWriteGuard<Q> {
-		let queue = self.queue.lock().unwrap();
-
-		match self.state.try_write() {
-			Ok(write_lock) => ForeignWriteGuard::Exclusive(ForeignWriteGuardExclusive {
-				queue,
-				needs_flush: &self.needs_flush,
-				write_lock,
-			}),
-			Err(_) => {
-				self.needs_flush.store(true, Ordering::SeqCst);
-
-				ForeignWriteGuard::Queue(ForeignWriteGuardQueue { queue })
-			}
-		}
-	}
-
-	/// Attempts to gain an exclusive lock `Some(RwLockWriteGuard<()>)`,
-	/// returning `None` if unavailable.
-	///
-	/// # Panics
-	/// If the internal `Mutex<Q>` or `RwLock<()>` is poisoned.
-	pub fn try_write_exclusive(&self) -> Option<ForeignWriteGuardExclusive<Q>> {
-		let queue = self.queue.lock().unwrap();
-
-		match self.state.try_write() {
-			Ok(write_lock) => Some(ForeignWriteGuardExclusive {
-				queue,
-				needs_flush: &self.needs_flush,
-				write_lock,
-			}),
-			Err(_) => None,
+	/// [`as_nullable_ptr`]: Self::as_nullable_ptr
+	pub fn as_ptr(&self) -> *const c_char {
+		match &self.0 {
+			None => EMPTY_CSTR.as_ptr(),
+			Some(c_string) => c_string.as_ptr(),
 		}
 	}
 }
 
-impl<Q: Debug> Debug for ForeignLock<Q> {
-	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-		f.debug_struct("ForeignLock").field("queue", &self.queue).field("state", &self.state).finish()
+impl From<Option<&str>> for OptionalCString {
+	fn from(value: Option<&str>) -> Self {
+		Self(value.map(Self::map))
 	}
 }
 
-/// A guard that prevents exclusive access to the [`ForeignLock`],
-/// instructing writes to queue.
-pub struct ForeignReadGuard<'a, Q: ForeignLockQueue> {
-	read_guard: MaybeUninit<(&'a ForeignLock<Q>, RwLockReadGuard<'a, ()>)>,
-}
-
-impl<'a, Q: Debug + ForeignLockQueue> Debug for ForeignReadGuard<'a, Q> {
-	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-		f.debug_struct("ForeignReadGuard").field("read_guard", &self.read_guard).finish()
+impl From<Option<String>> for OptionalCString {
+	fn from(value: Option<String>) -> Self {
+		Self(value.map(Self::map))
 	}
 }
 
-impl<'a, Q: ForeignLockQueue> Drop for ForeignReadGuard<'a, Q> {
-	fn drop(&mut self) {
-		let (queue_lock, read_guard) = unsafe { mem::replace(&mut self.read_guard, MaybeUninit::uninit()).assume_init() };
-
-		drop(read_guard);
-
-		if queue_lock.needs_flush.load(Ordering::SeqCst) {
-			queue_lock.try_flush();
-		}
+impl From<Option<&String>> for OptionalCString {
+	fn from(value: Option<&String>) -> Self {
+		Self(value.map(|string_ref| Self::map(string_ref.as_str())))
 	}
 }
 
-/// Provides a lock on the queue if there is a [`ForeignReadGuard`],
-/// or fully exclusive access to the [`ForeignLock`].
-pub enum ForeignWriteGuard<'a, Q: ForeignLockQueue> {
-	Exclusive(ForeignWriteGuardExclusive<'a, Q>),
-	Queue(ForeignWriteGuardQueue<'a, Q>),
-}
-
-/// Exclusive lock on the data.
-/// No other locks are currently held; read, write, or queue.
-pub struct ForeignWriteGuardExclusive<'a, Q: ForeignLockQueue> {
-	queue: MutexGuard<'a, Q>,
-	needs_flush: &'a AtomicBool,
-	write_lock: RwLockWriteGuard<'a, ()>,
-}
-
-impl<'a, Q: ForeignLockQueue> ForeignWriteGuardExclusive<'a, Q> {
-	pub fn flush(&mut self) {
-		self.queue.flush_lock_queue();
-		self.needs_flush.store(false, Ordering::SeqCst);
+impl<'a, T> From<&'a Option<T>> for OptionalCString where Self: From<Option<&'a T>> {
+	fn from(value: &'a Option<T>) -> Self {
+		Self::from(value.as_ref())
 	}
-
-	pub fn queue_mut(&'a mut self) -> &'a mut MutexGuard<'a, Q> {
-		self.needs_flush.store(true, Ordering::SeqCst);
-
-		&mut self.queue
-	}
-}
-
-impl<'a, Q: ForeignLockQueue> Drop for ForeignWriteGuardExclusive<'a, Q> {
-	fn drop(&mut self) {
-		if self.needs_flush.load(Ordering::SeqCst) {
-			self.flush();
-		}
-	}
-}
-
-/// Just the queue for queuing the operation.
-pub struct ForeignWriteGuardQueue<'a, Q> {
-	queue: MutexGuard<'a, Q>,
-}
-
-impl<'a, Q> Deref for ForeignWriteGuardQueue<'a, Q> {
-	type Target = Q;
-
-	fn deref(&self) -> &Self::Target {
-		<MutexGuard<Q> as Deref>::deref(&self.queue)
-	}
-}
-
-impl<'a, Q> DerefMut for ForeignWriteGuardQueue<'a, Q> {
-	fn deref_mut(&mut self) -> &mut Self::Target {
-		<MutexGuard<Q> as DerefMut>::deref_mut(&mut self.queue)
-	}
-}
-
-/// The queue for a [`ForeignLock`].
-/// Implementers usually contain a `Vec` or some kind of flag to record queued writes.
-///
-/// `flush_lock_queue` will be called when exclusive access is gained, to perform the queued writes.
-pub trait ForeignLockQueue {
-	fn flush_lock_queue(&mut self);
 }
 
 /// A `Box<T>` without the known type `T` or [type id].
@@ -453,3 +313,157 @@ impl Drop for IncognitoBox {
 }
 
 static_assertions::assert_not_impl_all!(IncognitoBox: Send, Sync);
+
+/// For queuing asynchronous requests.
+///
+/// - `K` **Key** - what the request is for.
+/// - `R` **Request** - typically a value to check against when deciding if a request should be fulfilled.
+/// - `M` **Message** - the value to provide the requester upon completion.
+pub struct RequestQueue<K, R, M> {
+	requests: HashMap<K, VecDeque<(R, oneshot::Sender<M>)>>,
+}
+
+impl<K, R, M> RequestQueue<K, R, M> {
+	pub fn new() -> Self {
+		Self { requests: HashMap::new() }
+	}
+}
+
+impl<K: Eq + Hash, R, M> RequestQueue<K, R, M> {
+	pub fn insert(&mut self, key: K, request: R) -> oneshot::Receiver<M> {
+		let (tx, rx) = oneshot::channel::<M>();
+		let pair = (request, tx);
+
+		match self.requests.entry(key) {
+			Entry::Occupied(mut entry) => entry.get_mut().push_back(pair),
+
+			Entry::Vacant(entry) => {
+				let mut vec = VecDeque::new();
+
+				vec.push_back(pair);
+				entry.insert(vec);
+			}
+		}
+
+		rx
+	}
+
+	/// Fulfils all requests with a message.
+	pub fn fulfil_all(&mut self, key: &K, message: M)
+	where
+		M: Clone,
+	{
+		let Some(vec) = self.requests.remove(key) else {
+			return;
+		};
+
+		//send a clone of the message to all requests
+		for (_, tx) in vec {
+			let _ = tx.send(message.clone());
+		}
+	}
+
+	/// Fulfils the request if the predicate yields a message to send.
+	pub fn fulfil_if(&mut self, key: &K, mut predicate: impl FnMut(&mut R) -> Option<M>) {
+		let Some(vec) = self.requests.get_mut(key) else {
+			return;
+		};
+
+		let mut messages = Vec::<(usize, M)>::new();
+
+		//find what needs to be removed
+		for (index, (request, _)) in vec.iter_mut().enumerate().rev() {
+			if let Some(message) = predicate(request) {
+				messages.push((index, message));
+			}
+		}
+
+		//do the removals and sends
+		for (index, message) in messages {
+			let (_, tx) = vec.swap_remove_back(index).unwrap();
+			let _ = tx.send(message);
+		}
+	}
+}
+
+impl<K: Debug, R: Debug, M: Debug> Debug for RequestQueue<K, R, M> {
+	fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+		f.debug_struct("RequestQueue").field("requests", &self.requests).finish()
+	}
+}
+
+impl<K, R, M> Default for RequestQueue<K, R, M> {
+	fn default() -> Self {
+		Self::new()
+	}
+}
+
+/// Key-only [`RequestQueue`].
+pub type KoQueue<K> = RequestQueue<K, (), ()>;
+
+/// Same as [`some_string`], but allows empty strings.
+///
+/// # Panics
+/// If the pointer is null.
+///
+/// # Safety
+/// The pointer must point to a valid null-terminated allocation.
+#[inline(always)]
+pub unsafe fn checked_string(char_ptr: *const c_char) -> String {
+	assert!(!char_ptr.is_null());
+
+	if *char_ptr == 0 {
+		String::new()
+	} else {
+		CStr::from_ptr(char_ptr).to_string_lossy().to_string()
+	}
+}
+
+/// Same as [`some_string`], but panics.
+///
+/// # Panics
+/// If [`some_string`] returns `None`.
+///
+/// # Safety
+/// The pointer must point to a valid null-terminated allocation, or be null.
+#[inline(always)]
+pub unsafe fn expect_string(char_ptr: *const c_char) -> String {
+	some_string(char_ptr).expect("expected some C string but got none")
+}
+
+/// Converts a char ptr into a `String`, returning `None` if it's empty or null.
+/// If there are invalid UTF-8 codepoints, they will be replaced.
+///
+/// # Safety
+/// The pointer must point to a valid null-terminated allocation, or be null.
+#[inline(always)]
+pub unsafe fn some_string(char_ptr: *const c_char) -> Option<String> {
+	if char_ptr.is_null() || *char_ptr == 0 {
+		None
+	} else {
+		Some(CStr::from_ptr(char_ptr).to_string_lossy().to_string())
+	}
+}
+
+/// Converts `str` into [`CString`] dropping nul bytes.
+pub fn lossy_cstring(str: impl AsRef<str>) -> CString {
+	CString::new(str.as_ref().bytes().filter(|byte| *byte != 0).collect::<Vec<_>>()).unwrap()
+}
+
+/// Turns a bool into `Result<(), SilentFailure>`  
+/// where `true` is `Ok(())`  
+/// and `false` is `Err(SilentFailure)`
+#[cfg(feature = "steam")]
+#[doc(hidden)]
+#[inline(always)]
+pub fn success(success: bool) -> Result<(), crate::error::UnspecifiedError> {
+	if success {
+		Ok(())
+	} else {
+		Err(crate::error::UnspecifiedError)
+	}
+}
+
+pub fn empty_cstr_ptr() -> *const c_char {
+	EMPTY_CSTR.as_ptr()
+}

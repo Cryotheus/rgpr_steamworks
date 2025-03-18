@@ -1,11 +1,11 @@
 use crate::dt::AppId;
 use crate::error::SteamError;
-use crate::interfaces::Steam;
+use crate::steam::Steam;
 use std::time::Duration;
 
 /// Settings for the creation of a [`CallThread`].
 ///
-/// [`CallThread`]: call::CallThread
+/// [`CallThread`]: crate::call::CallThread
 #[derive(Clone, Debug)]
 pub struct CallThreadBuilder {
 	pub(crate) auto_start: bool,
@@ -30,7 +30,7 @@ impl CallThreadBuilder {
 	/// # Panics
 	/// If given zero.
 	///
-	/// [`CallManager`]: call::CallManager
+	/// [`CallManager`]: crate::call::CallManager
 	/// [`with_interval`]: Self::with_interval
 	pub fn set_frequency(&mut self, hertz: u32) -> &mut Self {
 		assert!(hertz > 0, "CallThreadBuilder::with_frequency must have hertz > 0");
@@ -49,7 +49,7 @@ impl CallThreadBuilder {
 	/// # Panics
 	/// If given zero.
 	///
-	/// [`CallManager`]: call::CallManager
+	/// [`CallManager`]: crate::call::CallManager
 	/// [`with_frequency`]: Self::with_frequency
 	pub fn set_interval(&mut self, interval: Duration) -> &mut Self {
 		assert!(!interval.is_zero(), "CallThreadBuilder::with_interval must have interval > 0");
@@ -68,7 +68,7 @@ impl CallThreadBuilder {
 	/// # Panics
 	/// If given zero.
 	///
-	/// [`CallManager`]: call::CallManager
+	/// [`CallManager`]: crate::call::CallManager
 	/// [`with_interval`]: Self::with_interval
 	pub fn with_frequency(mut self, hertz: u32) -> Self {
 		self.set_frequency(hertz);
@@ -85,7 +85,7 @@ impl CallThreadBuilder {
 	/// # Panics
 	/// If given zero.
 	///
-	/// [`CallManager`]: call::CallManager
+	/// [`CallManager`]: crate::call::CallManager
 	/// [`with_frequency`]: Self::with_frequency
 	pub fn with_interval(mut self, interval: Duration) -> Self {
 		self.set_interval(interval);
@@ -114,6 +114,8 @@ pub(crate) enum OverrideAppId {
 }
 
 /// Builder for configuring and building a [`SteamInterface`].
+/// 
+/// [`SteamInterface`]: crate::interfaces::SteamInterface
 #[derive(Clone, Debug)]
 pub struct SteamBuilder {
 	/// See [AppId].
@@ -153,7 +155,7 @@ impl SteamBuilder {
 	/// 
 	/// [Steam Overlay Requirements](https://partner.steamgames.com/doc/features/overlay#requirements)
 	pub fn build(&self) -> Result<Steam, SteamError> {
-		unsafe { Steam::init(self) }
+		unsafe { Steam::new(self) }
 	}
 
 	/// Lets Steam decide the [`AppId`].
@@ -214,8 +216,8 @@ impl SteamBuilder {
 	///
 	/// See [`CallThreadBuilder`] for use with [`set_call_thread_config`].
 	///
-	/// [`CallManager`]: call::CallManager
-	/// [`CallManager::run`]: call::CallManager::run
+	/// [`CallManager`]: crate::call::CallManager
+	/// [`CallManager::run`]: crate::call::CallManager::run
 	/// [`set_call_thread_config`]: Self::set_call_thread_config
 	pub fn remove_call_thread(&mut self) -> &mut Self {
 		self.call_thread_config = None;
@@ -227,7 +229,7 @@ impl SteamBuilder {
 	///
 	/// Use [`remove_call_thread`] if you don't want a [`CallThread`] to be created.
 	///
-	/// [`CallThread`]: call::CallThread
+	/// [`CallThread`]: crate::call::CallThread
 	/// [`remove_call_thread`]: Self::remove_call_thread
 	pub fn set_call_thread_config(&mut self, call_thread_builder: CallThreadBuilder) -> &mut Self {
 		self.call_thread_config = Some(call_thread_builder);

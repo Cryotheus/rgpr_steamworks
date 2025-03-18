@@ -1,7 +1,7 @@
-//! See [AppsInterface].
+//! See [`AppsInterface`].
 
 use crate::call::{Callback, CallbackRaw, Dispatch};
-use crate::dt::{AppId, CsvString, DepotId, IntoCIndex, SteamId};
+use crate::dt::{AppId, CsvString, DepotId, SteamId};
 use crate::error::{CallError, GeneralError, SteamError, UnspecifiedError};
 use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
 use crate::iter::{SteamApiIterator, Unreliable};
@@ -13,11 +13,15 @@ use std::ffi::{c_int, c_uint, CString};
 use std::fmt::{Display, Formatter};
 use std::iter::FusedIterator;
 use std::num::NonZeroU32;
-use std::ops::Deref;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::ptr::null_mut;
-use std::sync::Arc;
 use std::time::{Duration, SystemTime};
+
+impl AsRef<AppsInterface> for super::Interfaces {
+	fn as_ref(&self) -> &AppsInterface {
+		&self.apps
+	}
+}
 
 /// > Exposes a wide range of information and actions for applications and [Downloadable Content (DLC)].
 ///
@@ -94,13 +98,9 @@ impl AppsInterface {
 		unsafe { sys::SteamAPI_ISteamApps_GetNumBetas(*self.fip, null_mut(), null_mut()) as u32 }
 	}
 
-	/// Returns an iterator that calls [`get_beta`].
-	///
 	/// > Get details about an app beta branch like name, description and state.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetBetaInfo)
-	///
-	/// [`get_beta`]: Self::get_beta
 	pub fn beta_iter(&self) -> Unreliable<BetaIter> {
 		BetaIter { apps_interface: &self, cursor: 0 }.wrap()
 	}
@@ -255,48 +255,16 @@ impl AppsInterface {
 		future.await
 	}
 
-	/// > Get details about an app beta branch like name, description and state.
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetBetaInfo)
-	pub fn get_beta(&self, index: impl IntoCIndex) -> Option<Beta> {
-		let mut flags = 0u32;
-		let mut build_id = BuildId::default();
-		let mut name_buffer = CStrArray::<128>::new(); //size is as shown in example
-		let mut desc_buffer = CStrArray::<1024>::new(); //size is as shown in example
-
-		//GetBetaInfo returns true upon success
-		unsafe {
-			if sys::SteamAPI_ISteamApps_GetBetaInfo(
-				*self.fip,
-				index.into_c_index(),
-				&mut flags as *mut u32 as _,
-				&mut build_id as *mut BuildId as _,
-				name_buffer.ptr(),
-				name_buffer.c_len(),
-				desc_buffer.ptr(),
-				desc_buffer.c_len(),
-			) {
-				Some(Beta {
-					flags: BetaFlags::NONE,
-					build_id,
-					name: name_buffer.to_string(),
-					description: desc_buffer.to_string(),
-				})
-			} else {
-				None
-			}
-		}
-	}
-
 	/// > Gets a list of all installed depots for a given App ID in mount order.
 	///
 	/// Gets up to a maximum of `capacity` depots, the `capacity` of the vector that is allocated.
 	/// Use [`installed_depots_iter`] if you are not the maximum amount of depots.
 	/// Use [`installed_depot`] if you only want the first one.
 	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
-	///
+	/// [`installed_depot`]: Self::installed_depot
 	/// [`installed_depots_iter`]: Self::installed_depots_iter
+	/// 
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
 	pub fn get_installed_depots(&self, app_id: impl Into<AppId>, capacity: usize) -> Vec<DepotId> {
 		//SAFETY: DepotId is the same size as its sys counterpart as checked in the dt::test module
 		let mut vec: Vec<DepotId> = Vec::with_capacity(capacity);
@@ -314,15 +282,29 @@ impl AppsInterface {
 	/// This works even if the application is not installed,
 	/// based on where the game would be installed with the default Steam library location.
 	///
+	/// On non-linux targets, this may return `None` if the install directory cannot be converted to valid UTF-8.
+	/// See [`install_dir_bytes`] for an infallible version.
+	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetAppInstallDir)
-	pub fn install_dir(&self, app_id: impl Into<AppId>) -> PathBuf {
+	///
+	/// [`install_dir_bytes`]: Self::install_dir_bytes
+	pub fn get_install_dir(&self, app_id: impl Into<AppId>) -> Option<PathBuf> {
 		let mut buf = CStrArrayPath::new();
 
-		unsafe {
-			sys::SteamAPI_ISteamApps_GetAppInstallDir(*self.fip, app_id.into().0, buf.ptr(), MAX_PATH as u32);
+		unsafe { sys::SteamAPI_ISteamApps_GetAppInstallDir(*self.fip, app_id.into().0, buf.ptr(), MAX_PATH as u32) };
 
-			PathBuf::from(buf.path())
-		}
+		buf.get_path().map(Path::to_owned)
+	}
+
+	/// Infallible version of [`get_install_dir`].
+	///
+	/// [`get_install_dir`]: Self::get_install_dir
+	pub fn install_dir_bytes(&self, app_id: impl Into<AppId>) -> Vec<u8> {
+		let mut buf = CStrArrayPath::new();
+
+		unsafe { sys::SteamAPI_ISteamApps_GetAppInstallDir(*self.fip, app_id.into().0, buf.ptr(), MAX_PATH as u32) };
+
+		Vec::from(buf.c_str().to_bytes())
 	}
 
 	/// > Allows you to install an optional DLC.
@@ -354,7 +336,8 @@ impl AppsInterface {
 		}
 	}
 
-	/// Creates an iterator that makes
+	/// Creates an iterator that dynamically requests batches of the installed depot IDs.
+	/// Although this is marked as [`Unreliable`], it is extremely unlikely to suffer from race conditions.
 	///
 	/// > Gets a list of all installed depots for a given App ID in mount order.
 	///
@@ -449,7 +432,7 @@ impl AppsInterface {
 	/// > Checks if the active user is subscribed to the current App ID.
 	///
 	/// For checking if the account is subscribed to other apps,
-	/// use [`subscribed_to`](Self::is_subscribed_to).
+	/// use [`subscribed_to`](Self::subscribed_to).
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#BIsSubscribed)
 	pub fn subscribed(&self) -> bool {
@@ -618,10 +601,6 @@ unsafe impl<'a> SteamApiIterator for BetaIter<'a> {
 	type Item = Beta;
 	type Index = c_int;
 
-	unsafe fn steam_api_setup(&self, _: Private) {
-		sys::SteamAPI_ISteamApps_GetNumBetas(*self.apps_interface.fip, null_mut(), null_mut());
-	}
-
 	fn steam_api_cursor(&mut self, _: Private) -> &mut Self::Index {
 		&mut self.cursor
 	}
@@ -654,6 +633,10 @@ unsafe impl<'a> SteamApiIterator for BetaIter<'a> {
 		} else {
 			None
 		}
+	}
+
+	unsafe fn steam_api_setup(&self, _: Private) {
+		sys::SteamAPI_ISteamApps_GetNumBetas(*self.apps_interface.fip, null_mut(), null_mut());
 	}
 }
 
@@ -878,10 +861,6 @@ unsafe impl<'a> SteamApiIterator for DlcIter<'a> {
 	type Item = Dlc;
 	type Index = c_int;
 
-	unsafe fn steam_api_setup(&self, _: Private) {
-		sys::SteamAPI_ISteamApps_GetDLCCount(*self.apps_interface.fip);
-	}
-
 	fn steam_api_cursor(&mut self, _: Private) -> &mut Self::Index {
 		&mut self.cursor
 	}
@@ -912,6 +891,10 @@ unsafe impl<'a> SteamApiIterator for DlcIter<'a> {
 		} else {
 			None
 		}
+	}
+
+	unsafe fn steam_api_setup(&self, _: Private) {
+		sys::SteamAPI_ISteamApps_GetDLCCount(*self.apps_interface.fip);
 	}
 }
 
@@ -947,10 +930,10 @@ pub struct NewLaunchQueryParameters {
 unsafe impl CallbackRaw for NewLaunchQueryParameters {
 	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
 	type CType = sys::NewUrlLaunchParameters_t;
-	type Output = Arc<AppsInterface>;
+	type Output = SteamChild;
 
 	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
-		Arc::clone(&self.steam.get().interfaces.apps)
+		self.steam.clone()
 	}
 
 	fn register(steam: &SteamInterface) -> Self {
@@ -962,7 +945,7 @@ impl Callback for NewLaunchQueryParameters {
 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
 
 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
-		listener_fn(params.deref());
+		listener_fn(&params.get().interfaces.apps);
 	}
 }
 
@@ -982,10 +965,10 @@ pub struct NewUrlLaunchParameters {
 unsafe impl CallbackRaw for NewUrlLaunchParameters {
 	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
 	type CType = sys::NewUrlLaunchParameters_t;
-	type Output = Arc<AppsInterface>;
+	type Output = SteamChild;
 
 	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
-		Arc::clone(&self.steam.get().interfaces.apps)
+		self.steam.clone()
 	}
 
 	fn register(steam: &SteamInterface) -> Self {
@@ -997,11 +980,11 @@ impl Callback for NewUrlLaunchParameters {
 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
 
 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
-		listener_fn(params.deref());
+		listener_fn(&params.get().interfaces.apps);
 	}
 }
 
-/// Provided by [`AppsInterface::is_timed_trial`].
+/// Provided by [`AppsInterface::timed_trial`].
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct TimedTrial {
 	pub secs_allowed: u32,

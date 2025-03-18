@@ -5,6 +5,12 @@ use std::ffi::NulError;
 use std::fmt::{Debug, Display, Formatter};
 use std::num::TryFromIntError;
 
+//TODO: clean this mess up
+//1. we should not have error types that are specific to a single module/interface
+//2. SteamError is too general - errors should not have variants that go unused by any of their emitters
+//3. CallFutureError should probably be moved to call.rs
+
+/// Error emitted by asynchronous calls through the Steam API.
 #[derive(Debug, Eq, PartialEq, Hash, thiserror::Error)]
 pub enum CallError<E: Debug + StdError> {
 	/// Steamworks call failed.
@@ -16,7 +22,7 @@ pub enum CallError<E: Debug + StdError> {
 	Shutdown,
 
 	/// Error from the dispatcher's implementation.
-	#[error("Dispatch-specific error {0:?}")]
+	#[error("dispatch-specific error {0:?}")]
 	Specific(E),
 }
 
@@ -44,7 +50,7 @@ impl<E: Debug + StdError> From<CallFutureError> for CallError<E> {
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash, thiserror::Error)]
-pub enum CallFutureError {
+pub(crate) enum CallFutureError {
 	/// Steamworks call failed.
 	#[error("SteamAPI gave failure flag from callback")]
 	Failed,
@@ -179,16 +185,14 @@ pub enum SteamError {
 	#[error("interface to the Steam API already exsists, use Steam::get instead")]
 	AlreadyExists,
 
-	#[error("locations for data were not filled")]
-	DataUnfulfilled,
-
 	#[error("general error: {0:?}")]
 	General(#[from] GeneralError),
 
 	#[error("Steam API initialization error {0:?}: \"{1}\"")]
 	SteamInit(InitErrorEnum, String),
 
-	#[error("string conversion error, string must not contain nulls")]
+	/// Variant for [`NulError`].
+	#[error("string conversion error, string must not contain nuls (0 byte)")]
 	StrNulError(#[from] NulError),
 
 	/// Failed to init steamworks as the executable was not started through steam,
@@ -197,6 +201,7 @@ pub enum SteamError {
 	#[error("restarting through steam")]
 	RestartingThroughSteam,
 
+	/// Variant for [`UnspecifiedError`].
 	#[error("failed, no error message from the Steam API is available")]
 	Unspecified,
 }
@@ -204,18 +209,6 @@ pub enum SteamError {
 impl SteamError {
 	pub(crate) fn steam_init(init_result: sys::ESteamAPIInitResult, message: CStrArray<1024>) -> Option<Self> {
 		Some(Self::SteamInit(InitErrorEnum::new(init_result)?, message.to_string()))
-	}
-}
-
-#[cfg(feature = "steam_encrypted_app_ticket")]
-impl From<crate::encrypted_app_ticket::DecryptionError> for SteamError {
-	fn from(value: crate::encrypted_app_ticket::DecryptionError) -> Self {
-		use crate::encrypted_app_ticket::DecryptionError;
-
-		match value {
-			DecryptionError::DataUnfulfilled => Self::DataUnfulfilled,
-			DecryptionError::SilentFailure => Self::Unspecified,
-		}
 	}
 }
 

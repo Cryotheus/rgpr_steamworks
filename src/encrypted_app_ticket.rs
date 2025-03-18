@@ -1,7 +1,10 @@
 //! Utilities for verifying a user's identity
-//! See [DecryptedAppTicket].
+//! See [`DecryptedAppTicket`].
 //!
-//! This does not require [`Steam`].
+//! The app ticketing system is entirely independent from the rest of the Steam API.  
+//! No IPCs are ever made in this module, and even Steam itself isn't even necessary.
+//! 
+//! This module does however, require the associated `sdkencryptedappticket` dylib.
 
 use crate::dt::{AppId, SteamId};
 use crate::sys;
@@ -11,9 +14,9 @@ use std::time::{Duration, SystemTime};
 /// Expect a lack of documentation, as Steamworks lacks documentation for half of this API.  
 /// You can create a decrypted ticket with the bytes of an encrypted one using [`DecryptedAppTicket::new`].
 ///
-/// https://partner.steamgames.com/doc/features/auth#encryptedapptickets
-///
 /// [`DecryptedAppTicket::new`]: DecryptedAppTicket::new
+/// 
+/// [Steamworks Docs](https://partner.steamgames.com/doc/features/auth#encryptedapptickets)
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[repr(transparent)]
 pub struct DecryptedAppTicket(Vec<u8>);
@@ -67,7 +70,7 @@ impl DecryptedAppTicket {
 					Ok(Self(buffer))
 				}
 			} else {
-				Err(DecryptionError::SilentFailure)
+				Err(DecryptionError::Unspecified)
 			}
 		}
 	}
@@ -83,27 +86,31 @@ impl DecryptedAppTicket {
 		}
 	}
 
-	/// https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketAppID
+	/// > Gets the App ID associated with a ticket.
+	/// 
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketAppID)
 	pub fn app_id(&self) -> AppId {
 		unsafe { sys::SteamEncryptedAppTicket_GetTicketAppID(self.ptr(), self.cub()).into() }
 	}
 
 	/// The bytes decrypted.
-	/// It is typically better to use the built-in methods instead.
+	/// It is typically better to use the built-in methods instead of parsing the raw bytes.
 	pub fn as_slice(&self) -> &[u8] {
 		self.0.as_slice()
 	}
 
-	/// https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketIssueTime
+	/// > Gets the time that a ticket was issued.
+	/// 
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketIssueTime)
 	pub fn issue_time(&self) -> SystemTime {
-		unsafe {
-			let unix_time = sys::SteamEncryptedAppTicket_GetTicketIssueTime(self.ptr(), self.cub());
+		let unix_time = unsafe { sys::SteamEncryptedAppTicket_GetTicketIssueTime(self.ptr(), self.cub()) };
 
-			SystemTime::UNIX_EPOCH + Duration::from_secs(unix_time as u64)
-		}
+		SystemTime::UNIX_EPOCH + Duration::from_secs(unix_time as u64)
 	}
 
-	/// https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BIsTicketForApp
+	/// > Verifies that a decrypted app ticket is for the expected application.
+	/// 
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BIsTicketForApp)
 	pub fn is_for_app(&self, app_id: impl Into<AppId>) -> bool {
 		unsafe { sys::SteamEncryptedAppTicket_BIsTicketForApp(self.ptr(), self.cub(), app_id.into().0) }
 	}
@@ -124,7 +131,9 @@ impl DecryptedAppTicket {
 		unsafe { sys::SteamEncryptedAppTicket_BIsTicketSigned(self.ptr(), self.cub(), rsa_key.as_ptr(), rsa_key.len() as u32) }
 	}
 
-	/// https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketSteamID
+	/// > Gets the Steam ID associated with a ticket.
+	/// 
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#GetTicketSteamID)
 	pub fn steam_id(&self) -> SteamId {
 		unsafe {
 			let mut c_steam_id: sys::CSteamID = std::mem::zeroed();
@@ -135,12 +144,12 @@ impl DecryptedAppTicket {
 		}
 	}
 
-	/// https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BUserOwnsAppInTicket
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BUserOwnsAppInTicket)
 	pub fn user_owns_app_in_ticket(&self, app_id: impl Into<AppId>) -> bool {
 		unsafe { sys::SteamEncryptedAppTicket_BUserOwnsAppInTicket(self.ptr(), self.cub(), app_id.into().0) }
 	}
 
-	/// https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BUserIsVacBanned
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/SteamEncryptedAppTicket#BUserIsVacBanned)
 	pub fn vac_banned(&self) -> bool {
 		unsafe { sys::SteamEncryptedAppTicket_BUserIsVacBanned(self.ptr(), self.cub()) }
 	}
@@ -160,7 +169,7 @@ impl DecryptedAppTicket {
 	/// No documentation for this function is currently available on the Steamworks reference.
 	#[cfg(feature = "sys")]
 	pub unsafe fn get_user_variable_data(&self, ptr: *mut std::ffi::c_uint) -> *const c_uchar {
-		//TODO: figure this out
+		//TODO: figure out a good way to make this rusty
 		sys::SteamEncryptedAppTicket_GetUserVariableData(self.ptr(), self.cub(), ptr)
 	}
 }
@@ -177,11 +186,12 @@ impl From<DecryptedAppTicket> for Vec<u8> {
 	}
 }
 
+/// The error type used in the return of [`DecryptedAppTicket::new`].
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, thiserror::Error)]
 pub enum DecryptionError {
 	#[error("locations for data were not filled")]
 	DataUnfulfilled,
 
 	#[error("failed, no error message from the SteamEncryptedAppTicket API is available")]
-	SilentFailure,
+	Unspecified,
 }
