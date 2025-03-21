@@ -1,7 +1,7 @@
 //! Internal utilities for working with the Steam API.
 //! These utilities are either unsafe, or have turbulent APIs.
 
-use crate::sys;
+use crate::{sys, Private};
 use cfg_if::cfg_if;
 use futures::channel::oneshot;
 use std::alloc::{alloc, alloc_zeroed, dealloc, Layout};
@@ -10,9 +10,12 @@ use std::collections::{HashMap, VecDeque};
 use std::ffi::{c_char, c_int, CStr, CString};
 use std::fmt::{Debug, Formatter};
 use std::hash::Hash;
+use std::mem;
 use std::mem::{transmute, MaybeUninit};
 use std::path::Path;
 use std::ptr::{null, NonNull};
+use std::thread::panicking;
+use crate::interfaces::SteamInterface;
 
 pub const EMPTY_CSTR: &'static CStr = c"";
 
@@ -202,7 +205,10 @@ impl From<Option<&String>> for OptionalCString {
 	}
 }
 
-impl<'a, T> From<&'a Option<T>> for OptionalCString where Self: From<Option<&'a T>> {
+impl<'a, T> From<&'a Option<T>> for OptionalCString
+where
+	Self: From<Option<&'a T>>,
+{
 	fn from(value: &'a Option<T>) -> Self {
 		Self::from(value.as_ref())
 	}
@@ -210,24 +216,29 @@ impl<'a, T> From<&'a Option<T>> for OptionalCString where Self: From<Option<&'a 
 
 /// A `Box<T>` without the known type `T` or [type id].
 /// Destructors will never be called for the contained data.
+/// Will panic if
 ///
 /// [type id]: std::any::TypeId
 #[derive(Debug)]
-pub struct IncognitoBox {
+pub struct IncognitoBox<const DROP_SAFE: bool> {
 	layout: Layout,
 	pointer: NonNull<u8>,
 }
 
-impl IncognitoBox {
+impl<const DROP_SAFE: bool> IncognitoBox<DROP_SAFE> {
 	/// # Safety
 	/// `T` must not implement or contain any deconstructors.
+	/// If `mem::needs_drop::<T>()` returns `true`, this function will typically panic.
+	/// Set `ignore_needs_drop` to bypass the assertion.
 	///
 	/// # Panics
 	/// If the layout of `T` has a size of zero.
-	pub unsafe fn new<T>(x: T) -> Self {
+	/// If the `mem::needs_drop::<T>` and `ignore_needs_drop` is `true`.
+	pub fn new<T>(x: T) -> Self {
 		let layout = Layout::new::<T>();
 
 		assert_ne!(layout.size(), 0, "given layout with zero-size");
+		Self::assert_drop::<T>();
 
 		let pointer = NonNull::new(unsafe { alloc(layout) }).expect("failed to alloc");
 
@@ -235,6 +246,12 @@ impl IncognitoBox {
 		unsafe { (pointer.as_ptr() as *mut T).write(x) };
 
 		Self { layout, pointer }
+	}
+
+	fn assert_drop<T>() {
+		if DROP_SAFE {
+			assert!(!mem::needs_drop::<T>(), "T does not have a trivial drop");
+		}
 	}
 
 	#[must_use]
@@ -250,7 +267,9 @@ impl IncognitoBox {
 	/// If the layout of `T` has a size of zero.
 	///
 	/// [`new`]: Self::new
-	pub unsafe fn from_box<T: Sized>(boxxed: Box<T>) -> Self {
+	pub unsafe fn from_box<T: Sized, const ASSERT_DROP: bool>(boxxed: Box<T>) -> Self {
+		Self::assert_drop::<T>();
+
 		Self {
 			layout: Layout::new::<T>(),
 			pointer: NonNull::new(Box::into_raw(boxxed) as *mut u8).unwrap(),
@@ -306,13 +325,26 @@ impl IncognitoBox {
 	}
 }
 
-impl Drop for IncognitoBox {
+// IncognitoBox shoudn't be dropped - it should be used
+impl<const DROP_SAFE: bool> Drop for IncognitoBox<DROP_SAFE> {
 	fn drop(&mut self) {
-		unsafe { dealloc(self.pointer.as_ptr(), self.layout) };
+		//specialized impl is not allowed for Drop - too bad!
+		if DROP_SAFE {
+			unsafe { dealloc(self.pointer.as_ptr(), self.layout) };
+		} else {
+			//dropping data that is not drop safe is unacceptable
+			//their destructors must be called
+			if panicking() {
+				std::process::abort();
+			} else {
+				panic!("");
+			}
+		}
 	}
 }
 
-static_assertions::assert_not_impl_all!(IncognitoBox: Send, Sync);
+static_assertions::assert_not_impl_all!(IncognitoBox<true>: Send, Sync);
+static_assertions::assert_not_impl_all!(IncognitoBox<false>: Send, Sync);
 
 /// For queuing asynchronous requests.
 ///

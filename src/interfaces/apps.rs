@@ -820,7 +820,7 @@ impl DlcDownloadProgress {
 ///
 /// > Triggered after the current user gains ownership of DLC and that DLC is installed.
 ///
-/// Use [AppsInterface::install_dlc] to trigger.
+/// Use [`AppsInterface::install_dlc`] to trigger.
 ///
 /// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#DlcInstalled_t)
 #[derive(Debug)]
@@ -835,7 +835,7 @@ unsafe impl CallbackRaw for DlcInstalled {
 		c_data.m_nAppID.into()
 	}
 
-	fn register(_steam: &SteamInterface) -> Self {
+	fn register(_steam: &SteamInterface, _: Private) -> Self {
 		Self
 	}
 }
@@ -843,7 +843,7 @@ unsafe impl CallbackRaw for DlcInstalled {
 impl Callback for DlcInstalled {
 	type Fn = dyn FnMut(AppId) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(params)
 	}
 }
@@ -936,7 +936,7 @@ unsafe impl CallbackRaw for NewLaunchQueryParameters {
 		self.steam.clone()
 	}
 
-	fn register(steam: &SteamInterface) -> Self {
+	fn register(steam: &SteamInterface, _: Private) -> Self {
 		Self { steam: steam.child() }
 	}
 }
@@ -944,11 +944,13 @@ unsafe impl CallbackRaw for NewLaunchQueryParameters {
 impl Callback for NewLaunchQueryParameters {
 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(&params.get().interfaces.apps);
 	}
 }
 
+/// Steam API callback.
+/// 
 /// > Posted after the user executes a steam url with command line or query parameters such as
 /// `steam://run/<appid>//?param1=value1;param2=value2;param3=value3;`
 /// while the game is already running.
@@ -971,7 +973,7 @@ unsafe impl CallbackRaw for NewUrlLaunchParameters {
 		self.steam.clone()
 	}
 
-	fn register(steam: &SteamInterface) -> Self {
+	fn register(steam: &SteamInterface, _: Private) -> Self {
 		Self { steam: steam.child() }
 	}
 }
@@ -979,7 +981,7 @@ unsafe impl CallbackRaw for NewUrlLaunchParameters {
 impl Callback for NewUrlLaunchParameters {
 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(&params.get().interfaces.apps);
 	}
 }
@@ -1015,7 +1017,7 @@ impl TimedTrial {
 
 /// Steam API callback.
 ///
-/// ```rs
+/// ```
 /// # use rgpr_steamworks::{dt::AppId, interfaces::apps::TimedTrial};
 /// fn listener(app_id: AppId, offline: bool, trial: TimedTrial) { }
 /// ```
@@ -1042,7 +1044,7 @@ unsafe impl CallbackRaw for TimedTrialStatus {
 		)
 	}
 
-	fn register(_steam: &SteamInterface) -> Self {
+	fn register(_steam: &SteamInterface, _: Private) -> Self {
 		Self
 	}
 }
@@ -1050,7 +1052,7 @@ unsafe impl CallbackRaw for TimedTrialStatus {
 impl Callback for TimedTrialStatus {
 	type Fn = dyn FnMut(AppId, bool, TimedTrial) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(params.0, params.1, params.2);
 	}
 }

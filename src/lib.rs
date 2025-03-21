@@ -12,6 +12,9 @@
 //! [Steamworks Documentation]: https://partner.steamgames.com/doc/sdk
 //! [`rgpr_steamworks_sys`]: https://crates.io/crates/rgpr_steamworks_sys
 
+// SAFETY: we do not Pin anything that interacts with Unsize
+#![feature(unsize)]
+
 // we do this a lot
 #![allow(private_interfaces)]
 
@@ -23,6 +26,7 @@ use cfg_if::cfg_if;
 pub mod dt;
 pub mod error;
 pub mod iter;
+pub mod prelude;
 pub mod util;
 
 #[cfg(feature = "steam_encrypted_app_ticket")]

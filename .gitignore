@@ -5,6 +5,9 @@ Cargo.lock
 /.idea
 /.vscode
 
+!/.idea/rgpr_steamworks.iml
+
 # retired stuff
 /rgpr_steamworks_sys/*.sh
 *.old
+

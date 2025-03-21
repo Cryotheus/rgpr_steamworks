@@ -326,6 +326,10 @@ impl SteamChild {
 		Steam(self.0.upgrade().unwrap())
 	}
 
+	pub(crate) fn try_get(&self) -> Option<Steam> {
+		self.0.upgrade().map(|arc| Steam(arc))
+	}
+	
 	/// Sets the internal reference to an invalid one,
 	/// allowing the reference counter to fully drop.
 	pub(crate) fn kill(&mut self) {

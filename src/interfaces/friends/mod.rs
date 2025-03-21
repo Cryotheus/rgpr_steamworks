@@ -130,7 +130,7 @@ impl FriendsInterface {
 	/// such as its [`name`] and [`members`].
 	///
 	/// Use [`category_iter`] to get a list of all the current user's created [`CategoryId`]s.
-	/// 
+	///
 	/// [`category_iter`]: Self::category_iter
 	/// [`name`]: Category::name
 	/// [`members`]: Category::members
@@ -390,7 +390,7 @@ impl FriendsInterface {
 	/// If `connect_string` is `Some` and contains a nul character.
 	///
 	/// [`GameRichPresenceJoinRequested`]: rich_presence::GameRichPresenceJoinRequested
-	/// 
+	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#InviteUserToGame)
 	pub fn invite_user_to_game(&self, steam_id: impl Into<SteamId>, connect_string: Option<impl FiniteStr<{ rich_presence::VALUE_MAX }>>) {
 		if let Some(connect_string) = connect_string {
@@ -658,8 +658,8 @@ impl Interface for FriendsInterface {
 	fn initialize(steam: &SteamInterface) {
 		let mut call_manager = steam.call_manager_lock();
 
-		//needed for resuest_user_info
-		call_manager.register_pub::<PersonaStateChange>();
+		call_manager.register_pub::<AvatarImageLoaded>(); //needed for request_large_avatar
+		call_manager.register_pub::<PersonaStateChange>(); //needed for resuest_user_info
 	}
 
 	unsafe fn raw_interface() -> *mut Self::CInterface {
@@ -838,15 +838,17 @@ unsafe impl CallbackRaw for AvatarImageLoaded {
 		tuple
 	}
 
-	fn register(steam: &SteamInterface) -> Self {
+	fn register(steam: &SteamInterface, _: Private) -> Self {
 		Self { steam: steam.child() }
 	}
 }
 
 impl Callback for AvatarImageLoaded {
+	const KEEP_REGISTERED: bool = true;
+
 	type Fn = dyn FnMut(SteamId, ImageHandle, u32, u32) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(params.0, params.1, params.2, params.3)
 	}
 }
@@ -1381,7 +1383,7 @@ unsafe impl CallbackRaw for EquippedProfileItemsChanged {
 		SteamId::from(c_data.m_steamID)
 	}
 
-	fn register(_steam: &SteamInterface) -> Self {
+	fn register(_steam: &SteamInterface, _: Private) -> Self {
 		Self
 	}
 }
@@ -1389,7 +1391,7 @@ unsafe impl CallbackRaw for EquippedProfileItemsChanged {
 impl Callback for EquippedProfileItemsChanged {
 	type Fn = dyn FnMut(SteamId) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(params)
 	}
 }
@@ -1629,7 +1631,7 @@ unsafe impl CallbackRaw for GameLobbyJoinRequested {
 		(LobbyId::from(c_data.m_steamIDLobby), SteamId::from(c_data.m_steamIDFriend))
 	}
 
-	fn register(_steam: &SteamInterface) -> Self {
+	fn register(_steam: &SteamInterface, _: Private) -> Self {
 		Self
 	}
 }
@@ -1637,7 +1639,7 @@ unsafe impl CallbackRaw for GameLobbyJoinRequested {
 impl Callback for GameLobbyJoinRequested {
 	type Fn = dyn FnMut(LobbyId, SteamId) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(params.0, params.1);
 	}
 }
@@ -1791,7 +1793,7 @@ impl From<sys::EPersonaState> for PersonaState {
 	}
 }
 
-/// Callback.
+/// Steam API callback.
 ///
 /// > Called whenever a friends' status changes.
 ///
@@ -1829,7 +1831,7 @@ unsafe impl CallbackRaw for PersonaStateChange {
 		(steam_id, change)
 	}
 
-	fn register(steam: &SteamInterface) -> Self {
+	fn register(steam: &SteamInterface, _: Private) -> Self {
 		Self { steam: steam.child() }
 	}
 }
@@ -1839,7 +1841,7 @@ impl Callback for PersonaStateChange {
 
 	type Fn = dyn FnMut(SteamId, PersonaChange) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(params.0, params.1);
 	}
 }

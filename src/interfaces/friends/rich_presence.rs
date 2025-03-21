@@ -38,7 +38,7 @@ unsafe impl CallbackRaw for GameRichPresenceJoinRequested {
 		(SteamId::from(c_data.m_steamIDFriend), checked_string(c_data.m_rgchConnect.as_ptr()))
 	}
 
-	fn register(_steam: &SteamInterface) -> Self {
+	fn register(_steam: &SteamInterface, _: Private) -> Self {
 		Self
 	}
 }
@@ -46,7 +46,7 @@ unsafe impl CallbackRaw for GameRichPresenceJoinRequested {
 impl Callback for GameRichPresenceJoinRequested {
 	type Fn = dyn FnMut(SteamId, String) + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output) {
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
 		listener_fn(params.0, params.1);
 	}
 }

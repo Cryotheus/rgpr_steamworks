@@ -1,3 +1,23 @@
+//! Make calls to the Steam API or react to emitted callbacks.
+//!
+//! All Steam API callbacks are offered in one of three ways:
+//! 1. Handled entirely by this crate, available as a async function.  
+//!     This is used for callbacks which behave like a Steam API call result.
+//! 2. Provided as a public type, implementing [`Callback`].  
+//!     Use [`CallManager::listen`]
+//! 
+//! Your Steam app should use this module to do both
+//! [callback listening](#callback-listening) and [callback handling](#callback-handling).
+//! 
+//! # Callback Listening
+//! 
+//! TODO!
+//! 
+//! # Callback Handling
+//!
+//! TODO!
+//!
+
 use crate::error::{CallError, CallFutureError};
 use crate::interfaces::{SteamChild, SteamInterface};
 use crate::util::IncognitoBox;
@@ -5,21 +25,143 @@ use crate::{sys, Private};
 use futures::task::AtomicWaker;
 use std::alloc::Layout;
 use std::any::{type_name, Any, TypeId};
+use std::cell::RefCell;
 use std::collections::HashMap;
 use std::ffi::{c_int, c_void};
 use std::fmt::{Debug, Display, Formatter};
 use std::io::{stdout, Write};
+use std::marker::Unsize;
 use std::mem::{replace, zeroed, MaybeUninit};
 use std::ops::{Deref, DerefMut};
 use std::pin::Pin;
 use std::slice;
 use std::sync::mpsc::{channel, RecvError, SendError, Sender, TryRecvError};
-use std::sync::{Arc, Mutex};
+use std::sync::{mpsc, Arc, Mutex};
 use std::task::{Context, Poll, Waker};
-use std::thread::{self, JoinHandle};
+use std::thread::{self, JoinHandle, LocalKey};
 use std::time::{Duration, Instant};
 
+//ReleaseCurrentThreadMemory
+const CALL_THREAD_NAME: &'static str = "rgpr_steamworks_call_thread";
+
 type AnySend = dyn Any + Send + Sync;
+
+/// Simple garbage collection.
+/// Does nothing if this thread thread is the [`CallThread`].
+#[derive(Debug)]
+pub(crate) struct ApiThreadGc(Option<ApiThreadGcInner>);
+
+impl ApiThreadGc {
+	/// Creates a new `ApiThreadGc`.
+	/// Use [`get`] instead.
+	///
+	/// [`get`]: Self::get
+	fn new() -> Self {
+		if std::thread::current().name() == Some(CALL_THREAD_NAME) {
+			Self(None)
+		} else {
+			Self(Some(ApiThreadGcInner::new()))
+		}
+	}
+
+	/// Gets the thread-local instance of `ApiThreadGc`,
+	/// or creates one if none exist.
+	fn get() -> &'static LocalKey<RefCell<Self>> {
+		thread_local! {
+			static GC: RefCell<ApiThreadGc> = RefCell::new(ApiThreadGc::new());
+		}
+
+		&GC
+	}
+
+	fn exec<T>(function: impl Fn(&mut ApiThreadGcInner) -> T) -> T {
+		let mut out: Option<T> = None;
+
+		Self::get().with_borrow_mut(|instance| {
+			let Some(inner) = &mut instance.0 else {
+				return;
+			};
+
+			out = Some(function(inner));
+		});
+
+		out.unwrap()
+	}
+
+	/// Call whenever there is a good moment to run GC.
+	/// This will only run GC if there has been enough usage to warrant doing so.
+	pub(crate) fn check() -> bool {
+		Self::exec(ApiThreadGcInner::check)
+	}
+
+	pub(crate) fn report() {
+		Self::exec(ApiThreadGcInner::report)
+	}
+
+	pub(crate) fn should_gc() -> bool {
+		Self::exec(|mut_ref| ApiThreadGcInner::should_gc(mut_ref as &_))
+	}
+}
+
+///
+#[derive(Debug)]
+struct ApiThreadGcInner {
+	first_report: Option<Instant>,
+	api_call_count: u32,
+}
+
+impl ApiThreadGcInner {
+	/// Run every 16 hertz.
+	const MAX_DELAY: Duration = Duration::new(0, 62_500_000);
+
+	/// Maximum report count before GC should be attempted before the delay.
+	const MAX_REPORTS: u32 = 120;
+
+	const fn new() -> Self {
+		Self {
+			first_report: None,
+			api_call_count: 0,
+		}
+	}
+
+	fn check(&mut self) -> bool {
+		if !self.should_gc() {
+			return false;
+		}
+
+		unsafe { sys::SteamAPI_ReleaseCurrentThreadMemory() };
+		self.reset();
+
+		true
+	}
+
+	fn reset(&mut self) {
+		self.api_call_count = 0;
+		self.first_report = None;
+	}
+
+	fn report(&mut self) {
+		self.api_call_count = self.api_call_count.saturating_add(1);
+
+		if self.first_report.is_none() {
+			self.first_report = Some(Instant::now());
+		}
+	}
+
+	fn should_gc(&self) -> bool {
+		if self.api_call_count > Self::MAX_REPORTS {
+			return true;
+		}
+
+		let Some(last_release) = self.first_report else {
+			return false;
+		};
+
+		let time_since = Instant::now().duration_since(last_release);
+
+		time_since > Self::MAX_DELAY
+	}
+}
 
 /// Result of a call to the Steam API.
 /// Upon storing the `Ok(IncognitoBox)`, the following is guaranteed:
@@ -33,10 +175,11 @@ type AnySend = dyn Any + Send + Sync;
 #[doc(hidden)]
 #[derive(Debug)]
 #[repr(transparent)]
-struct CallResult(Result<IncognitoBox, CallFutureError>);
+struct CallResult(Result<IncognitoBox<true>, CallFutureError>);
 
 /// SAFETY: See guarantees for Ok variant above.
 unsafe impl Send for CallResult {}
+
 unsafe impl Sync for CallResult {}
 
 /// Performs callback-specific tasks and optionally calls listeners.
@@ -67,7 +210,7 @@ impl CallbackHandler {
 
 	fn new_raw<C: CallbackRaw>(steam: &SteamInterface) -> Self {
 		Self {
-			callback_impl: Box::from(C::register(steam)),
+			callback_impl: Box::from(C::register(steam, Private)),
 			on_callback_fn: Box::new(|any_send, void_ptr, _| {
 				let callback = any_send.downcast_mut::<C>().unwrap();
 				let c_data = unsafe { &*(void_ptr as *const C::CType) };
@@ -85,7 +228,7 @@ impl CallbackHandler {
 		<C as CallbackRaw>::Output: Clone,
 	{
 		Self {
-			callback_impl: Box::from(C::register(steam)),
+			callback_impl: Box::from(C::register(steam, Private)),
 			on_callback_fn: Box::new(|any_send, void_ptr, listeners| {
 				let callback = any_send.downcast_mut::<C>().unwrap(); //unwrap panicked
 				let c_data = unsafe { &*(void_ptr as *const C::CType) };
@@ -94,7 +237,7 @@ impl CallbackHandler {
 					let output = callback.on_callback(c_data, Private);
 					let listeners = listeners.unwrap().values_mut().map(|any| any.downcast_mut::<Box<C::Fn>>().unwrap().as_mut());
 
-					callback.call_listeners(listeners, &output);
+					callback.call_listeners(listeners, &output, Private);
 				}
 			}),
 			listeners: Some(HashMap::new()),
@@ -113,7 +256,7 @@ impl Debug for CallbackHandler {
 	}
 }
 
-/// Bridge between the [CallManager]'s [Dispatched] and its [CallFuture]s.
+/// Bridge between the [`CallManager`]'s [`Dispatched`] and its [`CallFuture`]s.
 #[derive(Debug)]
 #[must_use]
 pub(crate) struct CallChannel {
@@ -291,9 +434,7 @@ impl CallManager {
 	pub(crate) unsafe fn get_or_register_raw<C: CallbackRaw>(&mut self) -> &mut CallbackHandler {
 		let entry = self.callbacks.entry(C::CALLBACK_ID);
 
-		entry.or_insert_with(|| CallbackHandler::new_raw::<C>(self.steam.get().deref()));
-
-		self.register_raw::<C>()
+		entry.or_insert_with(|| CallbackHandler::new_raw::<C>(self.steam.get().deref()))
 	}
 
 	pub(crate) fn get_or_register_pub<C: Callback>(&mut self) -> &mut CallbackHandler
@@ -302,17 +443,11 @@ impl CallManager {
 	{
 		let entry = self.callbacks.entry(C::CALLBACK_ID);
 
-		entry.or_insert_with(|| CallbackHandler::new_raw::<C>(self.steam.get().deref()));
-
-		self.register_pub::<C>()
+		entry.or_insert_with(|| CallbackHandler::new_pub::<C>(self.steam.get().deref()))
 	}
 
 	/// Registers a function to be called everytime a callback is ran.
-	/// Requires:
-	/// - The type of callback
-	/// - A type as an identifier
-	/// - A boxed function
-	/// ```rs
+	/// ```rust
 	/// # use rgpr_steamworks::call::CallManager;
 	/// use rgpr_steamworks::interfaces::apps::DlcInstalled;
 	///
@@ -322,22 +457,37 @@ impl CallManager {
 	/// struct JohnDoe;
 	///
 	/// # fn example_env(call_manager: &mut CallManager) {
-	/// // Create a listener for the "DlcInstalled" callback, with the ID "SomethingUnique"
-	/// call_manager.listen::<DlcInstalled, JohnDoe>(Box::new(|app_id| {
+	/// // Create a listener for the "DlcInstalled" callback, with the ID "JohnDoe"
+	/// call_manager.listen::<DlcInstalled, JohnDoe>(|app_id| {
 	///     println!("dlc {app_id} installed!");
 	///
-	///     // React here!
-	/// }));
+	///     // Celebrate, and inform the player that your 300GB DLC is done downloading
+	/// });
 	/// # }
 	/// ```
 	///
 	/// Call [`remove_listener`] with the same callback and ID types to remove the listener.
-	///
-	/// *(Should not panic, but can if the callback was incorrectly registered internally.)*
+	/// 
+	/// Boxed functions will behave exactly the same as unboxed functions.
+	/// There is no advantage to boxing or unboxing functions, therefore: you should leave the function as is.
 	///
 	/// [`remove_listener`]: Self::remove_listener
-	pub fn listen<C: Callback, ID: ?Sized + 'static>(&mut self, listener_fn: Box<C::Fn>) -> Option<Box<C::Fn>>
+	pub fn listen<C: Callback, ID>(&mut self, listener_fn: impl Unsize<C::Fn>) -> Option<Box<C::Fn>>
 	where
+		ID: ?Sized + 'static,
+		<C as CallbackRaw>::Output: Clone,
+	{
+		let boxed_fn: Box<C::Fn> = Box::new(listener_fn) as Box<C::Fn>;
+
+		self.listen_box::<C, ID>(boxed_fn)
+	}
+
+	/// Same as [`listen`], but for listener functions that are already [boxed](Box).
+	///
+	/// [`listen`]: Self::listen
+	pub(crate) fn listen_box<C: Callback, ID>(&mut self, listener_fn: Box<C::Fn>) -> Option<Box<C::Fn>>
+	where
+		ID: ?Sized + 'static,
 		<C as CallbackRaw>::Output: Clone,
 	{
 		let callback_handler = self.get_or_register_pub::<C>();
@@ -354,10 +504,13 @@ impl CallManager {
 		//definitely not good though
 		let box_box = Box::new(fn_box);
 
-		Some(*listener_fns.insert(TypeId::of::<ID>(), box_box)?.downcast::<Box<C::Fn>>().unwrap())
+		println!("register with id {:?}, current reg: {listener_fns:?}", TypeId::of::<ID>());
+
+		Some(*listener_fns.insert(TypeId::of::<ID>(), box_box)?.downcast().unwrap())
 	}
 
 	/// Register a Callback that allows listeners.
+	/// Will override any existing registration.
 	pub(crate) fn register_pub<C: Callback>(&mut self) -> &mut CallbackHandler
 	where
 		<C as CallbackRaw>::Output: Clone,
@@ -367,6 +520,8 @@ impl CallManager {
 		self.callbacks.get_mut(&C::CALLBACK_ID).unwrap()
 	}
 
+	/// Will override any existing registration.
+	///
 	/// # Safety
 	/// This is only for registering types that implement [`CallbackRaw`] and not [`Callback`].
 	/// If the type implements [`Callback`], use [`register_pub`] instead.
@@ -380,6 +535,9 @@ impl CallManager {
 		self.callbacks.get_mut(&C::CALLBACK_ID).unwrap()
 	}
 
+	/// Removes a listener function registered with [`listen`].
+	///
+	/// [`listen`]: Self::listen
 	pub fn remove_listener<C: Callback, ID: ?Sized + 'static>(&mut self) -> Option<Box<C::Fn>>
 	where
 		<C as CallbackRaw>::Output: Clone,
@@ -395,6 +553,9 @@ impl CallManager {
 		Some(*removed.downcast::<Box<C::Fn>>().unwrap())
 	}
 
+	/// Runs [callbacks] and retrieves dispatched call results.
+	///
+	/// [callbacks]: Callback
 	pub fn run(&mut self) {
 		//look at the comment in steam_api.h above SteamAPI_ManualDispatch_Init
 		//line 166 of writing
@@ -421,9 +582,12 @@ impl CallManager {
 					//if the call to the steam API failed
 					let mut failed = true;
 
+					//we don't have the type here
+					//but the endpoint does!
+					let mut incog_box = IncognitoBox::from_layout(dispatch.layout);
+
 					//true if we should deallocate the allocation
 					//this gets set to false if the allocation has been sent off to the future for usage
-					let mut incog_box = IncognitoBox::from_layout(dispatch.layout);
 					let mut send_err = true;
 
 					assert_eq!(call.m_cubParam as usize, dispatch.layout.size(), "call result cubParam should match layout size");
@@ -498,7 +662,7 @@ impl Drop for CallManager {
 	}
 }
 
-/// Calls `CallManager::run` routinely.
+/// Calls [`CallManager::run`] routinely.
 #[derive(Debug)]
 pub struct CallThread {
 	/// # Safety
@@ -521,7 +685,7 @@ impl CallThread {
 	}
 
 	/// Suspends running the [`CallManager`] causing the thread to only wait for a command.
-	/// 
+	///
 	/// # Panics
 	/// If the thread panicked or was shutdown.
 	pub fn stop(&mut self) {
@@ -563,45 +727,50 @@ impl CallThreadInner {
 		let (command_tx, command_rx) = channel::<CallThreadCommand>();
 
 		let handle = thread::Builder::new()
-			.name(String::from("CallManager_CallThread"))
-			.spawn(move || {
-				let mut run = false;
-				let command_rx = command_rx;
-
-				loop {
-					if run {
-						let hit_time = Instant::now() + interval;
-
-						match command_rx.try_recv() {
-							Ok(CallThreadCommand::Stop) => {
-								run = false;
-
-								continue;
-							}
-
-							Ok(CallThreadCommand::Start) | Err(TryRecvError::Empty) => {}
-							Ok(CallThreadCommand::Kill) | Err(TryRecvError::Disconnected) => return,
-						}
-
-						let steam = steam_child.get();
-						let mut guard = steam.call_manager_lock();
-
-						guard.run();
-						drop(guard); //explicit drop for significant drop
-
-						thread::sleep(Instant::now().saturating_duration_since(hit_time));
-					} else {
-						match command_rx.recv() {
-							Ok(CallThreadCommand::Start) => run = true,
-							Ok(CallThreadCommand::Stop) => continue,
-							Ok(CallThreadCommand::Kill) | Err(RecvError) => return,
-						}
-					};
-				}
-			})
+			.name(String::from(CALL_THREAD_NAME))
+			.spawn(move || Self::call_loop(interval, steam_child, command_rx))
 			.expect("failed to create CallManager thread");
 
 		Self { command_tx, handle }
+	}
+
+	fn call_loop(interval: Duration, steam_child: SteamChild, command_rx: mpsc::Receiver<CallThreadCommand>) {
+		let mut run = false;
+		let command_rx = command_rx;
+
+		loop {
+			if run {
+				let hit_time = Instant::now() + interval;
+
+				match command_rx.try_recv() {
+					Ok(CallThreadCommand::Stop) => {
+						run = false;
+
+						continue;
+					}
+
+					Ok(CallThreadCommand::Start) | Err(TryRecvError::Empty) => {}
+					Ok(CallThreadCommand::Kill) | Err(TryRecvError::Disconnected) => return,
+				}
+
+				let Some(steam) = steam_child.try_get() else {
+					return;
+				};
+
+				let mut guard = steam.call_manager_lock();
+
+				guard.run();
+				drop(guard); //explicit drop for significant drop
+
+				thread::sleep(Instant::now().saturating_duration_since(hit_time));
+			} else {
+				match command_rx.recv() {
+					Ok(CallThreadCommand::Start) => run = true,
+					Ok(CallThreadCommand::Stop) => continue,
+					Ok(CallThreadCommand::Kill) | Err(RecvError) => return,
+				}
+			};
+		}
 	}
 
 	fn kill(mut self) {
@@ -644,16 +813,26 @@ where
 	<Self as CallbackRaw>::Output: Clone,
 {
 	/// Set to `true` to keep the implementing type registered in the
-	/// [CallManager] even after all of its listeners have been removed.
+	/// [`CallManager`] even after all of its listeners have been removed.
+	#[doc(hidden)]
 	const KEEP_REGISTERED: bool = false;
 
+	/// The type of this callback's listener functions.
 	type Fn: ?Sized + Any + Send + Sync;
 
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output);
+	/// Work around for the lack of a stable [`Tuple`] trait.
+	/// Upon stabilization, the `Callback` trait will be corrected to no longer need this.
+	///
+	/// [`Tuple`]: https://doc.rust-lang.org/std/marker/trait.Tuple.html
+	#[doc(hidden)]
+	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private);
 
-	fn call_listeners<'a>(&mut self, listener_fns: impl Iterator<Item = &'a mut Self::Fn>, params: &Self::Output) {
+	/// Calls [`call_listener`] for all listener functions in the iterator,
+	/// cloning `params` once for each listener.
+	#[doc(hidden)]
+	fn call_listeners<'a>(&mut self, listener_fns: impl Iterator<Item = &'a mut Self::Fn>, params: &Self::Output, _: Private) {
 		for listener_fn in listener_fns {
-			self.call_listener(listener_fn, params.clone());
+			self.call_listener(listener_fn, params.clone(), Private);
 		}
 	}
 }
@@ -668,15 +847,17 @@ where
 ///
 /// # Safety
 /// `CType` must match the type associated with the `CALLBACK_ID`.
+#[doc(hidden)]
 pub unsafe trait CallbackRaw: Sized + Send + Sync + 'static {
-	#[doc(hidden)]
 	const CALLBACK_ID: i32;
 
 	/// A raw pointer of the type will be sent to a different thread,
 	/// where the `CType` will be provided as a reference to [`on_callback`].
 	///
+	/// `Copy` is required strictly to ensure the data is safe to use in an [`IncognitoBox`].
+	///
 	/// [`on_callback`]: Self::on_callback
-	type CType: Send + Sync;
+	type CType: Copy + Send + Sync;
 
 	/// The type returned from `on_callback`.
 	/// Used by [`Callback`] for calling listener functions.
@@ -690,12 +871,12 @@ pub unsafe trait CallbackRaw: Sized + Send + Sync + 'static {
 	/// [`CType`]: Self::CType
 	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output;
 
-	fn register(steam: &SteamInterface) -> Self;
+	fn register(steam: &SteamInterface, _: Private) -> Self;
 }
 
 /// Implementations should initiate a call to the Steam API
 /// which returns a `SteamAPICall_t`.
-/// The [CallManager] will then take the result, and pass it to `post`.
+/// The [`CallManager`] will then take the result, and pass it to `post`.
 ///
 /// # Safety
 /// `Self::CType` must match the type returned from the dispatched call result.
