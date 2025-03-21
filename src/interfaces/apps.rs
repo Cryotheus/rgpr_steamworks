@@ -8,6 +8,7 @@ use crate::iter::{SteamApiIterator, Unreliable};
 use crate::util::{expect_string, some_string, success, CStrArray, CStrArrayPath, MAX_PATH};
 use crate::{sys, Private};
 use bitflags::bitflags;
+use rgpr_steamworks_macros::callback;
 use rgpr_steamworks_sys::SteamAPICall_t;
 use std::ffi::{c_int, c_uint, CString};
 use std::fmt::{Display, Formatter};
@@ -263,7 +264,7 @@ impl AppsInterface {
 	///
 	/// [`installed_depot`]: Self::installed_depot
 	/// [`installed_depots_iter`]: Self::installed_depots_iter
-	/// 
+	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#GetInstalledDepots)
 	pub fn get_installed_depots(&self, app_id: impl Into<AppId>, capacity: usize) -> Vec<DepotId> {
 		//SAFETY: DepotId is the same size as its sys counterpart as checked in the dt::test module
@@ -811,41 +812,22 @@ impl DlcDownloadProgress {
 	}
 }
 
-/// Steam API callback.
-///
-/// ```rs
-/// # use rgpr_steamworks::{dt::AppId, interfaces::apps::TimedTrial};
-/// fn listener(apps_interface: &AppsInterface) { }
-/// ```
-///
-/// > Triggered after the current user gains ownership of DLC and that DLC is installed.
-///
-/// Use [`AppsInterface::install_dlc`] to trigger.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#DlcInstalled_t)
-#[derive(Debug)]
-pub struct DlcInstalled;
+callback! {
+	/// Steam API callback.
+	///
+	/// ```rs
+	/// # use rgpr_steamworks::{dt::AppId, interfaces::apps::TimedTrial};
+	/// fn listener(apps_interface: &AppsInterface) { }
+	/// ```
+	///
+	/// > Triggered after the current user gains ownership of DLC and that DLC is installed.
+	///
+	/// Use [`AppsInterface::install_dlc`] to trigger.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#DlcInstalled_t)
+	pub struct DlcInstalled;
 
-unsafe impl CallbackRaw for DlcInstalled {
-	const CALLBACK_ID: i32 = sys::DlcInstalled_t_k_iCallback as i32;
-	type CType = sys::DlcInstalled_t;
-	type Output = AppId;
-
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
-		c_data.m_nAppID.into()
-	}
-
-	fn register(_steam: &SteamInterface, _: Private) -> Self {
-		Self
-	}
-}
-
-impl Callback for DlcInstalled {
-	type Fn = dyn FnMut(AppId) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(params)
-	}
+	data -> AppId { data.m_nAppID.into() }
 }
 
 /// Iterator which yields a [`Dlc`] for each of the current app's DLCs.
@@ -906,85 +888,73 @@ pub struct FileDetails {
 	sha: [u8; 20],
 }
 
-/// Steam API callback.
-///
-/// The [`AppsInterface`] is provided for use with [`launch_query_param`].
-///
-/// ```rs
-/// # use rgpr_steamworks::{dt::AppId, interfaces::apps::TimedTrial};
-/// fn listener(apps_interface: &AppsInterface) {
-///     let food = apps_interface.launch_query_param("fruit");
-/// }
-/// ```
-///
-/// > Posted after the user executes a steam url with query parameters while the game is already running.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewLaunchQueryParameters_t)
-///
-/// [`launch_query_param`]: AppsInterface::launch_query_param
-#[derive(Debug)]
-pub struct NewLaunchQueryParameters {
-	steam: SteamChild,
+// callback! {
+// 	/// > Posted after the user executes a steam url with query parameters while the game is already running.
+// 	///
+// 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewLaunchQueryParameters_t)
+// 	///
+// 	/// [`launch_query_param`]: AppsInterface::launch_query_param
+// 	pub struct NewLaunchQueryParameters;
+// 	
+// 	sys NewLaunchQueryParameters;
+// }
+
+// unsafe impl CallbackRaw for NewLaunchQueryParameters {
+// 	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
+// 	type CType = sys::NewLaunchQueryParameters_t;
+// 	type Output = SteamChild;
+// 
+// 	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
+// 		self.steam.clone()
+// 	}
+// 
+// 	fn register(steam: &SteamInterface, _: Private) -> Self {
+// 		Self { steam: steam.child() }
+// 	}
+// }
+// 
+// impl Callback for NewLaunchQueryParameters {
+// 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
+// 
+// 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
+// 		listener_fn(&params.get().interfaces.apps);
+// 	}
+// }
+
+callback! {
+	/// > Posted after the user executes a steam url with command line or query parameters such as
+	/// `steam://run/<appid>//?param1=value1;param2=value2;param3=value3;`
+	/// while the game is already running.
+	/// The new params can be queried with [`AppsInterface::launch_command_line`] and [`AppsInterface::launch_query_param`].
+	///
+	/// [`AppsInterface::launch_query_param`] is the preferred and newer method.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewUrlLaunchParameters_t)
+	pub struct NewUrlLaunchParameters;
 }
 
-unsafe impl CallbackRaw for NewLaunchQueryParameters {
-	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
-	type CType = sys::NewUrlLaunchParameters_t;
-	type Output = SteamChild;
 
-	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
-		self.steam.clone()
-	}
-
-	fn register(steam: &SteamInterface, _: Private) -> Self {
-		Self { steam: steam.child() }
-	}
-}
-
-impl Callback for NewLaunchQueryParameters {
-	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(&params.get().interfaces.apps);
-	}
-}
-
-/// Steam API callback.
-/// 
-/// > Posted after the user executes a steam url with command line or query parameters such as
-/// `steam://run/<appid>//?param1=value1;param2=value2;param3=value3;`
-/// while the game is already running.
-/// The new params can be queried with [`AppsInterface::launch_command_line`] and [`AppsInterface::launch_query_param`].
-///
-/// [`AppsInterface::launch_query_param`] is the preferred and newer method.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewUrlLaunchParameters_t)
-#[derive(Debug)]
-pub struct NewUrlLaunchParameters {
-	steam: SteamChild,
-}
-
-unsafe impl CallbackRaw for NewUrlLaunchParameters {
-	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
-	type CType = sys::NewUrlLaunchParameters_t;
-	type Output = SteamChild;
-
-	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
-		self.steam.clone()
-	}
-
-	fn register(steam: &SteamInterface, _: Private) -> Self {
-		Self { steam: steam.child() }
-	}
-}
-
-impl Callback for NewUrlLaunchParameters {
-	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(&params.get().interfaces.apps);
-	}
-}
+// unsafe impl CallbackRaw for NewUrlLaunchParameters {
+// 	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
+// 	type CType = sys::NewUrlLaunchParameters_t;
+// 	type Output = SteamChild;
+// 
+// 	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
+// 		self.steam.clone()
+// 	}
+// 
+// 	fn register(steam: &SteamInterface, _: Private) -> Self {
+// 		Self { steam: steam.child() }
+// 	}
+// }
+// 
+// impl Callback for NewUrlLaunchParameters {
+// 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
+// 
+// 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
+// 		listener_fn(&params.get().interfaces.apps);
+// 	}
+// }
 
 /// Provided by [`AppsInterface::timed_trial`].
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]

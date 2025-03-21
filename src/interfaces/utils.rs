@@ -670,6 +670,7 @@ callback! {
 
 	sys IPCountry;
 	new steam;
+	_data -> Option<String> { self.steam.get().interfaces.utils.ip_country() }
 }
 
 callback! {

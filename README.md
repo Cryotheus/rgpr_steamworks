@@ -1,6 +1,7 @@
 # RgPr Steamworks
 
-High-level Rust bindings to [Steamworks](https://partner.steamgames.com/), the Steam API[¹](#notes).
+High-level Rust bindings to [Steamworks](https://partner.steamgames.com/), the Steam API[¹](#notes).  
+*Using Steamworks SDK v1.62*
 
 > The Steamworks SDK provides a range of features which are designed to help ship your application or game on Steam in an efficient manner.  
 > \- [Steamworks Documentation](https://partner.steamgames.com/doc/sdk)

@@ -86,7 +86,7 @@ impl Parse for CallbackMacro {
 			let ident = input.parse::<Ident>()?;
 
 			match ident.to_string().as_str() {
-				"data" => {
+				"data" | "_data" => {
 					let lookahead = input.lookahead1();
 
 					if lookahead.peek(Token![->]) {

@@ -225,7 +225,7 @@ pub const EWOULDBLOCK: u32 = 140;
 pub const _NLSCMPERROR: u32 = 2147483647;
 pub const STEAMCLIENT_INTERFACE_VERSION: &[u8; 15] = b"SteamClient021\0";
 pub const STEAMUSER_INTERFACE_VERSION: &[u8; 13] = b"SteamUser023\0";
-pub const STEAMFRIENDS_INTERFACE_VERSION: &[u8; 16] = b"SteamFriends017\0";
+pub const STEAMFRIENDS_INTERFACE_VERSION: &[u8; 16] = b"SteamFriends018\0";
 pub const STEAMUTILS_INTERFACE_VERSION: &[u8; 14] = b"SteamUtils010\0";
 pub const _CRT_INTERNAL_STDIO_SYMBOL_PREFIX: &[u8; 1] = b"\0";
 pub const _CRT_INTERNAL_PRINTF_LEGACY_VSPRINTF_NULL_TERMINATION: u32 = 1;
@@ -290,13 +290,13 @@ pub const STEAM_CONTROLLER_MAX_ACTIVE_LAYERS: u32 = 16;
 pub const STEAM_CONTROLLER_MIN_ANALOG_ACTION_DATA: f64 = -1.0;
 pub const STEAM_CONTROLLER_MAX_ANALOG_ACTION_DATA: f64 = 1.0;
 pub const STEAMCONTROLLER_INTERFACE_VERSION: &[u8; 19] = b"SteamController008\0";
-pub const STEAMUGC_INTERFACE_VERSION: &[u8; 30] = b"STEAMUGC_INTERFACE_VERSION020\0";
+pub const STEAMUGC_INTERFACE_VERSION: &[u8; 30] = b"STEAMUGC_INTERFACE_VERSION021\0";
 pub const STEAMHTMLSURFACE_INTERFACE_VERSION: &[u8; 39] = b"STEAMHTMLSURFACE_INTERFACE_VERSION_005\0";
 pub const STEAMINVENTORY_INTERFACE_VERSION: &[u8; 30] = b"STEAMINVENTORY_INTERFACE_V003\0";
 pub const STEAMTIMELINE_INTERFACE_VERSION: &[u8; 29] = b"STEAMTIMELINE_INTERFACE_V004\0";
 pub const STEAMVIDEO_INTERFACE_VERSION: &[u8; 26] = b"STEAMVIDEO_INTERFACE_V007\0";
 pub const STEAMPARENTALSETTINGS_INTERFACE_VERSION: &[u8; 43] = b"STEAMPARENTALSETTINGS_INTERFACE_VERSION001\0";
-pub const STEAMREMOTEPLAY_INTERFACE_VERSION: &[u8; 37] = b"STEAMREMOTEPLAY_INTERFACE_VERSION002\0";
+pub const STEAMREMOTEPLAY_INTERFACE_VERSION: &[u8; 37] = b"STEAMREMOTEPLAY_INTERFACE_VERSION003\0";
 pub const WCHAR_MIN: u32 = 0;
 pub const WCHAR_MAX: u32 = 65535;
 pub const WINT_MIN: u32 = 0;
@@ -1763,11 +1763,6 @@ const _: () = {
 pub struct ISteamContentServer {
 	_unused: [u8; 0],
 }
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct ISteamPS3OverlayRender {
-	_unused: [u8; 0],
-}
 pub const k_iSteamUserCallbacks: _bindgen_ty_1 = _bindgen_ty_1::k_iSteamUserCallbacks;
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -2404,18 +2399,6 @@ pub enum _bindgen_ty_39 {
 	k_cchPersonaNameMax = 128,
 	k_cwchPersonaNameMax = 32,
 }
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum EUserRestriction {
-	k_nUserRestrictionNone = 0,
-	k_nUserRestrictionUnknown = 1,
-	k_nUserRestrictionAnyChat = 2,
-	k_nUserRestrictionVoiceChat = 4,
-	k_nUserRestrictionGroupChat = 8,
-	k_nUserRestrictionRating = 16,
-	k_nUserRestrictionGameInvites = 32,
-	k_nUserRestrictionTrading = 64,
-}
 pub const k_cubChatMetadataMax: uint32 = 8192;
 pub const k_cchMaxRichPresenceKeys: _bindgen_ty_40 = _bindgen_ty_40::k_cchMaxRichPresenceKeys;
 #[repr(i32)]
@@ -2848,27 +2831,6 @@ const _: () = {
 	["Offset of field: FriendsEnumerateFollowingList_t::m_rgSteamID"][::std::mem::offset_of!(FriendsEnumerateFollowingList_t, m_rgSteamID) - 4usize];
 	["Offset of field: FriendsEnumerateFollowingList_t::m_nResultsReturned"][::std::mem::offset_of!(FriendsEnumerateFollowingList_t, m_nResultsReturned) - 404usize];
 	["Offset of field: FriendsEnumerateFollowingList_t::m_nTotalResultCount"][::std::mem::offset_of!(FriendsEnumerateFollowingList_t, m_nTotalResultCount) - 408usize];
-};
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct SetPersonaNameResponse_t {
-	pub m_bSuccess: bool,
-	pub m_bLocalSuccess: bool,
-	pub m_result: EResult,
-}
-pub const SetPersonaNameResponse_t_k_iCallback: SetPersonaNameResponse_t__bindgen_ty_1 = SetPersonaNameResponse_t__bindgen_ty_1::k_iCallback;
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum SetPersonaNameResponse_t__bindgen_ty_1 {
-	k_iCallback = 347,
-}
-#[allow(clippy::unnecessary_operation, clippy::identity_op)]
-const _: () = {
-	["Size of SetPersonaNameResponse_t"][::std::mem::size_of::<SetPersonaNameResponse_t>() - 8usize];
-	["Alignment of SetPersonaNameResponse_t"][::std::mem::align_of::<SetPersonaNameResponse_t>() - 4usize];
-	["Offset of field: SetPersonaNameResponse_t::m_bSuccess"][::std::mem::offset_of!(SetPersonaNameResponse_t, m_bSuccess) - 0usize];
-	["Offset of field: SetPersonaNameResponse_t::m_bLocalSuccess"][::std::mem::offset_of!(SetPersonaNameResponse_t, m_bLocalSuccess) - 1usize];
-	["Offset of field: SetPersonaNameResponse_t::m_result"][::std::mem::offset_of!(SetPersonaNameResponse_t, m_result) - 4usize];
 };
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -4151,25 +4113,6 @@ const _: () = {
 	["Alignment of LobbyCreated_t"][::std::mem::align_of::<LobbyCreated_t>() - 8usize];
 	["Offset of field: LobbyCreated_t::m_eResult"][::std::mem::offset_of!(LobbyCreated_t, m_eResult) - 0usize];
 	["Offset of field: LobbyCreated_t::m_ulSteamIDLobby"][::std::mem::offset_of!(LobbyCreated_t, m_ulSteamIDLobby) - 8usize];
-};
-#[repr(C)]
-#[derive(Copy, Clone)]
-pub struct PSNGameBootInviteResult_t {
-	pub m_bGameBootInviteExists: bool,
-	pub m_steamIDLobby: CSteamID,
-}
-pub const PSNGameBootInviteResult_t_k_iCallback: PSNGameBootInviteResult_t__bindgen_ty_1 = PSNGameBootInviteResult_t__bindgen_ty_1::k_iCallback;
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum PSNGameBootInviteResult_t__bindgen_ty_1 {
-	k_iCallback = 515,
-}
-#[allow(clippy::unnecessary_operation, clippy::identity_op)]
-const _: () = {
-	["Size of PSNGameBootInviteResult_t"][::std::mem::size_of::<PSNGameBootInviteResult_t>() - 9usize];
-	["Alignment of PSNGameBootInviteResult_t"][::std::mem::align_of::<PSNGameBootInviteResult_t>() - 1usize];
-	["Offset of field: PSNGameBootInviteResult_t::m_bGameBootInviteExists"][::std::mem::offset_of!(PSNGameBootInviteResult_t, m_bGameBootInviteExists) - 0usize];
-	["Offset of field: PSNGameBootInviteResult_t::m_steamIDLobby"][::std::mem::offset_of!(PSNGameBootInviteResult_t, m_steamIDLobby) - 1usize];
 };
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -5515,27 +5458,6 @@ const _: () = {
 	["Alignment of LeaderboardUGCSet_t"][::std::mem::align_of::<LeaderboardUGCSet_t>() - 8usize];
 	["Offset of field: LeaderboardUGCSet_t::m_eResult"][::std::mem::offset_of!(LeaderboardUGCSet_t, m_eResult) - 0usize];
 	["Offset of field: LeaderboardUGCSet_t::m_hSteamLeaderboard"][::std::mem::offset_of!(LeaderboardUGCSet_t, m_hSteamLeaderboard) - 8usize];
-};
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct PS3TrophiesInstalled_t {
-	pub m_nGameID: uint64,
-	pub m_eResult: EResult,
-	pub m_ulRequiredDiskSpace: uint64,
-}
-pub const PS3TrophiesInstalled_t_k_iCallback: PS3TrophiesInstalled_t__bindgen_ty_1 = PS3TrophiesInstalled_t__bindgen_ty_1::k_iCallback;
-#[repr(i32)]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum PS3TrophiesInstalled_t__bindgen_ty_1 {
-	k_iCallback = 1112,
-}
-#[allow(clippy::unnecessary_operation, clippy::identity_op)]
-const _: () = {
-	["Size of PS3TrophiesInstalled_t"][::std::mem::size_of::<PS3TrophiesInstalled_t>() - 24usize];
-	["Alignment of PS3TrophiesInstalled_t"][::std::mem::align_of::<PS3TrophiesInstalled_t>() - 8usize];
-	["Offset of field: PS3TrophiesInstalled_t::m_nGameID"][::std::mem::offset_of!(PS3TrophiesInstalled_t, m_nGameID) - 0usize];
-	["Offset of field: PS3TrophiesInstalled_t::m_eResult"][::std::mem::offset_of!(PS3TrophiesInstalled_t, m_eResult) - 8usize];
-	["Offset of field: PS3TrophiesInstalled_t::m_ulRequiredDiskSpace"][::std::mem::offset_of!(PS3TrophiesInstalled_t, m_ulRequiredDiskSpace) - 16usize];
 };
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -8129,49 +8051,51 @@ pub enum ISteamHTMLSurface_EHTMLMouseButton {
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum ISteamHTMLSurface_EMouseCursor {
-	dc_user = 0,
-	dc_none = 1,
-	dc_arrow = 2,
-	dc_ibeam = 3,
-	dc_hourglass = 4,
-	dc_waitarrow = 5,
-	dc_crosshair = 6,
-	dc_up = 7,
-	dc_sizenw = 8,
-	dc_sizese = 9,
-	dc_sizene = 10,
-	dc_sizesw = 11,
-	dc_sizew = 12,
-	dc_sizee = 13,
-	dc_sizen = 14,
-	dc_sizes = 15,
-	dc_sizewe = 16,
-	dc_sizens = 17,
-	dc_sizeall = 18,
-	dc_no = 19,
-	dc_hand = 20,
-	dc_blank = 21,
-	dc_middle_pan = 22,
-	dc_north_pan = 23,
-	dc_north_east_pan = 24,
-	dc_east_pan = 25,
-	dc_south_east_pan = 26,
-	dc_south_pan = 27,
-	dc_south_west_pan = 28,
-	dc_west_pan = 29,
-	dc_north_west_pan = 30,
-	dc_alias = 31,
-	dc_cell = 32,
-	dc_colresize = 33,
-	dc_copycur = 34,
-	dc_verticaltext = 35,
-	dc_rowresize = 36,
-	dc_zoomin = 37,
-	dc_zoomout = 38,
-	dc_help = 39,
-	dc_custom = 40,
-	dc_last = 41,
+pub enum ISteamHTMLSurface_EHTMLMouseCursor {
+	k_EHTMLMouseCursor_User = 0,
+	k_EHTMLMouseCursor_None = 1,
+	k_EHTMLMouseCursor_Arrow = 2,
+	k_EHTMLMouseCursor_IBeam = 3,
+	k_EHTMLMouseCursor_Hourglass = 4,
+	k_EHTMLMouseCursor_WaitArrow = 5,
+	k_EHTMLMouseCursor_Crosshair = 6,
+	k_EHTMLMouseCursor_Up = 7,
+	k_EHTMLMouseCursor_SizeNW = 8,
+	k_EHTMLMouseCursor_SizeSE = 9,
+	k_EHTMLMouseCursor_SizeNE = 10,
+	k_EHTMLMouseCursor_SizeSW = 11,
+	k_EHTMLMouseCursor_SizeW = 12,
+	k_EHTMLMouseCursor_SizeE = 13,
+	k_EHTMLMouseCursor_SizeN = 14,
+	k_EHTMLMouseCursor_SizeS = 15,
+	k_EHTMLMouseCursor_SizeWE = 16,
+	k_EHTMLMouseCursor_SizeNS = 17,
+	k_EHTMLMouseCursor_SizeAll = 18,
+	k_EHTMLMouseCursor_No = 19,
+	k_EHTMLMouseCursor_Hand = 20,
+	k_EHTMLMouseCursor_Blank = 21,
+	k_EHTMLMouseCursor_MiddlePan = 22,
+	k_EHTMLMouseCursor_NorthPan = 23,
+	k_EHTMLMouseCursor_NorthEastPan = 24,
+	k_EHTMLMouseCursor_EastPan = 25,
+	k_EHTMLMouseCursor_SouthEastPan = 26,
+	k_EHTMLMouseCursor_SouthPan = 27,
+	k_EHTMLMouseCursor_SouthWestPan = 28,
+	k_EHTMLMouseCursor_WestPan = 29,
+	k_EHTMLMouseCursor_NorthWestPan = 30,
+	k_EHTMLMouseCursor_Alias = 31,
+	k_EHTMLMouseCursor_Cell = 32,
+	k_EHTMLMouseCursor_ColResize = 33,
+	k_EHTMLMouseCursor_CopyCur = 34,
+	k_EHTMLMouseCursor_VerticalText = 35,
+	k_EHTMLMouseCursor_RowResize = 36,
+	k_EHTMLMouseCursor_ZoomIn = 37,
+	k_EHTMLMouseCursor_ZoomOut = 38,
+	k_EHTMLMouseCursor_Help = 39,
+	k_EHTMLMouseCursor_Custom = 40,
+	k_EHTMLMouseCursor_SizeNWSE = 41,
+	k_EHTMLMouseCursor_SizeNESW = 42,
+	k_EHTMLMouseCursor_last = 43,
 }
 #[repr(i32)]
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
@@ -9078,6 +9002,219 @@ pub enum ESteamDeviceFormFactor {
 	k_ESteamDeviceFormFactorVRHeadset = 5,
 }
 pub type RemotePlaySessionID_t = uint32;
+pub type RemotePlayCursorID_t = uint32;
+#[repr(i32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum ERemotePlayInputType {
+	k_ERemotePlayInputUnknown = 0,
+	k_ERemotePlayInputMouseMotion = 1,
+	k_ERemotePlayInputMouseButtonDown = 2,
+	k_ERemotePlayInputMouseButtonUp = 3,
+	k_ERemotePlayInputMouseWheel = 4,
+	k_ERemotePlayInputKeyDown = 5,
+	k_ERemotePlayInputKeyUp = 6,
+}
+#[repr(i32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum ERemotePlayMouseButton {
+	k_ERemotePlayMouseButtonLeft = 1,
+	k_ERemotePlayMouseButtonRight = 2,
+	k_ERemotePlayMouseButtonMiddle = 16,
+	k_ERemotePlayMouseButtonX1 = 32,
+	k_ERemotePlayMouseButtonX2 = 64,
+}
+#[repr(i32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum ERemotePlayMouseWheelDirection {
+	k_ERemotePlayMouseWheelUp = 1,
+	k_ERemotePlayMouseWheelDown = 2,
+	k_ERemotePlayMouseWheelLeft = 3,
+	k_ERemotePlayMouseWheelRight = 4,
+}
+#[repr(i32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum ERemotePlayScancode {
+	k_ERemotePlayScancodeUnknown = 0,
+	k_ERemotePlayScancodeA = 4,
+	k_ERemotePlayScancodeB = 5,
+	k_ERemotePlayScancodeC = 6,
+	k_ERemotePlayScancodeD = 7,
+	k_ERemotePlayScancodeE = 8,
+	k_ERemotePlayScancodeF = 9,
+	k_ERemotePlayScancodeG = 10,
+	k_ERemotePlayScancodeH = 11,
+	k_ERemotePlayScancodeI = 12,
+	k_ERemotePlayScancodeJ = 13,
+	k_ERemotePlayScancodeK = 14,
+	k_ERemotePlayScancodeL = 15,
+	k_ERemotePlayScancodeM = 16,
+	k_ERemotePlayScancodeN = 17,
+	k_ERemotePlayScancodeO = 18,
+	k_ERemotePlayScancodeP = 19,
+	k_ERemotePlayScancodeQ = 20,
+	k_ERemotePlayScancodeR = 21,
+	k_ERemotePlayScancodeS = 22,
+	k_ERemotePlayScancodeT = 23,
+	k_ERemotePlayScancodeU = 24,
+	k_ERemotePlayScancodeV = 25,
+	k_ERemotePlayScancodeW = 26,
+	k_ERemotePlayScancodeX = 27,
+	k_ERemotePlayScancodeY = 28,
+	k_ERemotePlayScancodeZ = 29,
+	k_ERemotePlayScancode1 = 30,
+	k_ERemotePlayScancode2 = 31,
+	k_ERemotePlayScancode3 = 32,
+	k_ERemotePlayScancode4 = 33,
+	k_ERemotePlayScancode5 = 34,
+	k_ERemotePlayScancode6 = 35,
+	k_ERemotePlayScancode7 = 36,
+	k_ERemotePlayScancode8 = 37,
+	k_ERemotePlayScancode9 = 38,
+	k_ERemotePlayScancode0 = 39,
+	k_ERemotePlayScancodeReturn = 40,
+	k_ERemotePlayScancodeEscape = 41,
+	k_ERemotePlayScancodeBackspace = 42,
+	k_ERemotePlayScancodeTab = 43,
+	k_ERemotePlayScancodeSpace = 44,
+	k_ERemotePlayScancodeMinus = 45,
+	k_ERemotePlayScancodeEquals = 46,
+	k_ERemotePlayScancodeLeftBracket = 47,
+	k_ERemotePlayScancodeRightBracket = 48,
+	k_ERemotePlayScancodeBackslash = 49,
+	k_ERemotePlayScancodeSemicolon = 51,
+	k_ERemotePlayScancodeApostrophe = 52,
+	k_ERemotePlayScancodeGrave = 53,
+	k_ERemotePlayScancodeComma = 54,
+	k_ERemotePlayScancodePeriod = 55,
+	k_ERemotePlayScancodeSlash = 56,
+	k_ERemotePlayScancodeCapsLock = 57,
+	k_ERemotePlayScancodeF1 = 58,
+	k_ERemotePlayScancodeF2 = 59,
+	k_ERemotePlayScancodeF3 = 60,
+	k_ERemotePlayScancodeF4 = 61,
+	k_ERemotePlayScancodeF5 = 62,
+	k_ERemotePlayScancodeF6 = 63,
+	k_ERemotePlayScancodeF7 = 64,
+	k_ERemotePlayScancodeF8 = 65,
+	k_ERemotePlayScancodeF9 = 66,
+	k_ERemotePlayScancodeF10 = 67,
+	k_ERemotePlayScancodeF11 = 68,
+	k_ERemotePlayScancodeF12 = 69,
+	k_ERemotePlayScancodeInsert = 73,
+	k_ERemotePlayScancodeHome = 74,
+	k_ERemotePlayScancodePageUp = 75,
+	k_ERemotePlayScancodeDelete = 76,
+	k_ERemotePlayScancodeEnd = 77,
+	k_ERemotePlayScancodePageDown = 78,
+	k_ERemotePlayScancodeRight = 79,
+	k_ERemotePlayScancodeLeft = 80,
+	k_ERemotePlayScancodeDown = 81,
+	k_ERemotePlayScancodeUp = 82,
+	k_ERemotePlayScancodeLeftControl = 224,
+	k_ERemotePlayScancodeLeftShift = 225,
+	k_ERemotePlayScancodeLeftAlt = 226,
+	k_ERemotePlayScancodeLeftGUI = 227,
+	k_ERemotePlayScancodeRightControl = 228,
+	k_ERemotePlayScancodeRightShift = 229,
+	k_ERemotePlayScancodeRightALT = 230,
+	k_ERemotePlayScancodeRightGUI = 231,
+}
+#[repr(i32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum ERemotePlayKeyModifier {
+	k_ERemotePlayKeyModifierNone = 0,
+	k_ERemotePlayKeyModifierLeftShift = 1,
+	k_ERemotePlayKeyModifierRightShift = 2,
+	k_ERemotePlayKeyModifierLeftControl = 64,
+	k_ERemotePlayKeyModifierRightControl = 128,
+	k_ERemotePlayKeyModifierLeftAlt = 256,
+	k_ERemotePlayKeyModifierRightAlt = 512,
+	k_ERemotePlayKeyModifierLeftGUI = 1024,
+	k_ERemotePlayKeyModifierRightGUI = 2048,
+	k_ERemotePlayKeyModifierNumLock = 4096,
+	k_ERemotePlayKeyModifierCapsLock = 8192,
+	k_ERemotePlayKeyModifierMask = 65535,
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct RemotePlayInputMouseMotion_t {
+	pub m_bAbsolute: bool,
+	pub m_flNormalizedX: f32,
+	pub m_flNormalizedY: f32,
+	pub m_nDeltaX: ::std::os::raw::c_int,
+	pub m_nDeltaY: ::std::os::raw::c_int,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+	["Size of RemotePlayInputMouseMotion_t"][::std::mem::size_of::<RemotePlayInputMouseMotion_t>() - 20usize];
+	["Alignment of RemotePlayInputMouseMotion_t"][::std::mem::align_of::<RemotePlayInputMouseMotion_t>() - 4usize];
+	["Offset of field: RemotePlayInputMouseMotion_t::m_bAbsolute"][::std::mem::offset_of!(RemotePlayInputMouseMotion_t, m_bAbsolute) - 0usize];
+	["Offset of field: RemotePlayInputMouseMotion_t::m_flNormalizedX"][::std::mem::offset_of!(RemotePlayInputMouseMotion_t, m_flNormalizedX) - 4usize];
+	["Offset of field: RemotePlayInputMouseMotion_t::m_flNormalizedY"][::std::mem::offset_of!(RemotePlayInputMouseMotion_t, m_flNormalizedY) - 8usize];
+	["Offset of field: RemotePlayInputMouseMotion_t::m_nDeltaX"][::std::mem::offset_of!(RemotePlayInputMouseMotion_t, m_nDeltaX) - 12usize];
+	["Offset of field: RemotePlayInputMouseMotion_t::m_nDeltaY"][::std::mem::offset_of!(RemotePlayInputMouseMotion_t, m_nDeltaY) - 16usize];
+};
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct RemotePlayInputMouseWheel_t {
+	pub m_eDirection: ERemotePlayMouseWheelDirection,
+	pub m_flAmount: f32,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+	["Size of RemotePlayInputMouseWheel_t"][::std::mem::size_of::<RemotePlayInputMouseWheel_t>() - 8usize];
+	["Alignment of RemotePlayInputMouseWheel_t"][::std::mem::align_of::<RemotePlayInputMouseWheel_t>() - 4usize];
+	["Offset of field: RemotePlayInputMouseWheel_t::m_eDirection"][::std::mem::offset_of!(RemotePlayInputMouseWheel_t, m_eDirection) - 0usize];
+	["Offset of field: RemotePlayInputMouseWheel_t::m_flAmount"][::std::mem::offset_of!(RemotePlayInputMouseWheel_t, m_flAmount) - 4usize];
+};
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct RemotePlayInputKey_t {
+	pub m_eScancode: ::std::os::raw::c_int,
+	pub m_unModifiers: uint32,
+	pub m_unKeycode: uint32,
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+	["Size of RemotePlayInputKey_t"][::std::mem::size_of::<RemotePlayInputKey_t>() - 12usize];
+	["Alignment of RemotePlayInputKey_t"][::std::mem::align_of::<RemotePlayInputKey_t>() - 4usize];
+	["Offset of field: RemotePlayInputKey_t::m_eScancode"][::std::mem::offset_of!(RemotePlayInputKey_t, m_eScancode) - 0usize];
+	["Offset of field: RemotePlayInputKey_t::m_unModifiers"][::std::mem::offset_of!(RemotePlayInputKey_t, m_unModifiers) - 4usize];
+	["Offset of field: RemotePlayInputKey_t::m_unKeycode"][::std::mem::offset_of!(RemotePlayInputKey_t, m_unKeycode) - 8usize];
+};
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct RemotePlayInput_t {
+	pub m_unSessionID: RemotePlaySessionID_t,
+	pub m_eType: ERemotePlayInputType,
+	pub __bindgen_anon_1: RemotePlayInput_t__bindgen_ty_1,
+}
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub union RemotePlayInput_t__bindgen_ty_1 {
+	pub m_MouseMotion: RemotePlayInputMouseMotion_t,
+	pub m_eMouseButton: ERemotePlayMouseButton,
+	pub m_MouseWheel: RemotePlayInputMouseWheel_t,
+	pub m_Key: RemotePlayInputKey_t,
+	pub padding: [::std::os::raw::c_char; 56usize],
+}
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+	["Size of RemotePlayInput_t__bindgen_ty_1"][::std::mem::size_of::<RemotePlayInput_t__bindgen_ty_1>() - 56usize];
+	["Alignment of RemotePlayInput_t__bindgen_ty_1"][::std::mem::align_of::<RemotePlayInput_t__bindgen_ty_1>() - 4usize];
+	["Offset of field: RemotePlayInput_t__bindgen_ty_1::m_MouseMotion"][::std::mem::offset_of!(RemotePlayInput_t__bindgen_ty_1, m_MouseMotion) - 0usize];
+	["Offset of field: RemotePlayInput_t__bindgen_ty_1::m_eMouseButton"][::std::mem::offset_of!(RemotePlayInput_t__bindgen_ty_1, m_eMouseButton) - 0usize];
+	["Offset of field: RemotePlayInput_t__bindgen_ty_1::m_MouseWheel"][::std::mem::offset_of!(RemotePlayInput_t__bindgen_ty_1, m_MouseWheel) - 0usize];
+	["Offset of field: RemotePlayInput_t__bindgen_ty_1::m_Key"][::std::mem::offset_of!(RemotePlayInput_t__bindgen_ty_1, m_Key) - 0usize];
+	["Offset of field: RemotePlayInput_t__bindgen_ty_1::padding"][::std::mem::offset_of!(RemotePlayInput_t__bindgen_ty_1, padding) - 0usize];
+};
+#[allow(clippy::unnecessary_operation, clippy::identity_op)]
+const _: () = {
+	["Size of RemotePlayInput_t"][::std::mem::size_of::<RemotePlayInput_t>() - 64usize];
+	["Alignment of RemotePlayInput_t"][::std::mem::align_of::<RemotePlayInput_t>() - 4usize];
+	["Offset of field: RemotePlayInput_t::m_unSessionID"][::std::mem::offset_of!(RemotePlayInput_t, m_unSessionID) - 0usize];
+	["Offset of field: RemotePlayInput_t::m_eType"][::std::mem::offset_of!(RemotePlayInput_t, m_eType) - 4usize];
+};
 #[repr(C)]
 pub struct ISteamRemotePlay__bindgen_vtable(::std::os::raw::c_void);
 #[repr(C)]
@@ -10737,13 +10874,10 @@ unsafe extern "C" {
 	pub fn SteamAPI_ISteamUser_BSetDurationControlOnlineState(self_: *mut ISteamUser, eNewState: EDurationControlOnlineState) -> bool;
 }
 unsafe extern "C" {
-	pub fn SteamAPI_SteamFriends_v017() -> *mut ISteamFriends;
+	pub fn SteamAPI_SteamFriends_v018() -> *mut ISteamFriends;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamFriends_GetPersonaName(self_: *mut ISteamFriends) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
-	pub fn SteamAPI_ISteamFriends_SetPersonaName(self_: *mut ISteamFriends, pchPersonaName: *const ::std::os::raw::c_char) -> SteamAPICall_t;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamFriends_GetPersonaState(self_: *mut ISteamFriends) -> EPersonaState;
@@ -10870,9 +11004,6 @@ unsafe extern "C" {
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamFriends_GetClanOfficerByIndex(self_: *mut ISteamFriends, steamIDClan: uint64_steamid, iOfficer: ::std::os::raw::c_int) -> uint64_steamid;
-}
-unsafe extern "C" {
-	pub fn SteamAPI_ISteamFriends_GetUserRestrictions(self_: *mut ISteamFriends) -> uint32;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamFriends_SetRichPresence(self_: *mut ISteamFriends, pchKey: *const ::std::os::raw::c_char, pchValue: *const ::std::os::raw::c_char) -> bool;
@@ -12916,10 +13047,10 @@ unsafe extern "C" {
 	) -> bool;
 }
 unsafe extern "C" {
-	pub fn SteamAPI_SteamUGC_v020() -> *mut ISteamUGC;
+	pub fn SteamAPI_SteamUGC_v021() -> *mut ISteamUGC;
 }
 unsafe extern "C" {
-	pub fn SteamAPI_SteamGameServerUGC_v020() -> *mut ISteamUGC;
+	pub fn SteamAPI_SteamGameServerUGC_v021() -> *mut ISteamUGC;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamUGC_CreateQueryUserUGCRequest(
@@ -13219,10 +13350,10 @@ unsafe extern "C" {
 	pub fn SteamAPI_ISteamUGC_UnsubscribeItem(self_: *mut ISteamUGC, nPublishedFileID: PublishedFileId_t) -> SteamAPICall_t;
 }
 unsafe extern "C" {
-	pub fn SteamAPI_ISteamUGC_GetNumSubscribedItems(self_: *mut ISteamUGC) -> uint32;
+	pub fn SteamAPI_ISteamUGC_GetNumSubscribedItems(self_: *mut ISteamUGC, bIncludeLocallyDisabled: bool) -> uint32;
 }
 unsafe extern "C" {
-	pub fn SteamAPI_ISteamUGC_GetSubscribedItems(self_: *mut ISteamUGC, pvecPublishedFileID: *mut PublishedFileId_t, cMaxEntries: uint32) -> uint32;
+	pub fn SteamAPI_ISteamUGC_GetSubscribedItems(self_: *mut ISteamUGC, pvecPublishedFileID: *mut PublishedFileId_t, cMaxEntries: uint32, bIncludeLocallyDisabled: bool) -> uint32;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamUGC_GetItemState(self_: *mut ISteamUGC, nPublishedFileID: PublishedFileId_t) -> uint32;
@@ -13284,6 +13415,12 @@ unsafe extern "C" {
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamUGC_GetUserContentDescriptorPreferences(self_: *mut ISteamUGC, pvecDescriptors: *mut EUGCContentDescriptorID, cMaxEntries: uint32) -> uint32;
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamUGC_SetItemsDisabledLocally(self_: *mut ISteamUGC, pvecPublishedFileIDs: *mut PublishedFileId_t, unNumPublishedFileIDs: uint32, bDisabledLocally: bool) -> bool;
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamUGC_SetSubscriptionsLoadOrder(self_: *mut ISteamUGC, pvecPublishedFileIDs: *mut PublishedFileId_t, unNumPublishedFileIDs: uint32) -> bool;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_SteamHTMLSurface_v005() -> *mut ISteamHTMLSurface;
@@ -13772,7 +13909,7 @@ unsafe extern "C" {
 	pub fn SteamAPI_ISteamParentalSettings_BIsFeatureInBlockList(self_: *mut ISteamParentalSettings, eFeature: EParentalFeature) -> bool;
 }
 unsafe extern "C" {
-	pub fn SteamAPI_SteamRemotePlay_v002() -> *mut ISteamRemotePlay;
+	pub fn SteamAPI_SteamRemotePlay_v003() -> *mut ISteamRemotePlay;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamRemotePlay_GetSessionCount(self_: *mut ISteamRemotePlay) -> uint32;
@@ -13798,10 +13935,39 @@ unsafe extern "C" {
 	) -> bool;
 }
 unsafe extern "C" {
-	pub fn SteamAPI_ISteamRemotePlay_BStartRemotePlayTogether(self_: *mut ISteamRemotePlay, bShowOverlay: bool) -> bool;
+	pub fn SteamAPI_ISteamRemotePlay_ShowRemotePlayTogetherUI(self_: *mut ISteamRemotePlay) -> bool;
 }
 unsafe extern "C" {
 	pub fn SteamAPI_ISteamRemotePlay_BSendRemotePlayTogetherInvite(self_: *mut ISteamRemotePlay, steamIDFriend: uint64_steamid) -> bool;
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamRemotePlay_BEnableRemotePlayTogetherDirectInput(self_: *mut ISteamRemotePlay) -> bool;
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamRemotePlay_DisableRemotePlayTogetherDirectInput(self_: *mut ISteamRemotePlay);
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamRemotePlay_GetInput(self_: *mut ISteamRemotePlay, pInput: *mut RemotePlayInput_t, unMaxEvents: uint32) -> uint32;
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamRemotePlay_SetMouseVisibility(self_: *mut ISteamRemotePlay, unSessionID: RemotePlaySessionID_t, bVisible: bool);
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamRemotePlay_SetMousePosition(self_: *mut ISteamRemotePlay, unSessionID: RemotePlaySessionID_t, flNormalizedX: f32, flNormalizedY: f32);
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamRemotePlay_CreateMouseCursor(
+		self_: *mut ISteamRemotePlay,
+		nWidth: ::std::os::raw::c_int,
+		nHeight: ::std::os::raw::c_int,
+		nHotX: ::std::os::raw::c_int,
+		nHotY: ::std::os::raw::c_int,
+		pBGRA: *const ::std::os::raw::c_void,
+		nPitch: ::std::os::raw::c_int,
+	) -> RemotePlayCursorID_t;
+}
+unsafe extern "C" {
+	pub fn SteamAPI_ISteamRemotePlay_SetMouseCursor(self_: *mut ISteamRemotePlay, unSessionID: RemotePlaySessionID_t, unCursorID: RemotePlayCursorID_t);
 }
 unsafe extern "C" {
 	pub fn SteamAPI_SteamNetworkingMessages_SteamAPI_v002() -> *mut ISteamNetworkingMessages;

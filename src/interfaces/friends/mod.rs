@@ -23,10 +23,6 @@ use std::pin::Pin;
 use std::sync::{Mutex, MutexGuard};
 use std::task::{Context, Poll};
 
-/// The maximum length a user's name may be when set with [`FriendsInterface::set_persona_name`].
-/// This count does not include the nul terminator.
-pub const PERSONA_NAME_MAX: usize = sys::k_cchPersonaNameMax as usize - 1;
-
 impl AsRef<FriendsInterface> for super::ClientInterfaces {
 	fn as_ref(&self) -> &FriendsInterface {
 		&self.friends
@@ -579,55 +575,6 @@ impl FriendsInterface {
 		RichPresenceInterface { ifc: self }
 	}
 
-	/// > Sets the current user's persona name,
-	/// stores it on the server and publishes the changes to all friends who are online.
-	/// Changes take place locally immediately,
-	/// and a [`PersonaStateChange`] callback is posted, presuming success.
-	/// If the name change fails to happen on the server,
-	/// then an additional [`PersonaStateChange`] callback will be posted to change the name back,
-	/// in addition to the final result available in the call result.
-	///
-	/// # Panics
-	/// - If name exceeds [`PERSONA_NAME_MAX`] bytes, due to [`FiniteBytes::to_finite_bytes`].
-	/// - If `name` contains a nul/zero byte, due to the C ABI's string representation.
-	///
-	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#SetPersonaName)
-	///
-	/// [`FiniteBytes::to_finite_bytes`]: crate::util::FiniteBytes::to_finite_bytes
-	pub async fn set_persona_name(&self, name: impl FiniteStr<PERSONA_NAME_MAX>) -> Result<(), CallError<GeneralError>> {
-		struct SetPersonaName {
-			name: CString,
-			steam: SteamChild,
-		}
-
-		unsafe impl Dispatch for SetPersonaName {
-			type CType = sys::SetPersonaNameResponse_t;
-			type Output = ();
-			type Error = GeneralError;
-
-			unsafe fn dispatch(&mut self, _: Private) -> sys::SteamAPICall_t {
-				sys::SteamAPI_ISteamFriends_SetPersonaName(*self.steam.get().client_interfaces().friends.fip, self.name.as_ptr())
-			}
-
-			fn post(&mut self, c_data: Box<Self::CType>, _: Private) -> Result<Self::Output, Self::Error> {
-				if let Some(error) = GeneralError::new(c_data.m_result) {
-					return Err(error);
-				}
-
-				Ok(())
-			}
-		}
-
-		let name = name.to_finite_cstring().unwrap();
-		let steam = self.steam.get();
-		let mut call_manager = steam.call_manager_lock();
-		let future = call_manager.dispatch(SetPersonaName { name, steam: steam.child() });
-
-		drop(call_manager); //explicit drop for significant drop
-
-		future.await
-	}
-
 	/// > Mark a target user as 'played with'.
 	///
 	/// A list of players with this mark can be iterated using [`coplay_friend_iter`].
@@ -663,7 +610,7 @@ impl Interface for FriendsInterface {
 	}
 
 	unsafe fn raw_interface() -> *mut Self::CInterface {
-		sys::SteamAPI_SteamFriends_v017()
+		sys::SteamAPI_SteamFriends_v018()
 	}
 }
 
