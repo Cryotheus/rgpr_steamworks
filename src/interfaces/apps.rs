@@ -1,9 +1,9 @@
 //! See [`AppsInterface`].
 
-use crate::call::{Callback, CallbackRaw, Dispatch};
+use crate::call::{Dispatch};
 use crate::dt::{AppId, CsvString, DepotId, SteamId};
 use crate::error::{CallError, GeneralError, SteamError, UnspecifiedError};
-use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
+use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild};
 use crate::iter::{SteamApiIterator, Unreliable};
 use crate::util::{expect_string, some_string, success, CStrArray, CStrArrayPath, MAX_PATH};
 use crate::{sys, Private};
@@ -888,39 +888,6 @@ pub struct FileDetails {
 	sha: [u8; 20],
 }
 
-// callback! {
-// 	/// > Posted after the user executes a steam url with query parameters while the game is already running.
-// 	///
-// 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewLaunchQueryParameters_t)
-// 	///
-// 	/// [`launch_query_param`]: AppsInterface::launch_query_param
-// 	pub struct NewLaunchQueryParameters;
-// 	
-// 	sys NewLaunchQueryParameters;
-// }
-
-// unsafe impl CallbackRaw for NewLaunchQueryParameters {
-// 	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
-// 	type CType = sys::NewLaunchQueryParameters_t;
-// 	type Output = SteamChild;
-// 
-// 	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
-// 		self.steam.clone()
-// 	}
-// 
-// 	fn register(steam: &SteamInterface, _: Private) -> Self {
-// 		Self { steam: steam.child() }
-// 	}
-// }
-// 
-// impl Callback for NewLaunchQueryParameters {
-// 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
-// 
-// 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-// 		listener_fn(&params.get().interfaces.apps);
-// 	}
-// }
-
 callback! {
 	/// > Posted after the user executes a steam url with command line or query parameters such as
 	/// `steam://run/<appid>//?param1=value1;param2=value2;param3=value3;`
@@ -930,31 +897,14 @@ callback! {
 	/// [`AppsInterface::launch_query_param`] is the preferred and newer method.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#NewUrlLaunchParameters_t)
-	pub struct NewUrlLaunchParameters;
+	#[doc(alias = "NewLaunchQueryParameters_t")]
+	pub struct NewUrlLaunchParameters {
+		steam: SteamChild,
+	}
+
+	new steam;
+	data => interface shared AppsInterface;
 }
-
-
-// unsafe impl CallbackRaw for NewUrlLaunchParameters {
-// 	const CALLBACK_ID: i32 = sys::NewUrlLaunchParameters_t_k_iCallback as i32;
-// 	type CType = sys::NewUrlLaunchParameters_t;
-// 	type Output = SteamChild;
-// 
-// 	unsafe fn on_callback(&mut self, _c_data: &Self::CType, _: Private) -> Self::Output {
-// 		self.steam.clone()
-// 	}
-// 
-// 	fn register(steam: &SteamInterface, _: Private) -> Self {
-// 		Self { steam: steam.child() }
-// 	}
-// }
-// 
-// impl Callback for NewUrlLaunchParameters {
-// 	type Fn = dyn FnMut(&AppsInterface) + Send + Sync;
-// 
-// 	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-// 		listener_fn(&params.get().interfaces.apps);
-// 	}
-// }
 
 /// Provided by [`AppsInterface::timed_trial`].
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
@@ -985,45 +935,21 @@ impl TimedTrial {
 	}
 }
 
-/// Steam API callback.
-///
-/// ```
-/// # use rgpr_steamworks::{dt::AppId, interfaces::apps::TimedTrial};
-/// fn listener(app_id: AppId, offline: bool, trial: TimedTrial) { }
-/// ```
-///
-/// > Sent every minute when a [AppId] is owned via a timed trial.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#TimedTrialStatus_t)
-#[derive(Debug)]
-pub struct TimedTrialStatus;
+callback! {
+	/// > Sent every minute when a [AppId] is owned via a timed trial.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamApps#TimedTrialStatus_t)
+	pub struct TimedTrialStatus;
 
-unsafe impl CallbackRaw for TimedTrialStatus {
-	const CALLBACK_ID: i32 = sys::TimedTrialStatus_t_k_iCallback as i32;
-	type CType = sys::TimedTrialStatus_t;
-	type Output = (AppId, bool, TimedTrial);
-
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
+	data -> (AppId, bool, TimedTrial) {
 		(
-			c_data.m_unAppID.into(),
-			c_data.m_bIsOffline,
+			data.m_unAppID.into(),
+			data.m_bIsOffline,
 			TimedTrial {
-				secs_allowed: c_data.m_unSecondsAllowed.into(),
-				secs_played: c_data.m_unSecondsPlayed.into(),
+				secs_allowed: data.m_unSecondsAllowed.into(),
+				secs_played: data.m_unSecondsPlayed.into(),
 			},
 		)
-	}
-
-	fn register(_steam: &SteamInterface, _: Private) -> Self {
-		Self
-	}
-}
-
-impl Callback for TimedTrialStatus {
-	type Fn = dyn FnMut(AppId, bool, TimedTrial) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(params.0, params.1, params.2);
 	}
 }
 

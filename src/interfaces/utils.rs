@@ -465,10 +465,6 @@ impl Interface for UtilsInterface {
 }
 
 callback! {
-	/// ```
-	/// fn listener() {}
-	/// ```
-	///
 	/// > Sent after the device returns from sleep/suspend mode.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamUtils#AppResumingFromSuspend_t)
@@ -507,10 +503,6 @@ impl From<FloatingGamepadTextInputMode> for sys::EFloatingGamepadTextInputMode {
 }
 
 callback! {
-	/// ```
-	/// fn listener() {}
-	/// ```
-	///
 	/// > Called when the floating keyboard invoked from [`UtilsInterface::floating_gamepad_text_input`] has been closed.
 	///
 	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamUtils#FloatingGamepadTextInputDismissed_t)
@@ -578,6 +570,7 @@ callback! {
 		steam: SteamChild,
 	}
 
+	keep;
 	new steam;
 
 	data {

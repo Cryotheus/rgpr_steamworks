@@ -1,3 +1,4 @@
+#![allow(unused_qualifications)]
 #[repr(C)]
 #[derive(Copy, Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct __BindgenBitfieldUnit<Storage> {
@@ -1080,32 +1081,22 @@ const _: () = {
 unsafe extern "C" {
     #[link_name = "\u{1}_ZNK8CSteamID6RenderEv"]
     pub fn CSteamID_Render(this: *const CSteamID) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}_ZN8CSteamID6RenderEy"]
     pub fn CSteamID_Render1(ulSteamID: uint64) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}_ZN8CSteamID13SetFromStringEPKc9EUniverse"]
     pub fn CSteamID_SetFromString(
         this: *mut CSteamID,
         pchSteamID: *const ::std::os::raw::c_char,
         eDefaultUniverse: EUniverse,
     );
-}
-unsafe extern "C" {
     #[link_name = "\u{1}_ZN8CSteamID19SetFromStringStrictEPKc9EUniverse"]
     pub fn CSteamID_SetFromStringStrict(
         this: *mut CSteamID,
         pchSteamID: *const ::std::os::raw::c_char,
         eDefaultUniverse: EUniverse,
     ) -> bool;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}_ZNK8CSteamID21BValidExternalSteamIDEv"]
     pub fn CSteamID_BValidExternalSteamID(this: *const CSteamID) -> bool;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}_ZN8CSteamIDC1EPKc9EUniverse"]
     pub fn CSteamID_CSteamID(
         this: *mut CSteamID,
@@ -1353,12 +1344,8 @@ const _: () = {
 unsafe extern "C" {
     #[link_name = "\u{1}_ZNK7CGameID6RenderEv"]
     pub fn CGameID_Render(this: *const CGameID) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}_ZN7CGameID6RenderEy"]
     pub fn CGameID_Render1(ulGameID: uint64) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}_ZN7CGameIDC1EPKc"]
     pub fn CGameID_CGameID(this: *mut CGameID, pchGameID: *const ::std::os::raw::c_char);
 }
@@ -1463,8 +1450,6 @@ pub type SteamAPI_CheckCallbackRegistered_t = ::std::option::Option<
 >;
 unsafe extern "C" {
     pub fn SteamAPI_RunCallbacks();
-}
-unsafe extern "C" {
     pub fn SteamGameServer_RunCallbacks();
 }
 #[repr(C)]
@@ -1515,109 +1500,77 @@ unsafe extern "C" {
         __src: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn memmove(
         __dest: *mut ::std::os::raw::c_void,
         __src: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn memccpy(
         __dest: *mut ::std::os::raw::c_void,
         __src: *const ::std::os::raw::c_void,
         __c: ::std::os::raw::c_int,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn memset(
         __s: *mut ::std::os::raw::c_void,
         __c: ::std::os::raw::c_int,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn memcmp(
         __s1: *const ::std::os::raw::c_void,
         __s2: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn __memcmpeq(
         __s1: *const ::std::os::raw::c_void,
         __s2: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn memchr(
         __s: *mut ::std::os::raw::c_void,
         __c: ::std::os::raw::c_int,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn rawmemchr(
         __s: *mut ::std::os::raw::c_void,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn memrchr(
         __s: *mut ::std::os::raw::c_void,
         __c: ::std::os::raw::c_int,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn strcpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strncpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strcat(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strncat(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strcmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strncmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strcoll(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strxfrm(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
@@ -1661,332 +1614,209 @@ unsafe extern "C" {
         __s2: *const ::std::os::raw::c_char,
         __l: locale_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strxfrm_l(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: usize,
         __l: locale_t,
     ) -> usize;
-}
-unsafe extern "C" {
     pub fn strdup(__s: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strndup(
         __string: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strchr(
         __s: *mut ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strrchr(
         __s: *mut ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strchrnul(
         __s: *mut ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strcspn(
         __s: *const ::std::os::raw::c_char,
         __reject: *const ::std::os::raw::c_char,
     ) -> usize;
-}
-unsafe extern "C" {
     pub fn strspn(
         __s: *const ::std::os::raw::c_char,
         __accept: *const ::std::os::raw::c_char,
     ) -> usize;
-}
-unsafe extern "C" {
     pub fn strpbrk(
         __s: *mut ::std::os::raw::c_char,
         __accept: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strstr(
         __haystack: *mut ::std::os::raw::c_char,
         __needle: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strtok(
         __s: *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn __strtok_r(
         __s: *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
         __save_ptr: *mut *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strtok_r(
         __s: *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
         __save_ptr: *mut *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strcasestr(
         __haystack: *mut ::std::os::raw::c_char,
         __needle: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn memmem(
         __haystack: *const ::std::os::raw::c_void,
         __haystacklen: usize,
         __needle: *const ::std::os::raw::c_void,
         __needlelen: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn __mempcpy(
         __dest: *mut ::std::os::raw::c_void,
         __src: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn mempcpy(
         __dest: *mut ::std::os::raw::c_void,
         __src: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn strlen(__s: *const ::std::os::raw::c_char) -> usize;
-}
-unsafe extern "C" {
     pub fn strnlen(__string: *const ::std::os::raw::c_char, __maxlen: usize) -> usize;
-}
-unsafe extern "C" {
     pub fn strerror(__errnum: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strerror_r(
         __errnum: ::std::os::raw::c_int,
         __buf: *mut ::std::os::raw::c_char,
         __buflen: usize,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strerrordesc_np(
         __err: ::std::os::raw::c_int,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strerrorname_np(
         __err: ::std::os::raw::c_int,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strerror_l(
         __errnum: ::std::os::raw::c_int,
         __l: locale_t,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn bcmp(
         __s1: *const ::std::os::raw::c_void,
         __s2: *const ::std::os::raw::c_void,
         __n: usize,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn bcopy(
         __src: *const ::std::os::raw::c_void,
         __dest: *mut ::std::os::raw::c_void,
         __n: usize,
     );
-}
-unsafe extern "C" {
     pub fn bzero(__s: *mut ::std::os::raw::c_void, __n: usize);
-}
-unsafe extern "C" {
     pub fn index(
         __s: *const ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn rindex(
         __s: *const ::std::os::raw::c_char,
         __c: ::std::os::raw::c_int,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn ffs(__i: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ffsl(__l: ::std::os::raw::c_long) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ffsll(__ll: ::std::os::raw::c_longlong) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strcasecmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strncasecmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strcasecmp_l(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __loc: locale_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strncasecmp_l(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
         __n: usize,
         __loc: locale_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn explicit_bzero(__s: *mut ::std::os::raw::c_void, __n: usize);
-}
-unsafe extern "C" {
     pub fn strsep(
         __stringp: *mut *mut ::std::os::raw::c_char,
         __delim: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strsignal(__sig: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn sigabbrev_np(__sig: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn sigdescr_np(__sig: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn __stpcpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn stpcpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn __stpncpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn stpncpy(
         __dest: *mut ::std::os::raw::c_char,
         __src: *const ::std::os::raw::c_char,
         __n: usize,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn strverscmp(
         __s1: *const ::std::os::raw::c_char,
         __s2: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn strfry(__string: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn memfrob(
         __s: *mut ::std::os::raw::c_void,
         __n: usize,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn basename(
         __filename: *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_GetHSteamPipe() -> HSteamPipe;
-}
-unsafe extern "C" {
     pub fn SteamAPI_GetHSteamUser() -> HSteamUser;
-}
-unsafe extern "C" {
     pub fn SteamGameServer_GetHSteamPipe() -> HSteamPipe;
-}
-unsafe extern "C" {
     pub fn SteamGameServer_GetHSteamUser() -> HSteamUser;
-}
-unsafe extern "C" {
     pub fn SteamInternal_ContextInit(
         pContextInitData: *mut ::std::os::raw::c_void,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn SteamInternal_CreateInterface(
         ver: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn SteamInternal_FindOrCreateUserInterface(
         hSteamUser: HSteamUser,
         pszVersion: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn SteamInternal_FindOrCreateGameServerInterface(
         hSteamUser: HSteamUser,
         pszVersion: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn SteamAPI_RegisterCallback(
         pCallback: *mut CCallbackBase,
         iCallback: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_UnregisterCallback(pCallback: *mut CCallbackBase);
-}
-unsafe extern "C" {
     pub fn SteamAPI_RegisterCallResult(
         pCallback: *mut CCallbackBase,
         hAPICall: SteamAPICall_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_UnregisterCallResult(
         pCallback: *mut CCallbackBase,
         hAPICall: SteamAPICall_t,
     );
 }
-/// Internal structure used in manual callback dispatch
 #[repr(C, packed(4))]
 #[derive(Debug, Copy, Clone)]
 pub struct CallbackMsg_t {
@@ -4119,31 +3949,19 @@ pub type fpos_t = __fpos_t;
 pub type fpos64_t = __fpos64_t;
 unsafe extern "C" {
     pub static mut stdin: *mut FILE;
-}
-unsafe extern "C" {
     pub static mut stdout: *mut FILE;
-}
-unsafe extern "C" {
     pub static mut stderr: *mut FILE;
-}
-unsafe extern "C" {
     pub fn remove(__filename: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn rename(
         __old: *const ::std::os::raw::c_char,
         __new: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn renameat(
         __oldfd: ::std::os::raw::c_int,
         __old: *const ::std::os::raw::c_char,
         __newfd: ::std::os::raw::c_int,
         __new: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn renameat2(
         __oldfd: ::std::os::raw::c_int,
         __old: *const ::std::os::raw::c_char,
@@ -4151,209 +3969,135 @@ unsafe extern "C" {
         __new: *const ::std::os::raw::c_char,
         __flags: ::std::os::raw::c_uint,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn tmpfile() -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn tmpfile64() -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn tmpnam(arg1: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn tmpnam_r(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn tempnam(
         __dir: *const ::std::os::raw::c_char,
         __pfx: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn fflush(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fflush_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fcloseall() -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fopen(
         __filename: *const ::std::os::raw::c_char,
         __modes: *const ::std::os::raw::c_char,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn freopen(
         __filename: *const ::std::os::raw::c_char,
         __modes: *const ::std::os::raw::c_char,
         __stream: *mut FILE,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn fopen64(
         __filename: *const ::std::os::raw::c_char,
         __modes: *const ::std::os::raw::c_char,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn freopen64(
         __filename: *const ::std::os::raw::c_char,
         __modes: *const ::std::os::raw::c_char,
         __stream: *mut FILE,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn fdopen(
         __fd: ::std::os::raw::c_int,
         __modes: *const ::std::os::raw::c_char,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn fopencookie(
         __magic_cookie: *mut ::std::os::raw::c_void,
         __modes: *const ::std::os::raw::c_char,
         __io_funcs: cookie_io_functions_t,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn fmemopen(
         __s: *mut ::std::os::raw::c_void,
         __len: usize,
         __modes: *const ::std::os::raw::c_char,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn open_memstream(
         __bufloc: *mut *mut ::std::os::raw::c_char,
         __sizeloc: *mut usize,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn setbuf(__stream: *mut FILE, __buf: *mut ::std::os::raw::c_char);
-}
-unsafe extern "C" {
     pub fn setvbuf(
         __stream: *mut FILE,
         __buf: *mut ::std::os::raw::c_char,
         __modes: ::std::os::raw::c_int,
         __n: usize,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn setbuffer(
         __stream: *mut FILE,
         __buf: *mut ::std::os::raw::c_char,
         __size: usize,
     );
-}
-unsafe extern "C" {
     pub fn setlinebuf(__stream: *mut FILE);
-}
-unsafe extern "C" {
     pub fn fprintf(
         __stream: *mut FILE,
         __format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn printf(__format: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn sprintf(
         __s: *mut ::std::os::raw::c_char,
         __format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vfprintf(
         __s: *mut FILE,
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vprintf(
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vsprintf(
         __s: *mut ::std::os::raw::c_char,
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn snprintf(
         __s: *mut ::std::os::raw::c_char,
         __maxlen: usize,
         __format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vsnprintf(
         __s: *mut ::std::os::raw::c_char,
         __maxlen: usize,
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vasprintf(
         __ptr: *mut *mut ::std::os::raw::c_char,
         __f: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn __asprintf(
         __ptr: *mut *mut ::std::os::raw::c_char,
         __fmt: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn asprintf(
         __ptr: *mut *mut ::std::os::raw::c_char,
         __fmt: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vdprintf(
         __fd: ::std::os::raw::c_int,
         __fmt: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn dprintf(
         __fd: ::std::os::raw::c_int,
         __fmt: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fscanf(
         __stream: *mut FILE,
         __format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn scanf(__format: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn sscanf(
         __s: *const ::std::os::raw::c_char,
         __format: *const ::std::os::raw::c_char,
@@ -4371,297 +4115,179 @@ unsafe extern "C" {
         __format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}__isoc99_scanf"]
     pub fn scanf1(__format: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}__isoc99_sscanf"]
     pub fn sscanf1(
         __s: *const ::std::os::raw::c_char,
         __format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vfscanf(
         __s: *mut FILE,
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vscanf(
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn vsscanf(
         __s: *const ::std::os::raw::c_char,
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}__isoc99_vfscanf"]
     pub fn vfscanf1(
         __s: *mut FILE,
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}__isoc99_vscanf"]
     pub fn vscanf1(
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     #[link_name = "\u{1}__isoc99_vsscanf"]
     pub fn vsscanf1(
         __s: *const ::std::os::raw::c_char,
         __format: *const ::std::os::raw::c_char,
         __arg: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fgetc(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn getc(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn getchar() -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn getc_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn getchar_unlocked() -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fgetc_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fputc(
         __c: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn putc(
         __c: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn putchar(__c: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fputc_unlocked(
         __c: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn putc_unlocked(
         __c: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn putchar_unlocked(__c: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn getw(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn putw(
         __w: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fgets(
         __s: *mut ::std::os::raw::c_char,
         __n: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn fgets_unlocked(
         __s: *mut ::std::os::raw::c_char,
         __n: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn __getdelim(
         __lineptr: *mut *mut ::std::os::raw::c_char,
         __n: *mut usize,
         __delimiter: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> __ssize_t;
-}
-unsafe extern "C" {
     pub fn getdelim(
         __lineptr: *mut *mut ::std::os::raw::c_char,
         __n: *mut usize,
         __delimiter: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> __ssize_t;
-}
-unsafe extern "C" {
     pub fn getline(
         __lineptr: *mut *mut ::std::os::raw::c_char,
         __n: *mut usize,
         __stream: *mut FILE,
     ) -> __ssize_t;
-}
-unsafe extern "C" {
     pub fn fputs(
         __s: *const ::std::os::raw::c_char,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn puts(__s: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ungetc(
         __c: ::std::os::raw::c_int,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fread(
         __ptr: *mut ::std::os::raw::c_void,
         __size: usize,
         __n: usize,
         __stream: *mut FILE,
     ) -> usize;
-}
-unsafe extern "C" {
     pub fn fwrite(
         __ptr: *const ::std::os::raw::c_void,
         __size: usize,
         __n: usize,
         __s: *mut FILE,
     ) -> usize;
-}
-unsafe extern "C" {
     pub fn fputs_unlocked(
         __s: *const ::std::os::raw::c_char,
         __stream: *mut FILE,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fread_unlocked(
         __ptr: *mut ::std::os::raw::c_void,
         __size: usize,
         __n: usize,
         __stream: *mut FILE,
     ) -> usize;
-}
-unsafe extern "C" {
     pub fn fwrite_unlocked(
         __ptr: *const ::std::os::raw::c_void,
         __size: usize,
         __n: usize,
         __stream: *mut FILE,
     ) -> usize;
-}
-unsafe extern "C" {
     pub fn fseek(
         __stream: *mut FILE,
         __off: ::std::os::raw::c_long,
         __whence: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ftell(__stream: *mut FILE) -> ::std::os::raw::c_long;
-}
-unsafe extern "C" {
     pub fn rewind(__stream: *mut FILE);
-}
-unsafe extern "C" {
     pub fn fseeko(
         __stream: *mut FILE,
         __off: __off_t,
         __whence: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ftello(__stream: *mut FILE) -> __off_t;
-}
-unsafe extern "C" {
     pub fn fgetpos(__stream: *mut FILE, __pos: *mut fpos_t) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fsetpos(__stream: *mut FILE, __pos: *const fpos_t) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fseeko64(
         __stream: *mut FILE,
         __off: __off64_t,
         __whence: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ftello64(__stream: *mut FILE) -> __off64_t;
-}
-unsafe extern "C" {
     pub fn fgetpos64(__stream: *mut FILE, __pos: *mut fpos64_t) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fsetpos64(
         __stream: *mut FILE,
         __pos: *const fpos64_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn clearerr(__stream: *mut FILE);
-}
-unsafe extern "C" {
     pub fn feof(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ferror(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn clearerr_unlocked(__stream: *mut FILE);
-}
-unsafe extern "C" {
     pub fn feof_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn ferror_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn perror(__s: *const ::std::os::raw::c_char);
-}
-unsafe extern "C" {
     pub fn fileno(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn fileno_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn pclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn popen(
         __command: *const ::std::os::raw::c_char,
         __modes: *const ::std::os::raw::c_char,
     ) -> *mut FILE;
-}
-unsafe extern "C" {
     pub fn ctermid(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn cuserid(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
 }
 #[repr(C)]
@@ -4675,27 +4301,15 @@ unsafe extern "C" {
         __format: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn obstack_vprintf(
         __obstack: *mut obstack,
         __format: *const ::std::os::raw::c_char,
         __args: *mut __va_list_tag,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn flockfile(__stream: *mut FILE);
-}
-unsafe extern "C" {
     pub fn ftrylockfile(__stream: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn funlockfile(__stream: *mut FILE);
-}
-unsafe extern "C" {
     pub fn __uflow(arg1: *mut FILE) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn __overflow(
         arg1: *mut FILE,
         arg2: ::std::os::raw::c_int,
@@ -4707,11 +4321,6 @@ pub const k_cbMaxGameServerGameDescription: ::std::os::raw::c_int = 64;
 pub const k_cbMaxGameServerName: ::std::os::raw::c_int = 64;
 pub const k_cbMaxGameServerTags: ::std::os::raw::c_int = 128;
 pub const k_cbMaxGameServerGameData: ::std::os::raw::c_int = 2048;
-/** Store key/value pair used in matchmaking queries.
-
- Actually, the name Key/Value is a bit misleading.  The "key" is better
- understood as "filter operation code" and the "value" is the operand to this
- filter operation.  The meaning of the operand depends upon the filter.*/
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct MatchMakingKeyValuePair_t {
@@ -4764,41 +4373,23 @@ const _: () = {
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct gameserveritem_t {
-    ///< IP/Query Port/Connection Port for this server
     pub m_NetAdr: servernetadr_t,
-    ///< current ping time in milliseconds
     pub m_nPing: ::std::os::raw::c_int,
-    ///< server has responded successfully in the past
     pub m_bHadSuccessfulResponse: bool,
-    ///< server is marked as not responding and should no longer be refreshed
     pub m_bDoNotRefresh: bool,
-    ///< current game directory
     pub m_szGameDir: [::std::os::raw::c_char; 32usize],
-    ///< current map
     pub m_szMap: [::std::os::raw::c_char; 32usize],
-    ///< game description
     pub m_szGameDescription: [::std::os::raw::c_char; 64usize],
-    ///< Steam App ID of this server
     pub m_nAppID: uint32,
-    ///< total number of players currently on the server.  INCLUDES BOTS!!
     pub m_nPlayers: ::std::os::raw::c_int,
-    ///< Maximum players that can join this server
     pub m_nMaxPlayers: ::std::os::raw::c_int,
-    ///< Number of bots (i.e simulated players) on this server
     pub m_nBotPlayers: ::std::os::raw::c_int,
-    ///< true if this server needs a password to join
     pub m_bPassword: bool,
-    ///< Is this server protected by VAC
     pub m_bSecure: bool,
-    ///< time (in unix time) when this server was last played on (for favorite/history servers)
     pub m_ulTimeLastPlayed: uint32,
-    ///< server version as reported to Steam
     pub m_nServerVersion: ::std::os::raw::c_int,
-    /// Game server name
     pub m_szServerName: [::std::os::raw::c_char; 64usize],
-    /// the tags this server exposes
     pub m_szGameTags: [::std::os::raw::c_char; 128usize],
-    /// steamID of the game server - invalid if it's doesn't have one (old server, or not connected to Steam)
     pub m_steamID: CSteamID,
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
@@ -7697,8 +7288,6 @@ pub enum ESNetSocketConnectionType {
 }
 #[repr(C)]
 pub struct ISteamNetworking__bindgen_vtable(::std::os::raw::c_void);
-/**      the Steamworks SDK.  Please see ISteamNetworkingSockets and
-      ISteamNetworkingMessages*/
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct ISteamNetworking {
@@ -12374,34 +11963,17 @@ pub type FnSteamNetworkingMessagesSessionFailed = ::std::option::Option<
 pub type FnSteamNetworkingFakeIPResult = ::std::option::Option<
     unsafe extern "C" fn(arg1: *mut SteamNetworkingFakeIPResult_t),
 >;
-/// Handle used to identify a connection to a remote host.
 pub type HSteamNetConnection = uint32;
 pub const k_HSteamNetConnection_Invalid: HSteamNetConnection = 0;
-/** Handle used to identify a "listen socket".  Unlike traditional
- Berkeley sockets, a listen socket and a connection are two
- different abstractions.*/
 pub type HSteamListenSocket = uint32;
 pub const k_HSteamListenSocket_Invalid: HSteamListenSocket = 0;
-/** Handle used to identify a poll group, used to query many
- connections at once efficiently.*/
 pub type HSteamNetPollGroup = uint32;
 pub const k_HSteamNetPollGroup_Invalid: HSteamNetPollGroup = 0;
-/// Max length of diagnostic error message
 pub const k_cchMaxSteamNetworkingErrMsg: ::std::os::raw::c_int = 1024;
-/** Used to return English-language diagnostic error messages to caller.
- (For debugging or spewing to a console, etc.  Not intended for UI.)*/
 pub type SteamNetworkingErrMsg = [::std::os::raw::c_char; 1024usize];
-/** Identifier used for a network location point of presence.  (E.g. a Valve data center.)
- Typically you won't need to directly manipulate these.*/
 pub type SteamNetworkingPOPID = uint32;
-/** A local timestamp.  You can subtract two timestamps to get the number of elapsed
- microseconds.  This is guaranteed to increase over time during the lifetime
- of a process, but not globally across runs.  You don't need to worry about
- the value wrapping around.  Note that the underlying clock might not actually have
- microsecond resolution.*/
 pub type SteamNetworkingMicroseconds = int64;
 #[repr(i32)]
-/// Describe the status of a particular network resource
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingAvailability {
     k_ESteamNetworkingAvailability_CannotTry = -102,
@@ -12416,7 +11988,6 @@ pub enum ESteamNetworkingAvailability {
     k_ESteamNetworkingAvailability__Force32bit = 2147483647,
 }
 #[repr(u32)]
-/// Different methods of describing the identity of a network host
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingIdentityType {
     k_ESteamNetworkingIdentityType_Invalid = 0,
@@ -12430,8 +12001,6 @@ pub enum ESteamNetworkingIdentityType {
     k_ESteamNetworkingIdentityType__Force32bit = 2147483647,
 }
 #[repr(u32)]
-/** "Fake IPs" are assigned to hosts, to make it easier to interface with
- older code that assumed all hosts will have an IPv4 address*/
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingFakeIPType {
     k_ESteamNetworkingFakeIPType_Invalid = 0,
@@ -12440,9 +12009,6 @@ pub enum ESteamNetworkingFakeIPType {
     k_ESteamNetworkingFakeIPType_LocalIPv4 = 3,
     k_ESteamNetworkingFakeIPType__Force32Bit = 2147483647,
 }
-/** Store an IP and port.  IPv6 is always used; IPv4 is represented using
- "IPv4-mapped" addresses: IPv4 aa.bb.cc.dd => IPv6 ::ffff:aabb:ccdd
- (RFC 4291 section 2.5.5.2.)*/
 #[repr(C, packed)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingIPAddr {
@@ -12455,7 +12021,6 @@ pub const SteamNetworkingIPAddr_k_cchMaxString: SteamNetworkingIPAddr__bindgen_t
 pub enum SteamNetworkingIPAddr__bindgen_ty_1 {
     k_cchMaxString = 48,
 }
-/// RFC4038, section 4.2
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingIPAddr_IPv4MappedAddress {
@@ -12519,15 +12084,9 @@ const _: () = {
         "Offset of field: SteamNetworkingIPAddr::m_port",
     ][::std::mem::offset_of!(SteamNetworkingIPAddr, m_port) - 16usize];
 };
-/** An abstract way to represent the identity of a network host.  All identities can
- be represented as simple string.  Furthermore, this string representation is actually
- used on the wire in several places, even though it is less efficient, in order to
- facilitate forward compatibility.  (Old client code can handle an identity type that
- it doesn't understand.)*/
 #[repr(C, packed)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingIdentity {
-    /// Type of identity.
     pub m_eType: ESteamNetworkingIdentityType,
     pub m_cbSize: ::std::os::raw::c_int,
     pub __bindgen_anon_1: SteamNetworkingIdentity__bindgen_ty_2,
@@ -12610,93 +12169,17 @@ const _: () = {
     ][::std::mem::offset_of!(SteamNetworkingIdentity, m_cbSize) - 4usize];
 };
 #[repr(i32)]
-/// High level connection status
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConnectionState {
-    /** Dummy value used to indicate an error condition in the API.
- Specified connection doesn't exist or has already been closed.*/
     k_ESteamNetworkingConnectionState_None = 0,
-    /** We are trying to establish whether peers can talk to each other,
- whether they WANT to talk to each other, perform basic auth,
- and exchange crypt keys.
-
- - For connections on the "client" side (initiated locally):
-   We're in the process of trying to establish a connection.
-   Depending on the connection type, we might not know who they are.
-   Note that it is not possible to tell if we are waiting on the
-   network to complete handshake packets, or for the application layer
-   to accept the connection.
-
- - For connections on the "server" side (accepted through listen socket):
-   We have completed some basic handshake and the client has presented
-   some proof of identity.  The connection is ready to be accepted
-   using AcceptConnection().
-
- In either case, any unreliable packets sent now are almost certain
- to be dropped.  Attempts to receive packets are guaranteed to fail.
- You may send messages if the send mode allows for them to be queued.
- but if you close the connection before the connection is actually
- established, any queued messages will be discarded immediately.
- (We will not attempt to flush the queue and confirm delivery to the
- remote host, which ordinarily happens when a connection is closed.)*/
     k_ESteamNetworkingConnectionState_Connecting = 1,
-    /** Some connection types use a back channel or trusted 3rd party
- for earliest communication.  If the server accepts the connection,
- then these connections switch into the rendezvous state.  During this
- state, we still have not yet established an end-to-end route (through
- the relay network), and so if you send any messages unreliable, they
- are going to be discarded.*/
     k_ESteamNetworkingConnectionState_FindingRoute = 2,
-    /** We've received communications from our peer (and we know
- who they are) and are all good.  If you close the connection now,
- we will make our best effort to flush out any reliable sent data that
- has not been acknowledged by the peer.  (But note that this happens
- from within the application process, so unlike a TCP connection, you are
- not totally handing it off to the operating system to deal with it.)*/
     k_ESteamNetworkingConnectionState_Connected = 3,
-    /** Connection has been closed by our peer, but not closed locally.
- The connection still exists from an API perspective.  You must close the
- handle to free up resources.  If there are any messages in the inbound queue,
- you may retrieve them.  Otherwise, nothing may be done with the connection
- except to close it.
-
- This stats is similar to CLOSE_WAIT in the TCP state machine.*/
     k_ESteamNetworkingConnectionState_ClosedByPeer = 4,
-    /** A disruption in the connection has been detected locally.  (E.g. timeout,
- local internet connection disrupted, etc.)
-
- The connection still exists from an API perspective.  You must close the
- handle to free up resources.
-
- Attempts to send further messages will fail.  Any remaining received messages
- in the queue are available.*/
     k_ESteamNetworkingConnectionState_ProblemDetectedLocally = 5,
-    /** We've disconnected on our side, and from an API perspective the connection is closed.
- No more data may be sent or received.  All reliable data has been flushed, or else
- we've given up and discarded it.  We do not yet know for sure that the peer knows
- the connection has been closed, however, so we're just hanging around so that if we do
- get a packet from them, we can send them the appropriate packets so that they can
- know why the connection was closed (and not have to rely on a timeout, which makes
- it appear as if something is wrong).*/
     k_ESteamNetworkingConnectionState_FinWait = -1,
-    /** We've disconnected on our side, and from an API perspective the connection is closed.
- No more data may be sent or received.  From a network perspective, however, on the wire,
- we have not yet given any indication to the peer that the connection is closed.
- We are in the process of flushing out the last bit of reliable data.  Once that is done,
- we will inform the peer that the connection has been closed, and transition to the
- FinWait state.
-
- Note that no indication is given to the remote host that we have closed the connection,
- until the data has been flushed.  If the remote host attempts to send us data, we will
- do whatever is necessary to keep the connection alive until it can be closed properly.
- But in fact the data will be discarded, since there is no way for the application to
- read it back.  Typically this is not a problem, as application protocols that utilize
- the lingering functionality are designed for the remote host to wait for the response
- before sending any more data.*/
     k_ESteamNetworkingConnectionState_Linger = -2,
-    /// Connection is completely inactive and ready to be destroyed
     k_ESteamNetworkingConnectionState_Dead = -3,
-    /// Connection is completely inactive and ready to be destroyed
     k_ESteamNetworkingConnectionState__Force32Bit = 2147483647,
 }
 impl ESteamNetConnectionEnd {
@@ -12706,9 +12189,6 @@ impl ESteamNetConnectionEnd {
     pub const k_ESteamNetConnectionEnd_AppException_Generic: ESteamNetConnectionEnd = ESteamNetConnectionEnd::k_ESteamNetConnectionEnd_AppException_Min;
 }
 #[repr(u32)]
-/** Enumerate various causes of connection termination.  These are designed to work similar
- to HTTP error codes: the numeric range gives you a rough classification as to the source
- of the problem.*/
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetConnectionEnd {
     k_ESteamNetConnectionEnd_Invalid = 0,
@@ -12743,13 +12223,8 @@ pub enum ESteamNetConnectionEnd {
     k_ESteamNetConnectionEnd_Misc_Max = 5999,
     k_ESteamNetConnectionEnd__Force32Bit = 2147483647,
 }
-/** Max length, in bytes (including null terminator) of the reason string
- when a connection is closed.*/
 pub const k_cchSteamNetworkingMaxConnectionCloseReason: ::std::os::raw::c_int = 128;
-/** Max length, in bytes (include null terminator) of debug description
- of a connection.*/
 pub const k_cchSteamNetworkingMaxConnectionDescription: ::std::os::raw::c_int = 128;
-/// Max length of the app's part of the description
 pub const k_cchSteamNetworkingMaxConnectionAppName: ::std::os::raw::c_int = 32;
 pub const k_nSteamNetworkConnectionInfoFlags_Unauthenticated: ::std::os::raw::c_int = 1;
 pub const k_nSteamNetworkConnectionInfoFlags_Unencrypted: ::std::os::raw::c_int = 2;
@@ -12757,46 +12232,21 @@ pub const k_nSteamNetworkConnectionInfoFlags_LoopbackBuffers: ::std::os::raw::c_
 pub const k_nSteamNetworkConnectionInfoFlags_Fast: ::std::os::raw::c_int = 8;
 pub const k_nSteamNetworkConnectionInfoFlags_Relayed: ::std::os::raw::c_int = 16;
 pub const k_nSteamNetworkConnectionInfoFlags_DualWifi: ::std::os::raw::c_int = 32;
-/// Describe the state of a connection.
 #[repr(C, packed(4))]
 #[derive(Copy, Clone)]
 pub struct SteamNetConnectionInfo_t {
-    /// Who is on the other end?  Depending on the connection type and phase of the connection, we might not know
     pub m_identityRemote: SteamNetworkingIdentity,
-    /// Arbitrary user data set by the local application code
     pub m_nUserData: int64,
-    /// Handle to listen socket this was connected on, or k_HSteamListenSocket_Invalid if we initiated the connection
     pub m_hListenSocket: HSteamListenSocket,
-    /** Remote address.  Might be all 0's if we don't know it, or if this is N/A.
- (E.g. Basically everything except direct UDP connection.)*/
     pub m_addrRemote: SteamNetworkingIPAddr,
     pub m__pad1: uint16,
-    /// What data center is the remote host in?  (0 if we don't know.)
     pub m_idPOPRemote: SteamNetworkingPOPID,
-    /** What relay are we using to communicate with the remote host?
- (0 if not applicable.)*/
     pub m_idPOPRelay: SteamNetworkingPOPID,
-    /// High level state of the connection
     pub m_eState: ESteamNetworkingConnectionState,
-    /** Basic cause of the connection termination or problem.
- See ESteamNetConnectionEnd for the values used*/
     pub m_eEndReason: ::std::os::raw::c_int,
-    /** Human-readable, but non-localized explanation for connection
- termination or problem.  This is intended for debugging /
- diagnostic purposes only, not to display to users.  It might
- have some details specific to the issue.*/
     pub m_szEndDebug: [::std::os::raw::c_char; 128usize],
-    /** Debug description.  This includes the internal connection ID,
- connection type (and peer information), and any name
- given to the connection by the app.  This string is used in various
- internal logging messages.
-
- Note that the connection ID *usually* matches the HSteamNetConnection
- handle, but in certain cases with symmetric connections it might not.*/
     pub m_szConnectionDescription: [::std::os::raw::c_char; 128usize],
-    /// Misc flags.  Bitmask of k_nSteamNetworkConnectionInfoFlags_Xxxx
     pub m_nFlags: ::std::os::raw::c_int,
-    /// Internal stuff, room to change API easily
     pub reserved: [uint32; 63usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
@@ -12848,70 +12298,21 @@ const _: () = {
         "Offset of field: SteamNetConnectionInfo_t::reserved",
     ][::std::mem::offset_of!(SteamNetConnectionInfo_t, reserved) - 444usize];
 };
-/** Quick connection state, pared down to something you could call
- more frequently without it being too big of a perf hit.*/
 #[repr(C, packed(4))]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetConnectionRealTimeStatus_t {
-    /// High level state of the connection
     pub m_eState: ESteamNetworkingConnectionState,
-    /// Current ping (ms)
     pub m_nPing: ::std::os::raw::c_int,
-    /** Connection quality measured locally, 0...1.  (Percentage of packets delivered
- end-to-end in order).*/
     pub m_flConnectionQualityLocal: f32,
-    /// Packet delivery success rate as observed from remote host
     pub m_flConnectionQualityRemote: f32,
-    /// Current data rates from recent history.
     pub m_flOutPacketsPerSec: f32,
     pub m_flOutBytesPerSec: f32,
     pub m_flInPacketsPerSec: f32,
     pub m_flInBytesPerSec: f32,
-    /** Estimate rate that we believe that we can send data to our peer.
- Note that this could be significantly higher than m_flOutBytesPerSec,
- meaning the capacity of the channel is higher than you are sending data.
- (That's OK!)*/
     pub m_nSendRateBytesPerSecond: ::std::os::raw::c_int,
-    /** Number of bytes pending to be sent.  This is data that you have recently
- requested to be sent but has not yet actually been put on the wire.  The
- reliable number ALSO includes data that was previously placed on the wire,
- but has now been scheduled for re-transmission.  Thus, it's possible to
- observe m_cbPendingReliable increasing between two checks, even if no
- calls were made to send reliable data between the checks.  Data that is
- awaiting the Nagle delay will appear in these numbers.*/
     pub m_cbPendingUnreliable: ::std::os::raw::c_int,
     pub m_cbPendingReliable: ::std::os::raw::c_int,
-    /** Number of bytes of reliable data that has been placed the wire, but
- for which we have not yet received an acknowledgment, and thus we may
- have to re-transmit.*/
     pub m_cbSentUnackedReliable: ::std::os::raw::c_int,
-    /** If you queued a message right now, approximately how long would that message
- wait in the queue before we actually started putting its data on the wire in
- a packet?
-
- In general, data that is sent by the application is limited by the bandwidth
- of the channel.  If you send data faster than this, it must be queued and
- put on the wire at a metered rate.  Even sending a small amount of data (e.g.
- a few MTU, say ~3k) will require some of the data to be delayed a bit.
-
- Ignoring multiple lanes, the estimated delay will be approximately equal to
-
-		( m_cbPendingUnreliable+m_cbPendingReliable ) / m_nSendRateBytesPerSecond
-
- plus or minus one MTU.  It depends on how much time has elapsed since the last
- packet was put on the wire.  For example, the queue might have *just* been emptied,
- and the last packet placed on the wire, and we are exactly up against the send
- rate limit.  In that case we might need to wait for one packet's worth of time to
- elapse before we can send again.  On the other extreme, the queue might have data
- in it waiting for Nagle.  (This will always be less than one packet, because as
- soon as we have a complete packet we would send it.)  In that case, we might be
- ready to send data now, and this value will be 0.
-
- This value is only valid if multiple lanes are not used.  If multiple lanes are
- in use, then the queue time will be different for each lane, and you must use
- the value in SteamNetConnectionRealTimeLaneStatus_t.
-
- Nagle delay is ignored for the purposes of this calculation.*/
     pub m_usecQueueTime: SteamNetworkingMicroseconds,
     pub reserved: [uint32; 16usize],
 }
@@ -12980,7 +12381,6 @@ const _: () = {
         "Offset of field: SteamNetConnectionRealTimeStatus_t::reserved",
     ][::std::mem::offset_of!(SteamNetConnectionRealTimeStatus_t, reserved) - 56usize];
 };
-/// Quick status of a particular lane
 #[repr(C, packed(4))]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetConnectionRealTimeLaneStatus_t {
@@ -12988,9 +12388,6 @@ pub struct SteamNetConnectionRealTimeLaneStatus_t {
     pub m_cbPendingReliable: ::std::os::raw::c_int,
     pub m_cbSentUnackedReliable: ::std::os::raw::c_int,
     pub _reservePad1: ::std::os::raw::c_int,
-    /** Lane-specific queue time.  This value takes into consideration lane priorities
- and weights, and how much data is queued in each lane, and attempts to predict
- how any data currently queued will be sent out.*/
     pub m_usecQueueTime: SteamNetworkingMicroseconds,
     pub reserved: [uint32; 10usize],
 }
@@ -13029,80 +12426,25 @@ const _: () = {
     ][::std::mem::offset_of!(SteamNetConnectionRealTimeLaneStatus_t, reserved)
         - 24usize];
 };
-/** Max size of a single message that we can SEND.
- Note: We might be wiling to receive larger messages,
- and our peer might, too.*/
 pub const k_cbMaxSteamNetworkingSocketsMessageSizeSend: ::std::os::raw::c_int = 524288;
-/// A message that has been received.
 #[repr(C)]
 pub struct SteamNetworkingMessage_t {
-    /// Message payload
     pub m_pData: *mut ::std::os::raw::c_void,
-    /// Size of the payload.
     pub m_cbSize: ::std::os::raw::c_int,
-    /** For messages received on connections: what connection did this come from?
- For outgoing messages: what connection to send it to?
- Not used when using the ISteamNetworkingMessages interface*/
     pub m_conn: HSteamNetConnection,
-    /** For inbound messages: Who sent this to us?
- For outbound messages on connections: not used.
- For outbound messages on the ad-hoc ISteamNetworkingMessages interface: who should we send this to?*/
     pub m_identityPeer: SteamNetworkingIdentity,
-    /** For messages received on connections, this is the user data
- associated with the connection.
-
- This is *usually* the same as calling GetConnection() and then
- fetching the user data associated with that connection, but for
- the following subtle differences:
-
- - This user data will match the connection's user data at the time
-   is captured at the time the message is returned by the API.
-   If you subsequently change the userdata on the connection,
-   this won't be updated.
- - This is an inline call, so it's *much* faster.
- - You might have closed the connection, so fetching the user data
-   would not be possible.
-
- Not used when sending messages.*/
     pub m_nConnUserData: int64,
-    /** Local timestamp when the message was received
- Not used for outbound messages.*/
     pub m_usecTimeReceived: SteamNetworkingMicroseconds,
-    /** Message number assigned by the sender.  This is not used for outbound
- messages.  Note that if multiple lanes are used, each lane has its own
- message numbers, which are assigned sequentially, so messages from
- different lanes will share the same numbers.*/
     pub m_nMessageNumber: int64,
-    /** Function used to free up m_pData.  This mechanism exists so that
- apps can create messages with buffers allocated from their own
- heap, and pass them into the library.  This function will
- usually be something like:
-
- free( pMsg->m_pData );*/
     pub m_pfnFreeData: ::std::option::Option<
         unsafe extern "C" fn(pMsg: *mut SteamNetworkingMessage_t),
     >,
-    /** Function to used to decrement the internal reference count and, if
- it's zero, release the message.  You should not set this function pointer,
- or need to access this directly!  Use the Release() function instead!*/
     pub m_pfnRelease: ::std::option::Option<
         unsafe extern "C" fn(pMsg: *mut SteamNetworkingMessage_t),
     >,
-    /** When using ISteamNetworkingMessages, the channel number the message was received on
- (Not used for messages sent or received on "connections")*/
     pub m_nChannel: ::std::os::raw::c_int,
-    /** Bitmask of k_nSteamNetworkingSend_xxx flags.
- For received messages, only the k_nSteamNetworkingSend_Reliable bit is valid.
- For outbound messages, all bits are relevant*/
     pub m_nFlags: ::std::os::raw::c_int,
-    /** Arbitrary user data that you can use when sending messages using
- ISteamNetworkingUtils::AllocateMessage and ISteamNetworkingSockets::SendMessage.
- (The callback you set in m_pfnFreeData might use this field.)
-
- Not used for received messages.*/
     pub m_nUserData: int64,
-    /** For outbound messages, which lane to use?  See ISteamNetworkingSockets::ConfigureConnectionLanes.
- For inbound messages, what lane was the message received on?*/
     pub m_idxLane: uint16,
     pub _pad1__: uint16,
 }
@@ -13166,19 +12508,6 @@ pub const k_nSteamNetworkingSend_Reliable: ::std::os::raw::c_int = 8;
 pub const k_nSteamNetworkingSend_ReliableNoNagle: ::std::os::raw::c_int = 9;
 pub const k_nSteamNetworkingSend_UseCurrentThread: ::std::os::raw::c_int = 16;
 pub const k_nSteamNetworkingSend_AutoRestartBrokenSession: ::std::os::raw::c_int = 32;
-/** Object that describes a "location" on the Internet with sufficient
- detail that we can reasonably estimate an upper bound on the ping between
- the two hosts, even if a direct route between the hosts is not possible,
- and the connection must be routed through the Steam Datagram Relay network.
- This does not contain any information that identifies the host.  Indeed,
- if two hosts are in the same building or otherwise have nearly identical
- networking characteristics, then it's valid to use the same location
- object for both of them.
-
- NOTE: This object should only be used in the same process!  Do not serialize it,
- send it over the wire, or persist it in a file or database!  If you need
- to do that, convert it to a string representation using the methods in
- ISteamNetworkingUtils().*/
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkPingLocation_t {
@@ -13196,37 +12525,16 @@ const _: () = {
         "Offset of field: SteamNetworkPingLocation_t::m_data",
     ][::std::mem::offset_of!(SteamNetworkPingLocation_t, m_data) - 0usize];
 };
-/** Max possible length of a ping location, in string format.  This is
- an extremely conservative worst case value which leaves room for future
- syntax enhancements.  Most strings in practice are a lot shorter.
- If you are storing many of these, you will very likely benefit from
- using dynamic memory.*/
 pub const k_cchMaxSteamNetworkingPingLocationString: ::std::os::raw::c_int = 1024;
-/// Special values that are returned by some functions that return a ping.
 pub const k_nSteamNetworkingPing_Failed: ::std::os::raw::c_int = -1;
 pub const k_nSteamNetworkingPing_Unknown: ::std::os::raw::c_int = -2;
 #[repr(u32)]
-/// Configuration values can be applied to different types of objects.
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConfigScope {
-    /** Get/set global option, or defaults.  Even options that apply to more specific scopes
- have global scope, and you may be able to just change the global defaults.  If you
- need different settings per connection (for example), then you will need to set those
- options at the more specific scope.*/
     k_ESteamNetworkingConfig_Global = 1,
-    /** Some options are specific to a particular interface.  Note that all connection
- and listen socket settings can also be set at the interface level, and they will
- apply to objects created through those interfaces.*/
     k_ESteamNetworkingConfig_SocketsInterface = 2,
-    /** Options for a listen socket.  Listen socket options can be set at the interface layer,
- if  you have multiple listen sockets and they all use the same options.
- You can also set connection options on a listen socket, and they set the defaults
- for all connections accepted through this listen socket.  (They will be used if you don't
- set a connection option.)*/
     k_ESteamNetworkingConfig_ListenSocket = 3,
-    /// Options for a specific connection.
     k_ESteamNetworkingConfig_Connection = 4,
-    /// Options for a specific connection.
     k_ESteamNetworkingConfigScope__Force32Bit = 2147483647,
 }
 #[repr(u32)]
@@ -13240,613 +12548,84 @@ pub enum ESteamNetworkingConfigDataType {
     k_ESteamNetworkingConfigDataType__Force32Bit = 2147483647,
 }
 #[repr(u32)]
-/// Configuration options
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingConfigValue {
     k_ESteamNetworkingConfig_Invalid = 0,
-    /// [connection int32] Timeout value (in ms) to use when first connecting
     k_ESteamNetworkingConfig_TimeoutInitial = 24,
-    /// [connection int32] Timeout value (in ms) to use after connection is established
     k_ESteamNetworkingConfig_TimeoutConnected = 25,
-    /** [connection int32] Upper limit of buffered pending bytes to be sent,
- if this is reached SendMessage will return k_EResultLimitExceeded
- Default is 512k (524288 bytes)*/
     k_ESteamNetworkingConfig_SendBufferSize = 9,
-    /** [connection int32] Upper limit on total size (in bytes) of received messages
- that will be buffered waiting to be processed by the application.  If this limit
- is exceeded, packets will be dropped.  This is to protect us from a malicious
- peer flooding us with messages faster than we can process them.
-
- This must be bigger than k_ESteamNetworkingConfig_RecvMaxMessageSize*/
     k_ESteamNetworkingConfig_RecvBufferSize = 47,
-    /** [connection int32] Upper limit on the number of received messages that will
- that will be buffered waiting to be processed by the application.  If this limit
- is exceeded, packets will be dropped.  This is to protect us from a malicious
- peer flooding us with messages faster than we can pull them off the wire.*/
     k_ESteamNetworkingConfig_RecvBufferMessages = 48,
-    /** [connection int32] Maximum message size that we are willing to receive.
- if a client attempts to send us a message larger than this, the connection
- will be immediately closed.
-
- Default is 512k (524288 bytes).  Note that the peer needs to be able to
- send a message this big.  (See k_cbMaxSteamNetworkingSocketsMessageSizeSend.)*/
     k_ESteamNetworkingConfig_RecvMaxMessageSize = 49,
-    /** [connection int32] Max number of message segments that can be received
- in a single UDP packet.  While decoding a packet, if the number of segments
- exceeds this, we will abort further packet processing.
-
- The default is effectively unlimited.  If you know that you very rarely
- send small packets, you can protect yourself from malicious senders by
- lowering this number.
-
- In particular, if you are NOT using the reliability layer and are only using
- SteamNetworkingSockets for datagram transport, setting this to a very low
- number may be beneficial.  (We recommend a value of 2.)  Make sure your sender
- disables Nagle!*/
     k_ESteamNetworkingConfig_RecvMaxSegmentsPerPacket = 50,
-    /** [connection int64] Get/set userdata as a configuration option.
- The default value is -1.   You may want to set the user data as
- a config value, instead of using ISteamNetworkingSockets::SetConnectionUserData
- in two specific instances:
-
- - You wish to set the userdata atomically when creating
-   an outbound connection, so that the userdata is filled in properly
-   for any callbacks that happen.  However, note that this trick
-   only works for connections initiated locally!  For incoming
-   connections, multiple state transitions may happen and
-   callbacks be queued, before you are able to service the first
-   callback!  Be careful!
-
- - You can set the default userdata for all newly created connections
-   by setting this value at a higher level (e.g. on the listen
-   socket or at the global level.)  Then this default
-   value will be inherited when the connection is created.
-   This is useful in case -1 is a valid userdata value, and you
-   wish to use something else as the default value so you can
-   tell if it has been set or not.
-
-   HOWEVER: once a connection is created, the effective value is
-   then bound to the connection.  Unlike other connection options,
-   if you change it again at a higher level, the new value will not
-   be inherited by connections.
-
- Using the userdata field in callback structs is not advised because
- of tricky race conditions.  Instead, you might try one of these methods:
-
- - Use a separate map with the HSteamNetConnection as the key.
- - Fetch the userdata from the connection in your callback
-   using ISteamNetworkingSockets::GetConnectionUserData, to*/
     k_ESteamNetworkingConfig_ConnectionUserData = 40,
-    /** [connection int32] Minimum/maximum send rate clamp, in bytes/sec.
- At the time of this writing these two options should always be set to
- the same value, to manually configure a specific send rate.  The default
- value is 256K.  Eventually we hope to have the library estimate the bandwidth
- of the channel and set the send rate to that estimated bandwidth, and these
- values will only set limits on that send rate.*/
     k_ESteamNetworkingConfig_SendRateMin = 10,
-    /** [connection int32] Minimum/maximum send rate clamp, in bytes/sec.
- At the time of this writing these two options should always be set to
- the same value, to manually configure a specific send rate.  The default
- value is 256K.  Eventually we hope to have the library estimate the bandwidth
- of the channel and set the send rate to that estimated bandwidth, and these
- values will only set limits on that send rate.*/
     k_ESteamNetworkingConfig_SendRateMax = 11,
-    /** [connection int32] Nagle time, in microseconds.  When SendMessage is called, if
- the outgoing message is less than the size of the MTU, it will be
- queued for a delay equal to the Nagle timer value.  This is to ensure
- that if the application sends several small messages rapidly, they are
- coalesced into a single packet.
- See historical RFC 896.  Value is in microseconds.
- Default is 5000us (5ms).*/
     k_ESteamNetworkingConfig_NagleTime = 12,
-    /** [connection int32] Don't automatically fail IP connections that don't have
- strong auth.  On clients, this means we will attempt the connection even if
- we don't know our identity or can't get a cert.  On the server, it means that
- we won't automatically reject a connection due to a failure to authenticate.
- (You can examine the incoming connection and decide whether to accept it.)
-
- 0: Don't attempt or accept unauthorized connections
- 1: Attempt authorization when connecting, and allow unauthorized peers, but emit warnings
- 2: don't attempt authentication, or complain if peer is unauthenticated
-
- This is a dev configuration value, and you should not let users modify it in
- production.*/
     k_ESteamNetworkingConfig_IP_AllowWithoutAuth = 23,
-    /** [connection int32] The same as IP_AllowWithoutAuth, but will only apply
- for connections to/from localhost addresses.  Whichever value is larger
- (more permissive) will be used.*/
     k_ESteamNetworkingConfig_IPLocalHost_AllowWithoutAuth = 52,
-    /** [connection int32] Do not send UDP packets with a payload of
- larger than N bytes.  If you set this, k_ESteamNetworkingConfig_MTU_DataSize
- is automatically adjusted*/
     k_ESteamNetworkingConfig_MTU_PacketSize = 32,
-    /** [connection int32] (read only) Maximum message size you can send that
- will not fragment, based on k_ESteamNetworkingConfig_MTU_PacketSize*/
     k_ESteamNetworkingConfig_MTU_DataSize = 33,
-    /** [connection int32] Allow unencrypted (and unauthenticated) communication.
- 0: Not allowed (the default)
- 1: Allowed, but prefer encrypted
- 2: Allowed, and preferred
- 3: Required.  (Fail the connection if the peer requires encryption.)
-
- This is a dev configuration value, since its purpose is to disable encryption.
- You should not let users modify it in production.  (But note that it requires
- the peer to also modify their value in order for encryption to be disabled.)*/
     k_ESteamNetworkingConfig_Unencrypted = 34,
-    /** [connection int32] Set this to 1 on outbound connections and listen sockets,
- to enable "symmetric connect mode", which is useful in the following
- common peer-to-peer use case:
-
- - The two peers are "equal" to each other.  (Neither is clearly the "client"
-   or "server".)
- - Either peer may initiate the connection, and indeed they may do this
-   at the same time
- - The peers only desire a single connection to each other, and if both
-   peers initiate connections simultaneously, a protocol is needed for them
-   to resolve the conflict, so that we end up with a single connection.
-
- This use case is both common, and involves subtle race conditions and tricky
- pitfalls, which is why the API has support for dealing with it.
-
- If an incoming connection arrives on a listen socket or via custom signaling,
- and the application has not attempted to make a matching outbound connection
- in symmetric mode, then the incoming connection can be accepted as usual.
- A "matching" connection means that the relevant endpoint information matches.
- (At the time this comment is being written, this is only supported for P2P
- connections, which means that the peer identities must match, and the virtual
- port must match.  At a later time, symmetric mode may be supported for other
- connection types.)
-
- If connections are initiated by both peers simultaneously, race conditions
- can arise, but fortunately, most of them are handled internally and do not
- require any special awareness from the application.  However, there
- is one important case that application code must be aware of:
- If application code attempts an outbound connection using a ConnectXxx
- function in symmetric mode, and a matching incoming connection is already
- waiting on a listen socket, then instead of forming a new connection,
- the ConnectXxx call will accept the existing incoming connection, and return
- a connection handle to this accepted connection.
- IMPORTANT: in this case, a SteamNetConnectionStatusChangedCallback_t
- has probably *already* been posted to the queue for the incoming connection!
- (Once callbacks are posted to the queue, they are not modified.)  It doesn't
- matter if the callback has not been consumed by the app.  Thus, application
- code that makes use of symmetric connections must be aware that, when processing a
- SteamNetConnectionStatusChangedCallback_t for an incoming connection, the
- m_hConn may refer to a new connection that the app has has not
- seen before (the usual case), but it may also refer to a connection that
- has already been accepted implicitly through a call to Connect()!  In this
- case, AcceptConnection() will return k_EResultDuplicateRequest.
-
- Only one symmetric connection to a given peer (on a given virtual port)
- may exist at any given time.  If client code attempts to create a connection,
- and a (live) connection already exists on the local host, then either the
- existing connection will be accepted as described above, or the attempt
- to create a new connection will fail.  Furthermore, linger mode functionality
- is not supported on symmetric connections.
-
- A more complicated race condition can arise if both peers initiate a connection
- at roughly the same time.  In this situation, each peer will receive an incoming
- connection from the other peer, when the application code has already initiated
- an outgoing connection to that peer.  The peers must resolve this conflict and
- decide who is going to act as the "server" and who will act as the "client".
- Typically the application does not need to be aware of this case as it is handled
- internally.  On both sides, the will observe their outbound connection being
- "accepted", although one of them one have been converted internally to act
- as the "server".
-
- In general, symmetric mode should be all-or-nothing: do not mix symmetric
- connections with a non-symmetric connection that it might possible "match"
- with.  If you use symmetric mode on any connections, then both peers should
- use it on all connections, and the corresponding listen socket, if any.  The
- behaviour when symmetric and ordinary connections are mixed is not defined by
- this API, and you should not rely on it.  (This advice only applies when connections
- might possibly "match".  For example, it's OK to use all symmetric mode
- connections on one virtual port, and all ordinary, non-symmetric connections
- on a different virtual port, as there is no potential for ambiguity.)
-
- When using the feature, you should set it in the following situations on
- applicable objects:
-
- - When creating an outbound connection using ConnectXxx function
- - When creating a listen socket.  (Note that this will automatically cause
-   any accepted connections to inherit the flag.)
- - When using custom signaling, before accepting an incoming connection.
-
- Setting the flag on listen socket and accepted connections will enable the
- API to automatically deal with duplicate incoming connections, even if the
- local host has not made any outbound requests.  (In general, such duplicate
- requests from a peer are ignored internally and will not be visible to the
- application code.  The previous connection must be closed or resolved first.)*/
     k_ESteamNetworkingConfig_SymmetricConnect = 37,
-    /** [connection int32] For connection types that use "virtual ports", this can be used
- to assign a local virtual port.  For incoming connections, this will always be the
- virtual port of the listen socket (or the port requested by the remote host if custom
- signaling is used and the connection is accepted), and cannot be changed.  For
- connections initiated locally, the local virtual port will default to the same as the
- requested remote virtual port, if you do not specify a different option when creating
- the connection.  The local port is only relevant for symmetric connections, when
- determining if two connections "match."  In this case, if you need the local and remote
- port to differ, you can set this value.
-
- You can also read back this value on listen sockets.
-
- This value should not be read or written in any other context.*/
     k_ESteamNetworkingConfig_LocalVirtualPort = 38,
-    /** [connection int32] Enable Dual wifi band support for this connection
- 0 = no, 1 = yes, 2 = simulate it for debugging, even if dual wifi not available*/
     k_ESteamNetworkingConfig_DualWifi_Enable = 39,
-    /** [connection int32] True to enable diagnostics reporting through
- generic platform UI.  (Only available on Steam.)*/
     k_ESteamNetworkingConfig_EnableDiagnosticsUI = 46,
-    /** [connection int32] Send of time-since-previous-packet values in each UDP packet.
- This add a small amount of packet overhead but allows for detailed jitter measurements
- to be made by the receiver.
-
- -  0: disables the sending
- -  1: enables sending
- - -1: (the default) Use the default for the connection type.  For plain UDP connections,
-       this is disabled, and for relayed connections, it is enabled.  Note that relays
-       always send the value.*/
     k_ESteamNetworkingConfig_SendTimeSincePreviousPacket = 59,
-    /** [global float, 0--100] Randomly discard N pct of packets instead of sending/recv
- This is a global option only, since it is applied at a low level
- where we don't have much context*/
     k_ESteamNetworkingConfig_FakePacketLoss_Send = 2,
-    /** [global float, 0--100] Randomly discard N pct of packets instead of sending/recv
- This is a global option only, since it is applied at a low level
- where we don't have much context*/
     k_ESteamNetworkingConfig_FakePacketLoss_Recv = 3,
-    /// [global int32].  Delay all outbound/inbound packets by N ms
     k_ESteamNetworkingConfig_FakePacketLag_Send = 4,
-    /// [global int32].  Delay all outbound/inbound packets by N ms
     k_ESteamNetworkingConfig_FakePacketLag_Recv = 5,
-    /** Simulated jitter/clumping.
-
- For each packet, a jitter value is determined (which may
- be zero).  This amount is added as extra delay to the
- packet.  When a subsequent packet is queued, it receives its
- own random jitter amount from the current time.  if this would
- result in the packets being delivered out of order, the later
- packet queue time is adjusted to happen after the first packet.
- Thus simulating jitter by itself will not reorder packets, but it
- can "clump" them.
-
-	- Avg: A random jitter time is generated using an exponential
-   distribution using this value as the mean (ms).  The default
-   is zero, which disables random jitter.
- - Max: Limit the random jitter time to this value (ms).
-	- Pct: odds (0-100) that a random jitter value for the packet
-   will be generated.  Otherwise, a jitter value of zero
-   is used, and the packet will only be delayed by the jitter
-   system if necessary to retain order, due to the jitter of a
-   previous packet.
-
- All values are [global float]
-
- Fake jitter is simulated after fake lag, but before reordering.*/
     k_ESteamNetworkingConfig_FakePacketJitter_Send_Avg = 53,
-    /** Simulated jitter/clumping.
-
- For each packet, a jitter value is determined (which may
- be zero).  This amount is added as extra delay to the
- packet.  When a subsequent packet is queued, it receives its
- own random jitter amount from the current time.  if this would
- result in the packets being delivered out of order, the later
- packet queue time is adjusted to happen after the first packet.
- Thus simulating jitter by itself will not reorder packets, but it
- can "clump" them.
-
-	- Avg: A random jitter time is generated using an exponential
-   distribution using this value as the mean (ms).  The default
-   is zero, which disables random jitter.
- - Max: Limit the random jitter time to this value (ms).
-	- Pct: odds (0-100) that a random jitter value for the packet
-   will be generated.  Otherwise, a jitter value of zero
-   is used, and the packet will only be delayed by the jitter
-   system if necessary to retain order, due to the jitter of a
-   previous packet.
-
- All values are [global float]
-
- Fake jitter is simulated after fake lag, but before reordering.*/
     k_ESteamNetworkingConfig_FakePacketJitter_Send_Max = 54,
-    /** Simulated jitter/clumping.
-
- For each packet, a jitter value is determined (which may
- be zero).  This amount is added as extra delay to the
- packet.  When a subsequent packet is queued, it receives its
- own random jitter amount from the current time.  if this would
- result in the packets being delivered out of order, the later
- packet queue time is adjusted to happen after the first packet.
- Thus simulating jitter by itself will not reorder packets, but it
- can "clump" them.
-
-	- Avg: A random jitter time is generated using an exponential
-   distribution using this value as the mean (ms).  The default
-   is zero, which disables random jitter.
- - Max: Limit the random jitter time to this value (ms).
-	- Pct: odds (0-100) that a random jitter value for the packet
-   will be generated.  Otherwise, a jitter value of zero
-   is used, and the packet will only be delayed by the jitter
-   system if necessary to retain order, due to the jitter of a
-   previous packet.
-
- All values are [global float]
-
- Fake jitter is simulated after fake lag, but before reordering.*/
     k_ESteamNetworkingConfig_FakePacketJitter_Send_Pct = 55,
-    /** Simulated jitter/clumping.
-
- For each packet, a jitter value is determined (which may
- be zero).  This amount is added as extra delay to the
- packet.  When a subsequent packet is queued, it receives its
- own random jitter amount from the current time.  if this would
- result in the packets being delivered out of order, the later
- packet queue time is adjusted to happen after the first packet.
- Thus simulating jitter by itself will not reorder packets, but it
- can "clump" them.
-
-	- Avg: A random jitter time is generated using an exponential
-   distribution using this value as the mean (ms).  The default
-   is zero, which disables random jitter.
- - Max: Limit the random jitter time to this value (ms).
-	- Pct: odds (0-100) that a random jitter value for the packet
-   will be generated.  Otherwise, a jitter value of zero
-   is used, and the packet will only be delayed by the jitter
-   system if necessary to retain order, due to the jitter of a
-   previous packet.
-
- All values are [global float]
-
- Fake jitter is simulated after fake lag, but before reordering.*/
     k_ESteamNetworkingConfig_FakePacketJitter_Recv_Avg = 56,
-    /** Simulated jitter/clumping.
-
- For each packet, a jitter value is determined (which may
- be zero).  This amount is added as extra delay to the
- packet.  When a subsequent packet is queued, it receives its
- own random jitter amount from the current time.  if this would
- result in the packets being delivered out of order, the later
- packet queue time is adjusted to happen after the first packet.
- Thus simulating jitter by itself will not reorder packets, but it
- can "clump" them.
-
-	- Avg: A random jitter time is generated using an exponential
-   distribution using this value as the mean (ms).  The default
-   is zero, which disables random jitter.
- - Max: Limit the random jitter time to this value (ms).
-	- Pct: odds (0-100) that a random jitter value for the packet
-   will be generated.  Otherwise, a jitter value of zero
-   is used, and the packet will only be delayed by the jitter
-   system if necessary to retain order, due to the jitter of a
-   previous packet.
-
- All values are [global float]
-
- Fake jitter is simulated after fake lag, but before reordering.*/
     k_ESteamNetworkingConfig_FakePacketJitter_Recv_Max = 57,
-    /** Simulated jitter/clumping.
-
- For each packet, a jitter value is determined (which may
- be zero).  This amount is added as extra delay to the
- packet.  When a subsequent packet is queued, it receives its
- own random jitter amount from the current time.  if this would
- result in the packets being delivered out of order, the later
- packet queue time is adjusted to happen after the first packet.
- Thus simulating jitter by itself will not reorder packets, but it
- can "clump" them.
-
-	- Avg: A random jitter time is generated using an exponential
-   distribution using this value as the mean (ms).  The default
-   is zero, which disables random jitter.
- - Max: Limit the random jitter time to this value (ms).
-	- Pct: odds (0-100) that a random jitter value for the packet
-   will be generated.  Otherwise, a jitter value of zero
-   is used, and the packet will only be delayed by the jitter
-   system if necessary to retain order, due to the jitter of a
-   previous packet.
-
- All values are [global float]
-
- Fake jitter is simulated after fake lag, but before reordering.*/
     k_ESteamNetworkingConfig_FakePacketJitter_Recv_Pct = 58,
-    /** [global float] 0-100 Percentage of packets we will add additional
- delay to.  If other packet(s) are sent/received within this delay
- window (that doesn't also randomly receive the same extra delay),
- then the packets become reordered.
-
- This mechanism is primarily intended to generate out-of-order
- packets.  To simulate random jitter, use the FakePacketJitter.
- Fake packet reordering is applied after fake lag and jitter*/
     k_ESteamNetworkingConfig_FakePacketReorder_Send = 6,
-    /** [global float] 0-100 Percentage of packets we will add additional
- delay to.  If other packet(s) are sent/received within this delay
- window (that doesn't also randomly receive the same extra delay),
- then the packets become reordered.
-
- This mechanism is primarily intended to generate out-of-order
- packets.  To simulate random jitter, use the FakePacketJitter.
- Fake packet reordering is applied after fake lag and jitter*/
     k_ESteamNetworkingConfig_FakePacketReorder_Recv = 7,
-    /** [global int32] Extra delay, in ms, to apply to reordered
- packets.  The same time value is used for sending and receiving.*/
     k_ESteamNetworkingConfig_FakePacketReorder_Time = 8,
-    /// [global float 0--100] Globally duplicate some percentage of packets.
     k_ESteamNetworkingConfig_FakePacketDup_Send = 26,
-    /// [global float 0--100] Globally duplicate some percentage of packets.
     k_ESteamNetworkingConfig_FakePacketDup_Recv = 27,
-    /** [global int32] Amount of delay, in ms, to delay duplicated packets.
- (We chose a random delay between 0 and this value)*/
     k_ESteamNetworkingConfig_FakePacketDup_TimeMax = 28,
-    /** [global int32] Trace every UDP packet, similar to Wireshark or tcpdump.
- Value is max number of bytes to dump.  -1 disables tracing.*/
     k_ESteamNetworkingConfig_PacketTraceMaxBytes = 41,
     k_ESteamNetworkingConfig_FakeRateLimit_Send_Rate = 42,
     k_ESteamNetworkingConfig_FakeRateLimit_Send_Burst = 43,
     k_ESteamNetworkingConfig_FakeRateLimit_Recv_Rate = 44,
     k_ESteamNetworkingConfig_FakeRateLimit_Recv_Burst = 45,
     k_ESteamNetworkingConfig_OutOfOrderCorrectionWindowMicroseconds = 51,
-    /** [connection FnSteamNetConnectionStatusChanged] Callback that will be invoked
- when the state of a connection changes.
-
- IMPORTANT: callbacks are dispatched to the handler that is in effect at the time
- the event occurs, which might be in another thread.  For example, immediately after
- creating a listen socket, you may receive an incoming connection.  And then immediately
- after this, the remote host may close the connection.  All of this could happen
- before the function to create the listen socket has returned.  For this reason,
- callbacks usually must be in effect at the time of object creation.  This means
- you should set them when you are creating the listen socket or connection, or have
- them in effect so they will be inherited at the time of object creation.
-
- For example:
-
- exterm void MyStatusChangedFunc( SteamNetConnectionStatusChangedCallback_t *info );
- SteamNetworkingConfigValue_t opt; opt.SetPtr( k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged, MyStatusChangedFunc );
- SteamNetworkingIPAddr localAddress; localAddress.Clear();
- HSteamListenSocket hListenSock = SteamNetworkingSockets()->CreateListenSocketIP( localAddress, 1, &opt );
-
- When accepting an incoming connection, there is no atomic way to switch the
- callback.  However, if the connection is DOA, AcceptConnection() will fail, and
- you can fetch the state of the connection at that time.
-
- If all connections and listen sockets can use the same callback, the simplest
- method is to set it globally before you create any listen sockets or connections.*/
     k_ESteamNetworkingConfig_Callback_ConnectionStatusChanged = 201,
-    /** [global FnSteamNetAuthenticationStatusChanged] Callback that will be invoked
- when our auth state changes.  If you use this, install the callback before creating
- any connections or listen sockets, and don't change it.
- See: ISteamNetworkingUtils::SetGlobalCallback_SteamNetAuthenticationStatusChanged*/
     k_ESteamNetworkingConfig_Callback_AuthStatusChanged = 202,
-    /** [global FnSteamRelayNetworkStatusChanged] Callback that will be invoked
- when our auth state changes.  If you use this, install the callback before creating
- any connections or listen sockets, and don't change it.
- See: ISteamNetworkingUtils::SetGlobalCallback_SteamRelayNetworkStatusChanged*/
     k_ESteamNetworkingConfig_Callback_RelayNetworkStatusChanged = 203,
-    /** [global FnSteamNetworkingMessagesSessionRequest] Callback that will be invoked
- when a peer wants to initiate a SteamNetworkingMessagesSessionRequest.
- See: ISteamNetworkingUtils::SetGlobalCallback_MessagesSessionRequest*/
     k_ESteamNetworkingConfig_Callback_MessagesSessionRequest = 204,
-    /** [global FnSteamNetworkingMessagesSessionFailed] Callback that will be invoked
- when a session you have initiated, or accepted either fails to connect, or loses
- connection in some unexpected way.
- See: ISteamNetworkingUtils::SetGlobalCallback_MessagesSessionFailed*/
     k_ESteamNetworkingConfig_Callback_MessagesSessionFailed = 205,
-    /** [global FnSteamNetworkingSocketsCreateConnectionSignaling] Callback that will
- be invoked when we need to create a signaling object for a connection
- initiated locally.  See: ISteamNetworkingSockets::ConnectP2P,
- ISteamNetworkingMessages.*/
     k_ESteamNetworkingConfig_Callback_CreateConnectionSignaling = 206,
-    /** [global FnSteamNetworkingFakeIPResult] Callback that's invoked when
- a FakeIP allocation finishes.  See: ISteamNetworkingSockets::BeginAsyncRequestFakeIP,
- ISteamNetworkingUtils::SetGlobalCallback_FakeIPResult*/
     k_ESteamNetworkingConfig_Callback_FakeIPResult = 207,
-    /** [connection string] Comma-separated list of STUN servers that can be used
- for NAT piercing.  If you set this to an empty string, NAT piercing will
- not be attempted.  Also if "public" candidates are not allowed for
- P2P_Transport_ICE_Enable, then this is ignored.*/
     k_ESteamNetworkingConfig_P2P_STUN_ServerList = 103,
-    /** [connection int32] What types of ICE candidates to share with the peer.
- See k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_xxx values*/
     k_ESteamNetworkingConfig_P2P_Transport_ICE_Enable = 104,
-    /** [connection int32] When selecting P2P transport, add various
- penalties to the scores for selected transports.  (Route selection
- scores are on a scale of milliseconds.  The score begins with the
- route ping time and is then adjusted.)*/
     k_ESteamNetworkingConfig_P2P_Transport_ICE_Penalty = 105,
-    /** [connection int32] When selecting P2P transport, add various
- penalties to the scores for selected transports.  (Route selection
- scores are on a scale of milliseconds.  The score begins with the
- route ping time and is then adjusted.)*/
     k_ESteamNetworkingConfig_P2P_Transport_SDR_Penalty = 106,
-    /** [connection int32] When selecting P2P transport, add various
- penalties to the scores for selected transports.  (Route selection
- scores are on a scale of milliseconds.  The score begins with the
- route ping time and is then adjusted.)*/
     k_ESteamNetworkingConfig_P2P_TURN_ServerList = 107,
-    /** [connection int32] When selecting P2P transport, add various
- penalties to the scores for selected transports.  (Route selection
- scores are on a scale of milliseconds.  The score begins with the
- route ping time and is then adjusted.)*/
     k_ESteamNetworkingConfig_P2P_TURN_UserList = 108,
-    /** [connection int32] When selecting P2P transport, add various
- penalties to the scores for selected transports.  (Route selection
- scores are on a scale of milliseconds.  The score begins with the
- route ping time and is then adjusted.)*/
     k_ESteamNetworkingConfig_P2P_TURN_PassList = 109,
-    /** [connection int32] When selecting P2P transport, add various
- penalties to the scores for selected transports.  (Route selection
- scores are on a scale of milliseconds.  The score begins with the
- route ping time and is then adjusted.)*/
     k_ESteamNetworkingConfig_P2P_Transport_ICE_Implementation = 110,
-    /** [global int32] If the first N pings to a port all fail, mark that port as unavailable for
- a while, and try a different one.  Some ISPs and routers may drop the first
- packet, so setting this to 1 may greatly disrupt communications.*/
     k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFailInitial = 19,
-    /** [global int32] If N consecutive pings to a port fail, after having received successful
- communication, mark that port as unavailable for a while, and try a
- different one.*/
     k_ESteamNetworkingConfig_SDRClient_ConsecutitivePingTimeoutsFail = 20,
-    /** [global int32] Minimum number of lifetime pings we need to send, before we think our estimate
- is solid.  The first ping to each cluster is very often delayed because of NAT,
- routers not having the best route, etc.  Until we've sent a sufficient number
- of pings, our estimate is often inaccurate.  Keep pinging until we get this
- many pings.*/
     k_ESteamNetworkingConfig_SDRClient_MinPingsBeforePingAccurate = 21,
-    /** [global int32] Set all steam datagram traffic to originate from the same
- local port. By default, we open up a new UDP socket (on a different local
- port) for each relay.  This is slightly less optimal, but it works around
- some routers that don't implement NAT properly.  If you have intermittent
- problems talking to relays that might be NAT related, try toggling
- this flag*/
     k_ESteamNetworkingConfig_SDRClient_SingleSocket = 22,
-    /** [global string] Code of relay cluster to force use.  If not empty, we will
- only use relays in that cluster.  E.g. 'iad'*/
     k_ESteamNetworkingConfig_SDRClient_ForceRelayCluster = 29,
-    /** [connection string] For development, a base-64 encoded ticket generated
- using the cert tool.  This can be used to connect to a gameserver via SDR
- without a ticket generated using the game coordinator.  (You will still
- need a key that is trusted for your app, however.)
-
- This can also be passed using the SDR_DEVTICKET environment variable*/
     k_ESteamNetworkingConfig_SDRClient_DevTicket = 30,
-    /** [global string] For debugging.  Override list of relays from the config with
- this set (maybe just one).  Comma-separated list.*/
     k_ESteamNetworkingConfig_SDRClient_ForceProxyAddr = 31,
-    /** [global string] For debugging.  Force ping times to clusters to be the specified
- values.  A comma separated list of <cluster>=<ms> values.  E.g. "sto=32,iad=100"
-
- This is a dev configuration value, you probably should not let users modify it
- in production.*/
     k_ESteamNetworkingConfig_SDRClient_FakeClusterPing = 36,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_SDRClient_LimitPingProbesToNearestN = 60,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_LogLevel_AckRTT = 13,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_LogLevel_PacketDecode = 14,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_LogLevel_Message = 15,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_LogLevel_PacketGaps = 16,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_LogLevel_P2PRendezvous = 17,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_LogLevel_SDRRelayPings = 18,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_ECN = 999,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfig_DELETED_EnumerateDevVars = 35,
-    /** [global int32] When probing the SteamDatagram network, we limit exploration
- to the closest N POPs, based on our current best approximated ping to that POP.*/
     k_ESteamNetworkingConfigValue__Force32Bit = 2147483647,
 }
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Default: ::std::os::raw::c_int = -1;
@@ -13855,27 +12634,13 @@ pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Relay: ::std::os::ra
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Private: ::std::os::raw::c_int = 2;
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_Public: ::std::os::raw::c_int = 4;
 pub const k_nSteamNetworkingConfig_P2P_Transport_ICE_Enable_All: ::std::os::raw::c_int = 2147483647;
-/** In a few places we need to set configuration options on listen sockets and connections, and
- have them take effect *before* the listen socket or connection really starts doing anything.
- Creating the object and then setting the options "immediately" after creation doesn't work
- completely, because network packets could be received between the time the object is created and
- when the options are applied.  To set options at creation time in a reliable way, they must be
- passed to the creation function.  This structure is used to pass those options.
-
- For the meaning of these fields, see ISteamNetworkingUtils::SetConfigValue.  Basically
- when the object is created, we just iterate over the list of options and call
- ISteamNetworkingUtils::SetConfigValueStruct, where the scope arguments are supplied by the
- object being created.*/
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingConfigValue_t {
-    /// Which option is being set
     pub m_eValue: ESteamNetworkingConfigValue,
-    /// Which field below did you fill in?
     pub m_eDataType: ESteamNetworkingConfigDataType,
     pub m_val: SteamNetworkingConfigValue_t__bindgen_ty_1,
 }
-/// Option value
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub union SteamNetworkingConfigValue_t__bindgen_ty_1 {
@@ -13933,7 +12698,6 @@ const _: () = {
     ][::std::mem::offset_of!(SteamNetworkingConfigValue_t, m_val) - 8usize];
 };
 #[repr(i32)]
-/// Return value of ISteamNetworkintgUtils::GetConfigValue
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingGetConfigValueResult {
     k_ESteamNetworkingGetConfigValue_BadValue = -1,
@@ -13944,8 +12708,6 @@ pub enum ESteamNetworkingGetConfigValueResult {
     k_ESteamNetworkingGetConfigValueResult__Force32Bit = 2147483647,
 }
 #[repr(u32)]
-/** Detail level for diagnostic output callback.
- See ISteamNetworkingUtils::SetDebugOutputFunction*/
 #[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
 pub enum ESteamNetworkingSocketsDebugOutputType {
     k_ESteamNetworkingSocketsDebugOutputType_None = 0,
@@ -13959,16 +12721,13 @@ pub enum ESteamNetworkingSocketsDebugOutputType {
     k_ESteamNetworkingSocketsDebugOutputType_Everything = 8,
     k_ESteamNetworkingSocketsDebugOutputType__Force32Bit = 2147483647,
 }
-/// Setup callback for debug output, and the desired verbosity you want.
 pub type FSteamNetworkingSocketsDebugOutput = ::std::option::Option<
     unsafe extern "C" fn(
         nType: ESteamNetworkingSocketsDebugOutputType,
         pszMsg: *const ::std::os::raw::c_char,
     ),
 >;
-/// The POPID "dev" is used in non-production environments for testing.
 pub const k_SteamDatagramPOPID_dev: SteamNetworkingPOPID = 6579574;
-/// Utility class for printing a SteamNetworkingPOPID.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingPOPIDRender {
@@ -13986,36 +12745,10 @@ const _: () = {
         "Offset of field: SteamNetworkingPOPIDRender::buf",
     ][::std::mem::offset_of!(SteamNetworkingPOPIDRender, buf) - 0usize];
 };
-/// A message that has been received.
 pub type ISteamNetworkingMessage = SteamNetworkingMessage_t;
 pub type SteamDatagramErrMsg = SteamNetworkingErrMsg;
 #[repr(C)]
 pub struct ISteamNetworkingMessages__bindgen_vtable(::std::os::raw::c_void);
-/** The non-connection-oriented interface to send and receive messages
- (whether they be "clients" or "servers").
-
- ISteamNetworkingSockets is connection-oriented (like TCP), meaning you
- need to listen and connect, and then you send messages using a connection
- handle.  ISteamNetworkingMessages is more like UDP, in that you can just send
- messages to arbitrary peers at any time.  The underlying connections are
- established implicitly.
-
- Under the hood ISteamNetworkingMessages works on top of the ISteamNetworkingSockets
- code, so you get the same routing and messaging efficiency.  The difference is
- mainly in your responsibility to explicitly establish a connection and
- the type of feedback you get about the state of the connection.  Both
- interfaces can do "P2P" communications, and both support both unreliable
- and reliable messages, fragmentation and reassembly.
-
- The primary purpose of this interface is to be "like UDP", so that UDP-based code
- can be ported easily to take advantage of relayed connections.  If you find
- yourself needing more low level information or control, or to be able to better
- handle failure, then you probably need to use ISteamNetworkingSockets directly.
- Also, note that if your main goal is to obtain a connection between two peers
- without concerning yourself with assigning roles of "client" and "server",
- you may find the symmetric connection mode of ISteamNetworkingSockets useful.
- (See k_ESteamNetworkingConfig_SymmetricConnect.)
-*/
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct ISteamNetworkingMessages {
@@ -14030,7 +12763,6 @@ const _: () = {
         "Alignment of ISteamNetworkingMessages",
     ][::std::mem::align_of::<ISteamNetworkingMessages>() - 8usize];
 };
-/// Posted when a remote host is sending us a message, and we do not already have a session with them
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingMessagesSessionRequest_t {
@@ -14055,23 +12787,9 @@ const _: () = {
     ][::std::mem::offset_of!(SteamNetworkingMessagesSessionRequest_t, m_identityRemote)
         - 0usize];
 };
-/** Posted when we fail to establish a connection, or we detect that communications
- have been disrupted it an unusual way.  There is no notification when a peer proactively
- closes the session.  ("Closed by peer" is not a concept of UDP-style communications, and
- SteamNetworkingMessages is primarily intended to make porting UDP code easy.)
-
- Remember: callbacks are asynchronous.   See notes on SendMessageToUser,
- and k_nSteamNetworkingSend_AutoRestartBrokenSession in particular.
-
- Also, if a session times out due to inactivity, no callbacks will be posted.  The only
- way to detect that this is happening is that querying the session state may return
- none, connecting, and findingroute again.*/
 #[repr(C, packed)]
 #[derive(Copy, Clone)]
 pub struct SteamNetworkingMessagesSessionFailed_t {
-    /** Detailed info about the session that failed.
- SteamNetConnectionInfo_t::m_identityRemote indicates who this session
- was with.*/
     pub m_info: SteamNetConnectionInfo_t,
 }
 pub const SteamNetworkingMessagesSessionFailed_t_k_iCallback: SteamNetworkingMessagesSessionFailed_t__bindgen_ty_1 = SteamNetworkingMessagesSessionFailed_t__bindgen_ty_1::k_iCallback;
@@ -14109,31 +12827,6 @@ pub struct ISteamNetworkingFakeUDPPort {
 }
 #[repr(C)]
 pub struct ISteamNetworkingSockets__bindgen_vtable(::std::os::raw::c_void);
-/** Lower level networking API.
-
- - Connection-oriented API (like TCP, not UDP).  When sending and receiving
-   messages, a connection handle is used.  (For a UDP-style interface, where
-   the peer is identified by their address with each send/recv call, see
-   ISteamNetworkingMessages.)  The typical pattern is for a "server" to "listen"
-   on a "listen socket."  A "client" will "connect" to the server, and the
-   server will "accept" the connection.  If you have a symmetric situation
-   where either peer may initiate the connection and server/client roles are
-   not clearly defined, check out k_ESteamNetworkingConfig_SymmetricConnect.
- - But unlike TCP, it's message-oriented, not stream-oriented.
- - Mix of reliable and unreliable messages
- - Fragmentation and reassembly
- - Supports connectivity over plain UDP
- - Also supports SDR ("Steam Datagram Relay") connections, which are
-   addressed by the identity of the peer.  There is a "P2P" use case and
-   a "hosted dedicated server" use case.
-
- Note that neither of the terms "connection" nor "socket" necessarily correspond
- one-to-one with an underlying UDP socket.  An attempt has been made to
- keep the semantics as similar to the standard socket model when appropriate,
- but some deviations do exist.
-
- See also: ISteamNetworkingMessages, the UDP-style interface.  This API might be
- easier to use, especially when porting existing UDP code.*/
 #[repr(C)]
 #[derive(Debug)]
 pub struct ISteamNetworkingSockets {
@@ -14160,49 +12853,11 @@ impl ISteamNetworkingSockets {
         ISteamNetworkingSockets_ISteamNetworkingSockets_destructor(self)
     }
 }
-/** This callback is posted whenever a connection is created, destroyed, or changes state.
- The m_info field will contain a complete description of the connection at the time the
- change occurred and the callback was posted.  In particular, m_eState will have the
- new connection state.
-
- You will usually need to listen for this callback to know when:
- - A new connection arrives on a listen socket.
-   m_info.m_hListenSocket will be set, m_eOldState = k_ESteamNetworkingConnectionState_None,
-   and m_info.m_eState = k_ESteamNetworkingConnectionState_Connecting.
-   See ISteamNetworkigSockets::AcceptConnection.
- - A connection you initiated has been accepted by the remote host.
-   m_eOldState = k_ESteamNetworkingConnectionState_Connecting, and
-   m_info.m_eState = k_ESteamNetworkingConnectionState_Connected.
-   Some connections might transition to k_ESteamNetworkingConnectionState_FindingRoute first.
- - A connection has been actively rejected or closed by the remote host.
-   m_eOldState = k_ESteamNetworkingConnectionState_Connecting or k_ESteamNetworkingConnectionState_Connected,
-   and m_info.m_eState = k_ESteamNetworkingConnectionState_ClosedByPeer.  m_info.m_eEndReason
-   and m_info.m_szEndDebug will have for more details.
-   NOTE: upon receiving this callback, you must still destroy the connection using
-   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
-   passed to the function are not used in this case, since the connection is already closed.)
- - A problem was detected with the connection, and it has been closed by the local host.
-   The most common failure is timeout, but other configuration or authentication failures
-   can cause this.  m_eOldState = k_ESteamNetworkingConnectionState_Connecting or
-   k_ESteamNetworkingConnectionState_Connected, and m_info.m_eState = k_ESteamNetworkingConnectionState_ProblemDetectedLocally.
-   m_info.m_eEndReason and m_info.m_szEndDebug will have for more details.
-   NOTE: upon receiving this callback, you must still destroy the connection using
-   ISteamNetworkingSockets::CloseConnection to free up local resources.  (The details
-   passed to the function are not used in this case, since the connection is already closed.)
-
- Remember that callbacks are posted to a queue, and networking connections can
- change at any time.  It is possible that the connection has already changed
- state by the time you process this callback.
-
- Also note that callbacks will be posted when connections are created and destroyed by your own API calls.*/
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct SteamNetConnectionStatusChangedCallback_t {
-    /// Connection handle
     pub m_hConn: HSteamNetConnection,
-    /// Full connection info
     pub m_info: SteamNetConnectionInfo_t,
-    /// Previous state.  (Current state is in m_info.m_eState)
     pub m_eOldState: ESteamNetworkingConnectionState,
 }
 pub const SteamNetConnectionStatusChangedCallback_t_k_iCallback: SteamNetConnectionStatusChangedCallback_t__bindgen_ty_1 = SteamNetConnectionStatusChangedCallback_t__bindgen_ty_1::k_iCallback;
@@ -14232,21 +12887,10 @@ const _: () = {
     ][::std::mem::offset_of!(SteamNetConnectionStatusChangedCallback_t, m_eOldState)
         - 700usize];
 };
-/** A struct used to describe our readiness to participate in authenticated,
- encrypted communication.  In order to do this we need:
-
- - The list of trusted CA certificates that might be relevant for this
-   app.
- - A valid certificate issued by a CA.
-
- This callback is posted whenever the state of our readiness changes.*/
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetAuthenticationStatus_t {
-    /// Status
     pub m_eAvail: ESteamNetworkingAvailability,
-    /** Non-localized English language status.  For diagnostic/debugging
- purposes only.*/
     pub m_debugMsg: [::std::os::raw::c_char; 256usize],
 }
 pub const SteamNetAuthenticationStatus_t_k_iCallback: SteamNetAuthenticationStatus_t__bindgen_ty_1 = SteamNetAuthenticationStatus_t__bindgen_ty_1::k_iCallback;
@@ -14272,8 +12916,6 @@ const _: () = {
 };
 #[repr(C)]
 pub struct ISteamNetworkingUtils__bindgen_vtable(::std::os::raw::c_void);
-/** Misc networking utilities for checking the local networking environment
- and estimating pings.*/
 #[repr(C)]
 #[derive(Debug)]
 pub struct ISteamNetworkingUtils {
@@ -14300,33 +12942,13 @@ impl ISteamNetworkingUtils {
         ISteamNetworkingUtils_ISteamNetworkingUtils_destructor(self)
     }
 }
-/** A struct used to describe our readiness to use the relay network.
- To do this we first need to fetch the network configuration,
- which describes what POPs are available.*/
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamRelayNetworkStatus_t {
-    /** Summary status.  When this is "current", initialization has
- completed.  Anything else means you are not ready yet, or
- there is a significant problem.*/
     pub m_eAvail: ESteamNetworkingAvailability,
-    /** Nonzero if latency measurement is in progress (or pending,
- awaiting a prerequisite).*/
     pub m_bPingMeasurementInProgress: ::std::os::raw::c_int,
-    /** Status obtaining the network config.  This is a prerequisite
- for relay network access.
-
- Failure to obtain the network config almost always indicates
- a problem with the local internet connection.*/
     pub m_eAvailNetworkConfig: ESteamNetworkingAvailability,
-    /** Current ability to communicate with ANY relay.  Note that
- the complete failure to communicate with any relays almost
- always indicates a problem with the local Internet connection.
- (However, just because you can reach a single relay doesn't
- mean that the local connection is in perfect health.)*/
     pub m_eAvailAnyRelay: ESteamNetworkingAvailability,
-    /** Non-localized English language status.  For diagnostic/debugging
- purposes only.*/
     pub m_debugMsg: [::std::os::raw::c_char; 256usize],
 }
 pub const SteamRelayNetworkStatus_t_k_iCallback: SteamRelayNetworkStatus_t__bindgen_ty_1 = SteamRelayNetworkStatus_t__bindgen_ty_1::k_iCallback;
@@ -14360,8 +12982,6 @@ const _: () = {
         "Offset of field: SteamRelayNetworkStatus_t::m_debugMsg",
     ][::std::mem::offset_of!(SteamRelayNetworkStatus_t, m_debugMsg) - 16usize];
 };
-/** Utility class for printing a SteamNetworkingIdentity.
- E.g. printf( "Identity is '%s'\n", SteamNetworkingIdentityRender( identity ).c_str() );*/
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingIdentityRender {
@@ -14379,7 +12999,6 @@ const _: () = {
         "Offset of field: SteamNetworkingIdentityRender::buf",
     ][::std::mem::offset_of!(SteamNetworkingIdentityRender, buf) - 0usize];
 };
-/// Utility class for printing a SteamNetworkingIPAddrRender.
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct SteamNetworkingIPAddrRender {
@@ -14407,60 +13026,25 @@ pub enum ESteamAPIInitResult {
 }
 unsafe extern "C" {
     pub fn SteamAPI_InitFlat(pOutErrMsg: *mut SteamErrMsg) -> ESteamAPIInitResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_Shutdown();
-}
-unsafe extern "C" {
     pub fn SteamAPI_RestartAppIfNecessary(unOwnAppID: uint32) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ReleaseCurrentThreadMemory();
-}
-unsafe extern "C" {
     pub fn SteamAPI_WriteMiniDump(
         uStructuredExceptionCode: uint32,
         pvExceptionInfo: *mut ::std::os::raw::c_void,
         uBuildID: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SetMiniDumpComment(pchMsg: *const ::std::os::raw::c_char);
-}
-unsafe extern "C" {
     pub fn SteamAPI_IsSteamRunning() -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_GetSteamInstallPath() -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SetTryCatchCallbacks(bTryCatchCallbacks: bool);
-}
-unsafe extern "C" {
-    /** Inform the API that you wish to use manual event dispatch.  This must be called after SteamAPI_Init, but before
- you use any of the other manual dispatch functions below.*/
     pub fn SteamAPI_ManualDispatch_Init();
-}
-unsafe extern "C" {
-    /// Perform certain periodic actions that need to be performed.
     pub fn SteamAPI_ManualDispatch_RunFrame(hSteamPipe: HSteamPipe);
-}
-unsafe extern "C" {
-    /** Fetch the next pending callback on the given pipe, if any.  If a callback is available, true is returned
- and the structure is populated.  In this case, you MUST call SteamAPI_ManualDispatch_FreeLastCallback
- (after dispatching the callback) before calling SteamAPI_ManualDispatch_GetNextCallback again.*/
     pub fn SteamAPI_ManualDispatch_GetNextCallback(
         hSteamPipe: HSteamPipe,
         pCallbackMsg: *mut CallbackMsg_t,
     ) -> bool;
-}
-unsafe extern "C" {
-    /// You must call this after dispatching the callback, if SteamAPI_ManualDispatch_GetNextCallback returns true.
     pub fn SteamAPI_ManualDispatch_FreeLastCallback(hSteamPipe: HSteamPipe);
-}
-unsafe extern "C" {
-    /** Return the call result for the specified call on the specified pipe.  You really should
- only call this in a handler for SteamAPICallCompleted_t callback.*/
     pub fn SteamAPI_ManualDispatch_GetAPICallResult(
         hSteamPipe: HSteamPipe,
         hSteamAPICall: SteamAPICall_t,
@@ -14469,8 +13053,6 @@ unsafe extern "C" {
         iCallbackExpected: ::std::os::raw::c_int,
         pbFailed: *mut bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamInternal_SteamAPI_Init(
         pszInternalCheckInterfaceVersions: *const ::std::os::raw::c_char,
         pOutErrMsg: *mut SteamErrMsg,
@@ -14886,274 +13468,196 @@ pub type uint64_steamid = uint64;
 pub type uint64_gameid = uint64;
 unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_CreateSteamPipe(self_: *mut ISteamClient) -> HSteamPipe;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_BReleaseSteamPipe(
         self_: *mut ISteamClient,
         hSteamPipe: HSteamPipe,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_ConnectToGlobalUser(
         self_: *mut ISteamClient,
         hSteamPipe: HSteamPipe,
     ) -> HSteamUser;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_CreateLocalUser(
         self_: *mut ISteamClient,
         phSteamPipe: *mut HSteamPipe,
         eAccountType: EAccountType,
     ) -> HSteamUser;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_ReleaseUser(
         self_: *mut ISteamClient,
         hSteamPipe: HSteamPipe,
         hUser: HSteamUser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamUser(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamUser;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamGameServer(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamGameServer;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_SetLocalIPBinding(
         self_: *mut ISteamClient,
         unIP: *const SteamIPAddress_t,
         usPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamFriends(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamFriends;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamUtils(
         self_: *mut ISteamClient,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamUtils;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamMatchmaking(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamMatchmaking;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamMatchmakingServers(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamMatchmakingServers;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamGenericInterface(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_void;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamUserStats(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamUserStats;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamGameServerStats(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamGameServerStats;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamApps(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamApps;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamNetworking(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamNetworking;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamRemoteStorage(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamRemoteStorage;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamScreenshots(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamScreenshots;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamGameSearch(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamGameSearch;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetIPCCallCount(self_: *mut ISteamClient) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_SetWarningMessageHook(
         self_: *mut ISteamClient,
         pFunction: SteamAPIWarningMessageHook_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_BShutdownIfAllPipesClosed(
         self_: *mut ISteamClient,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamHTTP(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamHTTP;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamController(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamController;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamUGC(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamUGC;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamMusic(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamMusic;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamMusicRemote(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamMusicRemote;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamHTMLSurface(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamHTMLSurface;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamInventory(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamInventory;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamVideo(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamVideo;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamParentalSettings(
         self_: *mut ISteamClient,
         hSteamuser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamParentalSettings;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamInput(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamInput;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamParties(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamParties;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamClient_GetISteamRemotePlay(
         self_: *mut ISteamClient,
         hSteamUser: HSteamUser,
         hSteamPipe: HSteamPipe,
         pchVersion: *const ::std::os::raw::c_char,
     ) -> *mut ISteamRemotePlay;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamUser_v023() -> *mut ISteamUser;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetHSteamUser(self_: *mut ISteamUser) -> HSteamUser;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BLoggedOn(self_: *mut ISteamUser) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetSteamID(self_: *mut ISteamUser) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_InitiateGameConnection_DEPRECATED(
         self_: *mut ISteamUser,
         pAuthBlob: *mut ::std::os::raw::c_void,
@@ -15163,44 +13667,30 @@ unsafe extern "C" {
         usPortServer: uint16,
         bSecure: bool,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_TerminateGameConnection_DEPRECATED(
         self_: *mut ISteamUser,
         unIPServer: uint32,
         usPortServer: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_TrackAppUsageEvent(
         self_: *mut ISteamUser,
         gameID: uint64_gameid,
         eAppUsageEvent: ::std::os::raw::c_int,
         pchExtraInfo: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetUserDataFolder(
         self_: *mut ISteamUser,
         pchBuffer: *mut ::std::os::raw::c_char,
         cubBuffer: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_StartVoiceRecording(self_: *mut ISteamUser);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_StopVoiceRecording(self_: *mut ISteamUser);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetAvailableVoice(
         self_: *mut ISteamUser,
         pcbCompressed: *mut uint32,
         pcbUncompressed_Deprecated: *mut uint32,
         nUncompressedVoiceDesiredSampleRate_Deprecated: uint32,
     ) -> EVoiceResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetVoice(
         self_: *mut ISteamUser,
         bWantCompressed: bool,
@@ -15213,8 +13703,6 @@ unsafe extern "C" {
         nUncompressBytesWritten_Deprecated: *mut uint32,
         nUncompressedVoiceDesiredSampleRate_Deprecated: uint32,
     ) -> EVoiceResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_DecompressVoice(
         self_: *mut ISteamUser,
         pCompressed: *const ::std::os::raw::c_void,
@@ -15224,13 +13712,9 @@ unsafe extern "C" {
         nBytesWritten: *mut uint32,
         nDesiredSampleRate: uint32,
     ) -> EVoiceResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetVoiceOptimalSampleRate(
         self_: *mut ISteamUser,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetAuthSessionTicket(
         self_: *mut ISteamUser,
         pTicket: *mut ::std::os::raw::c_void,
@@ -15238,246 +13722,162 @@ unsafe extern "C" {
         pcbTicket: *mut uint32,
         pSteamNetworkingIdentity: *const SteamNetworkingIdentity,
     ) -> HAuthTicket;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetAuthTicketForWebApi(
         self_: *mut ISteamUser,
         pchIdentity: *const ::std::os::raw::c_char,
     ) -> HAuthTicket;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BeginAuthSession(
         self_: *mut ISteamUser,
         pAuthTicket: *const ::std::os::raw::c_void,
         cbAuthTicket: ::std::os::raw::c_int,
         steamID: uint64_steamid,
     ) -> EBeginAuthSessionResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_EndAuthSession(
         self_: *mut ISteamUser,
         steamID: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_CancelAuthTicket(
         self_: *mut ISteamUser,
         hAuthTicket: HAuthTicket,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_UserHasLicenseForApp(
         self_: *mut ISteamUser,
         steamID: uint64_steamid,
         appID: AppId_t,
     ) -> EUserHasLicenseForAppResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BIsBehindNAT(self_: *mut ISteamUser) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_AdvertiseGame(
         self_: *mut ISteamUser,
         steamIDGameServer: uint64_steamid,
         unIPServer: uint32,
         usPortServer: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_RequestEncryptedAppTicket(
         self_: *mut ISteamUser,
         pDataToInclude: *mut ::std::os::raw::c_void,
         cbDataToInclude: ::std::os::raw::c_int,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetEncryptedAppTicket(
         self_: *mut ISteamUser,
         pTicket: *mut ::std::os::raw::c_void,
         cbMaxTicket: ::std::os::raw::c_int,
         pcbTicket: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetGameBadgeLevel(
         self_: *mut ISteamUser,
         nSeries: ::std::os::raw::c_int,
         bFoil: bool,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetPlayerSteamLevel(
         self_: *mut ISteamUser,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_RequestStoreAuthURL(
         self_: *mut ISteamUser,
         pchRedirectURL: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BIsPhoneVerified(self_: *mut ISteamUser) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BIsTwoFactorEnabled(self_: *mut ISteamUser) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BIsPhoneIdentifying(self_: *mut ISteamUser) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BIsPhoneRequiringVerification(
         self_: *mut ISteamUser,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetMarketEligibility(
         self_: *mut ISteamUser,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_GetDurationControl(
         self_: *mut ISteamUser,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUser_BSetDurationControlOnlineState(
         self_: *mut ISteamUser,
         eNewState: EDurationControlOnlineState,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamFriends_v018() -> *mut ISteamFriends;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetPersonaName(
         self_: *mut ISteamFriends,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetPersonaState(
         self_: *mut ISteamFriends,
     ) -> EPersonaState;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendCount(
         self_: *mut ISteamFriends,
         iFriendFlags: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendByIndex(
         self_: *mut ISteamFriends,
         iFriend: ::std::os::raw::c_int,
         iFriendFlags: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendRelationship(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> EFriendRelationship;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendPersonaState(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> EPersonaState;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendPersonaName(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendGamePlayed(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
         pFriendGameInfo: *mut FriendGameInfo_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendPersonaNameHistory(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
         iPersonaName: ::std::os::raw::c_int,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendSteamLevel(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetPlayerNickname(
         self_: *mut ISteamFriends,
         steamIDPlayer: uint64_steamid,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendsGroupCount(
         self_: *mut ISteamFriends,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendsGroupIDByIndex(
         self_: *mut ISteamFriends,
         iFG: ::std::os::raw::c_int,
     ) -> FriendsGroupID_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendsGroupName(
         self_: *mut ISteamFriends,
         friendsGroupID: FriendsGroupID_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendsGroupMembersCount(
         self_: *mut ISteamFriends,
         friendsGroupID: FriendsGroupID_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendsGroupMembersList(
         self_: *mut ISteamFriends,
         friendsGroupID: FriendsGroupID_t,
         pOutSteamIDMembers: *mut CSteamID,
         nMembersCount: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_HasFriend(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
         iFriendFlags: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanCount(
         self_: *mut ISteamFriends,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanByIndex(
         self_: *mut ISteamFriends,
         iClan: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanName(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanTag(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanActivityCounts(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
@@ -15485,229 +13885,157 @@ unsafe extern "C" {
         pnInGame: *mut ::std::os::raw::c_int,
         pnChatting: *mut ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_DownloadClanActivityCounts(
         self_: *mut ISteamFriends,
         psteamIDClans: *mut CSteamID,
         cClansToRequest: ::std::os::raw::c_int,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendCountFromSource(
         self_: *mut ISteamFriends,
         steamIDSource: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendFromSourceByIndex(
         self_: *mut ISteamFriends,
         steamIDSource: uint64_steamid,
         iFriend: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_IsUserInSource(
         self_: *mut ISteamFriends,
         steamIDUser: uint64_steamid,
         steamIDSource: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_SetInGameVoiceSpeaking(
         self_: *mut ISteamFriends,
         steamIDUser: uint64_steamid,
         bSpeaking: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ActivateGameOverlay(
         self_: *mut ISteamFriends,
         pchDialog: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ActivateGameOverlayToUser(
         self_: *mut ISteamFriends,
         pchDialog: *const ::std::os::raw::c_char,
         steamID: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ActivateGameOverlayToWebPage(
         self_: *mut ISteamFriends,
         pchURL: *const ::std::os::raw::c_char,
         eMode: EActivateGameOverlayToWebPageMode,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ActivateGameOverlayToStore(
         self_: *mut ISteamFriends,
         nAppID: AppId_t,
         eFlag: EOverlayToStoreFlag,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_SetPlayedWith(
         self_: *mut ISteamFriends,
         steamIDUserPlayedWith: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ActivateGameOverlayInviteDialog(
         self_: *mut ISteamFriends,
         steamIDLobby: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetSmallFriendAvatar(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetMediumFriendAvatar(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetLargeFriendAvatar(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_RequestUserInformation(
         self_: *mut ISteamFriends,
         steamIDUser: uint64_steamid,
         bRequireNameOnly: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_RequestClanOfficerList(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanOwner(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanOfficerCount(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanOfficerByIndex(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
         iOfficer: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_SetRichPresence(
         self_: *mut ISteamFriends,
         pchKey: *const ::std::os::raw::c_char,
         pchValue: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ClearRichPresence(self_: *mut ISteamFriends);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendRichPresence(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
         pchKey: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendRichPresenceKeyCount(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendRichPresenceKeyByIndex(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
         iKey: ::std::os::raw::c_int,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_RequestFriendRichPresence(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_InviteUserToGame(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
         pchConnectString: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetCoplayFriendCount(
         self_: *mut ISteamFriends,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetCoplayFriend(
         self_: *mut ISteamFriends,
         iCoplayFriend: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendCoplayTime(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendCoplayGame(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
     ) -> AppId_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_JoinClanChatRoom(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_LeaveClanChatRoom(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanChatMemberCount(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetChatMemberByIndex(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
         iUser: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_SendClanChatMessage(
         self_: *mut ISteamFriends,
         steamIDClanChat: uint64_steamid,
         pchText: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetClanChatMessage(
         self_: *mut ISteamFriends,
         steamIDClanChat: uint64_steamid,
@@ -15717,46 +14045,32 @@ unsafe extern "C" {
         peChatEntryType: *mut EChatEntryType,
         psteamidChatter: *mut CSteamID,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_IsClanChatAdmin(
         self_: *mut ISteamFriends,
         steamIDClanChat: uint64_steamid,
         steamIDUser: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_IsClanChatWindowOpenInSteam(
         self_: *mut ISteamFriends,
         steamIDClanChat: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_OpenClanChatWindowInSteam(
         self_: *mut ISteamFriends,
         steamIDClanChat: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_CloseClanChatWindowInSteam(
         self_: *mut ISteamFriends,
         steamIDClanChat: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_SetListenForFriendsMessages(
         self_: *mut ISteamFriends,
         bInterceptEnabled: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ReplyToFriendMessage(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
         pchMsgToSend: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFriendMessage(
         self_: *mut ISteamFriends,
         steamIDFriend: uint64_steamid,
@@ -15765,160 +14079,104 @@ unsafe extern "C" {
         cubData: ::std::os::raw::c_int,
         peChatEntryType: *mut EChatEntryType,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetFollowerCount(
         self_: *mut ISteamFriends,
         steamID: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_IsFollowing(
         self_: *mut ISteamFriends,
         steamID: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_EnumerateFollowingList(
         self_: *mut ISteamFriends,
         unStartIndex: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_IsClanPublic(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_IsClanOfficialGameGroup(
         self_: *mut ISteamFriends,
         steamIDClan: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetNumChatsWithUnreadPriorityMessages(
         self_: *mut ISteamFriends,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ActivateGameOverlayRemotePlayTogetherInviteDialog(
         self_: *mut ISteamFriends,
         steamIDLobby: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_RegisterProtocolInOverlayBrowser(
         self_: *mut ISteamFriends,
         pchProtocol: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_ActivateGameOverlayInviteDialogConnectString(
         self_: *mut ISteamFriends,
         pchConnectString: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_RequestEquippedProfileItems(
         self_: *mut ISteamFriends,
         steamID: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_BHasEquippedProfileItem(
         self_: *mut ISteamFriends,
         steamID: uint64_steamid,
         itemType: ECommunityProfileItemType,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetProfileItemPropertyString(
         self_: *mut ISteamFriends,
         steamID: uint64_steamid,
         itemType: ECommunityProfileItemType,
         prop: ECommunityProfileItemProperty,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamFriends_GetProfileItemPropertyUint(
         self_: *mut ISteamFriends,
         steamID: uint64_steamid,
         itemType: ECommunityProfileItemType,
         prop: ECommunityProfileItemProperty,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamUtils_v010() -> *mut ISteamUtils;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerUtils_v010() -> *mut ISteamUtils;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetSecondsSinceAppActive(
         self_: *mut ISteamUtils,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetSecondsSinceComputerActive(
         self_: *mut ISteamUtils,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetConnectedUniverse(
         self_: *mut ISteamUtils,
     ) -> EUniverse;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetServerRealTime(self_: *mut ISteamUtils) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetIPCountry(
         self_: *mut ISteamUtils,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetImageSize(
         self_: *mut ISteamUtils,
         iImage: ::std::os::raw::c_int,
         pnWidth: *mut uint32,
         pnHeight: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetImageRGBA(
         self_: *mut ISteamUtils,
         iImage: ::std::os::raw::c_int,
         pubDest: *mut uint8,
         nDestBufferSize: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetCurrentBatteryPower(self_: *mut ISteamUtils) -> uint8;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetAppID(self_: *mut ISteamUtils) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_SetOverlayNotificationPosition(
         self_: *mut ISteamUtils,
         eNotificationPosition: ENotificationPosition,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_IsAPICallCompleted(
         self_: *mut ISteamUtils,
         hSteamAPICall: SteamAPICall_t,
         pbFailed: *mut bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetAPICallFailureReason(
         self_: *mut ISteamUtils,
         hSteamAPICall: SteamAPICall_t,
     ) -> ESteamAPICallFailure;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetAPICallResult(
         self_: *mut ISteamUtils,
         hSteamAPICall: SteamAPICall_t,
@@ -15927,29 +14185,17 @@ unsafe extern "C" {
         iCallbackExpected: ::std::os::raw::c_int,
         pbFailed: *mut bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetIPCCallCount(self_: *mut ISteamUtils) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_SetWarningMessageHook(
         self_: *mut ISteamUtils,
         pFunction: SteamAPIWarningMessageHook_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_IsOverlayEnabled(self_: *mut ISteamUtils) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_BOverlayNeedsPresent(self_: *mut ISteamUtils) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_CheckFileSignature(
         self_: *mut ISteamUtils,
         szFileName: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_ShowGamepadTextInput(
         self_: *mut ISteamUtils,
         eInputMode: EGamepadTextInputMode,
@@ -15958,61 +14204,37 @@ unsafe extern "C" {
         unCharMax: uint32,
         pchExistingText: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetEnteredGamepadTextLength(
         self_: *mut ISteamUtils,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetEnteredGamepadTextInput(
         self_: *mut ISteamUtils,
         pchText: *mut ::std::os::raw::c_char,
         cchText: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetSteamUILanguage(
         self_: *mut ISteamUtils,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_IsSteamRunningInVR(self_: *mut ISteamUtils) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_SetOverlayNotificationInset(
         self_: *mut ISteamUtils,
         nHorizontalInset: ::std::os::raw::c_int,
         nVerticalInset: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_IsSteamInBigPictureMode(self_: *mut ISteamUtils) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_StartVRDashboard(self_: *mut ISteamUtils);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_IsVRHeadsetStreamingEnabled(
         self_: *mut ISteamUtils,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_SetVRHeadsetStreamingEnabled(
         self_: *mut ISteamUtils,
         bEnabled: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_IsSteamChinaLauncher(self_: *mut ISteamUtils) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_InitFilterText(
         self_: *mut ISteamUtils,
         unFilterOptions: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_FilterText(
         self_: *mut ISteamUtils,
         eContext: ETextFilteringContext,
@@ -16021,19 +14243,13 @@ unsafe extern "C" {
         pchOutFilteredText: *mut ::std::os::raw::c_char,
         nByteSizeOutFilteredText: uint32,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_GetIPv6ConnectivityState(
         self_: *mut ISteamUtils,
         eProtocol: ESteamIPv6ConnectivityProtocol,
     ) -> ESteamIPv6ConnectivityState;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_IsSteamRunningOnSteamDeck(
         self_: *mut ISteamUtils,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_ShowFloatingGamepadTextInput(
         self_: *mut ISteamUtils,
         eKeyboardMode: EFloatingGamepadTextInputMode,
@@ -16042,30 +14258,18 @@ unsafe extern "C" {
         nTextFieldWidth: ::std::os::raw::c_int,
         nTextFieldHeight: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_SetGameLauncherMode(
         self_: *mut ISteamUtils,
         bLauncherMode: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_DismissFloatingGamepadTextInput(
         self_: *mut ISteamUtils,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUtils_DismissGamepadTextInput(self_: *mut ISteamUtils) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamMatchmaking_v009() -> *mut ISteamMatchmaking;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetFavoriteGameCount(
         self_: *mut ISteamMatchmaking,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetFavoriteGame(
         self_: *mut ISteamMatchmaking,
         iGame: ::std::os::raw::c_int,
@@ -16076,8 +14280,6 @@ unsafe extern "C" {
         punFlags: *mut uint32,
         pRTime32LastPlayedOnServer: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddFavoriteGame(
         self_: *mut ISteamMatchmaking,
         nAppID: AppId_t,
@@ -16087,8 +14289,6 @@ unsafe extern "C" {
         unFlags: uint32,
         rTime32LastPlayedOnServer: uint32,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_RemoveFavoriteGame(
         self_: *mut ISteamMatchmaking,
         nAppID: AppId_t,
@@ -16097,126 +14297,88 @@ unsafe extern "C" {
         nQueryPort: uint16,
         unFlags: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_RequestLobbyList(
         self_: *mut ISteamMatchmaking,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddRequestLobbyListStringFilter(
         self_: *mut ISteamMatchmaking,
         pchKeyToMatch: *const ::std::os::raw::c_char,
         pchValueToMatch: *const ::std::os::raw::c_char,
         eComparisonType: ELobbyComparison,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddRequestLobbyListNumericalFilter(
         self_: *mut ISteamMatchmaking,
         pchKeyToMatch: *const ::std::os::raw::c_char,
         nValueToMatch: ::std::os::raw::c_int,
         eComparisonType: ELobbyComparison,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddRequestLobbyListNearValueFilter(
         self_: *mut ISteamMatchmaking,
         pchKeyToMatch: *const ::std::os::raw::c_char,
         nValueToBeCloseTo: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddRequestLobbyListFilterSlotsAvailable(
         self_: *mut ISteamMatchmaking,
         nSlotsAvailable: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddRequestLobbyListDistanceFilter(
         self_: *mut ISteamMatchmaking,
         eLobbyDistanceFilter: ELobbyDistanceFilter,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddRequestLobbyListResultCountFilter(
         self_: *mut ISteamMatchmaking,
         cMaxResults: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_AddRequestLobbyListCompatibleMembersFilter(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyByIndex(
         self_: *mut ISteamMatchmaking,
         iLobby: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_CreateLobby(
         self_: *mut ISteamMatchmaking,
         eLobbyType: ELobbyType,
         cMaxMembers: ::std::os::raw::c_int,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_JoinLobby(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_LeaveLobby(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_InviteUserToLobby(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         steamIDInvitee: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetNumLobbyMembers(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyMemberByIndex(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         iMember: ::std::os::raw::c_int,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyData(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         pchKey: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLobbyData(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         pchKey: *const ::std::os::raw::c_char,
         pchValue: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyDataCount(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyDataByIndex(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
@@ -16226,39 +14388,29 @@ unsafe extern "C" {
         pchValue: *mut ::std::os::raw::c_char,
         cchValueBufferSize: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_DeleteLobbyData(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         pchKey: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyMemberData(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         steamIDUser: uint64_steamid,
         pchKey: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLobbyMemberData(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         pchKey: *const ::std::os::raw::c_char,
         pchValue: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SendLobbyChatMsg(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         pvMsgBody: *const ::std::os::raw::c_void,
         cubMsgBody: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyChatEntry(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
@@ -16268,14 +14420,10 @@ unsafe extern "C" {
         cubData: ::std::os::raw::c_int,
         peChatEntryType: *mut EChatEntryType,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_RequestLobbyData(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLobbyGameServer(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
@@ -16283,8 +14431,6 @@ unsafe extern "C" {
         unGameServerPort: uint16,
         steamIDGameServer: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyGameServer(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
@@ -16292,125 +14438,85 @@ unsafe extern "C" {
         punGameServerPort: *mut uint16,
         psteamIDGameServer: *mut CSteamID,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLobbyMemberLimit(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         cMaxMembers: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyMemberLimit(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLobbyType(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         eLobbyType: ELobbyType,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLobbyJoinable(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         bLobbyJoinable: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_GetLobbyOwner(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLobbyOwner(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         steamIDNewOwner: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmaking_SetLinkedLobby(
         self_: *mut ISteamMatchmaking,
         steamIDLobby: uint64_steamid,
         steamIDLobbyDependent: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServerListResponse_ServerResponded(
         self_: *mut ISteamMatchmakingServerListResponse,
         hRequest: HServerListRequest,
         iServer: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServerListResponse_ServerFailedToRespond(
         self_: *mut ISteamMatchmakingServerListResponse,
         hRequest: HServerListRequest,
         iServer: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServerListResponse_RefreshComplete(
         self_: *mut ISteamMatchmakingServerListResponse,
         hRequest: HServerListRequest,
         response: EMatchMakingServerResponse,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingPingResponse_ServerResponded(
         self_: *mut ISteamMatchmakingPingResponse,
         server: *mut gameserveritem_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingPingResponse_ServerFailedToRespond(
         self_: *mut ISteamMatchmakingPingResponse,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingPlayersResponse_AddPlayerToList(
         self_: *mut ISteamMatchmakingPlayersResponse,
         pchName: *const ::std::os::raw::c_char,
         nScore: ::std::os::raw::c_int,
         flTimePlayed: f32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingPlayersResponse_PlayersFailedToRespond(
         self_: *mut ISteamMatchmakingPlayersResponse,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingPlayersResponse_PlayersRefreshComplete(
         self_: *mut ISteamMatchmakingPlayersResponse,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingRulesResponse_RulesResponded(
         self_: *mut ISteamMatchmakingRulesResponse,
         pchRule: *const ::std::os::raw::c_char,
         pchValue: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingRulesResponse_RulesFailedToRespond(
         self_: *mut ISteamMatchmakingRulesResponse,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingRulesResponse_RulesRefreshComplete(
         self_: *mut ISteamMatchmakingRulesResponse,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamMatchmakingServers_v002() -> *mut ISteamMatchmakingServers;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RequestInternetServerList(
         self_: *mut ISteamMatchmakingServers,
         iApp: AppId_t,
@@ -16418,15 +14524,11 @@ unsafe extern "C" {
         nFilters: uint32,
         pRequestServersResponse: *mut ISteamMatchmakingServerListResponse,
     ) -> HServerListRequest;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RequestLANServerList(
         self_: *mut ISteamMatchmakingServers,
         iApp: AppId_t,
         pRequestServersResponse: *mut ISteamMatchmakingServerListResponse,
     ) -> HServerListRequest;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RequestFriendsServerList(
         self_: *mut ISteamMatchmakingServers,
         iApp: AppId_t,
@@ -16434,8 +14536,6 @@ unsafe extern "C" {
         nFilters: uint32,
         pRequestServersResponse: *mut ISteamMatchmakingServerListResponse,
     ) -> HServerListRequest;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RequestFavoritesServerList(
         self_: *mut ISteamMatchmakingServers,
         iApp: AppId_t,
@@ -16443,8 +14543,6 @@ unsafe extern "C" {
         nFilters: uint32,
         pRequestServersResponse: *mut ISteamMatchmakingServerListResponse,
     ) -> HServerListRequest;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RequestHistoryServerList(
         self_: *mut ISteamMatchmakingServers,
         iApp: AppId_t,
@@ -16452,8 +14550,6 @@ unsafe extern "C" {
         nFilters: uint32,
         pRequestServersResponse: *mut ISteamMatchmakingServerListResponse,
     ) -> HServerListRequest;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RequestSpectatorServerList(
         self_: *mut ISteamMatchmakingServers,
         iApp: AppId_t,
@@ -16461,191 +14557,131 @@ unsafe extern "C" {
         nFilters: uint32,
         pRequestServersResponse: *mut ISteamMatchmakingServerListResponse,
     ) -> HServerListRequest;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_ReleaseRequest(
         self_: *mut ISteamMatchmakingServers,
         hServerListRequest: HServerListRequest,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_GetServerDetails(
         self_: *mut ISteamMatchmakingServers,
         hRequest: HServerListRequest,
         iServer: ::std::os::raw::c_int,
     ) -> *mut gameserveritem_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_CancelQuery(
         self_: *mut ISteamMatchmakingServers,
         hRequest: HServerListRequest,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RefreshQuery(
         self_: *mut ISteamMatchmakingServers,
         hRequest: HServerListRequest,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_IsRefreshing(
         self_: *mut ISteamMatchmakingServers,
         hRequest: HServerListRequest,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_GetServerCount(
         self_: *mut ISteamMatchmakingServers,
         hRequest: HServerListRequest,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_RefreshServer(
         self_: *mut ISteamMatchmakingServers,
         hRequest: HServerListRequest,
         iServer: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_PingServer(
         self_: *mut ISteamMatchmakingServers,
         unIP: uint32,
         usPort: uint16,
         pRequestServersResponse: *mut ISteamMatchmakingPingResponse,
     ) -> HServerQuery;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_PlayerDetails(
         self_: *mut ISteamMatchmakingServers,
         unIP: uint32,
         usPort: uint16,
         pRequestServersResponse: *mut ISteamMatchmakingPlayersResponse,
     ) -> HServerQuery;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_ServerRules(
         self_: *mut ISteamMatchmakingServers,
         unIP: uint32,
         usPort: uint16,
         pRequestServersResponse: *mut ISteamMatchmakingRulesResponse,
     ) -> HServerQuery;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMatchmakingServers_CancelServerQuery(
         self_: *mut ISteamMatchmakingServers,
         hServerQuery: HServerQuery,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameSearch_v001() -> *mut ISteamGameSearch;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_AddGameSearchParams(
         self_: *mut ISteamGameSearch,
         pchKeyToFind: *const ::std::os::raw::c_char,
         pchValuesToFind: *const ::std::os::raw::c_char,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_SearchForGameWithLobby(
         self_: *mut ISteamGameSearch,
         steamIDLobby: uint64_steamid,
         nPlayerMin: ::std::os::raw::c_int,
         nPlayerMax: ::std::os::raw::c_int,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_SearchForGameSolo(
         self_: *mut ISteamGameSearch,
         nPlayerMin: ::std::os::raw::c_int,
         nPlayerMax: ::std::os::raw::c_int,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_AcceptGame(
         self_: *mut ISteamGameSearch,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_DeclineGame(
         self_: *mut ISteamGameSearch,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_RetrieveConnectionDetails(
         self_: *mut ISteamGameSearch,
         steamIDHost: uint64_steamid,
         pchConnectionDetails: *mut ::std::os::raw::c_char,
         cubConnectionDetails: ::std::os::raw::c_int,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_EndGameSearch(
         self_: *mut ISteamGameSearch,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_SetGameHostParams(
         self_: *mut ISteamGameSearch,
         pchKey: *const ::std::os::raw::c_char,
         pchValue: *const ::std::os::raw::c_char,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_SetConnectionDetails(
         self_: *mut ISteamGameSearch,
         pchConnectionDetails: *const ::std::os::raw::c_char,
         cubConnectionDetails: ::std::os::raw::c_int,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_RequestPlayersForGame(
         self_: *mut ISteamGameSearch,
         nPlayerMin: ::std::os::raw::c_int,
         nPlayerMax: ::std::os::raw::c_int,
         nMaxTeamSize: ::std::os::raw::c_int,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_HostConfirmGameStart(
         self_: *mut ISteamGameSearch,
         ullUniqueGameID: uint64,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_CancelRequestPlayersForGame(
         self_: *mut ISteamGameSearch,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_SubmitPlayerResult(
         self_: *mut ISteamGameSearch,
         ullUniqueGameID: uint64,
         steamIDPlayer: uint64_steamid,
         EPlayerResult: EPlayerResult_t,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameSearch_EndGame(
         self_: *mut ISteamGameSearch,
         ullUniqueGameID: uint64,
     ) -> EGameSearchErrorCode_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamParties_v002() -> *mut ISteamParties;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_GetNumActiveBeacons(
         self_: *mut ISteamParties,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_GetBeaconByIndex(
         self_: *mut ISteamParties,
         unIndex: uint32,
     ) -> PartyBeaconID_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_GetBeaconDetails(
         self_: *mut ISteamParties,
         ulBeaconID: PartyBeaconID_t,
@@ -16654,27 +14690,19 @@ unsafe extern "C" {
         pchMetadata: *mut ::std::os::raw::c_char,
         cchMetadata: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_JoinParty(
         self_: *mut ISteamParties,
         ulBeaconID: PartyBeaconID_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_GetNumAvailableBeaconLocations(
         self_: *mut ISteamParties,
         puNumLocations: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_GetAvailableBeaconLocations(
         self_: *mut ISteamParties,
         pLocationList: *mut SteamPartyBeaconLocation_t,
         uMaxNumLocations: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_CreateBeacon(
         self_: *mut ISteamParties,
         unOpenSlots: uint32,
@@ -16682,35 +14710,25 @@ unsafe extern "C" {
         pchConnectString: *const ::std::os::raw::c_char,
         pchMetadata: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_OnReservationCompleted(
         self_: *mut ISteamParties,
         ulBeacon: PartyBeaconID_t,
         steamIDUser: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_CancelReservation(
         self_: *mut ISteamParties,
         ulBeacon: PartyBeaconID_t,
         steamIDUser: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_ChangeNumOpenSlots(
         self_: *mut ISteamParties,
         ulBeacon: PartyBeaconID_t,
         unOpenSlots: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_DestroyBeacon(
         self_: *mut ISteamParties,
         ulBeacon: PartyBeaconID_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParties_GetBeaconLocationData(
         self_: *mut ISteamParties,
         BeaconLocation: SteamPartyBeaconLocation_t,
@@ -16718,182 +14736,126 @@ unsafe extern "C" {
         pchDataStringOut: *mut ::std::os::raw::c_char,
         cchDataStringOut: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamRemoteStorage_v016() -> *mut ISteamRemoteStorage;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileWrite(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
         pvData: *const ::std::os::raw::c_void,
         cubData: int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileRead(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
         pvData: *mut ::std::os::raw::c_void,
         cubDataToRead: int32,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileWriteAsync(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
         pvData: *const ::std::os::raw::c_void,
         cubData: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileReadAsync(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
         nOffset: uint32,
         cubToRead: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileReadAsyncComplete(
         self_: *mut ISteamRemoteStorage,
         hReadCall: SteamAPICall_t,
         pvBuffer: *mut ::std::os::raw::c_void,
         cubToRead: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileForget(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileDelete(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileShare(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_SetSyncPlatforms(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
         eRemoteStoragePlatform: ERemoteStoragePlatform,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileWriteStreamOpen(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> UGCFileWriteStreamHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileWriteStreamWriteChunk(
         self_: *mut ISteamRemoteStorage,
         writeHandle: UGCFileWriteStreamHandle_t,
         pvData: *const ::std::os::raw::c_void,
         cubData: int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileWriteStreamClose(
         self_: *mut ISteamRemoteStorage,
         writeHandle: UGCFileWriteStreamHandle_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileWriteStreamCancel(
         self_: *mut ISteamRemoteStorage,
         writeHandle: UGCFileWriteStreamHandle_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FileExists(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_FilePersisted(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetFileSize(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetFileTimestamp(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> int64;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetSyncPlatforms(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
     ) -> ERemoteStoragePlatform;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetFileCount(
         self_: *mut ISteamRemoteStorage,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetFileNameAndSize(
         self_: *mut ISteamRemoteStorage,
         iFile: ::std::os::raw::c_int,
         pnFileSizeInBytes: *mut int32,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetQuota(
         self_: *mut ISteamRemoteStorage,
         pnTotalBytes: *mut uint64,
         puAvailableBytes: *mut uint64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_IsCloudEnabledForAccount(
         self_: *mut ISteamRemoteStorage,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_IsCloudEnabledForApp(
         self_: *mut ISteamRemoteStorage,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_SetCloudEnabledForApp(
         self_: *mut ISteamRemoteStorage,
         bEnabled: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UGCDownload(
         self_: *mut ISteamRemoteStorage,
         hContent: UGCHandle_t,
         unPriority: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetUGCDownloadProgress(
         self_: *mut ISteamRemoteStorage,
         hContent: UGCHandle_t,
         pnBytesDownloaded: *mut int32,
         pnBytesExpected: *mut int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetUGCDetails(
         self_: *mut ISteamRemoteStorage,
         hContent: UGCHandle_t,
@@ -16902,8 +14864,6 @@ unsafe extern "C" {
         pnFileSizeInBytes: *mut int32,
         pSteamIDOwner: *mut CSteamID,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UGCRead(
         self_: *mut ISteamRemoteStorage,
         hContent: UGCHandle_t,
@@ -16912,19 +14872,13 @@ unsafe extern "C" {
         cOffset: uint32,
         eAction: EUGCReadAction,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetCachedUGCCount(
         self_: *mut ISteamRemoteStorage,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetCachedUGCHandle(
         self_: *mut ISteamRemoteStorage,
         iCachedContent: int32,
     ) -> UGCHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_PublishWorkshopFile(
         self_: *mut ISteamRemoteStorage,
         pchFile: *const ::std::os::raw::c_char,
@@ -16936,125 +14890,87 @@ unsafe extern "C" {
         pTags: *mut SteamParamStringArray_t,
         eWorkshopFileType: EWorkshopFileType,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_CreatePublishedFileUpdateRequest(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
     ) -> PublishedFileUpdateHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdatePublishedFileFile(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
         pchFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdatePublishedFilePreviewFile(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
         pchPreviewFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdatePublishedFileTitle(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
         pchTitle: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdatePublishedFileDescription(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
         pchDescription: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdatePublishedFileVisibility(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
         eVisibility: ERemoteStoragePublishedFileVisibility,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdatePublishedFileTags(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
         pTags: *mut SteamParamStringArray_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_CommitPublishedFileUpdate(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetPublishedFileDetails(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
         unMaxSecondsOld: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_DeletePublishedFile(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_EnumerateUserPublishedFiles(
         self_: *mut ISteamRemoteStorage,
         unStartIndex: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_SubscribePublishedFile(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_EnumerateUserSubscribedFiles(
         self_: *mut ISteamRemoteStorage,
         unStartIndex: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UnsubscribePublishedFile(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdatePublishedFileSetChangeDescription(
         self_: *mut ISteamRemoteStorage,
         updateHandle: PublishedFileUpdateHandle_t,
         pchChangeDescription: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetPublishedItemVoteDetails(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UpdateUserPublishedItemVote(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
         bVoteUp: bool,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetUserPublishedItemVoteDetails(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_EnumerateUserSharedWorkshopFiles(
         self_: *mut ISteamRemoteStorage,
         steamId: uint64_steamid,
@@ -17062,8 +14978,6 @@ unsafe extern "C" {
         pRequiredTags: *mut SteamParamStringArray_t,
         pExcludedTags: *mut SteamParamStringArray_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_PublishVideo(
         self_: *mut ISteamRemoteStorage,
         eVideoProvider: EWorkshopVideoProvider,
@@ -17076,22 +14990,16 @@ unsafe extern "C" {
         eVisibility: ERemoteStoragePublishedFileVisibility,
         pTags: *mut SteamParamStringArray_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_SetUserPublishedFileAction(
         self_: *mut ISteamRemoteStorage,
         unPublishedFileId: PublishedFileId_t,
         eAction: EWorkshopFileAction,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_EnumeratePublishedFilesByUserAction(
         self_: *mut ISteamRemoteStorage,
         eAction: EWorkshopFileAction,
         unStartIndex: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_EnumeratePublishedWorkshopFiles(
         self_: *mut ISteamRemoteStorage,
         eEnumerationType: EWorkshopEnumerationType,
@@ -17101,170 +15009,118 @@ unsafe extern "C" {
         pTags: *mut SteamParamStringArray_t,
         pUserTags: *mut SteamParamStringArray_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_UGCDownloadToLocation(
         self_: *mut ISteamRemoteStorage,
         hContent: UGCHandle_t,
         pchLocation: *const ::std::os::raw::c_char,
         unPriority: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetLocalFileChangeCount(
         self_: *mut ISteamRemoteStorage,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_GetLocalFileChange(
         self_: *mut ISteamRemoteStorage,
         iFile: ::std::os::raw::c_int,
         pEChangeType: *mut ERemoteStorageLocalFileChange,
         pEFilePathType: *mut ERemoteStorageFilePathType,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_BeginFileWriteBatch(
         self_: *mut ISteamRemoteStorage,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemoteStorage_EndFileWriteBatch(
         self_: *mut ISteamRemoteStorage,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamUserStats_v013() -> *mut ISteamUserStats;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetStatInt32(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pData: *mut int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetStatFloat(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pData: *mut f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_SetStatInt32(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         nData: int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_SetStatFloat(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         fData: f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_UpdateAvgRateStat(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         flCountThisSession: f32,
         dSessionLength: f64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievement(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pbAchieved: *mut bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_SetAchievement(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_ClearAchievement(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievementAndUnlockTime(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pbAchieved: *mut bool,
         punUnlockTime: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_StoreStats(self_: *mut ISteamUserStats) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievementIcon(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievementDisplayAttribute(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pchKey: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_IndicateAchievementProgress(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         nCurProgress: uint32,
         nMaxProgress: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetNumAchievements(
         self_: *mut ISteamUserStats,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievementName(
         self_: *mut ISteamUserStats,
         iAchievement: uint32,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_RequestUserStats(
         self_: *mut ISteamUserStats,
         steamIDUser: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetUserStatInt32(
         self_: *mut ISteamUserStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         pData: *mut int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetUserStatFloat(
         self_: *mut ISteamUserStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         pData: *mut f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetUserAchievement(
         self_: *mut ISteamUserStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         pbAchieved: *mut bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetUserAchievementAndUnlockTime(
         self_: *mut ISteamUserStats,
         steamIDUser: uint64_steamid,
@@ -17272,52 +15128,36 @@ unsafe extern "C" {
         pbAchieved: *mut bool,
         punUnlockTime: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_ResetAllStats(
         self_: *mut ISteamUserStats,
         bAchievementsToo: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_FindOrCreateLeaderboard(
         self_: *mut ISteamUserStats,
         pchLeaderboardName: *const ::std::os::raw::c_char,
         eLeaderboardSortMethod: ELeaderboardSortMethod,
         eLeaderboardDisplayType: ELeaderboardDisplayType,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_FindLeaderboard(
         self_: *mut ISteamUserStats,
         pchLeaderboardName: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetLeaderboardName(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetLeaderboardEntryCount(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetLeaderboardSortMethod(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
     ) -> ELeaderboardSortMethod;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetLeaderboardDisplayType(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
     ) -> ELeaderboardDisplayType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_DownloadLeaderboardEntries(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
@@ -17325,16 +15165,12 @@ unsafe extern "C" {
         nRangeStart: ::std::os::raw::c_int,
         nRangeEnd: ::std::os::raw::c_int,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_DownloadLeaderboardEntriesForUsers(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
         prgUsers: *mut CSteamID,
         cUsers: ::std::os::raw::c_int,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetDownloadedLeaderboardEntry(
         self_: *mut ISteamUserStats,
         hSteamLeaderboardEntries: SteamLeaderboardEntries_t,
@@ -17343,8 +15179,6 @@ unsafe extern "C" {
         pDetails: *mut int32,
         cDetailsMax: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_UploadLeaderboardScore(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
@@ -17353,25 +15187,17 @@ unsafe extern "C" {
         pScoreDetails: *const int32,
         cScoreDetailsCount: ::std::os::raw::c_int,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_AttachLeaderboardUGC(
         self_: *mut ISteamUserStats,
         hSteamLeaderboard: SteamLeaderboard_t,
         hUGC: UGCHandle_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetNumberOfCurrentPlayers(
         self_: *mut ISteamUserStats,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_RequestGlobalAchievementPercentages(
         self_: *mut ISteamUserStats,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetMostAchievedAchievementInfo(
         self_: *mut ISteamUserStats,
         pchName: *mut ::std::os::raw::c_char,
@@ -17379,8 +15205,6 @@ unsafe extern "C" {
         pflPercent: *mut f32,
         pbAchieved: *mut bool,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetNextMostAchievedAchievementInfo(
         self_: *mut ISteamUserStats,
         iIteratorPrevious: ::std::os::raw::c_int,
@@ -17389,120 +15213,78 @@ unsafe extern "C" {
         pflPercent: *mut f32,
         pbAchieved: *mut bool,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievementAchievedPercent(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pflPercent: *mut f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_RequestGlobalStats(
         self_: *mut ISteamUserStats,
         nHistoryDays: ::std::os::raw::c_int,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetGlobalStatInt64(
         self_: *mut ISteamUserStats,
         pchStatName: *const ::std::os::raw::c_char,
         pData: *mut int64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetGlobalStatDouble(
         self_: *mut ISteamUserStats,
         pchStatName: *const ::std::os::raw::c_char,
         pData: *mut f64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetGlobalStatHistoryInt64(
         self_: *mut ISteamUserStats,
         pchStatName: *const ::std::os::raw::c_char,
         pData: *mut int64,
         cubData: uint32,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetGlobalStatHistoryDouble(
         self_: *mut ISteamUserStats,
         pchStatName: *const ::std::os::raw::c_char,
         pData: *mut f64,
         cubData: uint32,
     ) -> int32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievementProgressLimitsInt32(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pnMinProgress: *mut int32,
         pnMaxProgress: *mut int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUserStats_GetAchievementProgressLimitsFloat(
         self_: *mut ISteamUserStats,
         pchName: *const ::std::os::raw::c_char,
         pfMinProgress: *mut f32,
         pfMaxProgress: *mut f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamApps_v008() -> *mut ISteamApps;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsSubscribed(self_: *mut ISteamApps) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsLowViolence(self_: *mut ISteamApps) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsCybercafe(self_: *mut ISteamApps) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsVACBanned(self_: *mut ISteamApps) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetCurrentGameLanguage(
         self_: *mut ISteamApps,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetAvailableGameLanguages(
         self_: *mut ISteamApps,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsSubscribedApp(
         self_: *mut ISteamApps,
         appID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsDlcInstalled(
         self_: *mut ISteamApps,
         appID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetEarliestPurchaseUnixTime(
         self_: *mut ISteamApps,
         nAppID: AppId_t,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsSubscribedFromFreeWeekend(
         self_: *mut ISteamApps,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetDLCCount(
         self_: *mut ISteamApps,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BGetDLCDataByIndex(
         self_: *mut ISteamApps,
         iDLC: ::std::os::raw::c_int,
@@ -17511,118 +15293,78 @@ unsafe extern "C" {
         pchName: *mut ::std::os::raw::c_char,
         cchNameBufferSize: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_InstallDLC(self_: *mut ISteamApps, nAppID: AppId_t);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_UninstallDLC(self_: *mut ISteamApps, nAppID: AppId_t);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_RequestAppProofOfPurchaseKey(
         self_: *mut ISteamApps,
         nAppID: AppId_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetCurrentBetaName(
         self_: *mut ISteamApps,
         pchName: *mut ::std::os::raw::c_char,
         cchNameBufferSize: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_MarkContentCorrupt(
         self_: *mut ISteamApps,
         bMissingFilesOnly: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetInstalledDepots(
         self_: *mut ISteamApps,
         appID: AppId_t,
         pvecDepots: *mut DepotId_t,
         cMaxDepots: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetAppInstallDir(
         self_: *mut ISteamApps,
         appID: AppId_t,
         pchFolder: *mut ::std::os::raw::c_char,
         cchFolderBufferSize: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsAppInstalled(
         self_: *mut ISteamApps,
         appID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetAppOwner(self_: *mut ISteamApps) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetLaunchQueryParam(
         self_: *mut ISteamApps,
         pchKey: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetDlcDownloadProgress(
         self_: *mut ISteamApps,
         nAppID: AppId_t,
         punBytesDownloaded: *mut uint64,
         punBytesTotal: *mut uint64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetAppBuildId(
         self_: *mut ISteamApps,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_RequestAllProofOfPurchaseKeys(self_: *mut ISteamApps);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetFileDetails(
         self_: *mut ISteamApps,
         pszFileName: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetLaunchCommandLine(
         self_: *mut ISteamApps,
         pszCommandLine: *mut ::std::os::raw::c_char,
         cubCommandLine: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsSubscribedFromFamilySharing(
         self_: *mut ISteamApps,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_BIsTimedTrial(
         self_: *mut ISteamApps,
         punSecondsAllowed: *mut uint32,
         punSecondsPlayed: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_SetDlcContext(
         self_: *mut ISteamApps,
         nAppID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetNumBetas(
         self_: *mut ISteamApps,
         pnAvailable: *mut ::std::os::raw::c_int,
         pnPrivate: *mut ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_GetBetaInfo(
         self_: *mut ISteamApps,
         iBetaIndex: ::std::os::raw::c_int,
@@ -17633,20 +15375,12 @@ unsafe extern "C" {
         pchDescription: *mut ::std::os::raw::c_char,
         cchDescription: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamApps_SetActiveBeta(
         self_: *mut ISteamApps,
         pchBetaName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworking_v006() -> *mut ISteamNetworking;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerNetworking_v006() -> *mut ISteamNetworking;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_SendP2PPacket(
         self_: *mut ISteamNetworking,
         steamIDRemote: uint64_steamid,
@@ -17655,15 +15389,11 @@ unsafe extern "C" {
         eP2PSendType: EP2PSend,
         nChannel: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_IsP2PPacketAvailable(
         self_: *mut ISteamNetworking,
         pcubMsgSize: *mut uint32,
         nChannel: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_ReadP2PPacket(
         self_: *mut ISteamNetworking,
         pubDest: *mut ::std::os::raw::c_void,
@@ -17672,40 +15402,28 @@ unsafe extern "C" {
         psteamIDRemote: *mut CSteamID,
         nChannel: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_AcceptP2PSessionWithUser(
         self_: *mut ISteamNetworking,
         steamIDRemote: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_CloseP2PSessionWithUser(
         self_: *mut ISteamNetworking,
         steamIDRemote: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_CloseP2PChannelWithUser(
         self_: *mut ISteamNetworking,
         steamIDRemote: uint64_steamid,
         nChannel: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_GetP2PSessionState(
         self_: *mut ISteamNetworking,
         steamIDRemote: uint64_steamid,
         pConnectionState: *mut P2PSessionState_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_AllowP2PPacketRelay(
         self_: *mut ISteamNetworking,
         bAllow: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_CreateListenSocket(
         self_: *mut ISteamNetworking,
         nVirtualP2PPort: ::std::os::raw::c_int,
@@ -17713,8 +15431,6 @@ unsafe extern "C" {
         nPort: uint16,
         bAllowUseOfPacketRelay: bool,
     ) -> SNetListenSocket_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_CreateP2PConnectionSocket(
         self_: *mut ISteamNetworking,
         steamIDTarget: uint64_steamid,
@@ -17722,30 +15438,22 @@ unsafe extern "C" {
         nTimeoutSec: ::std::os::raw::c_int,
         bAllowUseOfPacketRelay: bool,
     ) -> SNetSocket_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_CreateConnectionSocket(
         self_: *mut ISteamNetworking,
         nIP: SteamIPAddress_t,
         nPort: uint16,
         nTimeoutSec: ::std::os::raw::c_int,
     ) -> SNetSocket_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_DestroySocket(
         self_: *mut ISteamNetworking,
         hSocket: SNetSocket_t,
         bNotifyRemoteEnd: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_DestroyListenSocket(
         self_: *mut ISteamNetworking,
         hSocket: SNetListenSocket_t,
         bNotifyRemoteEnd: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_SendDataOnSocket(
         self_: *mut ISteamNetworking,
         hSocket: SNetSocket_t,
@@ -17753,15 +15461,11 @@ unsafe extern "C" {
         cubData: uint32,
         bReliable: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_IsDataAvailableOnSocket(
         self_: *mut ISteamNetworking,
         hSocket: SNetSocket_t,
         pcubMsgSize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_RetrieveDataFromSocket(
         self_: *mut ISteamNetworking,
         hSocket: SNetSocket_t,
@@ -17769,16 +15473,12 @@ unsafe extern "C" {
         cubDest: uint32,
         pcubMsgSize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_IsDataAvailable(
         self_: *mut ISteamNetworking,
         hListenSocket: SNetListenSocket_t,
         pcubMsgSize: *mut uint32,
         phSocket: *mut SNetSocket_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_RetrieveData(
         self_: *mut ISteamNetworking,
         hListenSocket: SNetListenSocket_t,
@@ -17787,8 +15487,6 @@ unsafe extern "C" {
         pcubMsgSize: *mut uint32,
         phSocket: *mut SNetSocket_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_GetSocketInfo(
         self_: *mut ISteamNetworking,
         hSocket: SNetSocket_t,
@@ -17797,31 +15495,21 @@ unsafe extern "C" {
         punIPRemote: *mut SteamIPAddress_t,
         punPortRemote: *mut uint16,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_GetListenSocketInfo(
         self_: *mut ISteamNetworking,
         hListenSocket: SNetListenSocket_t,
         pnIP: *mut SteamIPAddress_t,
         pnPort: *mut uint16,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_GetSocketConnectionType(
         self_: *mut ISteamNetworking,
         hSocket: SNetSocket_t,
     ) -> ESNetSocketConnectionType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworking_GetMaxPacketSize(
         self_: *mut ISteamNetworking,
         hSocket: SNetSocket_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamScreenshots_v003() -> *mut ISteamScreenshots;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_WriteScreenshot(
         self_: *mut ISteamScreenshots,
         pubRGB: *mut ::std::os::raw::c_void,
@@ -17829,8 +15517,6 @@ unsafe extern "C" {
         nWidth: ::std::os::raw::c_int,
         nHeight: ::std::os::raw::c_int,
     ) -> ScreenshotHandle;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_AddScreenshotToLibrary(
         self_: *mut ISteamScreenshots,
         pchFilename: *const ::std::os::raw::c_char,
@@ -17838,351 +15524,225 @@ unsafe extern "C" {
         nWidth: ::std::os::raw::c_int,
         nHeight: ::std::os::raw::c_int,
     ) -> ScreenshotHandle;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_TriggerScreenshot(self_: *mut ISteamScreenshots);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_HookScreenshots(
         self_: *mut ISteamScreenshots,
         bHook: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_SetLocation(
         self_: *mut ISteamScreenshots,
         hScreenshot: ScreenshotHandle,
         pchLocation: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_TagUser(
         self_: *mut ISteamScreenshots,
         hScreenshot: ScreenshotHandle,
         steamID: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_TagPublishedFile(
         self_: *mut ISteamScreenshots,
         hScreenshot: ScreenshotHandle,
         unPublishedFileID: PublishedFileId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_IsScreenshotsHooked(
         self_: *mut ISteamScreenshots,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamScreenshots_AddVRScreenshotToLibrary(
         self_: *mut ISteamScreenshots,
         eType: EVRScreenshotType,
         pchFilename: *const ::std::os::raw::c_char,
         pchVRFilename: *const ::std::os::raw::c_char,
     ) -> ScreenshotHandle;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamMusic_v001() -> *mut ISteamMusic;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_BIsEnabled(self_: *mut ISteamMusic) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_BIsPlaying(self_: *mut ISteamMusic) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_GetPlaybackStatus(
         self_: *mut ISteamMusic,
     ) -> AudioPlayback_Status;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_Play(self_: *mut ISteamMusic);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_Pause(self_: *mut ISteamMusic);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_PlayPrevious(self_: *mut ISteamMusic);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_PlayNext(self_: *mut ISteamMusic);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_SetVolume(self_: *mut ISteamMusic, flVolume: f32);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusic_GetVolume(self_: *mut ISteamMusic) -> f32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamMusicRemote_v001() -> *mut ISteamMusicRemote;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_RegisterSteamMusicRemote(
         self_: *mut ISteamMusicRemote,
         pchName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_DeregisterSteamMusicRemote(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_BIsCurrentMusicRemote(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_BActivationSuccess(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_SetDisplayName(
         self_: *mut ISteamMusicRemote,
         pchDisplayName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_SetPNGIcon_64x64(
         self_: *mut ISteamMusicRemote,
         pvBuffer: *mut ::std::os::raw::c_void,
         cbBufferLength: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_EnablePlayPrevious(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_EnablePlayNext(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_EnableShuffled(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_EnableLooped(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_EnableQueue(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_EnablePlaylists(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_UpdatePlaybackStatus(
         self_: *mut ISteamMusicRemote,
         nStatus: AudioPlayback_Status,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_UpdateShuffled(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_UpdateLooped(
         self_: *mut ISteamMusicRemote,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_UpdateVolume(
         self_: *mut ISteamMusicRemote,
         flValue: f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_CurrentEntryWillChange(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_CurrentEntryIsAvailable(
         self_: *mut ISteamMusicRemote,
         bAvailable: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_UpdateCurrentEntryText(
         self_: *mut ISteamMusicRemote,
         pchText: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_UpdateCurrentEntryElapsedSeconds(
         self_: *mut ISteamMusicRemote,
         nValue: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_UpdateCurrentEntryCoverArt(
         self_: *mut ISteamMusicRemote,
         pvBuffer: *mut ::std::os::raw::c_void,
         cbBufferLength: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_CurrentEntryDidChange(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_QueueWillChange(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_ResetQueueEntries(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_SetQueueEntry(
         self_: *mut ISteamMusicRemote,
         nID: ::std::os::raw::c_int,
         nPosition: ::std::os::raw::c_int,
         pchEntryText: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_SetCurrentQueueEntry(
         self_: *mut ISteamMusicRemote,
         nID: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_QueueDidChange(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_PlaylistWillChange(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_ResetPlaylistEntries(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_SetPlaylistEntry(
         self_: *mut ISteamMusicRemote,
         nID: ::std::os::raw::c_int,
         nPosition: ::std::os::raw::c_int,
         pchEntryText: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_SetCurrentPlaylistEntry(
         self_: *mut ISteamMusicRemote,
         nID: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamMusicRemote_PlaylistDidChange(
         self_: *mut ISteamMusicRemote,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamHTTP_v003() -> *mut ISteamHTTP;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerHTTP_v003() -> *mut ISteamHTTP;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_CreateHTTPRequest(
         self_: *mut ISteamHTTP,
         eHTTPRequestMethod: EHTTPMethod,
         pchAbsoluteURL: *const ::std::os::raw::c_char,
     ) -> HTTPRequestHandle;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestContextValue(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         ulContextValue: uint64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestNetworkActivityTimeout(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         unTimeoutSeconds: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestHeaderValue(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pchHeaderName: *const ::std::os::raw::c_char,
         pchHeaderValue: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestGetOrPostParameter(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pchParamName: *const ::std::os::raw::c_char,
         pchParamValue: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SendHTTPRequest(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pCallHandle: *mut SteamAPICall_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SendHTTPRequestAndStreamResponse(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pCallHandle: *mut SteamAPICall_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_DeferHTTPRequest(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_PrioritizeHTTPRequest(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_GetHTTPResponseHeaderSize(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pchHeaderName: *const ::std::os::raw::c_char,
         unResponseHeaderSize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_GetHTTPResponseHeaderValue(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
@@ -18190,23 +15750,17 @@ unsafe extern "C" {
         pHeaderValueBuffer: *mut uint8,
         unBufferSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_GetHTTPResponseBodySize(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         unBodySize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_GetHTTPResponseBodyData(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pBodyDataBuffer: *mut uint8,
         unBufferSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_GetHTTPStreamingResponseBodyData(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
@@ -18214,21 +15768,15 @@ unsafe extern "C" {
         pBodyDataBuffer: *mut uint8,
         unBufferSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_ReleaseHTTPRequest(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_GetHTTPDownloadProgressPct(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pflPercentOut: *mut f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestRawPostBody(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
@@ -18236,20 +15784,14 @@ unsafe extern "C" {
         pubBody: *mut uint8,
         unBodyLen: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_CreateCookieContainer(
         self_: *mut ISteamHTTP,
         bAllowResponsesToModify: bool,
     ) -> HTTPCookieContainerHandle;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_ReleaseCookieContainer(
         self_: *mut ISteamHTTP,
         hCookieContainer: HTTPCookieContainerHandle,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetCookie(
         self_: *mut ISteamHTTP,
         hCookieContainer: HTTPCookieContainerHandle,
@@ -18257,148 +15799,98 @@ unsafe extern "C" {
         pchUrl: *const ::std::os::raw::c_char,
         pchCookie: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestCookieContainer(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         hCookieContainer: HTTPCookieContainerHandle,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestUserAgentInfo(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pchUserAgentInfo: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestRequiresVerifiedCertificate(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         bRequireVerifiedCertificate: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_SetHTTPRequestAbsoluteTimeoutMS(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         unMilliseconds: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTTP_GetHTTPRequestWasTimedOut(
         self_: *mut ISteamHTTP,
         hRequest: HTTPRequestHandle,
         pbWasTimedOut: *mut bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamInput_v006() -> *mut ISteamInput;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_Init(
         self_: *mut ISteamInput,
         bExplicitlyCallRunFrame: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_Shutdown(self_: *mut ISteamInput) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_SetInputActionManifestFilePath(
         self_: *mut ISteamInput,
         pchInputActionManifestAbsolutePath: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_RunFrame(self_: *mut ISteamInput, bReservedValue: bool);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_BWaitForData(
         self_: *mut ISteamInput,
         bWaitForever: bool,
         unTimeout: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_BNewDataAvailable(self_: *mut ISteamInput) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetConnectedControllers(
         self_: *mut ISteamInput,
         handlesOut: *mut InputHandle_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_EnableDeviceCallbacks(self_: *mut ISteamInput);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_EnableActionEventCallbacks(
         self_: *mut ISteamInput,
         pCallback: SteamInputActionEventCallbackPointer,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetActionSetHandle(
         self_: *mut ISteamInput,
         pszActionSetName: *const ::std::os::raw::c_char,
     ) -> InputActionSetHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_ActivateActionSet(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         actionSetHandle: InputActionSetHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetCurrentActionSet(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
     ) -> InputActionSetHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_ActivateActionSetLayer(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         actionSetLayerHandle: InputActionSetHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_DeactivateActionSetLayer(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         actionSetLayerHandle: InputActionSetHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_DeactivateAllActionSetLayers(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetActiveActionSetLayers(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         handlesOut: *mut InputActionSetHandle_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetDigitalActionHandle(
         self_: *mut ISteamInput,
         pszActionName: *const ::std::os::raw::c_char,
     ) -> InputDigitalActionHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetDigitalActionData(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         digitalActionHandle: InputDigitalActionHandle_t,
     ) -> InputDigitalActionData_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetDigitalActionOrigins(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
@@ -18406,27 +15898,19 @@ unsafe extern "C" {
         digitalActionHandle: InputDigitalActionHandle_t,
         originsOut: *mut EInputActionOrigin,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetStringForDigitalActionName(
         self_: *mut ISteamInput,
         eActionHandle: InputDigitalActionHandle_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetAnalogActionHandle(
         self_: *mut ISteamInput,
         pszActionName: *const ::std::os::raw::c_char,
     ) -> InputAnalogActionHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetAnalogActionData(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         analogActionHandle: InputAnalogActionHandle_t,
     ) -> InputAnalogActionData_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetAnalogActionOrigins(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
@@ -18434,62 +15918,44 @@ unsafe extern "C" {
         analogActionHandle: InputAnalogActionHandle_t,
         originsOut: *mut EInputActionOrigin,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetGlyphPNGForActionOrigin(
         self_: *mut ISteamInput,
         eOrigin: EInputActionOrigin,
         eSize: ESteamInputGlyphSize,
         unFlags: uint32,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetGlyphSVGForActionOrigin(
         self_: *mut ISteamInput,
         eOrigin: EInputActionOrigin,
         unFlags: uint32,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetGlyphForActionOrigin_Legacy(
         self_: *mut ISteamInput,
         eOrigin: EInputActionOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetStringForActionOrigin(
         self_: *mut ISteamInput,
         eOrigin: EInputActionOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetStringForAnalogActionName(
         self_: *mut ISteamInput,
         eActionHandle: InputAnalogActionHandle_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_StopAnalogActionMomentum(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         eAction: InputAnalogActionHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetMotionData(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
     ) -> InputMotionData_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_TriggerVibration(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         usLeftSpeed: ::std::os::raw::c_ushort,
         usRightSpeed: ::std::os::raw::c_ushort,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_TriggerVibrationExtended(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
@@ -18498,8 +15964,6 @@ unsafe extern "C" {
         usLeftTriggerSpeed: ::std::os::raw::c_ushort,
         usRightTriggerSpeed: ::std::os::raw::c_ushort,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_TriggerSimpleHapticEvent(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
@@ -18509,8 +15973,6 @@ unsafe extern "C" {
         nOtherIntensity: uint8,
         nOtherGainDB: ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_SetLEDColor(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
@@ -18519,16 +15981,12 @@ unsafe extern "C" {
         nColorB: uint8,
         nFlags: ::std::os::raw::c_uint,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_Legacy_TriggerHapticPulse(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         eTargetPad: ESteamControllerPad,
         usDurationMicroSec: ::std::os::raw::c_ushort,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_Legacy_TriggerRepeatedHapticPulse(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
@@ -18538,161 +15996,107 @@ unsafe extern "C" {
         unRepeat: ::std::os::raw::c_ushort,
         nFlags: ::std::os::raw::c_uint,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_ShowBindingPanel(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetInputTypeForHandle(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
     ) -> ESteamInputType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetControllerForGamepadIndex(
         self_: *mut ISteamInput,
         nIndex: ::std::os::raw::c_int,
     ) -> InputHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetGamepadIndexForController(
         self_: *mut ISteamInput,
         ulinputHandle: InputHandle_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetStringForXboxOrigin(
         self_: *mut ISteamInput,
         eOrigin: EXboxOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetGlyphForXboxOrigin(
         self_: *mut ISteamInput,
         eOrigin: EXboxOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetActionOriginFromXboxOrigin(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         eOrigin: EXboxOrigin,
     ) -> EInputActionOrigin;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_TranslateActionOrigin(
         self_: *mut ISteamInput,
         eDestinationInputType: ESteamInputType,
         eSourceOrigin: EInputActionOrigin,
     ) -> EInputActionOrigin;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetDeviceBindingRevision(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         pMajor: *mut ::std::os::raw::c_int,
         pMinor: *mut ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetRemotePlaySessionID(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_GetSessionInputConfigurationSettings(
         self_: *mut ISteamInput,
     ) -> uint16;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInput_SetDualSenseTriggerEffect(
         self_: *mut ISteamInput,
         inputHandle: InputHandle_t,
         pParam: *const ScePadTriggerEffectParam,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamController_v008() -> *mut ISteamController;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_Init(self_: *mut ISteamController) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_Shutdown(self_: *mut ISteamController) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_RunFrame(self_: *mut ISteamController);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetConnectedControllers(
         self_: *mut ISteamController,
         handlesOut: *mut ControllerHandle_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetActionSetHandle(
         self_: *mut ISteamController,
         pszActionSetName: *const ::std::os::raw::c_char,
     ) -> ControllerActionSetHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_ActivateActionSet(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         actionSetHandle: ControllerActionSetHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetCurrentActionSet(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
     ) -> ControllerActionSetHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_ActivateActionSetLayer(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         actionSetLayerHandle: ControllerActionSetHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_DeactivateActionSetLayer(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         actionSetLayerHandle: ControllerActionSetHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_DeactivateAllActionSetLayers(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetActiveActionSetLayers(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         handlesOut: *mut ControllerActionSetHandle_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetDigitalActionHandle(
         self_: *mut ISteamController,
         pszActionName: *const ::std::os::raw::c_char,
     ) -> ControllerDigitalActionHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetDigitalActionData(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         digitalActionHandle: ControllerDigitalActionHandle_t,
     ) -> InputDigitalActionData_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetDigitalActionOrigins(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
@@ -18700,21 +16104,15 @@ unsafe extern "C" {
         digitalActionHandle: ControllerDigitalActionHandle_t,
         originsOut: *mut EControllerActionOrigin,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetAnalogActionHandle(
         self_: *mut ISteamController,
         pszActionName: *const ::std::os::raw::c_char,
     ) -> ControllerAnalogActionHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetAnalogActionData(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         analogActionHandle: ControllerAnalogActionHandle_t,
     ) -> InputAnalogActionData_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetAnalogActionOrigins(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
@@ -18722,41 +16120,29 @@ unsafe extern "C" {
         analogActionHandle: ControllerAnalogActionHandle_t,
         originsOut: *mut EControllerActionOrigin,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetGlyphForActionOrigin(
         self_: *mut ISteamController,
         eOrigin: EControllerActionOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetStringForActionOrigin(
         self_: *mut ISteamController,
         eOrigin: EControllerActionOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_StopAnalogActionMomentum(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         eAction: ControllerAnalogActionHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetMotionData(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
     ) -> InputMotionData_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_TriggerHapticPulse(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         eTargetPad: ESteamControllerPad,
         usDurationMicroSec: ::std::os::raw::c_ushort,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_TriggerRepeatedHapticPulse(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
@@ -18766,16 +16152,12 @@ unsafe extern "C" {
         unRepeat: ::std::os::raw::c_ushort,
         nFlags: ::std::os::raw::c_uint,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_TriggerVibration(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         usLeftSpeed: ::std::os::raw::c_ushort,
         usRightSpeed: ::std::os::raw::c_ushort,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_SetLEDColor(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
@@ -18784,72 +16166,48 @@ unsafe extern "C" {
         nColorB: uint8,
         nFlags: ::std::os::raw::c_uint,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_ShowBindingPanel(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetInputTypeForHandle(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
     ) -> ESteamInputType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetControllerForGamepadIndex(
         self_: *mut ISteamController,
         nIndex: ::std::os::raw::c_int,
     ) -> ControllerHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetGamepadIndexForController(
         self_: *mut ISteamController,
         ulControllerHandle: ControllerHandle_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetStringForXboxOrigin(
         self_: *mut ISteamController,
         eOrigin: EXboxOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetGlyphForXboxOrigin(
         self_: *mut ISteamController,
         eOrigin: EXboxOrigin,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetActionOriginFromXboxOrigin(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         eOrigin: EXboxOrigin,
     ) -> EControllerActionOrigin;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_TranslateActionOrigin(
         self_: *mut ISteamController,
         eDestinationInputType: ESteamInputType,
         eSourceOrigin: EControllerActionOrigin,
     ) -> EControllerActionOrigin;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamController_GetControllerBindingRevision(
         self_: *mut ISteamController,
         controllerHandle: ControllerHandle_t,
         pMajor: *mut ::std::os::raw::c_int,
         pMinor: *mut ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamUGC_v021() -> *mut ISteamUGC;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerUGC_v021() -> *mut ISteamUGC;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_CreateQueryUserUGCRequest(
         self_: *mut ISteamUGC,
         unAccountID: AccountID_t,
@@ -18860,8 +16218,6 @@ unsafe extern "C" {
         nConsumerAppID: AppId_t,
         unPage: uint32,
     ) -> UGCQueryHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_CreateQueryAllUGCRequestPage(
         self_: *mut ISteamUGC,
         eQueryType: EUGCQuery,
@@ -18870,8 +16226,6 @@ unsafe extern "C" {
         nConsumerAppID: AppId_t,
         unPage: uint32,
     ) -> UGCQueryHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_CreateQueryAllUGCRequestCursor(
         self_: *mut ISteamUGC,
         eQueryType: EUGCQuery,
@@ -18880,36 +16234,26 @@ unsafe extern "C" {
         nConsumerAppID: AppId_t,
         pchCursor: *const ::std::os::raw::c_char,
     ) -> UGCQueryHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_CreateQueryUGCDetailsRequest(
         self_: *mut ISteamUGC,
         pvecPublishedFileID: *mut PublishedFileId_t,
         unNumPublishedFileIDs: uint32,
     ) -> UGCQueryHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SendQueryUGCRequest(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCResult(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         index: uint32,
         pDetails: *mut SteamUGCDetails_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCNumTags(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         index: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCTag(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -18918,8 +16262,6 @@ unsafe extern "C" {
         pchValue: *mut ::std::os::raw::c_char,
         cchValueSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCTagDisplayName(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -18928,8 +16270,6 @@ unsafe extern "C" {
         pchValue: *mut ::std::os::raw::c_char,
         cchValueSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCPreviewURL(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -18937,8 +16277,6 @@ unsafe extern "C" {
         pchURL: *mut ::std::os::raw::c_char,
         cchURLSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCMetadata(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -18946,8 +16284,6 @@ unsafe extern "C" {
         pchMetadata: *mut ::std::os::raw::c_char,
         cchMetadatasize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCChildren(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -18955,8 +16291,6 @@ unsafe extern "C" {
         pvecPublishedFileID: *mut PublishedFileId_t,
         cMaxEntries: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCStatistic(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -18964,15 +16298,11 @@ unsafe extern "C" {
         eStatType: EItemStatistic,
         pStatValue: *mut uint64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCNumAdditionalPreviews(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         index: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCAdditionalPreview(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -18984,15 +16314,11 @@ unsafe extern "C" {
         cchOriginalFileNameSize: uint32,
         pPreviewType: *mut EItemPreviewType,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCNumKeyValueTags(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         index: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCKeyValueTag(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -19003,8 +16329,6 @@ unsafe extern "C" {
         pchValue: *mut ::std::os::raw::c_char,
         cchValueSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryFirstUGCKeyValueTag(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -19013,15 +16337,11 @@ unsafe extern "C" {
         pchValue: *mut ::std::os::raw::c_char,
         cchValueSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetNumSupportedGameVersions(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         index: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetSupportedGameVersionData(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -19031,8 +16351,6 @@ unsafe extern "C" {
         pchGameBranchMax: *mut ::std::os::raw::c_char,
         cchGameBranchSize: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetQueryUGCContentDescriptors(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
@@ -19040,404 +16358,290 @@ unsafe extern "C" {
         pvecDescriptors: *mut EUGCContentDescriptorID,
         cMaxEntries: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_ReleaseQueryUGCRequest(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddRequiredTag(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         pTagName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddRequiredTagGroup(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         pTagGroups: *const SteamParamStringArray_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddExcludedTag(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         pTagName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnOnlyIDs(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bReturnOnlyIDs: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnKeyValueTags(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bReturnKeyValueTags: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnLongDescription(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bReturnLongDescription: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnMetadata(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bReturnMetadata: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnChildren(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bReturnChildren: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnAdditionalPreviews(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bReturnAdditionalPreviews: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnTotalOnly(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bReturnTotalOnly: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetReturnPlaytimeStats(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         unDays: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetLanguage(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         pchLanguage: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetAllowCachedResponse(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         unMaxAgeSeconds: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetAdminQuery(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         bAdminQuery: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetCloudFileNameFilter(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         pMatchCloudFileName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetMatchAnyTag(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         bMatchAnyTag: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetSearchText(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         pSearchText: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetRankedByTrendDays(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         unDays: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetTimeCreatedDateRange(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         rtStart: RTime32,
         rtEnd: RTime32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetTimeUpdatedDateRange(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         rtStart: RTime32,
         rtEnd: RTime32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddRequiredKeyValueTag(
         self_: *mut ISteamUGC,
         handle: UGCQueryHandle_t,
         pKey: *const ::std::os::raw::c_char,
         pValue: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RequestUGCDetails(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
         unMaxAgeSeconds: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_CreateItem(
         self_: *mut ISteamUGC,
         nConsumerAppId: AppId_t,
         eFileType: EWorkshopFileType,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_StartItemUpdate(
         self_: *mut ISteamUGC,
         nConsumerAppId: AppId_t,
         nPublishedFileID: PublishedFileId_t,
     ) -> UGCUpdateHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemTitle(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pchTitle: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemDescription(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pchDescription: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemUpdateLanguage(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pchLanguage: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemMetadata(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pchMetaData: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemVisibility(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         eVisibility: ERemoteStoragePublishedFileVisibility,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemTags(
         self_: *mut ISteamUGC,
         updateHandle: UGCUpdateHandle_t,
         pTags: *const SteamParamStringArray_t,
         bAllowAdminTags: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemContent(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pszContentFolder: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemPreview(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pszPreviewFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetAllowLegacyUpload(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         bAllowLegacyUpload: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RemoveAllItemKeyValueTags(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RemoveItemKeyValueTags(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pchKey: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddItemKeyValueTag(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pchKey: *const ::std::os::raw::c_char,
         pchValue: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddItemPreviewFile(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pszPreviewFile: *const ::std::os::raw::c_char,
         type_: EItemPreviewType,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddItemPreviewVideo(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pszVideoID: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_UpdateItemPreviewFile(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         index: uint32,
         pszPreviewFile: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_UpdateItemPreviewVideo(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         index: uint32,
         pszVideoID: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RemoveItemPreview(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         index: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddContentDescriptor(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         descid: EUGCContentDescriptorID,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RemoveContentDescriptor(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         descid: EUGCContentDescriptorID,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetRequiredGameVersions(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pszGameBranchMin: *const ::std::os::raw::c_char,
         pszGameBranchMax: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SubmitItemUpdate(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         pchChangeNote: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetItemUpdateProgress(
         self_: *mut ISteamUGC,
         handle: UGCUpdateHandle_t,
         punBytesProcessed: *mut uint64,
         punBytesTotal: *mut uint64,
     ) -> EItemUpdateStatus;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetUserItemVote(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
         bVoteUp: bool,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetUserItemVote(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddItemToFavorites(
         self_: *mut ISteamUGC,
         nAppId: AppId_t,
         nPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RemoveItemFromFavorites(
         self_: *mut ISteamUGC,
         nAppId: AppId_t,
         nPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SubscribeItem(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_UnsubscribeItem(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetNumSubscribedItems(
         self_: *mut ISteamUGC,
         bIncludeLocallyDisabled: bool,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetSubscribedItems(
         self_: *mut ISteamUGC,
         pvecPublishedFileID: *mut PublishedFileId_t,
         cMaxEntries: uint32,
         bIncludeLocallyDisabled: bool,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetItemState(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetItemInstallInfo(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
@@ -19446,235 +16650,161 @@ unsafe extern "C" {
         cchFolderSize: uint32,
         punTimeStamp: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetItemDownloadInfo(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
         punBytesDownloaded: *mut uint64,
         punBytesTotal: *mut uint64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_DownloadItem(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
         bHighPriority: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_BInitWorkshopForGameServer(
         self_: *mut ISteamUGC,
         unWorkshopDepotID: DepotId_t,
         pszFolder: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SuspendDownloads(self_: *mut ISteamUGC, bSuspend: bool);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_StartPlaytimeTracking(
         self_: *mut ISteamUGC,
         pvecPublishedFileID: *mut PublishedFileId_t,
         unNumPublishedFileIDs: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_StopPlaytimeTracking(
         self_: *mut ISteamUGC,
         pvecPublishedFileID: *mut PublishedFileId_t,
         unNumPublishedFileIDs: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_StopPlaytimeTrackingForAllItems(
         self_: *mut ISteamUGC,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddDependency(
         self_: *mut ISteamUGC,
         nParentPublishedFileID: PublishedFileId_t,
         nChildPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RemoveDependency(
         self_: *mut ISteamUGC,
         nParentPublishedFileID: PublishedFileId_t,
         nChildPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_AddAppDependency(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
         nAppID: AppId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_RemoveAppDependency(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
         nAppID: AppId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetAppDependencies(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_DeleteItem(
         self_: *mut ISteamUGC,
         nPublishedFileID: PublishedFileId_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_ShowWorkshopEULA(self_: *mut ISteamUGC) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetWorkshopEULAStatus(
         self_: *mut ISteamUGC,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_GetUserContentDescriptorPreferences(
         self_: *mut ISteamUGC,
         pvecDescriptors: *mut EUGCContentDescriptorID,
         cMaxEntries: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetItemsDisabledLocally(
         self_: *mut ISteamUGC,
         pvecPublishedFileIDs: *mut PublishedFileId_t,
         unNumPublishedFileIDs: uint32,
         bDisabledLocally: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamUGC_SetSubscriptionsLoadOrder(
         self_: *mut ISteamUGC,
         pvecPublishedFileIDs: *mut PublishedFileId_t,
         unNumPublishedFileIDs: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamHTMLSurface_v005() -> *mut ISteamHTMLSurface;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_Init(self_: *mut ISteamHTMLSurface) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_Shutdown(self_: *mut ISteamHTMLSurface) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_CreateBrowser(
         self_: *mut ISteamHTMLSurface,
         pchUserAgent: *const ::std::os::raw::c_char,
         pchUserCSS: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_RemoveBrowser(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_LoadURL(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         pchURL: *const ::std::os::raw::c_char,
         pchPostData: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetSize(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         unWidth: uint32,
         unHeight: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_StopLoad(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_Reload(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_GoBack(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_GoForward(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_AddHeader(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         pchKey: *const ::std::os::raw::c_char,
         pchValue: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_ExecuteJavascript(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         pchScript: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_MouseUp(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         eMouseButton: ISteamHTMLSurface_EHTMLMouseButton,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_MouseDown(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         eMouseButton: ISteamHTMLSurface_EHTMLMouseButton,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_MouseDoubleClick(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         eMouseButton: ISteamHTMLSurface_EHTMLMouseButton,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_MouseMove(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         x: ::std::os::raw::c_int,
         y: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_MouseWheel(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         nDelta: int32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_KeyDown(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
@@ -19682,63 +16812,45 @@ unsafe extern "C" {
         eHTMLKeyModifiers: ISteamHTMLSurface_EHTMLKeyModifiers,
         bIsSystemKey: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_KeyUp(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         nNativeKeyCode: uint32,
         eHTMLKeyModifiers: ISteamHTMLSurface_EHTMLKeyModifiers,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_KeyChar(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         cUnicodeChar: uint32,
         eHTMLKeyModifiers: ISteamHTMLSurface_EHTMLKeyModifiers,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetHorizontalScroll(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         nAbsolutePixelScroll: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetVerticalScroll(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         nAbsolutePixelScroll: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetKeyFocus(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         bHasKeyFocus: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_ViewSource(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_CopyToClipboard(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_PasteFromClipboard(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_Find(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
@@ -19746,22 +16858,16 @@ unsafe extern "C" {
         bCurrentlyInFind: bool,
         bReverse: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_StopFind(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_GetLinkAtPosition(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         x: ::std::os::raw::c_int,
         y: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetCookie(
         self_: *mut ISteamHTMLSurface,
         pchHostname: *const ::std::os::raw::c_char,
@@ -19772,8 +16878,6 @@ unsafe extern "C" {
         bSecure: bool,
         bHTTPOnly: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetPageScaleFactor(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
@@ -19781,69 +16885,47 @@ unsafe extern "C" {
         nPointX: ::std::os::raw::c_int,
         nPointY: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetBackgroundMode(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         bBackgroundMode: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_SetDPIScalingFactor(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         flDPIScaling: f32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_OpenDeveloperTools(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_AllowStartRequest(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         bAllowed: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_JSDialogResponse(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         bResult: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamHTMLSurface_FileLoadDialogResponse(
         self_: *mut ISteamHTMLSurface,
         unBrowserHandle: HHTMLBrowser,
         pchSelectedFiles: *mut *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamInventory_v003() -> *mut ISteamInventory;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerInventory_v003() -> *mut ISteamInventory;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetResultStatus(
         self_: *mut ISteamInventory,
         resultHandle: SteamInventoryResult_t,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetResultItems(
         self_: *mut ISteamInventory,
         resultHandle: SteamInventoryResult_t,
         pOutItemsArray: *mut SteamItemDetails_t,
         punOutItemsArraySize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetResultItemProperty(
         self_: *mut ISteamInventory,
         resultHandle: SteamInventoryResult_t,
@@ -19852,49 +16934,35 @@ unsafe extern "C" {
         pchValueBuffer: *mut ::std::os::raw::c_char,
         punValueBufferSizeOut: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetResultTimestamp(
         self_: *mut ISteamInventory,
         resultHandle: SteamInventoryResult_t,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_CheckResultSteamID(
         self_: *mut ISteamInventory,
         resultHandle: SteamInventoryResult_t,
         steamIDExpected: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_DestroyResult(
         self_: *mut ISteamInventory,
         resultHandle: SteamInventoryResult_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetAllItems(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetItemsByID(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
         pInstanceIDs: *const SteamItemInstanceID_t,
         unCountInstanceIDs: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_SerializeResult(
         self_: *mut ISteamInventory,
         resultHandle: SteamInventoryResult_t,
         pOutBuffer: *mut ::std::os::raw::c_void,
         punOutBufferSize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_DeserializeResult(
         self_: *mut ISteamInventory,
         pOutResultHandle: *mut SteamInventoryResult_t,
@@ -19902,8 +16970,6 @@ unsafe extern "C" {
         unBufferSize: uint32,
         bRESERVED_MUST_BE_FALSE: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GenerateItems(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
@@ -19911,37 +16977,27 @@ unsafe extern "C" {
         punArrayQuantity: *const uint32,
         unArrayLength: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GrantPromoItems(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_AddPromoItem(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
         itemDef: SteamItemDef_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_AddPromoItems(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
         pArrayItemDefs: *const SteamItemDef_t,
         unArrayLength: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_ConsumeItem(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
         itemConsume: SteamItemInstanceID_t,
         unQuantity: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_ExchangeItems(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
@@ -19952,8 +17008,6 @@ unsafe extern "C" {
         punArrayDestroyQuantity: *const uint32,
         unArrayDestroyLength: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_TransferItemQuantity(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
@@ -19961,18 +17015,12 @@ unsafe extern "C" {
         unQuantity: uint32,
         itemIdDest: SteamItemInstanceID_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_SendItemDropHeartbeat(self_: *mut ISteamInventory);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_TriggerItemDrop(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
         dropListDefinition: SteamItemDef_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_TradeItems(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
@@ -19984,20 +17032,14 @@ unsafe extern "C" {
         pArrayGetQuantity: *const uint32,
         nArrayGetLength: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_LoadItemDefinitions(
         self_: *mut ISteamInventory,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetItemDefinitionIDs(
         self_: *mut ISteamInventory,
         pItemDefIDs: *mut SteamItemDef_t,
         punItemDefIDsArraySize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetItemDefinitionProperty(
         self_: *mut ISteamInventory,
         iDefinition: SteamItemDef_t,
@@ -20005,40 +17047,28 @@ unsafe extern "C" {
         pchValueBuffer: *mut ::std::os::raw::c_char,
         punValueBufferSizeOut: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_RequestEligiblePromoItemDefinitionsIDs(
         self_: *mut ISteamInventory,
         steamID: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetEligiblePromoItemDefinitionIDs(
         self_: *mut ISteamInventory,
         steamID: uint64_steamid,
         pItemDefIDs: *mut SteamItemDef_t,
         punItemDefIDsArraySize: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_StartPurchase(
         self_: *mut ISteamInventory,
         pArrayItemDefs: *const SteamItemDef_t,
         punArrayQuantity: *const uint32,
         unArrayLength: uint32,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_RequestPrices(
         self_: *mut ISteamInventory,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetNumItemsWithPrices(
         self_: *mut ISteamInventory,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetItemsWithPrices(
         self_: *mut ISteamInventory,
         pArrayItemDefs: *mut SteamItemDef_t,
@@ -20046,29 +17076,21 @@ unsafe extern "C" {
         pBasePrices: *mut uint64,
         unArrayLength: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_GetItemPrice(
         self_: *mut ISteamInventory,
         iDefinition: SteamItemDef_t,
         pCurrentPrice: *mut uint64,
         pBasePrice: *mut uint64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_StartUpdateProperties(
         self_: *mut ISteamInventory,
     ) -> SteamInventoryUpdateHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_RemoveProperty(
         self_: *mut ISteamInventory,
         handle: SteamInventoryUpdateHandle_t,
         nItemID: SteamItemInstanceID_t,
         pchPropertyName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_SetPropertyString(
         self_: *mut ISteamInventory,
         handle: SteamInventoryUpdateHandle_t,
@@ -20076,8 +17098,6 @@ unsafe extern "C" {
         pchPropertyName: *const ::std::os::raw::c_char,
         pchPropertyValue: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_SetPropertyBool(
         self_: *mut ISteamInventory,
         handle: SteamInventoryUpdateHandle_t,
@@ -20085,8 +17105,6 @@ unsafe extern "C" {
         pchPropertyName: *const ::std::os::raw::c_char,
         bValue: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_SetPropertyInt64(
         self_: *mut ISteamInventory,
         handle: SteamInventoryUpdateHandle_t,
@@ -20094,8 +17112,6 @@ unsafe extern "C" {
         pchPropertyName: *const ::std::os::raw::c_char,
         nValue: int64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_SetPropertyFloat(
         self_: *mut ISteamInventory,
         handle: SteamInventoryUpdateHandle_t,
@@ -20103,44 +17119,30 @@ unsafe extern "C" {
         pchPropertyName: *const ::std::os::raw::c_char,
         flValue: f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_SubmitUpdateProperties(
         self_: *mut ISteamInventory,
         handle: SteamInventoryUpdateHandle_t,
         pResultHandle: *mut SteamInventoryResult_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamInventory_InspectItem(
         self_: *mut ISteamInventory,
         pResultHandle: *mut SteamInventoryResult_t,
         pchItemToken: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamTimeline_v004() -> *mut ISteamTimeline;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_SetTimelineTooltip(
         self_: *mut ISteamTimeline,
         pchDescription: *const ::std::os::raw::c_char,
         flTimeDelta: f32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_ClearTimelineTooltip(
         self_: *mut ISteamTimeline,
         flTimeDelta: f32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_SetTimelineGameMode(
         self_: *mut ISteamTimeline,
         eMode: ETimelineGameMode,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_AddInstantaneousTimelineEvent(
         self_: *mut ISteamTimeline,
         pchTitle: *const ::std::os::raw::c_char,
@@ -20150,8 +17152,6 @@ unsafe extern "C" {
         flStartOffsetSeconds: f32,
         ePossibleClip: ETimelineEventClipPriority,
     ) -> TimelineEventHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_AddRangeTimelineEvent(
         self_: *mut ISteamTimeline,
         pchTitle: *const ::std::os::raw::c_char,
@@ -20162,8 +17162,6 @@ unsafe extern "C" {
         flDuration: f32,
         ePossibleClip: ETimelineEventClipPriority,
     ) -> TimelineEventHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_StartRangeTimelineEvent(
         self_: *mut ISteamTimeline,
         pchTitle: *const ::std::os::raw::c_char,
@@ -20173,8 +17171,6 @@ unsafe extern "C" {
         flStartOffsetSeconds: f32,
         ePossibleClip: ETimelineEventClipPriority,
     ) -> TimelineEventHandle_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_UpdateRangeTimelineEvent(
         self_: *mut ISteamTimeline,
         ulEvent: TimelineEventHandle_t,
@@ -20184,45 +17180,29 @@ unsafe extern "C" {
         unPriority: uint32,
         ePossibleClip: ETimelineEventClipPriority,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_EndRangeTimelineEvent(
         self_: *mut ISteamTimeline,
         ulEvent: TimelineEventHandle_t,
         flEndOffsetSeconds: f32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_RemoveTimelineEvent(
         self_: *mut ISteamTimeline,
         ulEvent: TimelineEventHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_DoesEventRecordingExist(
         self_: *mut ISteamTimeline,
         ulEvent: TimelineEventHandle_t,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_StartGamePhase(self_: *mut ISteamTimeline);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_EndGamePhase(self_: *mut ISteamTimeline);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_SetGamePhaseID(
         self_: *mut ISteamTimeline,
         pchPhaseID: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_DoesGamePhaseRecordingExist(
         self_: *mut ISteamTimeline,
         pchPhaseID: *const ::std::os::raw::c_char,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_AddGamePhaseTag(
         self_: *mut ISteamTimeline,
         pchTagName: *const ::std::os::raw::c_char,
@@ -20230,177 +17210,117 @@ unsafe extern "C" {
         pchTagGroup: *const ::std::os::raw::c_char,
         unPriority: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_SetGamePhaseAttribute(
         self_: *mut ISteamTimeline,
         pchAttributeGroup: *const ::std::os::raw::c_char,
         pchAttributeValue: *const ::std::os::raw::c_char,
         unPriority: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_OpenOverlayToGamePhase(
         self_: *mut ISteamTimeline,
         pchPhaseID: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamTimeline_OpenOverlayToTimelineEvent(
         self_: *mut ISteamTimeline,
         ulEvent: TimelineEventHandle_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamVideo_v007() -> *mut ISteamVideo;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamVideo_GetVideoURL(
         self_: *mut ISteamVideo,
         unVideoAppID: AppId_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamVideo_IsBroadcasting(
         self_: *mut ISteamVideo,
         pnNumViewers: *mut ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamVideo_GetOPFSettings(
         self_: *mut ISteamVideo,
         unVideoAppID: AppId_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamVideo_GetOPFStringForApp(
         self_: *mut ISteamVideo,
         unVideoAppID: AppId_t,
         pchBuffer: *mut ::std::os::raw::c_char,
         pnBufferSize: *mut int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamParentalSettings_v001() -> *mut ISteamParentalSettings;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParentalSettings_BIsParentalLockEnabled(
         self_: *mut ISteamParentalSettings,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParentalSettings_BIsParentalLockLocked(
         self_: *mut ISteamParentalSettings,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParentalSettings_BIsAppBlocked(
         self_: *mut ISteamParentalSettings,
         nAppID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParentalSettings_BIsAppInBlockList(
         self_: *mut ISteamParentalSettings,
         nAppID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParentalSettings_BIsFeatureBlocked(
         self_: *mut ISteamParentalSettings,
         eFeature: EParentalFeature,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamParentalSettings_BIsFeatureInBlockList(
         self_: *mut ISteamParentalSettings,
         eFeature: EParentalFeature,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamRemotePlay_v003() -> *mut ISteamRemotePlay;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_GetSessionCount(
         self_: *mut ISteamRemotePlay,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_GetSessionID(
         self_: *mut ISteamRemotePlay,
         iSessionIndex: ::std::os::raw::c_int,
     ) -> RemotePlaySessionID_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_GetSessionSteamID(
         self_: *mut ISteamRemotePlay,
         unSessionID: RemotePlaySessionID_t,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_GetSessionClientName(
         self_: *mut ISteamRemotePlay,
         unSessionID: RemotePlaySessionID_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_GetSessionClientFormFactor(
         self_: *mut ISteamRemotePlay,
         unSessionID: RemotePlaySessionID_t,
     ) -> ESteamDeviceFormFactor;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_BGetSessionClientResolution(
         self_: *mut ISteamRemotePlay,
         unSessionID: RemotePlaySessionID_t,
         pnResolutionX: *mut ::std::os::raw::c_int,
         pnResolutionY: *mut ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_ShowRemotePlayTogetherUI(
         self_: *mut ISteamRemotePlay,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_BSendRemotePlayTogetherInvite(
         self_: *mut ISteamRemotePlay,
         steamIDFriend: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_BEnableRemotePlayTogetherDirectInput(
         self_: *mut ISteamRemotePlay,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_DisableRemotePlayTogetherDirectInput(
         self_: *mut ISteamRemotePlay,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_GetInput(
         self_: *mut ISteamRemotePlay,
         pInput: *mut RemotePlayInput_t,
         unMaxEvents: uint32,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_SetMouseVisibility(
         self_: *mut ISteamRemotePlay,
         unSessionID: RemotePlaySessionID_t,
         bVisible: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_SetMousePosition(
         self_: *mut ISteamRemotePlay,
         unSessionID: RemotePlaySessionID_t,
         flNormalizedX: f32,
         flNormalizedY: f32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_CreateMouseCursor(
         self_: *mut ISteamRemotePlay,
         nWidth: ::std::os::raw::c_int,
@@ -20410,21 +17330,13 @@ unsafe extern "C" {
         pBGRA: *const ::std::os::raw::c_void,
         nPitch: ::std::os::raw::c_int,
     ) -> RemotePlayCursorID_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamRemotePlay_SetMouseCursor(
         self_: *mut ISteamRemotePlay,
         unSessionID: RemotePlaySessionID_t,
         unCursorID: RemotePlayCursorID_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingMessages_SteamAPI_v002() -> *mut ISteamNetworkingMessages;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerNetworkingMessages_SteamAPI_v002() -> *mut ISteamNetworkingMessages;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingMessages_SendMessageToUser(
         self_: *mut ISteamNetworkingMessages,
         identityRemote: *const SteamNetworkingIdentity,
@@ -20433,73 +17345,51 @@ unsafe extern "C" {
         nSendFlags: ::std::os::raw::c_int,
         nRemoteChannel: ::std::os::raw::c_int,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingMessages_ReceiveMessagesOnChannel(
         self_: *mut ISteamNetworkingMessages,
         nLocalChannel: ::std::os::raw::c_int,
         ppOutMessages: *mut *mut SteamNetworkingMessage_t,
         nMaxMessages: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingMessages_AcceptSessionWithUser(
         self_: *mut ISteamNetworkingMessages,
         identityRemote: *const SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingMessages_CloseSessionWithUser(
         self_: *mut ISteamNetworkingMessages,
         identityRemote: *const SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingMessages_CloseChannelWithUser(
         self_: *mut ISteamNetworkingMessages,
         identityRemote: *const SteamNetworkingIdentity,
         nLocalChannel: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingMessages_GetSessionConnectionInfo(
         self_: *mut ISteamNetworkingMessages,
         identityRemote: *const SteamNetworkingIdentity,
         pConnectionInfo: *mut SteamNetConnectionInfo_t,
         pQuickStatus: *mut SteamNetConnectionRealTimeStatus_t,
     ) -> ESteamNetworkingConnectionState;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingSockets_SteamAPI_v012() -> *mut ISteamNetworkingSockets;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerNetworkingSockets_SteamAPI_v012() -> *mut ISteamNetworkingSockets;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CreateListenSocketIP(
         self_: *mut ISteamNetworkingSockets,
         localAddress: *const SteamNetworkingIPAddr,
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamListenSocket;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ConnectByIPAddress(
         self_: *mut ISteamNetworkingSockets,
         address: *const SteamNetworkingIPAddr,
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamNetConnection;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CreateListenSocketP2P(
         self_: *mut ISteamNetworkingSockets,
         nLocalVirtualPort: ::std::os::raw::c_int,
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamListenSocket;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ConnectP2P(
         self_: *mut ISteamNetworkingSockets,
         identityRemote: *const SteamNetworkingIdentity,
@@ -20507,14 +17397,10 @@ unsafe extern "C" {
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamNetConnection;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_AcceptConnection(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CloseConnection(
         self_: *mut ISteamNetworkingSockets,
         hPeer: HSteamNetConnection,
@@ -20522,42 +17408,30 @@ unsafe extern "C" {
         pszDebug: *const ::std::os::raw::c_char,
         bEnableLinger: bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CloseListenSocket(
         self_: *mut ISteamNetworkingSockets,
         hSocket: HSteamListenSocket,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_SetConnectionUserData(
         self_: *mut ISteamNetworkingSockets,
         hPeer: HSteamNetConnection,
         nUserData: int64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetConnectionUserData(
         self_: *mut ISteamNetworkingSockets,
         hPeer: HSteamNetConnection,
     ) -> int64;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_SetConnectionName(
         self_: *mut ISteamNetworkingSockets,
         hPeer: HSteamNetConnection,
         pszName: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetConnectionName(
         self_: *mut ISteamNetworkingSockets,
         hPeer: HSteamNetConnection,
         pszName: *mut ::std::os::raw::c_char,
         nMaxLen: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_SendMessageToConnection(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
@@ -20566,37 +17440,27 @@ unsafe extern "C" {
         nSendFlags: ::std::os::raw::c_int,
         pOutMessageNumber: *mut int64,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_SendMessages(
         self_: *mut ISteamNetworkingSockets,
         nMessages: ::std::os::raw::c_int,
         pMessages: *const *mut SteamNetworkingMessage_t,
         pOutMessageNumberOrResult: *mut int64,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_FlushMessagesOnConnection(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ReceiveMessagesOnConnection(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
         ppOutMessages: *mut *mut SteamNetworkingMessage_t,
         nMaxMessages: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetConnectionInfo(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
         pInfo: *mut SteamNetConnectionInfo_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetConnectionRealTimeStatus(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
@@ -20604,23 +17468,17 @@ unsafe extern "C" {
         nLanes: ::std::os::raw::c_int,
         pLanes: *mut SteamNetConnectionRealTimeLaneStatus_t,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetDetailedConnectionStatus(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
         pszBuf: *mut ::std::os::raw::c_char,
         cbBuf: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetListenSocketAddress(
         self_: *mut ISteamNetworkingSockets,
         hSocket: HSteamListenSocket,
         address: *mut SteamNetworkingIPAddr,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CreateSocketPair(
         self_: *mut ISteamNetworkingSockets,
         pOutConnection1: *mut HSteamNetConnection,
@@ -20629,8 +17487,6 @@ unsafe extern "C" {
         pIdentity1: *const SteamNetworkingIdentity,
         pIdentity2: *const SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ConfigureConnectionLanes(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
@@ -20638,67 +17494,47 @@ unsafe extern "C" {
         pLanePriorities: *const ::std::os::raw::c_int,
         pLaneWeights: *const uint16,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetIdentity(
         self_: *mut ISteamNetworkingSockets,
         pIdentity: *mut SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_InitAuthentication(
         self_: *mut ISteamNetworkingSockets,
     ) -> ESteamNetworkingAvailability;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetAuthenticationStatus(
         self_: *mut ISteamNetworkingSockets,
         pDetails: *mut SteamNetAuthenticationStatus_t,
     ) -> ESteamNetworkingAvailability;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CreatePollGroup(
         self_: *mut ISteamNetworkingSockets,
     ) -> HSteamNetPollGroup;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_DestroyPollGroup(
         self_: *mut ISteamNetworkingSockets,
         hPollGroup: HSteamNetPollGroup,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_SetConnectionPollGroup(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
         hPollGroup: HSteamNetPollGroup,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ReceiveMessagesOnPollGroup(
         self_: *mut ISteamNetworkingSockets,
         hPollGroup: HSteamNetPollGroup,
         ppOutMessages: *mut *mut SteamNetworkingMessage_t,
         nMaxMessages: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ReceivedRelayAuthTicket(
         self_: *mut ISteamNetworkingSockets,
         pvTicket: *const ::std::os::raw::c_void,
         cbTicket: ::std::os::raw::c_int,
         pOutParsedTicket: *mut SteamDatagramRelayAuthTicket,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_FindRelayAuthTicketForServer(
         self_: *mut ISteamNetworkingSockets,
         identityGameServer: *const SteamNetworkingIdentity,
         nRemoteVirtualPort: ::std::os::raw::c_int,
         pOutParsedTicket: *mut SteamDatagramRelayAuthTicket,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ConnectToHostedDedicatedServer(
         self_: *mut ISteamNetworkingSockets,
         identityTarget: *const SteamNetworkingIdentity,
@@ -20706,40 +17542,28 @@ unsafe extern "C" {
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamNetConnection;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetHostedDedicatedServerPort(
         self_: *mut ISteamNetworkingSockets,
     ) -> uint16;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetHostedDedicatedServerPOPID(
         self_: *mut ISteamNetworkingSockets,
     ) -> SteamNetworkingPOPID;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetHostedDedicatedServerAddress(
         self_: *mut ISteamNetworkingSockets,
         pRouting: *mut SteamDatagramHostedAddress,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CreateHostedDedicatedServerListenSocket(
         self_: *mut ISteamNetworkingSockets,
         nLocalVirtualPort: ::std::os::raw::c_int,
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamListenSocket;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetGameCoordinatorServerLogin(
         self_: *mut ISteamNetworkingSockets,
         pLoginInfo: *mut SteamDatagramGameCoordinatorServerLogin,
         pcbSignedBlob: *mut ::std::os::raw::c_int,
         pBlob: *mut ::std::os::raw::c_void,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ConnectP2PCustomSignaling(
         self_: *mut ISteamNetworkingSockets,
         pSignaling: *mut ISteamNetworkingConnectionSignaling,
@@ -20748,281 +17572,195 @@ unsafe extern "C" {
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamNetConnection;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ReceivedP2PCustomSignal(
         self_: *mut ISteamNetworkingSockets,
         pMsg: *const ::std::os::raw::c_void,
         cbMsg: ::std::os::raw::c_int,
         pContext: *mut ISteamNetworkingSignalingRecvContext,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetCertificateRequest(
         self_: *mut ISteamNetworkingSockets,
         pcbBlob: *mut ::std::os::raw::c_int,
         pBlob: *mut ::std::os::raw::c_void,
         errMsg: *mut SteamNetworkingErrMsg,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_SetCertificate(
         self_: *mut ISteamNetworkingSockets,
         pCertificate: *const ::std::os::raw::c_void,
         cbCertificate: ::std::os::raw::c_int,
         errMsg: *mut SteamNetworkingErrMsg,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_ResetIdentity(
         self_: *mut ISteamNetworkingSockets,
         pIdentity: *const SteamNetworkingIdentity,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_RunCallbacks(
         self_: *mut ISteamNetworkingSockets,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_BeginAsyncRequestFakeIP(
         self_: *mut ISteamNetworkingSockets,
         nNumPorts: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetFakeIP(
         self_: *mut ISteamNetworkingSockets,
         idxFirstPort: ::std::os::raw::c_int,
         pInfo: *mut SteamNetworkingFakeIPResult_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CreateListenSocketP2PFakeIP(
         self_: *mut ISteamNetworkingSockets,
         idxFakePort: ::std::os::raw::c_int,
         nOptions: ::std::os::raw::c_int,
         pOptions: *const SteamNetworkingConfigValue_t,
     ) -> HSteamListenSocket;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_GetRemoteFakeIPForConnection(
         self_: *mut ISteamNetworkingSockets,
         hConn: HSteamNetConnection,
         pOutAddr: *mut SteamNetworkingIPAddr,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingSockets_CreateFakeUDPPort(
         self_: *mut ISteamNetworkingSockets,
         idxFakeServerPort: ::std::os::raw::c_int,
     ) -> *mut ISteamNetworkingFakeUDPPort;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingUtils_SteamAPI_v004() -> *mut ISteamNetworkingUtils;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_AllocateMessage(
         self_: *mut ISteamNetworkingUtils,
         cbAllocateBuffer: ::std::os::raw::c_int,
     ) -> *mut SteamNetworkingMessage_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_InitRelayNetworkAccess(
         self_: *mut ISteamNetworkingUtils,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetRelayNetworkStatus(
         self_: *mut ISteamNetworkingUtils,
         pDetails: *mut SteamRelayNetworkStatus_t,
     ) -> ESteamNetworkingAvailability;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetLocalPingLocation(
         self_: *mut ISteamNetworkingUtils,
         result: *mut SteamNetworkPingLocation_t,
     ) -> f32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_EstimatePingTimeBetweenTwoLocations(
         self_: *mut ISteamNetworkingUtils,
         location1: *const SteamNetworkPingLocation_t,
         location2: *const SteamNetworkPingLocation_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_EstimatePingTimeFromLocalHost(
         self_: *mut ISteamNetworkingUtils,
         remoteLocation: *const SteamNetworkPingLocation_t,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_ConvertPingLocationToString(
         self_: *mut ISteamNetworkingUtils,
         location: *const SteamNetworkPingLocation_t,
         pszBuf: *mut ::std::os::raw::c_char,
         cchBufSize: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_ParsePingLocationString(
         self_: *mut ISteamNetworkingUtils,
         pszString: *const ::std::os::raw::c_char,
         result: *mut SteamNetworkPingLocation_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_CheckPingDataUpToDate(
         self_: *mut ISteamNetworkingUtils,
         flMaxAgeSeconds: f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetPingToDataCenter(
         self_: *mut ISteamNetworkingUtils,
         popID: SteamNetworkingPOPID,
         pViaRelayPoP: *mut SteamNetworkingPOPID,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetDirectPingToPOP(
         self_: *mut ISteamNetworkingUtils,
         popID: SteamNetworkingPOPID,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetPOPCount(
         self_: *mut ISteamNetworkingUtils,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetPOPList(
         self_: *mut ISteamNetworkingUtils,
         list: *mut SteamNetworkingPOPID,
         nListSz: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetLocalTimestamp(
         self_: *mut ISteamNetworkingUtils,
     ) -> SteamNetworkingMicroseconds;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetDebugOutputFunction(
         self_: *mut ISteamNetworkingUtils,
         eDetailLevel: ESteamNetworkingSocketsDebugOutputType,
         pfnFunc: FSteamNetworkingSocketsDebugOutput,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_IsFakeIPv4(
         self_: *mut ISteamNetworkingUtils,
         nIPv4: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetIPv4FakeIPType(
         self_: *mut ISteamNetworkingUtils,
         nIPv4: uint32,
     ) -> ESteamNetworkingFakeIPType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetRealIdentityForFakeIP(
         self_: *mut ISteamNetworkingUtils,
         fakeIP: *const SteamNetworkingIPAddr,
         pOutRealIdentity: *mut SteamNetworkingIdentity,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalConfigValueInt32(
         self_: *mut ISteamNetworkingUtils,
         eValue: ESteamNetworkingConfigValue,
         val: int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalConfigValueFloat(
         self_: *mut ISteamNetworkingUtils,
         eValue: ESteamNetworkingConfigValue,
         val: f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalConfigValueString(
         self_: *mut ISteamNetworkingUtils,
         eValue: ESteamNetworkingConfigValue,
         val: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalConfigValuePtr(
         self_: *mut ISteamNetworkingUtils,
         eValue: ESteamNetworkingConfigValue,
         val: *mut ::std::os::raw::c_void,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetConnectionConfigValueInt32(
         self_: *mut ISteamNetworkingUtils,
         hConn: HSteamNetConnection,
         eValue: ESteamNetworkingConfigValue,
         val: int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetConnectionConfigValueFloat(
         self_: *mut ISteamNetworkingUtils,
         hConn: HSteamNetConnection,
         eValue: ESteamNetworkingConfigValue,
         val: f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetConnectionConfigValueString(
         self_: *mut ISteamNetworkingUtils,
         hConn: HSteamNetConnection,
         eValue: ESteamNetworkingConfigValue,
         val: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalCallback_SteamNetConnectionStatusChanged(
         self_: *mut ISteamNetworkingUtils,
         fnCallback: FnSteamNetConnectionStatusChanged,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalCallback_SteamNetAuthenticationStatusChanged(
         self_: *mut ISteamNetworkingUtils,
         fnCallback: FnSteamNetAuthenticationStatusChanged,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalCallback_SteamRelayNetworkStatusChanged(
         self_: *mut ISteamNetworkingUtils,
         fnCallback: FnSteamRelayNetworkStatusChanged,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalCallback_FakeIPResult(
         self_: *mut ISteamNetworkingUtils,
         fnCallback: FnSteamNetworkingFakeIPResult,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalCallback_MessagesSessionRequest(
         self_: *mut ISteamNetworkingUtils,
         fnCallback: FnSteamNetworkingMessagesSessionRequest,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetGlobalCallback_MessagesSessionFailed(
         self_: *mut ISteamNetworkingUtils,
         fnCallback: FnSteamNetworkingMessagesSessionFailed,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetConfigValue(
         self_: *mut ISteamNetworkingUtils,
         eValue: ESteamNetworkingConfigValue,
@@ -21031,16 +17769,12 @@ unsafe extern "C" {
         eDataType: ESteamNetworkingConfigDataType,
         pArg: *const ::std::os::raw::c_void,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SetConfigValueStruct(
         self_: *mut ISteamNetworkingUtils,
         opt: *const SteamNetworkingConfigValue_t,
         eScopeType: ESteamNetworkingConfigScope,
         scopeObj: isize,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetConfigValue(
         self_: *mut ISteamNetworkingUtils,
         eValue: ESteamNetworkingConfigValue,
@@ -21050,23 +17784,17 @@ unsafe extern "C" {
         pResult: *mut ::std::os::raw::c_void,
         cbResult: *mut usize,
     ) -> ESteamNetworkingGetConfigValueResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_GetConfigValueInfo(
         self_: *mut ISteamNetworkingUtils,
         eValue: ESteamNetworkingConfigValue,
         pOutDataType: *mut ESteamNetworkingConfigDataType,
         pOutScope: *mut ESteamNetworkingConfigScope,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_IterateGenericEditableConfigValues(
         self_: *mut ISteamNetworkingUtils,
         eCurrent: ESteamNetworkingConfigValue,
         bEnumerateDevVars: bool,
     ) -> ESteamNetworkingConfigValue;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SteamNetworkingIPAddr_ToString(
         self_: *mut ISteamNetworkingUtils,
         addr: *const SteamNetworkingIPAddr,
@@ -21074,167 +17802,107 @@ unsafe extern "C" {
         cbBuf: uint32,
         bWithPort: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SteamNetworkingIPAddr_ParseString(
         self_: *mut ISteamNetworkingUtils,
         pAddr: *mut SteamNetworkingIPAddr,
         pszStr: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SteamNetworkingIPAddr_GetFakeIPType(
         self_: *mut ISteamNetworkingUtils,
         addr: *const SteamNetworkingIPAddr,
     ) -> ESteamNetworkingFakeIPType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SteamNetworkingIdentity_ToString(
         self_: *mut ISteamNetworkingUtils,
         identity: *const SteamNetworkingIdentity,
         buf: *mut ::std::os::raw::c_char,
         cbBuf: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingUtils_SteamNetworkingIdentity_ParseString(
         self_: *mut ISteamNetworkingUtils,
         pIdentity: *mut SteamNetworkingIdentity,
         pszStr: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServer_v015() -> *mut ISteamGameServer;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetProduct(
         self_: *mut ISteamGameServer,
         pszProduct: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetGameDescription(
         self_: *mut ISteamGameServer,
         pszGameDescription: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetModDir(
         self_: *mut ISteamGameServer,
         pszModDir: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetDedicatedServer(
         self_: *mut ISteamGameServer,
         bDedicated: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_LogOn(
         self_: *mut ISteamGameServer,
         pszToken: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_LogOnAnonymous(self_: *mut ISteamGameServer);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_LogOff(self_: *mut ISteamGameServer);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_BLoggedOn(self_: *mut ISteamGameServer) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_BSecure(self_: *mut ISteamGameServer) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_GetSteamID(
         self_: *mut ISteamGameServer,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_WasRestartRequested(
         self_: *mut ISteamGameServer,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetMaxPlayerCount(
         self_: *mut ISteamGameServer,
         cPlayersMax: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetBotPlayerCount(
         self_: *mut ISteamGameServer,
         cBotplayers: ::std::os::raw::c_int,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetServerName(
         self_: *mut ISteamGameServer,
         pszServerName: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetMapName(
         self_: *mut ISteamGameServer,
         pszMapName: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetPasswordProtected(
         self_: *mut ISteamGameServer,
         bPasswordProtected: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetSpectatorPort(
         self_: *mut ISteamGameServer,
         unSpectatorPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetSpectatorServerName(
         self_: *mut ISteamGameServer,
         pszSpectatorServerName: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_ClearAllKeyValues(self_: *mut ISteamGameServer);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetKeyValue(
         self_: *mut ISteamGameServer,
         pKey: *const ::std::os::raw::c_char,
         pValue: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetGameTags(
         self_: *mut ISteamGameServer,
         pchGameTags: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetGameData(
         self_: *mut ISteamGameServer,
         pchGameData: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetRegion(
         self_: *mut ISteamGameServer,
         pszRegion: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SetAdvertiseServerActive(
         self_: *mut ISteamGameServer,
         bActive: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_GetAuthSessionTicket(
         self_: *mut ISteamGameServer,
         pTicket: *mut ::std::os::raw::c_void,
@@ -21242,55 +17910,37 @@ unsafe extern "C" {
         pcbTicket: *mut uint32,
         pSnid: *const SteamNetworkingIdentity,
     ) -> HAuthTicket;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_BeginAuthSession(
         self_: *mut ISteamGameServer,
         pAuthTicket: *const ::std::os::raw::c_void,
         cbAuthTicket: ::std::os::raw::c_int,
         steamID: uint64_steamid,
     ) -> EBeginAuthSessionResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_EndAuthSession(
         self_: *mut ISteamGameServer,
         steamID: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_CancelAuthTicket(
         self_: *mut ISteamGameServer,
         hAuthTicket: HAuthTicket,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_UserHasLicenseForApp(
         self_: *mut ISteamGameServer,
         steamID: uint64_steamid,
         appID: AppId_t,
     ) -> EUserHasLicenseForAppResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_RequestUserGroupStatus(
         self_: *mut ISteamGameServer,
         steamIDUser: uint64_steamid,
         steamIDGroup: uint64_steamid,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_GetGameplayStats(self_: *mut ISteamGameServer);
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_GetServerReputation(
         self_: *mut ISteamGameServer,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_GetPublicIP(
         self_: *mut ISteamGameServer,
     ) -> SteamIPAddress_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_HandleIncomingPacket(
         self_: *mut ISteamGameServer,
         pData: *const ::std::os::raw::c_void,
@@ -21298,8 +17948,6 @@ unsafe extern "C" {
         srcIP: uint32,
         srcPort: uint16,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_GetNextOutgoingPacket(
         self_: *mut ISteamGameServer,
         pOut: *mut ::std::os::raw::c_void,
@@ -21307,20 +17955,14 @@ unsafe extern "C" {
         pNetAdr: *mut uint32,
         pPort: *mut uint16,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_AssociateWithClan(
         self_: *mut ISteamGameServer,
         steamIDClan: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_ComputeNewPlayerCompatibility(
         self_: *mut ISteamGameServer,
         steamIDNewPlayer: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SendUserConnectAndAuthenticate_DEPRECATED(
         self_: *mut ISteamGameServer,
         unIPClient: uint32,
@@ -21328,76 +17970,54 @@ unsafe extern "C" {
         cubAuthBlobSize: uint32,
         pSteamIDUser: *mut CSteamID,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_CreateUnauthenticatedUserConnection(
         self_: *mut ISteamGameServer,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_SendUserDisconnect_DEPRECATED(
         self_: *mut ISteamGameServer,
         steamIDUser: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServer_BUpdateUserData(
         self_: *mut ISteamGameServer,
         steamIDUser: uint64_steamid,
         pchPlayerName: *const ::std::os::raw::c_char,
         uScore: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamGameServerStats_v001() -> *mut ISteamGameServerStats;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_RequestUserStats(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_GetUserStatInt32(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         pData: *mut int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_GetUserStatFloat(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         pData: *mut f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_GetUserAchievement(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         pbAchieved: *mut bool,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_SetUserStatInt32(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         nData: int32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_SetUserStatFloat(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
         fData: f32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_UpdateUserAvgRateStat(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
@@ -21405,33 +18025,23 @@ unsafe extern "C" {
         flCountThisSession: f32,
         dSessionLength: f64,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_SetUserAchievement(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_ClearUserAchievement(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
         pchName: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamGameServerStats_StoreUserStats(
         self_: *mut ISteamGameServerStats,
         steamIDUser: uint64_steamid,
     ) -> SteamAPICall_t;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingFakeUDPPort_DestroyFakeUDPPort(
         self_: *mut ISteamNetworkingFakeUDPPort,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingFakeUDPPort_SendMessageToFakeIP(
         self_: *mut ISteamNetworkingFakeUDPPort,
         remoteAddress: *const SteamNetworkingIPAddr,
@@ -21439,363 +18049,231 @@ unsafe extern "C" {
         cbData: uint32,
         nSendFlags: ::std::os::raw::c_int,
     ) -> EResult;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingFakeUDPPort_ReceiveMessages(
         self_: *mut ISteamNetworkingFakeUDPPort,
         ppOutMessages: *mut *mut SteamNetworkingMessage_t,
         nMaxMessages: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-unsafe extern "C" {
     pub fn SteamAPI_ISteamNetworkingFakeUDPPort_ScheduleCleanup(
         self_: *mut ISteamNetworkingFakeUDPPort,
         remoteAddress: *const SteamNetworkingIPAddr,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamIPAddress_t_IsSet(self_: *mut SteamIPAddress_t) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_MatchMakingKeyValuePair_t_Construct(
         self_: *mut MatchMakingKeyValuePair_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_Construct(self_: *mut servernetadr_t);
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_Init(
         self_: *mut servernetadr_t,
         ip: ::std::os::raw::c_uint,
         usQueryPort: uint16,
         usConnectionPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_GetQueryPort(self_: *mut servernetadr_t) -> uint16;
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_SetQueryPort(
         self_: *mut servernetadr_t,
         usPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_GetConnectionPort(
         self_: *mut servernetadr_t,
     ) -> uint16;
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_SetConnectionPort(
         self_: *mut servernetadr_t,
         usPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_GetIP(self_: *mut servernetadr_t) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_SetIP(self_: *mut servernetadr_t, unIP: uint32);
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_GetConnectionAddressString(
         self_: *mut servernetadr_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_GetQueryAddressString(
         self_: *mut servernetadr_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_IsLessThan(
         self_: *mut servernetadr_t,
         netadr: *const servernetadr_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_servernetadr_t_Assign(
         self_: *mut servernetadr_t,
         that: *const servernetadr_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_gameserveritem_t_Construct(self_: *mut gameserveritem_t);
-}
-unsafe extern "C" {
     pub fn SteamAPI_gameserveritem_t_GetName(
         self_: *mut gameserveritem_t,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_gameserveritem_t_SetName(
         self_: *mut gameserveritem_t,
         pName: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_Clear(self_: *mut SteamNetworkingIPAddr);
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_IsIPv6AllZeros(
         self_: *mut SteamNetworkingIPAddr,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_SetIPv6(
         self_: *mut SteamNetworkingIPAddr,
         ipv6: *const uint8,
         nPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_SetIPv4(
         self_: *mut SteamNetworkingIPAddr,
         nIP: uint32,
         nPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_IsIPv4(
         self_: *mut SteamNetworkingIPAddr,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_GetIPv4(
         self_: *mut SteamNetworkingIPAddr,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_SetIPv6LocalHost(
         self_: *mut SteamNetworkingIPAddr,
         nPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_IsLocalHost(
         self_: *mut SteamNetworkingIPAddr,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_ToString(
         self_: *mut SteamNetworkingIPAddr,
         buf: *mut ::std::os::raw::c_char,
         cbBuf: uint32,
         bWithPort: bool,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_ParseString(
         self_: *mut SteamNetworkingIPAddr,
         pszStr: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_IsEqualTo(
         self_: *mut SteamNetworkingIPAddr,
         x: *const SteamNetworkingIPAddr,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_GetFakeIPType(
         self_: *mut SteamNetworkingIPAddr,
     ) -> ESteamNetworkingFakeIPType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIPAddr_IsFakeIP(
         self_: *mut SteamNetworkingIPAddr,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_Clear(self_: *mut SteamNetworkingIdentity);
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_IsInvalid(
         self_: *mut SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetSteamID(
         self_: *mut SteamNetworkingIdentity,
         steamID: uint64_steamid,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetSteamID(
         self_: *mut SteamNetworkingIdentity,
     ) -> uint64_steamid;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetSteamID64(
         self_: *mut SteamNetworkingIdentity,
         steamID: uint64,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetSteamID64(
         self_: *mut SteamNetworkingIdentity,
     ) -> uint64;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetXboxPairwiseID(
         self_: *mut SteamNetworkingIdentity,
         pszString: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetXboxPairwiseID(
         self_: *mut SteamNetworkingIdentity,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetPSNID(
         self_: *mut SteamNetworkingIdentity,
         id: uint64,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetPSNID(
         self_: *mut SteamNetworkingIdentity,
     ) -> uint64;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetIPAddr(
         self_: *mut SteamNetworkingIdentity,
         addr: *const SteamNetworkingIPAddr,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetIPAddr(
         self_: *mut SteamNetworkingIdentity,
     ) -> *const SteamNetworkingIPAddr;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetIPv4Addr(
         self_: *mut SteamNetworkingIdentity,
         nIPv4: uint32,
         nPort: uint16,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetIPv4(
         self_: *mut SteamNetworkingIdentity,
     ) -> uint32;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetFakeIPType(
         self_: *mut SteamNetworkingIdentity,
     ) -> ESteamNetworkingFakeIPType;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_IsFakeIP(
         self_: *mut SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetLocalHost(
         self_: *mut SteamNetworkingIdentity,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_IsLocalHost(
         self_: *mut SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetGenericString(
         self_: *mut SteamNetworkingIdentity,
         pszString: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetGenericString(
         self_: *mut SteamNetworkingIdentity,
     ) -> *const ::std::os::raw::c_char;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_SetGenericBytes(
         self_: *mut SteamNetworkingIdentity,
         data: *const ::std::os::raw::c_void,
         cbLen: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_GetGenericBytes(
         self_: *mut SteamNetworkingIdentity,
         cbLen: *mut ::std::os::raw::c_int,
     ) -> *const uint8;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_IsEqualTo(
         self_: *mut SteamNetworkingIdentity,
         x: *const SteamNetworkingIdentity,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_ToString(
         self_: *mut SteamNetworkingIdentity,
         buf: *mut ::std::os::raw::c_char,
         cbBuf: uint32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingIdentity_ParseString(
         self_: *mut SteamNetworkingIdentity,
         pszStr: *const ::std::os::raw::c_char,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingMessage_t_Release(
         self_: *mut SteamNetworkingMessage_t,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingConfigValue_t_SetInt32(
         self_: *mut SteamNetworkingConfigValue_t,
         eVal: ESteamNetworkingConfigValue,
         data: i32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingConfigValue_t_SetInt64(
         self_: *mut SteamNetworkingConfigValue_t,
         eVal: ESteamNetworkingConfigValue,
         data: i64,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingConfigValue_t_SetFloat(
         self_: *mut SteamNetworkingConfigValue_t,
         eVal: ESteamNetworkingConfigValue,
         data: f32,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingConfigValue_t_SetPtr(
         self_: *mut SteamNetworkingConfigValue_t,
         eVal: ESteamNetworkingConfigValue,
         data: *mut ::std::os::raw::c_void,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamNetworkingConfigValue_t_SetString(
         self_: *mut SteamNetworkingConfigValue_t,
         eVal: ESteamNetworkingConfigValue,
         data: *const ::std::os::raw::c_char,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamDatagramHostedAddress_Clear(
         self_: *mut SteamDatagramHostedAddress,
     );
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamDatagramHostedAddress_GetPopID(
         self_: *mut SteamDatagramHostedAddress,
     ) -> SteamNetworkingPOPID;
-}
-unsafe extern "C" {
     pub fn SteamAPI_SteamDatagramHostedAddress_SetDevAddress(
         self_: *mut SteamDatagramHostedAddress,
         nIP: uint32,
@@ -21813,75 +18291,53 @@ unsafe extern "C" {
         rgubKey: *const uint8,
         cubKey: ::std::os::raw::c_int,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_BIsTicketForApp(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
         nAppID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_GetTicketIssueTime(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
     ) -> RTime32;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_GetTicketSteamID(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
         psteamID: *mut CSteamID,
     );
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_GetTicketAppID(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
     ) -> AppId_t;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_BUserOwnsAppInTicket(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
         nAppID: AppId_t,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_BUserIsVacBanned(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_BGetAppDefinedValue(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
         pValue: *mut uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_GetUserVariableData(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
         pcubUserData: *mut uint32,
     ) -> *const uint8;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_BIsTicketSigned(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
         pubRSAKey: *const uint8,
         cubRSAKey: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_BIsLicenseBorrowed(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
     ) -> bool;
-}
-unsafe extern "C" {
     pub fn SteamEncryptedAppTicket_BIsLicenseTemporary(
         rgubTicketDecrypted: *mut uint8,
         cubTicketDecrypted: uint32,
@@ -21907,22 +18363,12 @@ pub enum EServerMode {
     eServerModeAuthentication = 2,
     eServerModeAuthenticationAndSecure = 3,
 }
-/** Pass to SteamGameServer_Init to indicate that the same UDP port will be used for game traffic
- UDP queries for server browser pings and LAN discovery.  In this case, Steam will not open up a
- socket to handle server browser queries, and you must use ISteamGameServer::HandleIncomingPacket
- and ISteamGameServer::GetNextOutgoingPacket to handle packets related to server discovery on your socket.*/
 pub const STEAMGAMESERVER_QUERY_PORT_SHARED: uint16 = 65535;
 pub const MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE: uint16 = 65535;
 unsafe extern "C" {
     pub fn SteamGameServer_Shutdown();
-}
-unsafe extern "C" {
     pub fn SteamGameServer_BSecure() -> bool;
-}
-unsafe extern "C" {
     pub fn SteamGameServer_GetSteamID() -> uint64;
-}
-unsafe extern "C" {
     pub fn SteamInternal_GameServer_Init_V2(
         unIP: uint32,
         usGamePort: uint16,

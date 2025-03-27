@@ -6,29 +6,32 @@ exclude = ["rgpr_steamworks_sys", ".github", ".idea", "rustfmt.toml"]
 repository.workspace = true
 rust-version = "1.84.0"
 
+[target.x86_64-unknown-linux-gnu]
+#rustflags = ["-C", "linker=clang", "-C", "link-arg=-fuse-ld=lld"]
+#linker = "ld.lld"
+
 [package.metadata.docs.rs]
-rustdoc-args = ["--cfg", "docsrs"]
-rustc-args = ["--cfg"]
+#rustdoc-args = ["--cfg", "docsrs"]
+#rustc-args = ["--cfg"]
 
 [workspace]
 resolver = "2"
-members = ["rgpr_steamworks_macros", "rgpr_steamworks_sys"]
+members = ["rgpr_steamworks_bindgen", "rgpr_steamworks_macros", "rgpr_steamworks_sys", "spacewar"]
 
 [workspace.package]
 repository = "https://github.com/Cryotheus/rgpr_steamworks/"
 
 [features]
 #default = ["steam"]
-default = ["steam_apps", "steam_friends", "steam_utils", "steam_encrypted_app_ticket"]
+default = ["steam_apps", "steam_client", "steam_friends", "steam_utils", "steam_encrypted_app_ticket"]
 image = ["dep:image"]
 steam = ["dep:futures"]
 sys = []
 
 #steam interfaces to initialize
 steam_apps = ["steam", "dep:bitflags"] #available with game_server
-steam_client = ["steam"] #available with game_server
 steam_friends = ["steam", "dep:lru", "dep:bitflags"]
-steam_game_coordinator = ["steam"]
+#steam_game_coordinator = ["steam"]
 steam_game_server = ["steam"] #game server only
 steam_game_server_stats = ["steam"] #game server only
 steam_html = ["steam", "dep:image"]
@@ -55,24 +58,23 @@ steam_video = ["steam"]
 #enable the encrypted_app_ticket module for DRM authentication using a trusted server
 #the steam feature is not required
 #has its own dylib to ship alongside, see README.md # Building
-steam_encrypted_app_ticket = []
+steam_encrypted_app_ticket = ["rgpr_steamworks_sys/sdk_encrypted_app_ticket"]
+
+#in development
+steam_client = ["steam"] #available with game_server
 
 [dependencies]
+rgpr_steamworks_macros = { path = "rgpr_steamworks_macros", features = ["internal"] }
+rgpr_steamworks_sys = { path = "rgpr_steamworks_sys" }
+
 bitflags = { version = "2.9.0", optional = true }
 cfg-if = "1.0.0"
-downcast-rs = "2.0.1"
 futures = { version = "0.3.31", optional = true }
 image = { version = "0.25.5", optional = true }
 lru = { version = "0.13.0", optional = true }
 num-traits = "0.2.19"
 static_assertions = "1.1.0"
 thiserror = "2.0.12"
-
-rgpr_steamworks_macros = { path = "rgpr_steamworks_macros", features = ["internal"] }
-rgpr_steamworks_sys = { path = "rgpr_steamworks_sys" }
-
-[dev-dependencies]
-paste = "1.0.15"
 
 [[example]]
 name = "hello_world"

@@ -1,5 +1,5 @@
 //! Collections of the Steam API's individual interfaces.
-//! 
+//!
 //! Interfaces which are always available no matter the usage context are fields in [`Interfaces`].
 //! Some interfaces are exclusive to clients or game servers. They can be found as fields in [`ClientInterfaces`] and [`GameServerInterfaces`] respectively.
 
@@ -14,6 +14,10 @@ pub mod friends;
 #[cfg(feature = "steam_utils")]
 #[cfg_attr(doc, doc(cfg(feature = "steam_utils")))]
 pub mod utils;
+
+#[cfg(feature = "steam_client")]
+#[cfg_attr(doc, doc(cfg(feature = "steam_client")))]
+pub mod client;
 
 use crate::call::{CallManager, CallThread};
 use crate::config::{OverrideAppId, SteamBuilder};
@@ -55,6 +59,14 @@ pub(crate) struct FixedInterfacePtr<T>(*mut T);
 #[derive(Clone, Copy, Debug)]
 #[cfg(feature = "sys")]
 pub struct FixedInterfacePtr<T>(*mut T);
+
+impl<T> FixedInterfacePtr<T> {
+	pub unsafe fn new(ptr: *mut T) -> Self {
+		assert!(!ptr.is_null());
+
+		Self(ptr)
+	}
+}
 
 unsafe impl<T> Send for FixedInterfacePtr<T> {}
 unsafe impl<T> Sync for FixedInterfacePtr<T> {}
@@ -205,7 +217,7 @@ pub struct Interfaces {
 	apps: apps::AppsInterface,
 
 	#[cfg(feature = "steam_client")]
-	client: ClientInterface,
+	client: client::ClientInterface,
 
 	#[cfg(feature = "steam_http")]
 	http: HttpInterface,
@@ -229,7 +241,7 @@ impl Interfaces {
 		fn setup<I: Interface>((init_fns, steam): &mut (&mut Vec<InterfaceInitFn>, &SteamChild)) -> I {
 			init_fns.push(&I::initialize);
 
-			I::create(FixedInterfacePtr(unsafe { I::raw_interface() }), steam.clone())
+			I::create(unsafe { FixedInterfacePtr::new(I::raw_interface()) }, steam.clone())
 		}
 
 		Self {
@@ -329,7 +341,7 @@ impl SteamChild {
 	pub(crate) fn try_get(&self) -> Option<Steam> {
 		self.0.upgrade().map(|arc| Steam(arc))
 	}
-	
+
 	/// Sets the internal reference to an invalid one,
 	/// allowing the reference counter to fully drop.
 	pub(crate) fn kill(&mut self) {
@@ -338,7 +350,7 @@ impl SteamChild {
 }
 
 /// Interface into the Steam API.
-/// 
+///
 /// This is a singleton: only one instance exists during the lifetime of the program.
 /// Use [`Steam::get`] to get a reference to the current instance,
 /// or use [`SteamBuilder::build`] to initialize the Steam API and create a [`Steam`] reference.
@@ -459,7 +471,6 @@ impl SteamInterface {
 
 	/// Blocks the thread until a lock on the [`CallManager`] can be made.
 	/// Make sure to drop this as early as possible.
-	/// Do not hold the guard across awaits.
 	pub fn call_manager_lock(&self) -> MutexGuard<CallManager> {
 		self.call_manager.lock().unwrap()
 	}

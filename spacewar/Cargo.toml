@@ -1,0 +1,12 @@
+[package]
+name = "spacewar"
+version = "0.1.0"
+edition = "2024"
+repository.workspace = true
+publish = false
+
+[dependencies]
+rgpr_steamworks = { path = ".." }
+
+anyhow = "1.0.97"
+bevy = "0.15.3"

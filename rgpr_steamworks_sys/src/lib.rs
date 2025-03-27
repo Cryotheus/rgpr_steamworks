@@ -7,6 +7,7 @@
 #[cfg_attr(target_os = "linux", path = "bindings/linux.rs")]
 #[cfg_attr(target_os = "macos", path = "bindings/macos.rs")]
 #[cfg_attr(target_os = "windows", path = "bindings/windows.rs")]
+#[doc(hidden)]
 mod sys;
 
 pub use sys::*;

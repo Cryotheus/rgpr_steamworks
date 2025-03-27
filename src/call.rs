@@ -5,14 +5,14 @@
 //!     This is used for callbacks which behave like a Steam API call result.
 //! 2. Provided as a public type, implementing [`Callback`].  
 //!     Use [`CallManager::listen`]
-//! 
+//!
 //! Your Steam app should use this module to do both
 //! [callback listening](#callback-listening) and [callback handling](#callback-handling).
-//! 
+//!
 //! # Callback Listening
-//! 
+//!
 //! TODO!
-//! 
+//!
 //! # Callback Handling
 //!
 //! TODO!
@@ -179,8 +179,10 @@ struct CallResult(Result<IncognitoBox<true>, CallFutureError>);
 
 /// SAFETY: See guarantees for Ok variant above.
 unsafe impl Send for CallResult {}
-
 unsafe impl Sync for CallResult {}
+
+type DynListeners = HashMap<TypeId, Box<AnySend>>;
+type DynDispatchFn = dyn FnMut(&mut AnySend, *const c_void, Option<&mut DynListeners>) + Send + Sync;
 
 /// Performs callback-specific tasks and optionally calls listeners.
 /// Manual impls of Send + Sync are because of the raw pointer.
@@ -189,7 +191,7 @@ pub(crate) struct CallbackHandler {
 	/// The type implementing CallbackRaw
 	callback_impl: Box<AnySend>,
 
-	on_callback_fn: Box<dyn FnMut(&mut AnySend, *const c_void, Option<&mut HashMap<TypeId, Box<AnySend>>>) + Send + Sync>,
+	on_callback_fn: Box<DynDispatchFn>,
 
 	//TODO: create a contiguous unsized vec for trait objects of all the same size
 	listeners: Option<HashMap<TypeId, Box<AnySend>>>,
@@ -467,7 +469,7 @@ impl CallManager {
 	/// ```
 	///
 	/// Call [`remove_listener`] with the same callback and ID types to remove the listener.
-	/// 
+	///
 	/// Boxed functions will behave exactly the same as unboxed functions.
 	/// There is no advantage to boxing or unboxing functions, therefore: you should leave the function as is.
 	///

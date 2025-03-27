@@ -64,7 +64,7 @@ impl<const LEN: usize> CStrArray<LEN> {
 
 		cfg_if! {
 			if #[cfg(target_os = "linux")] {
-				Some(<OsStr as AsRef<Path>>::as_ref(std::os::unix::ffi::OsStrExt::from_bytes(bytes)))
+				Some(<std::ffi::OsStr as AsRef<Path>>::as_ref(std::os::unix::ffi::OsStrExt::from_bytes(bytes)))
 			} else {
 				std::str::from_utf8(bytes).ok().map(|str| <str as AsRef<Path>>::as_ref(str))
 			}
@@ -84,7 +84,7 @@ impl<const LEN: usize> CStrArray<LEN> {
 		//windows - not so much
 		cfg_if! {
 			if #[cfg(target_os = "linux")] {
-				<OsStr as AsRef<Path>>::as_ref(std::os::unix::ffi::OsStrExt::from_bytes(bytes))
+				<std::ffi::OsStr as AsRef<Path>>::as_ref(std::os::unix::ffi::OsStrExt::from_bytes(bytes))
 			} else {
 				std::str::from_utf8(bytes).expect("CStrArray must be UTF-8 to support &Path on windows").as_ref()
 			}

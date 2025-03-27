@@ -15,15 +15,15 @@ Currently in pre-alpha.
 When all of the features in this table are near 100%,
 an alpha release will become available on [crates.io](https://crates.io).
 
+_
+- Full coverage for non-game-server Steam API
+
 | Feature                      | Estimate |
 |------------------------------|:--------:|
 | `steam_apps`                 |   100%   |
-| `steam_client`               |    -     |
 | `steam_encrypted_app_ticket` |   100%   |
 | `steam_friends`              |   75%    |
 | `steam_game_coordinator`     |    -     |
-| `steam_game_server`          |    -     |
-| `steam_game_server_stats`    |    -     |
 | `steam_html`                 |    -     |
 | `steam_http`                 |    -     |
 | `steam_input`                |    -     |
@@ -45,6 +45,24 @@ an alpha release will become available on [crates.io](https://crates.io).
 | `steam_utils`                |   90%    |
 | `steam_video`                |    -     |
 | `sys`                        |   100%   |
+
+### After Alpha
+- Full coverage for game server Steam API
+- Multiplexed gameservers (via `isteamclient.h`)
+
+| Feature                      | Estimate |
+|------------------------------|:--------:|
+| `steam_client`               |    -     |
+| `steam_game_server`          |    -     |
+| `steam_game_server_stats`    |    -     |
+
+## Why
+
+I'd like to one day make a game worth putting on the Steam store.
+Over christmas of 2024, when I had the time to spare, I started working on integrating an existing project with Steamworks.
+The previous crate I used, despite being popular, had many stability and memory issues.
+I ran into memory leaks, crashes, a lack of API coverage, call results treated like callbacks, and many anti-patterns.
+After modifying the code several times over - I decided it would be best to just start from scratch.
 
 ## Goals
 
@@ -87,10 +105,10 @@ The behavior of safe functionality should be consistent across all platforms sup
 
 1. This crate uses the names "_Steam API_" and "_Steamworks_" interchangeably, "_Steam API_" is most often used.  
    The publicly released headers refer to the Steam API under the following names:
-	- Steam API ([`steam_api.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam/steam_api.h))
-	- Steamworks ([`isteamnetworkingutils.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam/isteamnetworkingutils.h))
-	- Steamworks API ([`isteamclient.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam/isteamclient.h))
-	- Steamworks SDK ([`isteamclient.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam/isteamclient.h))
+	- Steam API ([`steam_api.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/steam_api.h))
+	- Steamworks ([`isteamnetworkingutils.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/isteamnetworkingutils.h))
+	- Steamworks API ([`isteamclient.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/isteamclient.h))
+	- Steamworks SDK ([`isteamclient.h`](rgpr_steamworks_sys/lib/steamworks_sdk/headers/isteamclient.h))
 
 Both Steam Deck and MacOs are untested.
 Mac requires the bindings in [rgpr_steamworks_sys](rgpr_steamworks_sys) to be generated.
@@ -108,7 +126,7 @@ For example,
 
 You will always need `libsteam_api` / `steam_api` / `steam_api64`.
 
-If the `steam_encrypted_app_ticket` feature is enabled, make sure to include `libsdkencryptedappticket` / `sdkencryptedappticket` / `sdkencryptedappticket64`.
+If the `steam_encrypted_app_ticket` feature is enabled, make sure to include the `libsdkencryptedappticket` / `sdkencryptedappticket` / `sdkencryptedappticket64` binaries as well.
 
 # Executable won't run?
 
@@ -122,6 +140,11 @@ This project is licensed under either of
 - MIT license ([LICENSE-MIT](LICENSE-MIT) or https://opensource.org/licenses/MIT)
 
 at your option.
+
+## Disclaimer
+
+This project, `rgpr_steamworks`, is not affiliated with, endorsed by, or associated with Valve Corporation.
+All trademarks, service marks, and company names are the property of their respective owners.
 
 ### Contribution
 

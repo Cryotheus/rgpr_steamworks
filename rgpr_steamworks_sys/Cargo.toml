@@ -4,13 +4,14 @@ version = "0.1.0"
 edition = "2021"
 build = "build.rs"
 repository.workspace = true
+include = ["/lib"]
+exclude = ["/lib/README.md", "/lib/steamworks_sdk/headers/steam_api.json"]
 
 [lib]
-doc = false
 doctest = false
 
 [build-dependencies]
-bindgen = "0.71.1"
+rgpr_steamworks_bindgen = { path = "../rgpr_steamworks_bindgen" }
 
 [target.'cfg(all(target_os = "linux", target_pointer_width = "64"))'.build-dependencies]
 prettyplease = { version = "0.2.27", features = ["verbatim"] }
@@ -18,4 +19,10 @@ syn = { version = "2.0.95", features = ["fold", "extra-traits"] }
 
 [features]
 default = []
-generate_bindings = [] #for running bindgen on the steamworks headers
+
+#include the dylib for encrypted app tickets as well
+#TODO: put app ticket bindings into its own module
+sdk_encrypted_app_ticket = []
+
+#regenerate the bindings file for the target OS
+generate_bindings = []

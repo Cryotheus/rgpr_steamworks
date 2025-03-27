@@ -1,10 +1,8 @@
-use crate::call::{Callback, CallbackRaw};
 use crate::dt::SteamId;
 use crate::error::{SteamError, UnspecifiedError};
 use crate::interfaces::friends::FriendsInterface;
-use crate::interfaces::SteamInterface;
 use crate::iter::SteamApiIterator;
-use crate::util::{checked_string, success, FiniteBytes};
+use crate::util::{success, FiniteBytes};
 use crate::{sys, Private};
 use std::ffi::{c_char, c_int, CStr, CString};
 use std::ptr::null;
@@ -17,39 +15,6 @@ pub const KEY_MAX: usize = sys::k_cchMaxRichPresenceKeyLength as usize - 1;
 
 /// The maximum amount of bytes a value can be, excluding the nul terminator.
 pub const VALUE_MAX: usize = sys::k_cchMaxRichPresenceValueLength as usize - 1;
-
-/// Callback.
-///
-/// > Called when the user tries to join a game from their friends list or after a user accepts an invite by a friend with [`FriendsInterface::invite_user_to_game`].
-/// This callback is made when joining a game.
-/// If the user is attempting to join a lobby,
-/// then the callback GameLobbyJoinRequested_t will be made.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GameRichPresenceJoinRequested_t)
-#[derive(Debug)]
-pub struct GameRichPresenceJoinRequested;
-
-unsafe impl CallbackRaw for GameRichPresenceJoinRequested {
-	const CALLBACK_ID: i32 = sys::GameRichPresenceJoinRequested_t_k_iCallback as i32;
-	type CType = sys::GameRichPresenceJoinRequested_t;
-	type Output = (SteamId, String);
-
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
-		(SteamId::from(c_data.m_steamIDFriend), checked_string(c_data.m_rgchConnect.as_ptr()))
-	}
-
-	fn register(_steam: &SteamInterface, _: Private) -> Self {
-		Self
-	}
-}
-
-impl Callback for GameRichPresenceJoinRequested {
-	type Fn = dyn FnMut(SteamId, String) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(params.0, params.1);
-	}
-}
 
 /// Accessor for the rich presence features of the Steam API's [`FriendsInterface`].
 /// Allows the mutation of the current user's rich presence details.

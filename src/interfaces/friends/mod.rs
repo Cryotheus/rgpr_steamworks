@@ -2,15 +2,16 @@
 
 pub mod rich_presence;
 
-use crate::call::{CallFuture, Callback, CallbackRaw, Dispatch};
+use crate::call::{CallFuture, Dispatch};
 use crate::dt::{AppId, GameId, ImageHandle, LobbyId, SteamId};
 use crate::error::{CallError, GeneralError, UnspecifiedError};
 use crate::interfaces::{FixedInterfacePtr, Interface, SteamChild, SteamInterface};
 use crate::iter::{SteamApiIterator, SteamApiStream, Unreliable};
-use crate::util::{empty_cstr_ptr, some_string, success, FiniteStr, RequestQueue};
+use crate::util::{checked_string, empty_cstr_ptr, some_string, success, FiniteStr, RequestQueue};
 use crate::{sys, Private};
 use bitflags::bitflags;
 use lru::LruCache;
+use rgpr_steamworks_macros::callback;
 use rich_presence::RichPresenceInterface;
 use std::collections::{HashSet, VecDeque};
 use std::default::Default;
@@ -754,26 +755,24 @@ pub enum AvatarError {
 	Downloading,
 }
 
-/// Callback.
-///
-/// > Called when a large avatar is loaded if you have tried requesting it when it was unavailable.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#AvatarImageLoaded_t)
-#[derive(Debug)]
-pub struct AvatarImageLoaded {
-	steam: SteamChild,
-}
+callback! {
+	/// Callback.
+	///
+	/// > Called when a large avatar is loaded if you have tried requesting it when it was unavailable.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#AvatarImageLoaded_t)
+	pub struct AvatarImageLoaded {
+		steam: SteamChild,
+	}
 
-unsafe impl CallbackRaw for AvatarImageLoaded {
-	const CALLBACK_ID: i32 = sys::AvatarImageLoaded_t_k_iCallback as i32;
-	type CType = sys::AvatarImageLoaded_t;
-	type Output = (SteamId, ImageHandle, u32, u32);
+	keep;
+	new steam;
 
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
-		let width = c_data.m_iWide as u32;
-		let height = c_data.m_iTall as u32;
-		let image_handle = ImageHandle::new(c_data.m_iImage, Some([width, height]));
-		let steam_id = SteamId::from(c_data.m_steamID);
+	data -> (SteamId, ImageHandle, u32, u32) {
+		let width = data.m_iWide as u32;
+		let height = data.m_iTall as u32;
+		let image_handle = ImageHandle::new(data.m_iImage, Some([width, height]));
+		let steam_id = SteamId::from(data.m_steamID);
 		let tuple = (steam_id, image_handle, width, height);
 
 		let steam = self.steam.get();
@@ -783,20 +782,6 @@ unsafe impl CallbackRaw for AvatarImageLoaded {
 		drop(guard); //explicit drop for significant drop
 
 		tuple
-	}
-
-	fn register(steam: &SteamInterface, _: Private) -> Self {
-		Self { steam: steam.child() }
-	}
-}
-
-impl Callback for AvatarImageLoaded {
-	const KEEP_REGISTERED: bool = true;
-
-	type Fn = dyn FnMut(SteamId, ImageHandle, u32, u32) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(params.0, params.1, params.2, params.3)
 	}
 }
 
@@ -1313,34 +1298,15 @@ impl EquippedProfileItems {
 	}
 }
 
-/// Callback.
-///
-/// > Callback for when a user's equipped Steam Community profile items have changed. This can be for the current user or their friends.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#EquippedProfileItemsChanged_t)
-#[derive(Debug)]
-pub struct EquippedProfileItemsChanged;
+callback! {
+	/// Callback.
+	///
+	/// > Callback for when a user's equipped Steam Community profile items have changed. This can be for the current user or their friends.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#EquippedProfileItemsChanged_t)
+	pub struct EquippedProfileItemsChanged;
 
-unsafe impl CallbackRaw for EquippedProfileItemsChanged {
-	const CALLBACK_ID: i32 = sys::EquippedProfileItemsChanged_t_k_iCallback as i32;
-	type CType = sys::EquippedProfileItemsChanged_t;
-	type Output = SteamId;
-
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
-		SteamId::from(c_data.m_steamID)
-	}
-
-	fn register(_steam: &SteamInterface, _: Private) -> Self {
-		Self
-	}
-}
-
-impl Callback for EquippedProfileItemsChanged {
-	type Fn = dyn FnMut(SteamId) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(params)
-	}
+	data -> SteamId { SteamId::from(data.m_steamID) }
 }
 
 /// Used solely by [`FollowingListStream`].
@@ -1554,41 +1520,36 @@ pub struct FriendGameInfo {
 	pub lobby_id: LobbyId,
 }
 
-/// Callback.
-///
-/// First [`SteamId`] is the lobby, second is the user's.
-///
-/// > Called when the user tries to join a lobby from their friends list or from an invite.
-/// The game client should attempt to connect to specified lobby when this is received.
-/// If the game isn't running yet then the game will be automatically launched with the command line parameter `+connect_lobby <64-bit lobby Steam ID>` instead.
-/// This callback is made when joining a lobby.
-/// If the user is attempting to join a game but not a lobby,
-/// then the callback [`rich_presence::GameRichPresenceJoinRequested`] will be made.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GameLobbyJoinRequested_t)
-#[derive(Debug)]
-pub struct GameLobbyJoinRequested;
+callback! {
+	/// Callback.
+	///
+	/// First [`SteamId`] is the lobby, second is the user's.
+	///
+	/// > Called when the user tries to join a lobby from their friends list or from an invite.
+	/// The game client should attempt to connect to specified lobby when this is received.
+	/// If the game isn't running yet then the game will be automatically launched with the command line parameter `+connect_lobby <64-bit lobby Steam ID>` instead.
+	/// This callback is made when joining a lobby.
+	/// If the user is attempting to join a game but not a lobby,
+	/// then the callback [`rich_presence::GameRichPresenceJoinRequested`] will be made.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GameLobbyJoinRequested_t)
+	pub struct GameLobbyJoinRequested;
 
-unsafe impl CallbackRaw for GameLobbyJoinRequested {
-	const CALLBACK_ID: i32 = sys::GameLobbyJoinRequested_t_k_iCallback as i32;
-	type CType = sys::GameLobbyJoinRequested_t;
-	type Output = (LobbyId, SteamId);
-
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
-		(LobbyId::from(c_data.m_steamIDLobby), SteamId::from(c_data.m_steamIDFriend))
-	}
-
-	fn register(_steam: &SteamInterface, _: Private) -> Self {
-		Self
-	}
+	data -> (LobbyId, SteamId) { (LobbyId::from(data.m_steamIDLobby), SteamId::from(data.m_steamIDFriend)) }
 }
 
-impl Callback for GameLobbyJoinRequested {
-	type Fn = dyn FnMut(LobbyId, SteamId) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(params.0, params.1);
-	}
+callback! {
+	/// Callback.
+	///
+	/// > Called when the user tries to join a game from their friends list or after a user accepts an invite by a friend with [`FriendsInterface::invite_user_to_game`].
+	/// This callback is made when joining a game.
+	/// If the user is attempting to join a lobby,
+	/// then the callback GameLobbyJoinRequested_t will be made.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#GameRichPresenceJoinRequested_t)
+	pub struct GameRichPresenceJoinRequested;
+	
+	data -> (SteamId, String) { (SteamId::from(data.m_steamIDFriend), checked_string(data.m_rgchConnect.as_ptr())) }
 }
 
 #[derive(Debug)]
@@ -1740,25 +1701,23 @@ impl From<sys::EPersonaState> for PersonaState {
 	}
 }
 
-/// Steam API callback.
-///
-/// > Called whenever a friends' status changes.
-///
-/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t)
-#[derive(Debug)]
-pub struct PersonaStateChange {
-	steam: SteamChild,
-}
-
-unsafe impl CallbackRaw for PersonaStateChange {
-	const CALLBACK_ID: i32 = sys::PersonaStateChange_t_k_iCallback as i32;
-	type CType = sys::PersonaStateChange_t;
-	type Output = (SteamId, PersonaChange);
-
-	unsafe fn on_callback(&mut self, c_data: &Self::CType, _: Private) -> Self::Output {
-		let change = PersonaChange::from_bits_retain(c_data.m_nChangeFlags);
+callback!{
+	/// Steam API callback.
+	///
+	/// > Called whenever a friends' status changes.
+	///
+	/// [Steamworks Docs](https://partner.steamgames.com/doc/api/ISteamFriends#PersonaStateChange_t)
+	pub struct PersonaStateChange {
+		steam: SteamChild,
+	}
+	
+	keep;
+	new steam;
+	
+	data -> (SteamId, PersonaChange) {
+		let change = PersonaChange::from_bits_retain(data.m_nChangeFlags);
 		let changed_avatar = change.contains(PersonaChange::AVATAR);
-		let steam_id = SteamId(c_data.m_ulSteamID);
+		let steam_id = SteamId(data.m_ulSteamID);
 		let steam = self.steam.get();
 
 		//this may be triggered by a `FriendsInterface::request_info`
@@ -1776,20 +1735,6 @@ unsafe impl CallbackRaw for PersonaStateChange {
 		}
 
 		(steam_id, change)
-	}
-
-	fn register(steam: &SteamInterface, _: Private) -> Self {
-		Self { steam: steam.child() }
-	}
-}
-
-impl Callback for PersonaStateChange {
-	const KEEP_REGISTERED: bool = true;
-
-	type Fn = dyn FnMut(SteamId, PersonaChange) + Send + Sync;
-
-	fn call_listener(&mut self, listener_fn: &mut Self::Fn, params: Self::Output, _: Private) {
-		listener_fn(params.0, params.1);
 	}
 }
 
